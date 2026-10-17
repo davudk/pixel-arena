@@ -376,6 +376,20 @@ docs/
   - Terrain materials are indices into a built-in palette (TerrainPalette); textures can
     replace the flat colors later without changing map data.
   - Rock/cliff props from the Nature Kit cover overhangs and cliff faces (option B).
+- **M5 done** — modular buildings: kit manifests (`packs/<pack>/kits/*.json`: cell size, story
+  height, wall/window/door/floor pieces, generated-part colors; Timber and Stone kits from the
+  Fantasy Town Kit), BuildingLayout in `src/core` (path-keyed cells and per-edge overrides,
+  automatic exterior walls, roof footprints), BuildingVisuals (kit pieces on edges, floor
+  tiles, foundation, per-level pick bodies), procedural gable / hip / flat roofs (RoofMesh),
+  BuildingTool (foundation / erase drag-painting, wall / door / window edge clicks, levels with
+  cutaway, roof style, kit switch) and grid-snapped moving of buildings.
+  Decisions:
+  - Roofs are generated, not tiled from kit roof pieces: they fit any footprint (decomposed into
+    rectangles; L-shapes become intersecting gables). Kenney roof pieces remain placeable props.
+  - Painting a foundation on level 0 away from the current building starts a new one; erasing
+    every cell deletes it.
+  - Furniture placed on a building floor becomes the building's child and moves with it.
+  - Stairs, balconies and per-level wall styles are later work.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

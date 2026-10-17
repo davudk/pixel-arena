@@ -159,9 +159,12 @@ func _update_move(pos: Vector2) -> void:
 		target.y = start.y
 		if single_root and doc.get_object(_primary).type == "prop":
 			_new_parent = ""
+	var kit := ObjectVisuals.kit_of(doc.get_object(_primary))
 	if prop != null:
 		var snapped := Snapping.for_prop(prop, target, yaw, free)
 		target = Vector3(snapped.x, target.y, snapped.z)
+	elif kit != null and not free:
+		target = Vector3(snappedf(target.x, kit.cell_size), target.y, snappedf(target.z, kit.cell_size))
 	elif not free:
 		target = Vector3(snappedf(target.x, 0.5), target.y, snappedf(target.z, 0.5))
 	# Ground-standing props follow the terrain; a single prop dropped off a surface lands on it.

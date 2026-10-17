@@ -8,6 +8,7 @@ extends Control
 ##   --screenshot=<path>  save a PNG of the window after a few frames, then quit
 ##   --view=<key>=<value> override a view setting for this run only (not saved)
 ##   --camera=<x>,<z>,<zoom> start the camera looking at (x, z) with that zoom
+##   --cutaway=<level>    show buildings cut away above that level
 
 var session: MapSession
 var library: PropLibrary
@@ -81,6 +82,16 @@ func _ready() -> void:
 	toolbar = Toolbar.new()
 	hud.add_child(toolbar)
 	toolbar.tool_requested.connect(set_tool_by_name)
+	toolbar.setup(library)
+	toolbar.level_requested.connect(func(l: int) -> void:
+		if tool is BuildingTool:
+			(tool as BuildingTool).set_level(l))
+	toolbar.roof_requested.connect(func(style: String) -> void:
+		if tool is BuildingTool:
+			(tool as BuildingTool).set_roof(style))
+	toolbar.kit_requested.connect(func(id: String) -> void:
+		if tool is BuildingTool:
+			(tool as BuildingTool).set_kit(id))
 	browser.setup(library, thumbnails)
 	browser.prop_chosen.connect(func(prop: PropDef) -> void: choose_prop(prop))
 	browser.credits_pressed.connect(func() -> void: credits.show_for(library, session.doc))
@@ -117,6 +128,8 @@ func _process(_delta: float) -> void:
 		mode = "Terrain: %s, size %.1f m, strength %.2f" % [Toolbar.MODES[TerrainTool.mode], TerrainTool.radius, TerrainTool.strength]
 	elif tool is WaterTool:
 		mode = "Water: click corners, Enter to finish"
+	elif tool is BuildingTool:
+		mode = "Build: %s on level %d" % [Toolbar.BUILD_MODES[BuildingTool.mode], BuildingTool.level]
 	info_text("FPS %d   cursor %s\n%s   chunks %d   objects %d   branch %s   %02d:%02d   zoom %.0f m" % [
 		Engine.get_frames_per_second(), cursor, mode, world.chunk_count(), world.object_count(),
 		session.branch().name, hours, int((day.time_of_day - hours) * 60.0), rig.zoom])
@@ -193,7 +206,18 @@ func set_tool(new_tool: EditorTool) -> void:
 		browser.deselect()
 	if tool is TerrainTool:
 		(tool as TerrainTool).options_changed.connect(toolbar.refresh)
-	toolbar.show_tool("select" if tool is SelectTool else "terrain" if tool is TerrainTool else "water" if tool is WaterTool else "")
+	if tool is BuildingTool:
+		(tool as BuildingTool).options_changed.connect(toolbar.refresh)
+	var tool_name := ""
+	if tool is SelectTool:
+		tool_name = "select"
+	elif tool is TerrainTool:
+		tool_name = "terrain"
+	elif tool is WaterTool:
+		tool_name = "water"
+	elif tool is BuildingTool:
+		tool_name = "building"
+	toolbar.show_tool(tool_name)
 
 
 func set_tool_by_name(tool_name: String) -> void:
@@ -206,6 +230,8 @@ func set_tool_by_name(tool_name: String) -> void:
 		"water":
 			selection.clear()
 			set_tool(WaterTool.new())
+		"building":
+			set_tool(BuildingTool.new())
 
 
 ## Starts placing `prop` (from the browser or the eyedropper).
@@ -308,6 +334,7 @@ func _show_dialog(mode: FileDialog.FileMode, on_selected: Callable) -> void:
 
 func _handle_command_line() -> void:
 	var screenshot := ""
+	var cutaway := -1
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--view="):
 			_persist_settings = false
@@ -321,10 +348,13 @@ func _handle_command_line() -> void:
 				rig.zoom_at(v[2] / rig.zoom, Vector2.ZERO)
 				rig.focus = Vector3(v[0], 0, v[1])
 				rig.apply()
+		elif arg.begins_with("--cutaway="):
+			cutaway = arg.trim_prefix("--cutaway=").to_int()
 		elif arg == "--demo":
 			_scatter_demo()
 		elif arg.begins_with("--screenshot="):
 			screenshot = arg.trim_prefix("--screenshot=")
+	world.cutaway_level = cutaway
 	if screenshot != "":
 		for i in 120:
 			await get_tree().process_frame
@@ -343,6 +373,21 @@ func _fit_window_to_screen_scale() -> void:
 	var usable := DisplayServer.screen_get_usable_rect(win.current_screen).size
 	win.size = Vector2i((Vector2(win.size) * scale).min(Vector2(usable) * 0.9))
 	win.move_to_center()
+
+
+func _demo_building(origin: Vector3, kit: String, roof: String) -> void:
+	var props := {"kit": kit, "position": origin, "rotation": 0.0, "roof/style": roof}
+	for i in 3:
+		for j in 2:
+			props[BuildingLayout.cell_path(0, Vector2i(i, j))] = true
+	props[BuildingLayout.cell_path(0, Vector2i(0, 2))] = true
+	props[BuildingLayout.cell_path(1, Vector2i(0, 0))] = true
+	props[BuildingLayout.cell_path(1, Vector2i(1, 0))] = true
+	props[BuildingLayout.wall_path(0, "1,2,N")] = "door"
+	props[BuildingLayout.wall_path(0, "3,0,W")] = "window"
+	props[BuildingLayout.wall_path(0, "3,1,W")] = "window"
+	props[BuildingLayout.wall_path(1, "1,1,N")] = "window"
+	session.create_object("building", props)
 
 
 func _scatter_demo() -> void:
@@ -379,8 +424,8 @@ func _scatter_demo() -> void:
 			for i in group[1]:
 				var prop: PropDef = defs[rng.randi() % defs.size()]
 				var pos := Snapping.for_prop(prop, Vector3(rng.randf_range(-24, 40), 0, rng.randf_range(-24, 40)), 0.0, false)
-				if Vector2(pos.x + 8, pos.z - 20).length() < 8.0:
-					continue  # keep the pond clear
+				if Vector2(pos.x + 8, pos.z - 20).length() < 8.0 or (pos.x < 4 and pos.z < -8):
+					continue  # keep the pond and the houses clear
 				pos.y = TerrainEdit.height_at_world(session.doc, pos.x, pos.z)
 				session.create_object("prop", {"prop": prop.id, "position": pos,
 					"rotation": rng.randf() * TAU, "anim_offset": rng.randf()})
@@ -389,6 +434,8 @@ func _scatter_demo() -> void:
 		if tent != null and fire != null:
 			session.create_object("prop", {"prop": tent.id, "position": Vector3(6, 0, 4), "rotation": 0.6})
 			session.create_object("prop", {"prop": fire.id, "position": Vector3(4, 0, 7), "rotation": 0.0})
+		_demo_building(Vector3(-24, 0, -18), "kenney_town:timber", "gable")
+		_demo_building(Vector3(-6, 0, -30), "kenney_town:stone", "hip")
 		for i in 4:
 			var wall := library.get_prop("kenney_town:wall_wood_window_shutters" if i % 2 == 0 else "kenney_town:wall_wood")
 			if wall != null:

@@ -14,6 +14,7 @@ var attribution: Dictionary = {}
 ## Overrides applied to every material of the pack's models, e.g. {"metallic": 0.0}.
 var materials: Dictionary = {}
 var props: Array[PropDef] = []
+var kits: Array[KitDef] = []
 
 
 ## Loads the pack in `dir`. Problems are appended to `errors`; returns null if unusable.
@@ -54,6 +55,16 @@ static func load_dir(p_dir: String, errors: Array[String]) -> PropPack:
 				continue
 			seen[prop.local_id] = true
 			pack.props.append(prop)
+
+	var kits_dir := p_dir.path_join("kits")
+	if DirAccess.dir_exists_absolute(kits_dir):
+		for file in DirAccess.get_files_at(kits_dir):
+			if file.ends_with(".json"):
+				var data: Variant = _read_json(kits_dir.path_join(file), errors)
+				if data is Dictionary:
+					var kit := KitDef.parse(data, pack, errors)
+					if kit != null:
+						pack.kits.append(kit)
 	return pack
 
 

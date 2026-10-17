@@ -161,5 +161,62 @@ func _initialize() -> void:
 	check(is_equal_approx(float(doc.get_prop(water[0], "position").y), 0.25), "PageUp raises water")
 	check(main.world.node_for(water[0]) != null, "water rendered")
 
+	# Buildings: paint a 3-cell foundation, make a door, add level 1, change roof, erase.
+	main.set_tool_by_name("building")
+	var bt: BuildingTool = main.tool
+	BuildingTool.mode = BuildingTool.Mode.FOUNDATION
+	bt.set_level(0)
+	var origin := Vector3(-60, 0, -60)
+	var at := func(local: Vector3) -> Vector2: return main.screen_position(local)
+	var a: Vector2 = at.call(origin + Vector3(1.5, 0, 1.5))
+	main.tool.on_press(a, click)
+	main.tool.on_motion(at.call(origin + Vector3(4.5, 0, 1.5)))
+	main.tool.on_motion(at.call(origin + Vector3(7.5, 0, 1.5)))
+	main.tool.on_release(at.call(origin + Vector3(7.5, 0, 1.5)), click)
+	var building := bt.target
+	check(building != "" and doc.get_object(building).type == "building", "building created")
+	var layout := BuildingLayout.from_object(doc.get_object(building))
+	check(layout.cells(0).size() == 3, "3 cells painted (got %d)" % layout.cells(0).size())
+	check(layout.walls(0).size() == 8, "8 exterior walls (got %d)" % layout.walls(0).size())
+	check(main.selection.list() == [building], "building selected")
+	var bpos: Vector3 = doc.get_prop(building, "position")
+
+	BuildingTool.mode = BuildingTool.Mode.DOOR
+	main.tool.on_press(at.call(bpos + Vector3(4.5, 1.0, 3.0)), click)  # south edge of the middle cell
+	layout = BuildingLayout.from_object(doc.get_object(building))
+	check(layout.walls(0).values().any(func(w): return w.kind == "door"), "door placed")
+
+	BuildingTool.mode = BuildingTool.Mode.FOUNDATION
+	bt.set_level(1)
+	check(main.world.cutaway_level == 1, "cutaway follows level")
+	var up: Vector2 = at.call(bpos + Vector3(1.5, 3.0, 1.5))
+	main.tool.on_press(up, click)
+	main.tool.on_release(up, click)
+	layout = BuildingLayout.from_object(doc.get_object(building))
+	check(layout.cells(1).size() == 1, "level 1 cell (got %d)" % layout.cells(1).size())
+	await process_frame
+	await process_frame
+	var bnode := main.world.node_for(building)
+	var roof1 := bnode.get_node_or_null("Roof1")
+	check(roof1 != null and not roof1.visible, "roof over level 1 hidden while editing level 1")
+	bt.set_roof("hip")
+	check(doc.get_prop(building, "roof/style") == "hip", "roof style")
+	main.undo()
+	check(doc.get_prop(building, "roof/style") == "gable", "undo roof style")
+
+	BuildingTool.mode = BuildingTool.Mode.ERASE
+	main.tool.on_press(up, click)
+	main.tool.on_release(up, click)
+	bt.set_level(0)
+	main.tool.on_press(a, click)
+	main.tool.on_motion(at.call(bpos + Vector3(4.5, 0, 1.5)))
+	main.tool.on_motion(at.call(bpos + Vector3(7.5, 0, 1.5)))
+	main.tool.on_release(a, click)
+	check(not doc.has_object(building), "erasing every cell deletes the building")
+	main.undo()
+	check(doc.has_object(building), "undo brings it back")
+	main.set_tool(SelectTool.new())
+	check(main.world.cutaway_level == -1, "cutaway cleared on leaving the tool")
+
 	print("smoke: %s" % ("OK" if failures == 0 else "%d failures" % failures))
 	quit(1 if failures > 0 else 0)

@@ -8,6 +8,7 @@ const USER_DIR := "user://packs"
 
 var packs: Dictionary[String, PropPack] = {}
 var props: Dictionary[String, PropDef] = {}
+var kits: Dictionary[String, KitDef] = {}
 ## Problems found while loading, for display / logs.
 var errors: Array[String] = []
 
@@ -35,6 +36,8 @@ func load_from(root: String) -> void:
 		packs[pack.id] = pack
 		for prop in pack.props:
 			props[prop.id] = prop
+		for kit in pack.kits:
+			kits[kit.id] = kit
 
 
 func get_prop(id: String) -> PropDef:

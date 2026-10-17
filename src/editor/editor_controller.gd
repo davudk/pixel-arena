@@ -132,6 +132,8 @@ func _key(event: InputEventKey) -> void:
 			main.set_tool_by_name("terrain")
 		KEY_O:
 			main.set_tool_by_name("water")
+		KEY_B:
+			main.set_tool_by_name("building")
 		_:
 			return
 	get_viewport().set_input_as_handled()

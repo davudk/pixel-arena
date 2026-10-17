@@ -9,6 +9,13 @@ var doc: MapDocument
 var _chunks: Dictionary[Vector2i, Node3D] = {}
 var _objects: Dictionary[String, Node3D] = {}
 var _highlighted: Dictionary = {}  # id -> true
+## Building level being edited (-1 = show all): higher levels and roofs above it are hidden.
+var cutaway_level := -1:
+	set(v):
+		cutaway_level = v
+		for id: String in _objects:
+			if doc.get_object(id).type == "building":
+				BuildingVisuals.set_cutaway(_objects[id], v)
 
 
 func bind(p_doc: MapDocument) -> void:
@@ -100,6 +107,8 @@ func _refresh(id: String) -> void:
 		node.name = id
 		node.set_meta("visual_key", ObjectVisuals.visual_key(obj))
 		_objects[id] = node
+		if obj.type == "building":
+			BuildingVisuals.set_cutaway(node, cutaway_level)
 		if _highlighted.has(id):
 			ObjectVisuals.set_highlighted(node, true)
 

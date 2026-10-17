@@ -19,13 +19,18 @@ static var _water: ShaderMaterial
 
 
 static func renders(obj: MapObject) -> bool:
-	return obj.type == "prop" or obj.type == "water"
+	return obj.type in ["prop", "water", "building"]
 
 
 ## Changes to this key mean the node must be rebuilt rather than just moved.
 static func visual_key(obj: MapObject) -> String:
 	if obj.type == "water":
 		return "water|%d" % hash(obj.get_prop("polygon", PackedVector2Array()))
+	if obj.type == "building":
+		var shape := obj.props.duplicate()
+		shape.erase("position")
+		shape.erase("rotation")
+		return "building|%d" % hash(shape)
 	return "%s|%s" % [obj.get_prop("prop", ""), obj.get_prop("variant", "")]
 
 
@@ -33,11 +38,18 @@ static func prop_of(obj: MapObject) -> PropDef:
 	return library.get_prop(obj.get_prop("prop", "")) if library != null else null
 
 
+static func kit_of(obj: MapObject) -> KitDef:
+	return library.kits.get(obj.get_prop("kit", "")) if library != null else null
+
+
 static func build(obj: MapObject) -> Node3D:
 	var root := Node3D.new()
 	root.set_meta("object_id", obj.id)
 	if obj.type == "water":
 		_build_water(root, obj)
+		return root
+	if obj.type == "building":
+		BuildingVisuals.build(root, obj, kit_of(obj))
 		return root
 	var prop := prop_of(obj)
 	var entry := models.get_prop_entry(prop) if prop != null else null
@@ -76,7 +88,8 @@ static func set_highlighted(node: Node3D, on: bool) -> void:
 		_highlight = ShaderMaterial.new()
 		_highlight.shader = HIGHLIGHT_SHADER
 	for g: GeometryInstance3D in node.find_children("*", "GeometryInstance3D", true, false):
-		g.material_overlay = _highlight if on else null
+		if g.is_visible_in_tree() or not on:
+			g.material_overlay = _highlight if on else null
 
 
 ## Water body: a flat polygon (relative to the object's position, so the surface sits at

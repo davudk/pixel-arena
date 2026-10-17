@@ -1,0 +1,18 @@
+{
+	"id": "stone",
+	"name": "Stone house",
+	"themes": ["medieval", "town", "castle"],
+	"cell_size": 3.0,
+	"wall_height": 3.0,
+	"pieces": {
+		"wall": "kenney_town:wall",
+		"window": "kenney_town:wall_window_shutters",
+		"door": "kenney_town:wall_door",
+		"floor": "kenney_town:planks"
+	},
+	"colors": {
+		"roof": "#b5553d",
+		"gable": "#c9c1b4",
+		"foundation": "#7d7872"
+	}
+}

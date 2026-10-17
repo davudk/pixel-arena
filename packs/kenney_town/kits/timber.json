@@ -1,0 +1,18 @@
+{
+	"id": "timber",
+	"name": "Timber house",
+	"themes": ["medieval", "town", "countryside"],
+	"cell_size": 3.0,
+	"wall_height": 3.0,
+	"pieces": {
+		"wall": "kenney_town:wall_wood",
+		"window": "kenney_town:wall_wood_window_shutters",
+		"door": "kenney_town:wall_wood_door",
+		"floor": "kenney_town:planks"
+	},
+	"colors": {
+		"roof": "#3f9e8f",
+		"gable": "#9a5b3e",
+		"foundation": "#8f8a84"
+	}
+}

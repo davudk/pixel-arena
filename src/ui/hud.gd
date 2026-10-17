@@ -31,7 +31,7 @@ func _init() -> void:
 
 	var hints := Label.new()
 	hints.text = "Camera: MMB / Space+drag pan · RMB / Alt+drag orbit · wheel / pinch zoom · WASD move · Q/E turn · 1/2/3 views · P perspective · G grid\n" \
-		+ "Tools: V select · T terrain · O water · pick a prop to place.  Edit: Shift+click add · drag box · drag to move (Cmd = no snap) · R rotate · PgUp/PgDn or =/- raise/lower · Del · Cmd+D · Cmd+C/V · I pick prop · F focus · Cmd+Z / Cmd+Shift+Z · Cmd+S/O/N"
+		+ "Tools: V select · T terrain · O water · B build (PgUp/PgDn level) · pick a prop to place.  Edit: Shift+click add · drag box · drag to move (Cmd = no snap) · R rotate · PgUp/PgDn or =/- raise/lower · Del · Cmd+D · Cmd+C/V · I pick prop · F focus · Cmd+Z / Cmd+Shift+Z · Cmd+S/O/N"
 	hints.anchor_top = 1.0
 	hints.anchor_bottom = 1.0
 	hints.anchor_right = 1.0
