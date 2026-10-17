@@ -218,5 +218,34 @@ func _initialize() -> void:
 	main.set_tool(SelectTool.new())
 	check(main.world.cutaway_level == -1, "cutaway cleared on leaving the tool")
 
+	# Branches: fork, conflicting edits, merge review keeping ours, branch from history.
+	var hp := main.history_panel
+	check(hp._history.item_count > 0, "history listed")
+	main.new_branch(main.session.current_branch, -1, "Experiment")
+	var exp_id := main.session.current_branch
+	check(main.session.branches[exp_id].name == "Experiment", "branch created")
+	main.session.edit("Paint red", func() -> void: main.session.set_prop(stump, "variant", "red"))
+	var extra := ""
+	main.session.begin("Add rock")
+	extra = main.session.create_object("prop", {"prop": "kenney_nature:rock_large_a", "position": Vector3(70, 0, 70)})
+	main.session.commit()
+	main.switch_branch(MapSession.MAIN)
+	check(not main.session.doc.has_object(extra), "main doesn't see branch edits")
+	main.session.edit("Paint blue", func() -> void: main.session.set_prop(stump, "variant", "blue"))
+	main.merge_dialog.open(main.session, exp_id)
+	check(main.merge_dialog._rows.size() == 1, "one conflict row (got %d)" % main.merge_dialog._rows.size())
+	main.merge_dialog.choose_all(Merge.MINE)
+	main.merge_branch(exp_id, main.merge_dialog.resolutions())
+	main.merge_dialog.hide()
+	check(not main.session.branches.has(exp_id), "merged branch removed")
+	check(main.session.doc.get_prop(stump, "variant") == "blue", "kept ours on conflict")
+	check(main.session.doc.has_object(extra), "non-conflicting change merged")
+	var older: Dictionary = main.session.history(MapSession.MAIN)[3]
+	main.new_branch(older.branch_id, older.seq, "From history")
+	check(main.session.branches[main.session.current_branch].fork_seq == older.seq, "branched at history entry")
+	check(not main.session.doc.has_object(extra), "older state shown")
+	check(hp._tree.get_root().get_child(0).get_child_count() == 1, "branch tree shows the new branch")
+	main.switch_branch(MapSession.MAIN)
+
 	print("smoke: %s" % ("OK" if failures == 0 else "%d failures" % failures))
 	quit(1 if failures > 0 else 0)

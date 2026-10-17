@@ -390,6 +390,16 @@ docs/
     every cell deletes it.
   - Furniture placed on a building floor becomes the building's child and moves with it.
   - Stairs, balconies and per-level wall styles are later work.
+- **M6 done** — branches & history UI: HistoryPanel (branch tree with New / Switch / Merge /
+  Rename / Discard, history list newest-first with inherited entries dimmed, Undo / Redo,
+  "Branch here" to fork from any earlier entry), MergeDialog (clean-change and conflict counts,
+  one row per conflict with Keep / Take, terrain conflicts grouped per layer, Keep all / Take
+  all), NameDialog, discard confirmation. Core additions: `MapSession.fork_at`, `rename_branch`,
+  `history`.
+  Decisions:
+  - A branch started from an earlier entry begins with an empty undo stack (its parent's undo
+    entries may refer to edits that aren't part of it).
+  - Branch operations switch to the select tool first, so no tool holds ids from another branch.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

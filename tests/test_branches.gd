@@ -193,3 +193,43 @@ func test_cannot_merge_branch_with_children() -> void:
 	s.fork("L2")
 	check(s.merge_branch(l1) == null)
 	check(s.branches.has(l1))
+
+
+func test_fork_at_earlier_point() -> void:
+	var a := _place(Vector3.ZERO)
+	_set_value(a, "variant", "red")
+	_set_value(a, "variant", "blue")
+	var b := s.fork_at("Back in time", MapSession.MAIN, 2)  # after place + red
+	check_eq(s.current_branch, b)
+	check_eq(s.doc.get_prop(a, "variant"), "red")
+	check(not s.can_undo(), "fresh undo history")
+	_set_value(a, "scale", 2.0)
+	_check_doc_matches_history()
+	s.switch_branch(MapSession.MAIN)
+	check_eq(s.doc.get_prop(a, "variant"), "blue")
+	check_eq(s.doc.get_prop(a, "scale"), null)
+
+
+func test_history_lists_own_then_inherited() -> void:
+	var a := _place(Vector3.ZERO)
+	_set_value(a, "variant", "red")
+	_set_value(a, "variant", "blue")
+	s.fork_at("Alt", MapSession.MAIN, 2)
+	_set_value(a, "scale", 3.0)
+	var h := s.history(s.current_branch)
+	check_eq(h.size(), 3)
+	check_eq(h[0].txn.label, "Set scale")
+	check(not h[0].inherited)
+	check_eq(h[1].txn.label, "Set variant")
+	check(h[1].inherited)
+	check_eq(h[1].seq, 2)
+	check_eq(h[2].txn.label, "Place")
+	check_eq(s.history(s.current_branch, 2).size(), 2)
+
+
+func test_rename_branch() -> void:
+	var b := s.fork("x")
+	s.rename_branch(b, "  Better name ")
+	check_eq(s.branches[b].name, "Better name")
+	s.rename_branch(b, "   ")
+	check_eq(s.branches[b].name, "Better name")

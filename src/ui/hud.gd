@@ -36,7 +36,7 @@ func _init() -> void:
 	hints.anchor_bottom = 1.0
 	hints.anchor_right = 1.0
 	hints.offset_left = 12
-	hints.offset_right = -12
+	hints.offset_right = -316  # leave room for the right-hand panels
 	hints.offset_top = -52
 	hints.grow_vertical = GROW_DIRECTION_BEGIN
 	hints.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

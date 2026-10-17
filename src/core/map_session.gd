@@ -176,6 +176,46 @@ func fork(name: String) -> String:
 	return b.id
 
 
+## Starts a branch from an earlier point of `branch_id` (after its first `seq` transactions)
+## and switches to it. Undo history starts empty on such a branch. Returns its id.
+func fork_at(name: String, branch_id: String, seq: int) -> String:
+	assert(_open == null, "MapSession.fork_at: transaction open")
+	if branch_id == current_branch and seq == branch().txns.size():
+		return fork(name)
+	var parent := branches[branch_id]
+	var b := Branch.new(Uuid.v4(), name, parent.id, clampi(seq, 0, parent.txns.size()))
+	branches[b.id] = b
+	doc.load_state(_materialize(b.id))
+	current_branch = b.id
+	history_changed.emit()
+	branch_switched.emit(b.id)
+	return b.id
+
+
+func rename_branch(id: String, name: String) -> void:
+	if branches.has(id) and name.strip_edges() != "":
+		branches[id].name = name.strip_edges()
+		history_changed.emit()
+
+
+## The transactions that make up a branch's state, newest first: its own, then its ancestors'
+## up to each fork point. Entries: {txn, branch_id, seq, inherited}. At most `limit` entries.
+func history(branch_id: String, limit: int = 500) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var id := branch_id
+	var upto := -1
+	while id != "" and out.size() < limit:
+		var b := branches[id]
+		var n := b.txns.size() if upto < 0 else upto
+		for i in range(n - 1, -1, -1):
+			out.append({"txn": b.txns[i], "branch_id": id, "seq": i + 1, "inherited": id != branch_id})
+			if out.size() >= limit:
+				break
+		upto = b.fork_seq
+		id = b.parent_id
+	return out
+
+
 func switch_branch(id: String) -> void:
 	assert(_open == null, "MapSession.switch_branch: transaction open")
 	if id == current_branch or not branches.has(id):

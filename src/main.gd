@@ -30,6 +30,10 @@ var hud: Hud
 var browser: PropBrowser
 var thumbnails: ThumbnailRenderer
 var credits: CreditsDialog
+var history_panel: HistoryPanel
+var merge_dialog: MergeDialog
+var name_dialog: NameDialog
+var discard_dialog: ConfirmationDialog
 var controller: EditorController
 
 var _applied_time_of_day: Variant = null
@@ -97,6 +101,7 @@ func _ready() -> void:
 	browser.credits_pressed.connect(func() -> void: credits.show_for(library, session.doc))
 	credits = CreditsDialog.new()
 	add_child(credits)
+	_build_history_ui()
 	selection.changed.connect(func() -> void: world.set_highlights(selection.list()))
 
 	controller = EditorController.new()
@@ -146,6 +151,7 @@ func set_session(s: MapSession) -> void:
 	session.history_changed.connect(_on_history_changed)
 	world.bind(session.doc)
 	terrain.bind(session.doc)
+	history_panel.bind(session)
 	settings.bind(session.doc)
 	selection.bind(session.doc)
 	dirty = false
@@ -270,6 +276,62 @@ func objects_in_screen_rect(rect: Rect2) -> Array[String]:
 		if p != null and rect.has_point(p):
 			out.append(obj.id)
 	return out
+
+
+# --- Branches --------------------------------------------------------------
+
+func new_branch(from_branch: String, seq: int, branch_name: String) -> void:
+	set_tool(SelectTool.new())
+	if seq < 0:
+		session.fork(branch_name)
+	else:
+		session.fork_at(branch_name, from_branch, seq)
+
+
+func switch_branch(id: String) -> void:
+	set_tool(SelectTool.new())
+	session.switch_branch(id)
+
+
+func merge_branch(id: String, resolutions: Dictionary) -> void:
+	set_tool(SelectTool.new())
+	session.merge_branch(id, resolutions, Merge.THEIRS)
+
+
+func _build_history_ui() -> void:
+	history_panel = HistoryPanel.new()
+	hud.add_child(history_panel)
+	merge_dialog = MergeDialog.new()
+	add_child(merge_dialog)
+	merge_dialog.merge_confirmed.connect(merge_branch)
+	name_dialog = NameDialog.new()
+	add_child(name_dialog)
+	discard_dialog = ConfirmationDialog.new()
+	discard_dialog.title = "Discard branch"
+	discard_dialog.ok_button_text = "Discard"
+	add_child(discard_dialog)
+
+	history_panel.new_branch_requested.connect(func(from: String, seq: int) -> void:
+		name_dialog.ask("New branch", "Branch %d" % session.branches.size(), func(n: String) -> void:
+			new_branch(from, seq, n)))
+	history_panel.switch_requested.connect(switch_branch)
+	history_panel.merge_requested.connect(func(id: String) -> void: merge_dialog.open(session, id))
+	history_panel.rename_requested.connect(func(id: String) -> void:
+		name_dialog.ask("Rename branch", session.branches[id].name, func(n: String) -> void:
+			session.rename_branch(id, n)))
+	history_panel.discard_requested.connect(func(id: String) -> void:
+		var b: Branch = session.branches[id]
+		var kids := session.children_of(id).size()
+		discard_dialog.dialog_text = "Discard “%s” and its %d edits%s? This can't be undone." % [
+			b.name, b.txns.size(), (" and %d sub-branch%s" % [kids, "" if kids == 1 else "es"]) if kids > 0 else ""]
+		for c in discard_dialog.confirmed.get_connections():
+			discard_dialog.confirmed.disconnect(c.callable)
+		discard_dialog.confirmed.connect(func() -> void:
+			set_tool(SelectTool.new())
+			session.discard_branch(id), CONNECT_ONE_SHOT)
+		discard_dialog.popup_centered())
+	history_panel.undo_requested.connect(undo)
+	history_panel.redo_requested.connect(redo)
 
 
 # --- Internals -------------------------------------------------------------
