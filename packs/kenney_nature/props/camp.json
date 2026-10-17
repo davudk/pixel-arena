@@ -1,0 +1,352 @@
+[
+	{
+		"id": "bed",
+		"name": "Bed",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/bed.glb",
+		"footprint": [
+			1.0,
+			2.24
+		],
+		"height": 0.82,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bed_floor",
+		"name": "Bed Floor",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/bed_floor.glb",
+		"footprint": [
+			0.96,
+			2.24
+		],
+		"height": 0.28,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "campfire_bricks",
+		"name": "Campfire Bricks",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/campfire_bricks.glb",
+		"footprint": [
+			1.41,
+			1.41
+		],
+		"height": 0.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"light": {
+			"color": "#ffa04a",
+			"energy": 2.0,
+			"range": 6.0
+		}
+	},
+	{
+		"id": "campfire_logs",
+		"name": "Campfire Logs",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/campfire_logs.glb",
+		"footprint": [
+			0.88,
+			0.88
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"light": {
+			"color": "#ffa04a",
+			"energy": 2.0,
+			"range": 6.0
+		}
+	},
+	{
+		"id": "campfire_planks",
+		"name": "Campfire Planks",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/campfire_planks.glb",
+		"footprint": [
+			1.05,
+			1.05
+		],
+		"height": 0.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"light": {
+			"color": "#ffa04a",
+			"energy": 2.0,
+			"range": 6.0
+		}
+	},
+	{
+		"id": "campfire_stones",
+		"name": "Campfire Stones",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/campfire_stones.glb",
+		"footprint": [
+			1.62,
+			1.55
+		],
+		"height": 0.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"light": {
+			"color": "#ffa04a",
+			"energy": 2.0,
+			"range": 6.0
+		}
+	},
+	{
+		"id": "canoe",
+		"name": "Canoe",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/canoe.glb",
+		"footprint": [
+			0.9,
+			3.45
+		],
+		"height": 0.55,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "canoe_paddle",
+		"name": "Canoe Paddle",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/canoe_paddle.glb",
+		"footprint": [
+			0.23,
+			1.77
+		],
+		"height": 0.11,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_large",
+		"name": "Pot Large",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/pot_large.glb",
+		"footprint": [
+			1.69,
+			1.46
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_small",
+		"name": "Pot Small",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/pot_small.glb",
+		"footprint": [
+			0.97,
+			0.84
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sign",
+		"name": "Sign",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/sign.glb",
+		"footprint": [
+			0.9,
+			0.21
+		],
+		"height": 1.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tent_detailed_closed",
+		"name": "Tent Detailed Closed",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/tent_detailedClosed.glb",
+		"footprint": [
+			2.62,
+			1.91
+		],
+		"height": 1.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tent_detailed_open",
+		"name": "Tent Detailed Open",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/tent_detailedOpen.glb",
+		"footprint": [
+			2.62,
+			2.0
+		],
+		"height": 1.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tent_small_closed",
+		"name": "Tent Small Closed",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/tent_smallClosed.glb",
+		"footprint": [
+			1.64,
+			1.91
+		],
+		"height": 1.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tent_small_open",
+		"name": "Tent Small Open",
+		"category": "camp",
+		"themes": [
+			"camp",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/tent_smallOpen.glb",
+		"footprint": [
+			1.64,
+			2.0
+		],
+		"height": 1.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

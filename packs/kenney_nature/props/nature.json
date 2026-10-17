@@ -1,0 +1,3682 @@
+[
+	{
+		"id": "cactus_short",
+		"name": "Cactus Short",
+		"category": "nature/plants",
+		"themes": [
+			"desert"
+		],
+		"tags": [],
+		"model": "models/cactus_short.glb",
+		"footprint": [
+			1.02,
+			0.89
+		],
+		"height": 1.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cactus_tall",
+		"name": "Cactus Tall",
+		"category": "nature/plants",
+		"themes": [
+			"desert"
+		],
+		"tags": [],
+		"model": "models/cactus_tall.glb",
+		"footprint": [
+			1.19,
+			1.02
+		],
+		"height": 2.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_purple_a",
+		"name": "Flower Purple A",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_purpleA.glb",
+		"footprint": [
+			0.48,
+			0.54
+		],
+		"height": 0.73,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_purple_b",
+		"name": "Flower Purple B",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_purpleB.glb",
+		"footprint": [
+			0.62,
+			0.72
+		],
+		"height": 0.63,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_purple_c",
+		"name": "Flower Purple C",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_purpleC.glb",
+		"footprint": [
+			0.54,
+			0.54
+		],
+		"height": 0.55,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_red_a",
+		"name": "Flower Red A",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_redA.glb",
+		"footprint": [
+			0.48,
+			0.54
+		],
+		"height": 0.88,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_red_b",
+		"name": "Flower Red B",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_redB.glb",
+		"footprint": [
+			0.62,
+			0.72
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_red_c",
+		"name": "Flower Red C",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_redC.glb",
+		"footprint": [
+			0.54,
+			0.54
+		],
+		"height": 0.7,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_yellow_a",
+		"name": "Flower Yellow A",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_yellowA.glb",
+		"footprint": [
+			0.48,
+			0.54
+		],
+		"height": 0.58,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_yellow_b",
+		"name": "Flower Yellow B",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_yellowB.glb",
+		"footprint": [
+			0.62,
+			0.72
+		],
+		"height": 0.48,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "flower_yellow_c",
+		"name": "Flower Yellow C",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/flower_yellowC.glb",
+		"footprint": [
+			0.54,
+			0.54
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "grass",
+		"name": "Grass",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/grass.glb",
+		"footprint": [
+			1.14,
+			1.18
+		],
+		"height": 0.76,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "grass_large",
+		"name": "Grass Large",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/grass_large.glb",
+		"footprint": [
+			1.23,
+			1.22
+		],
+		"height": 0.76,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "grass_leafs",
+		"name": "Grass Leafs",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/grass_leafs.glb",
+		"footprint": [
+			0.7,
+			0.77
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "grass_leafs_large",
+		"name": "Grass Leafs Large",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/grass_leafsLarge.glb",
+		"footprint": [
+			1.43,
+			1.46
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "hanging_moss",
+		"name": "Hanging Moss",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/hanging_moss.glb",
+		"footprint": [
+			0.48,
+			0.1
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lily_large",
+		"name": "Lily Large",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/lily_large.glb",
+		"footprint": [
+			0.82,
+			0.94
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lily_small",
+		"name": "Lily Small",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/lily_small.glb",
+		"footprint": [
+			0.57,
+			0.65
+		],
+		"height": 0.12,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "log",
+		"name": "Log",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/log.glb",
+		"footprint": [
+			0.7,
+			2.13
+		],
+		"height": 0.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "log_large",
+		"name": "Log Large",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/log_large.glb",
+		"footprint": [
+			3.0,
+			1.65
+		],
+		"height": 1.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "log_stack",
+		"name": "Log Stack",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/log_stack.glb",
+		"footprint": [
+			1.27,
+			2.13
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "log_stack_large",
+		"name": "Log Stack Large",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/log_stackLarge.glb",
+		"footprint": [
+			1.9,
+			2.13
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_red",
+		"name": "Mushroom Red",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_red.glb",
+		"footprint": [
+			0.52,
+			0.6
+		],
+		"height": 0.61,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_red_group",
+		"name": "Mushroom Red Group",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_redGroup.glb",
+		"footprint": [
+			0.81,
+			0.76
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_red_tall",
+		"name": "Mushroom Red Tall",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_redTall.glb",
+		"footprint": [
+			0.37,
+			0.43
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_tan",
+		"name": "Mushroom Tan",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_tan.glb",
+		"footprint": [
+			0.57,
+			0.66
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_tan_group",
+		"name": "Mushroom Tan Group",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_tanGroup.glb",
+		"footprint": [
+			0.81,
+			0.76
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mushroom_tan_tall",
+		"name": "Mushroom Tan Tall",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/mushroom_tanTall.glb",
+		"footprint": [
+			0.37,
+			0.43
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush",
+		"name": "Plant Bush",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bush.glb",
+		"footprint": [
+			1.19,
+			1.19
+		],
+		"height": 0.73,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush_detailed",
+		"name": "Plant Bush Detailed",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bushDetailed.glb",
+		"footprint": [
+			1.81,
+			1.81
+		],
+		"height": 1.08,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush_large",
+		"name": "Plant Bush Large",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bushLarge.glb",
+		"footprint": [
+			1.12,
+			1.01
+		],
+		"height": 0.73,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush_large_triangle",
+		"name": "Plant Bush Large Triangle",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bushLargeTriangle.glb",
+		"footprint": [
+			1.22,
+			1.41
+		],
+		"height": 0.51,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush_small",
+		"name": "Plant Bush Small",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bushSmall.glb",
+		"footprint": [
+			1.15,
+			1.01
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_bush_triangle",
+		"name": "Plant Bush Triangle",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_bushTriangle.glb",
+		"footprint": [
+			1.09,
+			1.24
+		],
+		"height": 0.89,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_flat_short",
+		"name": "Plant Flat Short",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_flatShort.glb",
+		"footprint": [
+			0.83,
+			0.83
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_flat_tall",
+		"name": "Plant Flat Tall",
+		"category": "nature/plants",
+		"themes": [
+			"forest",
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/plant_flatTall.glb",
+		"footprint": [
+			0.81,
+			0.81
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_a",
+		"name": "Rock Large A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeA.glb",
+		"footprint": [
+			2.35,
+			3.05
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_b",
+		"name": "Rock Large B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeB.glb",
+		"footprint": [
+			2.3,
+			3.05
+		],
+		"height": 1.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_c",
+		"name": "Rock Large C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeC.glb",
+		"footprint": [
+			3.19,
+			3.05
+		],
+		"height": 0.96,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_d",
+		"name": "Rock Large D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeD.glb",
+		"footprint": [
+			3.21,
+			3.09
+		],
+		"height": 1.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_e",
+		"name": "Rock Large E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeE.glb",
+		"footprint": [
+			3.29,
+			2.76
+		],
+		"height": 0.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_large_f",
+		"name": "Rock Large F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_largeF.glb",
+		"footprint": [
+			3.29,
+			2.7
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_a",
+		"name": "Rock Small A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallA.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.57,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_b",
+		"name": "Rock Small B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallB.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_c",
+		"name": "Rock Small C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallC.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_d",
+		"name": "Rock Small D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallD.glb",
+		"footprint": [
+			1.28,
+			1.11
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_e",
+		"name": "Rock Small E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallE.glb",
+		"footprint": [
+			1.08,
+			0.94
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_f",
+		"name": "Rock Small F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallF.glb",
+		"footprint": [
+			1.06,
+			0.92
+		],
+		"height": 0.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_flat_a",
+		"name": "Rock Small Flat A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallFlatA.glb",
+		"footprint": [
+			1.49,
+			1.29
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_flat_b",
+		"name": "Rock Small Flat B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallFlatB.glb",
+		"footprint": [
+			1.29,
+			1.21
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_flat_c",
+		"name": "Rock Small Flat C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallFlatC.glb",
+		"footprint": [
+			1.41,
+			1.08
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_g",
+		"name": "Rock Small G",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallG.glb",
+		"footprint": [
+			1.78,
+			2.06
+		],
+		"height": 0.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_h",
+		"name": "Rock Small H",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallH.glb",
+		"footprint": [
+			1.39,
+			1.39
+		],
+		"height": 1.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_i",
+		"name": "Rock Small I",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallI.glb",
+		"footprint": [
+			1.07,
+			1.24
+		],
+		"height": 0.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_top_a",
+		"name": "Rock Small Top A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallTopA.glb",
+		"footprint": [
+			1.46,
+			1.47
+		],
+		"height": 0.66,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small_top_b",
+		"name": "Rock Small Top B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_smallTopB.glb",
+		"footprint": [
+			1.87,
+			1.94
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_a",
+		"name": "Rock Tall A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallA.glb",
+		"footprint": [
+			2.95,
+			2.05
+		],
+		"height": 2.99,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_b",
+		"name": "Rock Tall B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallB.glb",
+		"footprint": [
+			2.29,
+			2.31
+		],
+		"height": 2.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_c",
+		"name": "Rock Tall C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallC.glb",
+		"footprint": [
+			1.37,
+			1.31
+		],
+		"height": 2.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_d",
+		"name": "Rock Tall D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallD.glb",
+		"footprint": [
+			1.33,
+			1.38
+		],
+		"height": 2.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_e",
+		"name": "Rock Tall E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallE.glb",
+		"footprint": [
+			1.37,
+			1.58
+		],
+		"height": 1.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_f",
+		"name": "Rock Tall F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallF.glb",
+		"footprint": [
+			1.33,
+			1.54
+		],
+		"height": 1.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_g",
+		"name": "Rock Tall G",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallG.glb",
+		"footprint": [
+			1.27,
+			1.47
+		],
+		"height": 2.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_h",
+		"name": "Rock Tall H",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallH.glb",
+		"footprint": [
+			1.72,
+			1.99
+		],
+		"height": 2.13,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_i",
+		"name": "Rock Tall I",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallI.glb",
+		"footprint": [
+			1.37,
+			1.39
+		],
+		"height": 2.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_tall_j",
+		"name": "Rock Tall J",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/rock_tallJ.glb",
+		"footprint": [
+			1.46,
+			1.61
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_a",
+		"name": "Stone Large A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeA.glb",
+		"footprint": [
+			2.35,
+			3.05
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_b",
+		"name": "Stone Large B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeB.glb",
+		"footprint": [
+			2.3,
+			3.05
+		],
+		"height": 1.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_c",
+		"name": "Stone Large C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeC.glb",
+		"footprint": [
+			3.19,
+			3.05
+		],
+		"height": 0.96,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_d",
+		"name": "Stone Large D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeD.glb",
+		"footprint": [
+			3.21,
+			3.09
+		],
+		"height": 1.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_e",
+		"name": "Stone Large E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeE.glb",
+		"footprint": [
+			3.29,
+			2.76
+		],
+		"height": 0.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_large_f",
+		"name": "Stone Large F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_largeF.glb",
+		"footprint": [
+			3.29,
+			2.7
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_a",
+		"name": "Stone Small A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallA.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.57,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_b",
+		"name": "Stone Small B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallB.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_c",
+		"name": "Stone Small C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallC.glb",
+		"footprint": [
+			1.08,
+			1.08
+		],
+		"height": 0.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_d",
+		"name": "Stone Small D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallD.glb",
+		"footprint": [
+			1.28,
+			1.11
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_e",
+		"name": "Stone Small E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallE.glb",
+		"footprint": [
+			1.08,
+			0.94
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_f",
+		"name": "Stone Small F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallF.glb",
+		"footprint": [
+			1.06,
+			0.92
+		],
+		"height": 0.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_flat_a",
+		"name": "Stone Small Flat A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallFlatA.glb",
+		"footprint": [
+			1.49,
+			1.29
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_flat_b",
+		"name": "Stone Small Flat B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallFlatB.glb",
+		"footprint": [
+			1.29,
+			1.21
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_flat_c",
+		"name": "Stone Small Flat C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallFlatC.glb",
+		"footprint": [
+			1.41,
+			1.08
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_g",
+		"name": "Stone Small G",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallG.glb",
+		"footprint": [
+			1.78,
+			2.06
+		],
+		"height": 0.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_h",
+		"name": "Stone Small H",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallH.glb",
+		"footprint": [
+			1.39,
+			1.39
+		],
+		"height": 1.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_i",
+		"name": "Stone Small I",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallI.glb",
+		"footprint": [
+			1.07,
+			1.24
+		],
+		"height": 0.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_top_a",
+		"name": "Stone Small Top A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallTopA.glb",
+		"footprint": [
+			1.46,
+			1.47
+		],
+		"height": 0.66,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_small_top_b",
+		"name": "Stone Small Top B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_smallTopB.glb",
+		"footprint": [
+			1.87,
+			1.94
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_a",
+		"name": "Stone Tall A",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallA.glb",
+		"footprint": [
+			2.95,
+			2.05
+		],
+		"height": 2.99,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_b",
+		"name": "Stone Tall B",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallB.glb",
+		"footprint": [
+			2.29,
+			2.31
+		],
+		"height": 2.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_c",
+		"name": "Stone Tall C",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallC.glb",
+		"footprint": [
+			1.37,
+			1.31
+		],
+		"height": 2.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_d",
+		"name": "Stone Tall D",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallD.glb",
+		"footprint": [
+			1.33,
+			1.38
+		],
+		"height": 2.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_e",
+		"name": "Stone Tall E",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallE.glb",
+		"footprint": [
+			1.37,
+			1.58
+		],
+		"height": 1.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_f",
+		"name": "Stone Tall F",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallF.glb",
+		"footprint": [
+			1.33,
+			1.54
+		],
+		"height": 1.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_g",
+		"name": "Stone Tall G",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallG.glb",
+		"footprint": [
+			1.27,
+			1.47
+		],
+		"height": 2.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_h",
+		"name": "Stone Tall H",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallH.glb",
+		"footprint": [
+			1.72,
+			1.99
+		],
+		"height": 2.13,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_i",
+		"name": "Stone Tall I",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallI.glb",
+		"footprint": [
+			1.37,
+			1.39
+		],
+		"height": 2.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stone_tall_j",
+		"name": "Stone Tall J",
+		"category": "nature/rocks",
+		"themes": [
+			"wilderness",
+			"mountain"
+		],
+		"tags": [],
+		"model": "models/stone_tallJ.glb",
+		"footprint": [
+			1.46,
+			1.61
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_old",
+		"name": "Stump Old",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_old.glb",
+		"footprint": [
+			1.07,
+			1.11
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_old_tall",
+		"name": "Stump Old Tall",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_oldTall.glb",
+		"footprint": [
+			1.07,
+			1.11
+		],
+		"height": 2.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_round",
+		"name": "Stump Round",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_round.glb",
+		"footprint": [
+			0.96,
+			1.11
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_round_detailed",
+		"name": "Stump Round Detailed",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_roundDetailed.glb",
+		"footprint": [
+			1.07,
+			1.11
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_square",
+		"name": "Stump Square",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_square.glb",
+		"footprint": [
+			1.08,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_square_detailed",
+		"name": "Stump Square Detailed",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_squareDetailed.glb",
+		"footprint": [
+			1.32,
+			1.32
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stump_square_detailed_wide",
+		"name": "Stump Square Detailed Wide",
+		"category": "nature/wood",
+		"themes": [
+			"forest",
+			"camp"
+		],
+		"tags": [],
+		"model": "models/stump_squareDetailedWide.glb",
+		"footprint": [
+			1.92,
+			1.92
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_blocks",
+		"name": "Tree Blocks",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_blocks.glb",
+		"footprint": [
+			1.8,
+			1.8
+		],
+		"height": 3.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_blocks_dark",
+		"name": "Tree Blocks Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_blocks_dark.glb",
+		"footprint": [
+			1.8,
+			1.8
+		],
+		"height": 3.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_blocks_fall",
+		"name": "Tree Blocks Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_blocks_fall.glb",
+		"footprint": [
+			1.8,
+			1.8
+		],
+		"height": 3.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_cone",
+		"name": "Tree Cone",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_cone.glb",
+		"footprint": [
+			1.59,
+			1.59
+		],
+		"height": 4.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_cone_dark",
+		"name": "Tree Cone Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_cone_dark.glb",
+		"footprint": [
+			1.59,
+			1.59
+		],
+		"height": 4.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_cone_fall",
+		"name": "Tree Cone Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_cone_fall.glb",
+		"footprint": [
+			1.59,
+			1.59
+		],
+		"height": 4.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_default",
+		"name": "Tree Default",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_default.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 5.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_default_dark",
+		"name": "Tree Default Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_default_dark.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 5.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_default_fall",
+		"name": "Tree Default Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_default_fall.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 5.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_detailed",
+		"name": "Tree Detailed",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_detailed.glb",
+		"footprint": [
+			2.54,
+			2.28
+		],
+		"height": 4.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_detailed_dark",
+		"name": "Tree Detailed Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_detailed_dark.glb",
+		"footprint": [
+			2.54,
+			2.28
+		],
+		"height": 4.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_detailed_fall",
+		"name": "Tree Detailed Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_detailed_fall.glb",
+		"footprint": [
+			2.54,
+			2.28
+		],
+		"height": 4.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_fat",
+		"name": "Tree Fat",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_fat.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 3.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_fat_darkh",
+		"name": "Tree Fat Darkh",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_fat_darkh.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 3.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_fat_fall",
+		"name": "Tree Fat Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_fat_fall.glb",
+		"footprint": [
+			2.27,
+			1.96
+		],
+		"height": 3.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_oak",
+		"name": "Tree Oak",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_oak.glb",
+		"footprint": [
+			1.92,
+			2.22
+		],
+		"height": 3.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_oak_dark",
+		"name": "Tree Oak Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_oak_dark.glb",
+		"footprint": [
+			1.92,
+			2.22
+		],
+		"height": 3.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_oak_fall",
+		"name": "Tree Oak Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_oak_fall.glb",
+		"footprint": [
+			1.92,
+			2.22
+		],
+		"height": 3.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm",
+		"name": "Tree Palm",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palm.glb",
+		"footprint": [
+			2.81,
+			3.04
+		],
+		"height": 4.54,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm_bend",
+		"name": "Tree Palm Bend",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palmBend.glb",
+		"footprint": [
+			2.81,
+			3.04
+		],
+		"height": 4.14,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm_detailed_short",
+		"name": "Tree Palm Detailed Short",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palmDetailedShort.glb",
+		"footprint": [
+			4.39,
+			4.39
+		],
+		"height": 3.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm_detailed_tall",
+		"name": "Tree Palm Detailed Tall",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palmDetailedTall.glb",
+		"footprint": [
+			4.39,
+			4.39
+		],
+		"height": 4.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm_short",
+		"name": "Tree Palm Short",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palmShort.glb",
+		"footprint": [
+			3.1,
+			3.1
+		],
+		"height": 3.17,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_palm_tall",
+		"name": "Tree Palm Tall",
+		"category": "nature/trees",
+		"themes": [
+			"tropical",
+			"beach"
+		],
+		"tags": [],
+		"model": "models/tree_palmTall.glb",
+		"footprint": [
+			3.1,
+			3.1
+		],
+		"height": 4.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_default_a",
+		"name": "Tree Pine Default A",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineDefaultA.glb",
+		"footprint": [
+			1.6,
+			1.6
+		],
+		"height": 4.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_default_b",
+		"name": "Tree Pine Default B",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineDefaultB.glb",
+		"footprint": [
+			1.6,
+			1.6
+		],
+		"height": 4.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_ground_a",
+		"name": "Tree Pine Ground A",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineGroundA.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 2.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_ground_b",
+		"name": "Tree Pine Ground B",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineGroundB.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_a",
+		"name": "Tree Pine Round A",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundA.glb",
+		"footprint": [
+			1.85,
+			2.14
+		],
+		"height": 4.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_b",
+		"name": "Tree Pine Round B",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundB.glb",
+		"footprint": [
+			1.6,
+			1.84
+		],
+		"height": 3.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_c",
+		"name": "Tree Pine Round C",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundC.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 3.76,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_d",
+		"name": "Tree Pine Round D",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundD.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 3.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_e",
+		"name": "Tree Pine Round E",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundE.glb",
+		"footprint": [
+			1.6,
+			1.6
+		],
+		"height": 3.76,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_round_f",
+		"name": "Tree Pine Round F",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineRoundF.glb",
+		"footprint": [
+			1.6,
+			1.6
+		],
+		"height": 3.76,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_small_a",
+		"name": "Tree Pine Small A",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineSmallA.glb",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 2.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_small_b",
+		"name": "Tree Pine Small B",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineSmallB.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 3.03,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_small_c",
+		"name": "Tree Pine Small C",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineSmallC.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 3.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_small_d",
+		"name": "Tree Pine Small D",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineSmallD.glb",
+		"footprint": [
+			1.07,
+			1.07
+		],
+		"height": 2.87,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_a",
+		"name": "Tree Pine Tall A",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallA.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 4.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_a_detailed",
+		"name": "Tree Pine Tall A Detailed",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallA_detailed.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 4.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_b",
+		"name": "Tree Pine Tall B",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallB.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 5.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_b_detailed",
+		"name": "Tree Pine Tall B Detailed",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallB_detailed.glb",
+		"footprint": [
+			1.16,
+			1.18
+		],
+		"height": 5.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_c",
+		"name": "Tree Pine Tall C",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallC.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 5.01,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_c_detailed",
+		"name": "Tree Pine Tall C Detailed",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallC_detailed.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 5.01,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_d",
+		"name": "Tree Pine Tall D",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallD.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 6.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_tall_d_detailed",
+		"name": "Tree Pine Tall D Detailed",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"mountain",
+			"winter"
+		],
+		"tags": [],
+		"model": "models/tree_pineTallD_detailed.glb",
+		"footprint": [
+			1.44,
+			1.66
+		],
+		"height": 6.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_plateau",
+		"name": "Tree Plateau",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_plateau.glb",
+		"footprint": [
+			1.84,
+			1.96
+		],
+		"height": 3.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_plateau_dark",
+		"name": "Tree Plateau Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_plateau_dark.glb",
+		"footprint": [
+			1.84,
+			1.96
+		],
+		"height": 3.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_plateau_fall",
+		"name": "Tree Plateau Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_plateau_fall.glb",
+		"footprint": [
+			1.84,
+			1.96
+		],
+		"height": 3.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_simple",
+		"name": "Tree Simple",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_simple.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 4.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_simple_dark",
+		"name": "Tree Simple Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_simple_dark.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 4.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_simple_fall",
+		"name": "Tree Simple Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_simple_fall.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 4.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_small",
+		"name": "Tree Small",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_small.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 3.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_small_dark",
+		"name": "Tree Small Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_small_dark.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 3.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_small_fall",
+		"name": "Tree Small Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_small_fall.glb",
+		"footprint": [
+			1.06,
+			1.23
+		],
+		"height": 3.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_tall",
+		"name": "Tree Tall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_tall.glb",
+		"footprint": [
+			1.2,
+			1.38
+		],
+		"height": 5.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_tall_dark",
+		"name": "Tree Tall Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_tall_dark.glb",
+		"footprint": [
+			1.2,
+			1.38
+		],
+		"height": 5.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_tall_fall",
+		"name": "Tree Tall Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_tall_fall.glb",
+		"footprint": [
+			1.2,
+			1.38
+		],
+		"height": 5.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_thin",
+		"name": "Tree Thin",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_thin.glb",
+		"footprint": [
+			2.04,
+			1.85
+		],
+		"height": 4.47,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_thin_dark",
+		"name": "Tree Thin Dark",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/tree_thin_dark.glb",
+		"footprint": [
+			2.04,
+			1.85
+		],
+		"height": 4.47,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_thin_fall",
+		"name": "Tree Thin Fall",
+		"category": "nature/trees",
+		"themes": [
+			"forest",
+			"autumn"
+		],
+		"tags": [],
+		"model": "models/tree_thin_fall.glb",
+		"footprint": [
+			2.04,
+			1.85
+		],
+		"height": 4.47,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

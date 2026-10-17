@@ -1,0 +1,222 @@
+[
+	{
+		"id": "fountain_center",
+		"name": "Fountain Center",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-center.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_corner_inner_square",
+		"name": "Fountain Corner Inner Square",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-corner-inner-square.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_corner_inner",
+		"name": "Fountain Corner Inner",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-corner-inner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_corner",
+		"name": "Fountain Corner",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-corner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_curved",
+		"name": "Fountain Curved",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_edge",
+		"name": "Fountain Edge",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-edge.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_round_detail",
+		"name": "Fountain Round Detail",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-round-detail.glb",
+		"footprint": [
+			6.0,
+			6.0
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_round",
+		"name": "Fountain Round",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-round.glb",
+		"footprint": [
+			6.0,
+			6.0
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_square_detail",
+		"name": "Fountain Square Detail",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-square-detail.glb",
+		"footprint": [
+			6.0,
+			6.0
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fountain_square",
+		"name": "Fountain Square",
+		"category": "decor/fountains",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fountain-square.glb",
+		"footprint": [
+			6.0,
+			6.0
+		],
+		"height": 1.37,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

@@ -1,0 +1,134 @@
+[
+	{
+		"id": "statue_block",
+		"name": "Statue Block",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_block.glb",
+		"footprint": [
+			1.2,
+			1.2
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "statue_column",
+		"name": "Statue Column",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_column.glb",
+		"footprint": [
+			0.9,
+			0.9
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "statue_column_damaged",
+		"name": "Statue Column Damaged",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_columnDamaged.glb",
+		"footprint": [
+			0.9,
+			0.9
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "statue_head",
+		"name": "Statue Head",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_head.glb",
+		"footprint": [
+			2.18,
+			1.66
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "statue_obelisk",
+		"name": "Statue Obelisk",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_obelisk.glb",
+		"footprint": [
+			0.92,
+			0.92
+		],
+		"height": 2.63,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "statue_ring",
+		"name": "Statue Ring",
+		"category": "decor/statues",
+		"themes": [
+			"ruins",
+			"ancient"
+		],
+		"tags": [],
+		"model": "models/statue_ring.glb",
+		"footprint": [
+			1.8,
+			1.2
+		],
+		"height": 2.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

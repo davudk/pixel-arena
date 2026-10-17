@@ -1,0 +1,1042 @@
+[
+	{
+		"id": "aid_cane_blind",
+		"name": "Aid Cane Blind",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-cane-blind.glb",
+		"footprint": [
+			0.29,
+			0.29
+		],
+		"height": 0.93,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_cane_low_vision",
+		"name": "Aid Cane Low Vision",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-cane-low-vision.glb",
+		"footprint": [
+			0.29,
+			0.29
+		],
+		"height": 0.93,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_cane",
+		"name": "Aid Cane",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-cane.glb",
+		"footprint": [
+			0.29,
+			0.69
+		],
+		"height": 0.95,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_crutch",
+		"name": "Aid Crutch",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-crutch.glb",
+		"footprint": [
+			0.59,
+			0.56
+		],
+		"height": 0.93,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_defibrillator_green",
+		"name": "Aid Defibrillator Green",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-defibrillator-green.glb",
+		"footprint": [
+			0.68,
+			0.42
+		],
+		"height": 0.87,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_defibrillator_red",
+		"name": "Aid Defibrillator Red",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-defibrillator-red.glb",
+		"footprint": [
+			0.68,
+			0.42
+		],
+		"height": 0.87,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_glasses",
+		"name": "Aid Glasses",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-glasses.glb",
+		"footprint": [
+			0.99,
+			0.55
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_mask",
+		"name": "Aid Mask",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-mask.glb",
+		"footprint": [
+			1.01,
+			0.63
+		],
+		"height": 0.61,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_sunglasses",
+		"name": "Aid Sunglasses",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid-sunglasses.glb",
+		"footprint": [
+			0.99,
+			0.55
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "aid_hearing",
+		"name": "Aid Hearing",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/aid_hearing.glb",
+		"footprint": [
+			0.15,
+			0.47
+		],
+		"height": 0.37,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "character_female_a",
+		"name": "Character Female A",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-a.glb",
+		"footprint": [
+			3.3,
+			1.5
+		],
+		"height": 2.33,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_female_b",
+		"name": "Character Female B",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-b.glb",
+		"footprint": [
+			2.3,
+			1.26
+		],
+		"height": 2.17,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_female_c",
+		"name": "Character Female C",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-c.glb",
+		"footprint": [
+			2.3,
+			1.5
+		],
+		"height": 2.33,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_female_d",
+		"name": "Character Female D",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-d.glb",
+		"footprint": [
+			2.3,
+			1.5
+		],
+		"height": 2.33,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_female_e",
+		"name": "Character Female E",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-e.glb",
+		"footprint": [
+			2.3,
+			1.58
+		],
+		"height": 2.15,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_female_f",
+		"name": "Character Female F",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-female-f.glb",
+		"footprint": [
+			2.3,
+			1.32
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_a",
+		"name": "Character Male A",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-a.glb",
+		"footprint": [
+			2.3,
+			1.02
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_b",
+		"name": "Character Male B",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-b.glb",
+		"footprint": [
+			2.3,
+			1.17
+		],
+		"height": 1.98,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_c",
+		"name": "Character Male C",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-c.glb",
+		"footprint": [
+			2.3,
+			1.38
+		],
+		"height": 2.38,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_d",
+		"name": "Character Male D",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-d.glb",
+		"footprint": [
+			2.3,
+			1.02
+		],
+		"height": 2.17,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_e",
+		"name": "Character Male E",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-e.glb",
+		"footprint": [
+			2.3,
+			1.03
+		],
+		"height": 2.03,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "character_male_f",
+		"name": "Character Male F",
+		"category": "people/characters",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [
+			"person"
+		],
+		"model": "models/character-male-f.glb",
+		"footprint": [
+			2.3,
+			1.02
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"animations": {
+			"autoplay": "idle",
+			"available": [
+				"attack-kick-left",
+				"attack-kick-right",
+				"attack-melee-left",
+				"attack-melee-right",
+				"crouch",
+				"die",
+				"drive",
+				"emote-no",
+				"emote-yes",
+				"fall",
+				"holding-both",
+				"holding-both-shoot",
+				"holding-left",
+				"holding-left-shoot",
+				"holding-right",
+				"holding-right-shoot",
+				"idle",
+				"interact-left",
+				"interact-right",
+				"jump",
+				"pick-up",
+				"sit",
+				"sprint",
+				"static",
+				"walk",
+				"wheelchair-look-left",
+				"wheelchair-look-right",
+				"wheelchair-move-back",
+				"wheelchair-move-forward",
+				"wheelchair-move-left",
+				"wheelchair-move-right",
+				"wheelchair-sit"
+			]
+		}
+	},
+	{
+		"id": "wheelchair_deluxe",
+		"name": "Wheelchair Deluxe",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/wheelchair-deluxe.glb",
+		"footprint": [
+			1.74,
+			1.78
+		],
+		"height": 1.49,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wheelchair_power_deluxe",
+		"name": "Wheelchair Power Deluxe",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/wheelchair-power-deluxe.glb",
+		"footprint": [
+			1.44,
+			1.53
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wheelchair_power",
+		"name": "Wheelchair Power",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/wheelchair-power.glb",
+		"footprint": [
+			1.44,
+			1.53
+		],
+		"height": 1.72,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wheelchair",
+		"name": "Wheelchair",
+		"category": "people/accessories",
+		"themes": [
+			"modern",
+			"everyday"
+		],
+		"tags": [],
+		"model": "models/wheelchair.glb",
+		"footprint": [
+			1.5,
+			1.75
+		],
+		"height": 1.49,
+		"placement": {
+			"mode": "free",
+			"step": 0.0,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

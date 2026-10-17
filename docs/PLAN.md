@@ -307,7 +307,7 @@ src/
   editor/    # tools, input, selection, snapping, high-level commands → transactions
   ui/        # panels, prop browser, branch/history panel, settings, dialogs
   export/    # snapshot + map renders
-packs/core/  # built-in pack (sample CC0 assets)
+packs/       # built-in packs (CC0 Kenney kits), .gdignore'd
 tests/       # unit tests (GUT), run headless
 tools/       # asset import / manifest helper scripts
 docs/
@@ -347,6 +347,22 @@ docs/
   WorldView with placeholder boxes, layered ViewSettings (player override → map default →
   built-in) with HUD panel, save/open/new, undo/redo shortcuts. Left-click placement of test
   boxes is temporary until M3.
+- **M3 done** — three CC0 Kenney packs imported by `tools/import_kenney.gd` (522 props:
+  Nature Kit, Fantasy Town Kit, Mini Characters; ×3 scale so 1 unit = 3 m walls / 2 m people).
+  PropLibrary (manifest validation, license allow-list, category/theme/text search),
+  ModelCache (runtime glTF, shared trimesh pick shapes, pack material overrides),
+  ThumbnailRenderer (offscreen, cached PNGs), PropBrowser panel, PlaceTool (ghost, grid /
+  subgrid / free snapping, surface placement with parent links, random rotation), SelectTool
+  (click / shift / box select, drag-move, rotate, delete, duplicate, copy/paste, eyedropper,
+  focus), selection highlight, animated props (characters idle), prop lights, credits dialog.
+  Decisions:
+  - Packs live in `packs/` with a `.gdignore`, so Godot never imports them; built-in and user
+    packs share the runtime loader. (Export packaging of `packs/` is an M8 task.)
+  - Grid-mode snapping centers footprints spanning an odd number of cells and puts even ones on
+    grid lines; grid step comes from the manifest (3 m for Kenney modular pieces).
+  - Surface placement only accepts mostly-upward faces (normal.y > 0.7); sloped roofs don't
+    take props.
+  - Box select includes children; duplicate/paste keep parent links inside the copied set.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

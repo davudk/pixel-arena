@@ -1,15 +1,17 @@
 class_name EditorMain
 extends Control
-## Editor root: wires the session, 3D view, camera, lighting, view settings, HUD and input.
+## Editor root: wires the session, prop library, 3D view, camera, lighting, view settings,
+## HUD, tools and input.
 ##
 ## Command-line (after `--`):
-##   --demo               scatter test boxes over a few chunks
+##   --demo               scatter some props over a few chunks
 ##   --screenshot=<path>  save a PNG of the window after a few frames, then quit
 ##   --view=<key>=<value> override a view setting for this run only (not saved)
 
-const TEST_BOX_KINDS := 6
-
 var session: MapSession
+var library: PropLibrary
+var selection := Selection.new()
+var tool: EditorTool
 var settings := ViewSettings.new()
 var file_path := ""
 var dirty := false
@@ -21,6 +23,9 @@ var day: DayCycle
 var ground: Ground
 var world: WorldView
 var hud: Hud
+var browser: PropBrowser
+var thumbnails: ThumbnailRenderer
+var credits: CreditsDialog
 var controller: EditorController
 
 var _applied_time_of_day: Variant = null
@@ -51,9 +56,25 @@ func _ready() -> void:
 	root3d.add_child(rig)
 	pixel_view.resized.connect(rig.apply)
 
+	library = PropLibrary.load_default()
+	for e in library.errors:
+		push_warning("Prop library: " + e)
+	ObjectVisuals.library = library
+	thumbnails = ThumbnailRenderer.new()
+	thumbnails.models = ObjectVisuals.models
+	add_child(thumbnails)
+
 	hud = Hud.new()
 	add_child(hud)
 	hud.make_map_default_pressed.connect(_make_view_map_default)
+	browser = PropBrowser.new()
+	hud.add_child(browser)
+	browser.setup(library, thumbnails)
+	browser.prop_chosen.connect(func(prop: PropDef) -> void: choose_prop(prop))
+	browser.credits_pressed.connect(func() -> void: credits.show_for(library, session.doc))
+	credits = CreditsDialog.new()
+	add_child(credits)
+	selection.changed.connect(func() -> void: world.set_highlights(selection.list()))
 
 	controller = EditorController.new()
 	controller.name = "EditorController"
@@ -65,6 +86,7 @@ func _ready() -> void:
 	settings.load_overrides()
 	hud.setup(settings)
 	set_session(MapSession.new())
+	set_tool(SelectTool.new())
 	_handle_command_line()
 
 
@@ -76,8 +98,9 @@ func _process(_delta: float) -> void:
 		var chunk := MapDocument.chunk_of(hit)
 		cursor = "(%.1f, %.1f)  cell %d,%d  chunk %d,%d" % [hit.x, hit.z, cell.x, cell.y, chunk.x, chunk.y]
 	var hours := int(day.time_of_day)
-	info_text("FPS %d   cursor %s\nchunks %d   objects %d   branch %s   %02d:%02d   zoom %.0f m" % [
-		Engine.get_frames_per_second(), cursor, world.chunk_count(), world.object_count(),
+	var mode := "Placing %s" % (tool as PlaceTool).prop.name if tool is PlaceTool else "%d selected" % selection.ids.size()
+	info_text("FPS %d   cursor %s\n%s   chunks %d   objects %d   branch %s   %02d:%02d   zoom %.0f m" % [
+		Engine.get_frames_per_second(), cursor, mode, world.chunk_count(), world.object_count(),
 		session.branch().name, hours, int((day.time_of_day - hours) * 60.0), rig.zoom])
 
 
@@ -92,6 +115,7 @@ func set_session(s: MapSession) -> void:
 	session.history_changed.connect(_on_history_changed)
 	world.bind(session.doc)
 	settings.bind(session.doc)
+	selection.bind(session.doc)
 	dirty = false
 	_update_title()
 
@@ -140,34 +164,52 @@ func open() -> void:
 		set_session(loaded))
 
 
-## Temporary until the prop library (M3): drop a placeholder box on the cell under the cursor.
-func place_test_box(screen_pos: Vector2) -> void:
-	var hit: Variant = rig.ground_point(screen_pos)
-	if hit == null:
-		return
-	var pos := Vector3(floorf(hit.x) + 0.5, 0.0, floorf(hit.z) + 0.5)
-	var kind := randi() % TEST_BOX_KINDS
-	session.edit("Place box", func() -> void:
-		session.create_object("prop", {"prop": "debug:box_%d" % kind, "position": pos, "rotation": 0.0}))
+func set_tool(new_tool: EditorTool) -> void:
+	if tool != null:
+		tool.deactivate()
+	tool = new_tool
+	tool.main = self
+	tool.activate()
+	if not tool is PlaceTool:
+		browser.deselect()
 
 
-func remove_test_box(screen_pos: Vector2) -> void:
-	var hit: Variant = rig.ground_point(screen_pos)
-	if hit == null:
-		return
-	var nearest := ""
-	var best := 0.75
-	var center := MapDocument.chunk_of(hit)
-	for dz in range(-1, 2):
-		for dx in range(-1, 2):
-			for id in session.doc.objects_in_chunk(center + Vector2i(dx, dz)):
-				var p: Vector3 = session.doc.get_prop(id, "position")
-				var d := Vector2(p.x - hit.x, p.z - hit.z).length()
-				if d < best:
-					best = d
-					nearest = id
-	if nearest != "":
-		session.edit("Remove box", func() -> void: session.delete_object(nearest))
+## Starts placing `prop` (from the browser or the eyedropper).
+func choose_prop(prop: PropDef, yaw: float = 0.0) -> void:
+	var place := PlaceTool.new(prop)
+	place.yaw = yaw
+	place.random_rotation = browser.random_rotation.button_pressed
+	selection.clear()
+	set_tool(place)
+
+
+## The map object under a screen position: {id, position, normal}, or {} if none.
+func pick_object(screen_pos: Vector2, exclude: Array[RID] = []) -> Dictionary:
+	var ray := rig.screen_ray(screen_pos)
+	var query := PhysicsRayQueryParameters3D.create(ray[0], ray[0] + ray[1] * 10000.0, ObjectVisuals.PICK_LAYER, exclude)
+	var hit := rig.camera.get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or not hit.collider.has_meta("object_id"):
+		return {}
+	return {"id": hit.collider.get_meta("object_id"), "position": hit.position, "normal": hit.normal}
+
+
+## Screen position of a world point, or null if it's behind the camera.
+func screen_position(world_pos: Vector3) -> Variant:
+	if rig.camera.is_position_behind(world_pos):
+		return null
+	return rig.camera.unproject_position(world_pos) * pixel_view.pixel_size + pixel_view.display.position
+
+
+## Live objects whose position falls inside a screen rectangle.
+func objects_in_screen_rect(rect: Rect2) -> Array[String]:
+	var out: Array[String] = []
+	for obj in session.doc.objects.values():
+		if obj.deleted or not obj.props.get("position") is Vector3:
+			continue
+		var p: Variant = screen_position(obj.props.position)
+		if p != null and rect.has_point(p):
+			out.append(obj.id)
+	return out
 
 
 # --- Internals -------------------------------------------------------------
@@ -200,6 +242,8 @@ func _make_view_map_default() -> void:
 
 func _on_camera_moved() -> void:
 	ground.follow(rig.focus)
+	if tool != null:
+		tool.on_motion(cursor_screen)
 	var dist := rig.camera.position.distance_to(rig.focus)
 	day.set_shadow_distance(dist + rig.zoom * 2.0)
 
@@ -240,7 +284,7 @@ func _handle_command_line() -> void:
 		elif arg.begins_with("--screenshot="):
 			screenshot = arg.trim_prefix("--screenshot=")
 	if screenshot != "":
-		for i in 20:
+		for i in 120:
 			await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(screenshot)
@@ -262,8 +306,27 @@ func _fit_window_to_screen_scale() -> void:
 func _scatter_demo() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
+	var pick := func(query: String) -> Array[PropDef]: return library.search(query)
+	var trees: Array[PropDef] = pick.call("tree_oak") + pick.call("tree_default") + pick.call("tree_pine_round")
+	var rocks: Array[PropDef] = pick.call("rock_large")
+	var people: Array[PropDef] = pick.call("character")
+	var plants: Array[PropDef] = pick.call("flower") + pick.call("plant_bush")
 	session.edit("Demo", func() -> void:
-		for i in 60:
-			var pos := Vector3(rng.randi_range(-20, 40) + 0.5, 0.0, rng.randi_range(-20, 40) + 0.5)
-			session.create_object("prop", {"prop": "debug:box_%d" % (i % TEST_BOX_KINDS), "position": pos})
-		session.create_object("prop", {"prop": "debug:far", "position": Vector3(3200.5, 0, 3200.5)}))
+		for group: Array in [[trees, 40], [rocks, 12], [plants, 40], [people, 8]]:
+			var defs: Array[PropDef] = group[0]
+			if defs.is_empty():
+				continue
+			for i in group[1]:
+				var prop: PropDef = defs[rng.randi() % defs.size()]
+				var pos := Vector3(rng.randf_range(-24, 40), 0, rng.randf_range(-24, 40))
+				session.create_object("prop", {"prop": prop.id, "position": Snapping.for_prop(prop, pos, 0.0, false),
+					"rotation": rng.randf() * TAU, "anim_offset": rng.randf()})
+		var tent := library.get_prop("kenney_nature:tent_detailed_open")
+		var fire := library.get_prop("kenney_nature:campfire_logs")
+		if tent != null and fire != null:
+			session.create_object("prop", {"prop": tent.id, "position": Vector3(6, 0, 4), "rotation": 0.6})
+			session.create_object("prop", {"prop": fire.id, "position": Vector3(4, 0, 7), "rotation": 0.0})
+		for i in 4:
+			var wall := library.get_prop("kenney_town:wall_wood_window_shutters" if i % 2 == 0 else "kenney_town:wall_wood")
+			if wall != null:
+				session.create_object("prop", {"prop": wall.id, "position": Vector3(-10.5 + i * 3, 0, -4.5), "rotation": PI / 2}))

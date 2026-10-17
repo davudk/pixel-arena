@@ -1,0 +1,2092 @@
+[
+	{
+		"id": "cliff_block_cave_rock",
+		"name": "Cliff Block Cave Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockCave_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_cave_stone",
+		"name": "Cliff Block Cave Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockCave_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_diagonal_rock",
+		"name": "Cliff Block Diagonal Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockDiagonal_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_diagonal_stone",
+		"name": "Cliff Block Diagonal Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockDiagonal_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_half_rock",
+		"name": "Cliff Block Half Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockHalf_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_half_stone",
+		"name": "Cliff Block Half Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockHalf_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_quarter_rock",
+		"name": "Cliff Block Quarter Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockQuarter_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_quarter_stone",
+		"name": "Cliff Block Quarter Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockQuarter_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_half_walls_rock",
+		"name": "Cliff Block Slope Half Walls Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlopeHalfWalls_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_half_walls_stone",
+		"name": "Cliff Block Slope Half Walls Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlopeHalfWalls_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_walls_rock",
+		"name": "Cliff Block Slope Walls Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlopeWalls_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_walls_stone",
+		"name": "Cliff Block Slope Walls Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlopeWalls_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_rock",
+		"name": "Cliff Block Slope Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlope_rock.glb",
+		"footprint": [
+			3.6,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_slope_stone",
+		"name": "Cliff Block Slope Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_blockSlope_stone.glb",
+		"footprint": [
+			3.6,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_rock",
+		"name": "Cliff Block Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_block_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_block_stone",
+		"name": "Cliff Block Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_block_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_cave_rock",
+		"name": "Cliff Cave Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cave_rock.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_cave_stone",
+		"name": "Cliff Cave Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cave_stone.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_large_rock",
+		"name": "Cliff Corner Inner Large Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInnerLarge_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_large_stone",
+		"name": "Cliff Corner Inner Large Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInnerLarge_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_top_rock",
+		"name": "Cliff Corner Inner Top Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInnerTop_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_top_stone",
+		"name": "Cliff Corner Inner Top Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInnerTop_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_rock",
+		"name": "Cliff Corner Inner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInner_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_inner_stone",
+		"name": "Cliff Corner Inner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerInner_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_large_rock",
+		"name": "Cliff Corner Large Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerLarge_rock.glb",
+		"footprint": [
+			1.26,
+			1.26
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_large_stone",
+		"name": "Cliff Corner Large Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerLarge_stone.glb",
+		"footprint": [
+			1.26,
+			1.26
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_top_rock",
+		"name": "Cliff Corner Top Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerTop_rock.glb",
+		"footprint": [
+			0.81,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_top_stone",
+		"name": "Cliff Corner Top Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_cornerTop_stone.glb",
+		"footprint": [
+			0.81,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_rock",
+		"name": "Cliff Corner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_corner_rock.glb",
+		"footprint": [
+			0.51,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_corner_stone",
+		"name": "Cliff Corner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_corner_stone.glb",
+		"footprint": [
+			0.51,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_diagonal_rock",
+		"name": "Cliff Diagonal Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_diagonal_rock.glb",
+		"footprint": [
+			3.51,
+			3.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_diagonal_stone",
+		"name": "Cliff Diagonal Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_diagonal_stone.glb",
+		"footprint": [
+			3.51,
+			3.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_corner_inner_rock",
+		"name": "Cliff Half Corner Inner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_halfCornerInner_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_corner_inner_stone",
+		"name": "Cliff Half Corner Inner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_halfCornerInner_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_corner_rock",
+		"name": "Cliff Half Corner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_halfCorner_rock.glb",
+		"footprint": [
+			1.26,
+			1.26
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_corner_stone",
+		"name": "Cliff Half Corner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_halfCorner_stone.glb",
+		"footprint": [
+			1.26,
+			1.26
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_rock",
+		"name": "Cliff Half Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_half_rock.glb",
+		"footprint": [
+			3.0,
+			1.26
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_half_stone",
+		"name": "Cliff Half Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_half_stone.glb",
+		"footprint": [
+			3.0,
+			1.26
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_large_rock",
+		"name": "Cliff Large Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_large_rock.glb",
+		"footprint": [
+			3.0,
+			1.26
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_large_stone",
+		"name": "Cliff Large Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_large_stone.glb",
+		"footprint": [
+			3.0,
+			1.26
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_rock",
+		"name": "Cliff Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_rock.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_corner_inner_rock",
+		"name": "Cliff Steps Corner Inner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_stepsCornerInner_rock.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_corner_inner_stone",
+		"name": "Cliff Steps Corner Inner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_stepsCornerInner_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_corner_rock",
+		"name": "Cliff Steps Corner Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_stepsCorner_rock.glb",
+		"footprint": [
+			3.15,
+			3.15
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_corner_stone",
+		"name": "Cliff Steps Corner Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_stepsCorner_stone.glb",
+		"footprint": [
+			3.15,
+			3.15
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_rock",
+		"name": "Cliff Steps Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_steps_rock.glb",
+		"footprint": [
+			3.0,
+			3.15
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_steps_stone",
+		"name": "Cliff Steps Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_steps_stone.glb",
+		"footprint": [
+			3.0,
+			3.15
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_stone",
+		"name": "Cliff Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_stone.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_top_diagonal_rock",
+		"name": "Cliff Top Diagonal Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_topDiagonal_rock.glb",
+		"footprint": [
+			3.81,
+			3.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_top_diagonal_stone",
+		"name": "Cliff Top Diagonal Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_topDiagonal_stone.glb",
+		"footprint": [
+			3.81,
+			3.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_top_rock",
+		"name": "Cliff Top Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_top_rock.glb",
+		"footprint": [
+			3.0,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_top_stone",
+		"name": "Cliff Top Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_top_stone.glb",
+		"footprint": [
+			3.0,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_waterfall_top_rock",
+		"name": "Cliff Waterfall Top Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_waterfallTop_rock.glb",
+		"footprint": [
+			3.0,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_waterfall_top_stone",
+		"name": "Cliff Waterfall Top Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_waterfallTop_stone.glb",
+		"footprint": [
+			3.0,
+			0.81
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_waterfall_rock",
+		"name": "Cliff Waterfall Rock",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_waterfall_rock.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_waterfall_stone",
+		"name": "Cliff Waterfall Stone",
+		"category": "terrain/cliffs",
+		"themes": [
+			"mountain",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/cliff_waterfall_stone.glb",
+		"footprint": [
+			3.0,
+			0.51
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_grass",
+		"name": "Ground Grass",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_grass.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_bend",
+		"name": "Ground Path Bend",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathBend.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_bend_bank",
+		"name": "Ground Path Bend Bank",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathBendBank.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_corner",
+		"name": "Ground Path Corner",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathCorner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_corner_small",
+		"name": "Ground Path Corner Small",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathCornerSmall.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_cross",
+		"name": "Ground Path Cross",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathCross.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_end",
+		"name": "Ground Path End",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathEnd.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_end_closed",
+		"name": "Ground Path End Closed",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathEndClosed.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_open",
+		"name": "Ground Path Open",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathOpen.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_rocks",
+		"name": "Ground Path Rocks",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathRocks.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_side",
+		"name": "Ground Path Side",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathSide.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_side_open",
+		"name": "Ground Path Side Open",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathSideOpen.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_split",
+		"name": "Ground Path Split",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathSplit.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_straight",
+		"name": "Ground Path Straight",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathStraight.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_path_tile",
+		"name": "Ground Path Tile",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/ground_pathTile.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_bend",
+		"name": "Ground River Bend",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverBend.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_bend_bank",
+		"name": "Ground River Bend Bank",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverBendBank.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_corner",
+		"name": "Ground River Corner",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverCorner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_corner_small",
+		"name": "Ground River Corner Small",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverCornerSmall.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_cross",
+		"name": "Ground River Cross",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverCross.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_end",
+		"name": "Ground River End",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverEnd.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_end_closed",
+		"name": "Ground River End Closed",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverEndClosed.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_open",
+		"name": "Ground River Open",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverOpen.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_rocks",
+		"name": "Ground River Rocks",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverRocks.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_side",
+		"name": "Ground River Side",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverSide.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_side_open",
+		"name": "Ground River Side Open",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverSideOpen.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_split",
+		"name": "Ground River Split",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverSplit.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_straight",
+		"name": "Ground River Straight",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverStraight.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "ground_river_tile",
+		"name": "Ground River Tile",
+		"category": "terrain/water",
+		"themes": [
+			"wilderness",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/ground_riverTile.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_stone",
+		"name": "Path Stone",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_stone.glb",
+		"footprint": [
+			3.0,
+			1.73
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_stone_circle",
+		"name": "Path Stone Circle",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_stoneCircle.glb",
+		"footprint": [
+			2.8,
+			2.63
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_stone_corner",
+		"name": "Path Stone Corner",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_stoneCorner.glb",
+		"footprint": [
+			2.21,
+			2.34
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_stone_end",
+		"name": "Path Stone End",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_stoneEnd.glb",
+		"footprint": [
+			1.85,
+			1.71
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_wood",
+		"name": "Path Wood",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_wood.glb",
+		"footprint": [
+			3.0,
+			1.54
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_wood_corner",
+		"name": "Path Wood Corner",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_woodCorner.glb",
+		"footprint": [
+			2.25,
+			2.25
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "path_wood_end",
+		"name": "Path Wood End",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/path_woodEnd.glb",
+		"footprint": [
+			1.84,
+			1.54
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "platform_beach",
+		"name": "Platform Beach",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/platform_beach.glb",
+		"footprint": [
+			2.68,
+			2.17
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "platform_grass",
+		"name": "Platform Grass",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/platform_grass.glb",
+		"footprint": [
+			2.68,
+			2.17
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "platform_stone",
+		"name": "Platform Stone",
+		"category": "terrain/paths",
+		"themes": [
+			"countryside",
+			"wilderness"
+		],
+		"tags": [],
+		"model": "models/platform_stone.glb",
+		"footprint": [
+			2.68,
+			2.17
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

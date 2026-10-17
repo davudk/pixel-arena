@@ -1,0 +1,232 @@
+[
+	{
+		"id": "fence_broken",
+		"name": "Fence Broken",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/fence-broken.glb",
+		"footprint": [
+			0.76,
+			3.0
+		],
+		"height": 1.14,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_curved",
+		"name": "Fence Curved",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/fence-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.14,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_gate",
+		"name": "Fence Gate",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/fence-gate.glb",
+		"footprint": [
+			0.23,
+			3.0
+		],
+		"height": 1.14,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence",
+		"name": "Fence",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/fence.glb",
+		"footprint": [
+			0.23,
+			3.0
+		],
+		"height": 1.14,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge_curved",
+		"name": "Hedge Curved",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge_gate",
+		"name": "Hedge Gate",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge-gate.glb",
+		"footprint": [
+			0.75,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge_large_curved",
+		"name": "Hedge Large Curved",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge-large-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.8,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge_large_gate",
+		"name": "Hedge Large Gate",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge-large-gate.glb",
+		"footprint": [
+			1.2,
+			3.0
+		],
+		"height": 1.8,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge_large",
+		"name": "Hedge Large",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge-large.glb",
+		"footprint": [
+			1.2,
+			3.0
+		],
+		"height": 1.8,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "hedge",
+		"name": "Hedge",
+		"category": "structures/fences",
+		"themes": [
+			"medieval",
+			"town",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/hedge.glb",
+		"footprint": [
+			0.75,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

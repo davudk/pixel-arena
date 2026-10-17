@@ -1,0 +1,630 @@
+[
+	{
+		"id": "bridge_center_stone",
+		"name": "Bridge Center Stone",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_center_stone.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_center_stone_round",
+		"name": "Bridge Center Stone Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_center_stoneRound.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_center_wood",
+		"name": "Bridge Center Wood",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_center_wood.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_center_wood_round",
+		"name": "Bridge Center Wood Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_center_woodRound.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_side_stone",
+		"name": "Bridge Side Stone",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_side_stone.glb",
+		"footprint": [
+			3.06,
+			3.12
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_side_stone_round",
+		"name": "Bridge Side Stone Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_side_stoneRound.glb",
+		"footprint": [
+			3.06,
+			3.12
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_side_wood",
+		"name": "Bridge Side Wood",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_side_wood.glb",
+		"footprint": [
+			3.06,
+			3.12
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_side_wood_round",
+		"name": "Bridge Side Wood Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_side_woodRound.glb",
+		"footprint": [
+			3.06,
+			3.12
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_stone",
+		"name": "Bridge Stone",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_stone.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_stone_narrow",
+		"name": "Bridge Stone Narrow",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_stoneNarrow.glb",
+		"footprint": [
+			3.12,
+			2.52
+		],
+		"height": 1.05,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_stone_round",
+		"name": "Bridge Stone Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_stoneRound.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_stone_round_narrow",
+		"name": "Bridge Stone Round Narrow",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_stoneRoundNarrow.glb",
+		"footprint": [
+			3.12,
+			2.52
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_wood",
+		"name": "Bridge Wood",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_wood.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_wood_narrow",
+		"name": "Bridge Wood Narrow",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_woodNarrow.glb",
+		"footprint": [
+			3.12,
+			2.52
+		],
+		"height": 1.05,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_wood_round",
+		"name": "Bridge Wood Round",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_woodRound.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_wood_round_narrow",
+		"name": "Bridge Wood Round Narrow",
+		"category": "structures/bridges",
+		"themes": [
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/bridge_woodRoundNarrow.glb",
+		"footprint": [
+			3.12,
+			2.52
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_bend",
+		"name": "Fence Bend",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_bend.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_bend_center",
+		"name": "Fence Bend Center",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_bendCenter.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_corner",
+		"name": "Fence Corner",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_corner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_gate",
+		"name": "Fence Gate",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_gate.glb",
+		"footprint": [
+			3.0,
+			0.21
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_planks",
+		"name": "Fence Planks",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_planks.glb",
+		"footprint": [
+			3.0,
+			0.29
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_planks_double",
+		"name": "Fence Planks Double",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_planksDouble.glb",
+		"footprint": [
+			3.0,
+			0.18
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple",
+		"name": "Fence Simple",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simple.glb",
+		"footprint": [
+			3.0,
+			0.21
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple_center",
+		"name": "Fence Simple Center",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simpleCenter.glb",
+		"footprint": [
+			3.0,
+			0.21
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple_diagonal",
+		"name": "Fence Simple Diagonal",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simpleDiagonal.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple_diagonal_center",
+		"name": "Fence Simple Diagonal Center",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simpleDiagonalCenter.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple_high",
+		"name": "Fence Simple High",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simpleHigh.glb",
+		"footprint": [
+			3.12,
+			0.33
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_simple_low",
+		"name": "Fence Simple Low",
+		"category": "structures/fences",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/fence_simpleLow.glb",
+		"footprint": [
+			3.12,
+			0.33
+		],
+		"height": 0.59,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

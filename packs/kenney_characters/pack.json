@@ -1,0 +1,12 @@
+{
+	"id": "kenney_characters",
+	"name": "Mini Characters",
+	"version": "1.0",
+	"scale": 3.0,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/mini-characters",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

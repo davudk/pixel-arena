@@ -1,0 +1,15 @@
+{
+	"id": "kenney_nature",
+	"name": "Nature Kit",
+	"version": "2.1",
+	"scale": 3.0,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/nature-kit",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	},
+	"materials": {
+		"metallic": 0.0
+	}
+}

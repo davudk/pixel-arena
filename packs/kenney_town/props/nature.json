@@ -1,0 +1,175 @@
+[
+	{
+		"id": "rock_large",
+		"name": "Rock Large",
+		"category": "nature/rocks",
+		"themes": [
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/rock-large.glb",
+		"footprint": [
+			5.01,
+			4.65
+		],
+		"height": 3.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_small",
+		"name": "Rock Small",
+		"category": "nature/rocks",
+		"themes": [
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/rock-small.glb",
+		"footprint": [
+			2.99,
+			3.98
+		],
+		"height": 3.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rock_wide",
+		"name": "Rock Wide",
+		"category": "nature/rocks",
+		"themes": [
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/rock-wide.glb",
+		"footprint": [
+			3.28,
+			4.7
+		],
+		"height": 3.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_crooked",
+		"name": "Tree Crooked",
+		"category": "nature/trees",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-crooked.glb",
+		"footprint": [
+			3.07,
+			3.07
+		],
+		"height": 7.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_high_crooked",
+		"name": "Tree High Crooked",
+		"category": "nature/trees",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-high-crooked.glb",
+		"footprint": [
+			3.07,
+			3.07
+		],
+		"height": 8.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_high_round",
+		"name": "Tree High Round",
+		"category": "nature/trees",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-high-round.glb",
+		"footprint": [
+			3.06,
+			3.06
+		],
+		"height": 8.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_high",
+		"name": "Tree High",
+		"category": "nature/trees",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-high.glb",
+		"footprint": [
+			3.07,
+			3.07
+		],
+		"height": 8.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree",
+		"name": "Tree",
+		"category": "nature/trees",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree.glb",
+		"footprint": [
+			3.07,
+			3.07
+		],
+		"height": 7.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

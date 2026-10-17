@@ -1,0 +1,2782 @@
+[
+	{
+		"id": "balcony_wall_fence",
+		"name": "Balcony Wall Fence",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/balcony-wall-fence.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "balcony_wall",
+		"name": "Balcony Wall",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/balcony-wall.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "blade",
+		"name": "Blade",
+		"category": "buildings/mills",
+		"themes": [
+			"medieval",
+			"countryside",
+			"farm"
+		],
+		"tags": [],
+		"model": "models/blade.glb",
+		"footprint": [
+			0.33,
+			1.29
+		],
+		"height": 6.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chimney_base",
+		"name": "Chimney Base",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/chimney-base.glb",
+		"footprint": [
+			1.03,
+			1.56
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "chimney_top",
+		"name": "Chimney Top",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/chimney-top.glb",
+		"footprint": [
+			0.76,
+			1.02
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "chimney",
+		"name": "Chimney",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/chimney.glb",
+		"footprint": [
+			0.64,
+			1.02
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "overhang",
+		"name": "Overhang",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/overhang.glb",
+		"footprint": [
+			0.85,
+			3.0
+		],
+		"height": 0.99,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "pillar_stone",
+		"name": "Pillar Stone",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/pillar-stone.glb",
+		"footprint": [
+			0.48,
+			0.48
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "pillar_wood",
+		"name": "Pillar Wood",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/pillar-wood.glb",
+		"footprint": [
+			0.48,
+			0.48
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "planks_half",
+		"name": "Planks Half",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/planks-half.glb",
+		"footprint": [
+			1.5,
+			3.0
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "planks_opening",
+		"name": "Planks Opening",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/planks-opening.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "planks",
+		"name": "Planks",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/planks.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "poles_horizontal",
+		"name": "Poles Horizontal",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/poles-horizontal.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "poles",
+		"name": "Poles",
+		"category": "buildings/parts",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/poles.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_corner_inner",
+		"name": "Roof Corner Inner",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-corner-inner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_corner_round",
+		"name": "Roof Corner Round",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-corner-round.glb",
+		"footprint": [
+			3.2,
+			3.2
+		],
+		"height": 1.94,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_corner",
+		"name": "Roof Corner",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-corner.glb",
+		"footprint": [
+			3.2,
+			3.2
+		],
+		"height": 1.94,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat",
+		"name": "Roof Flat",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable_detail",
+		"name": "Roof Gable Detail",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable-detail.glb",
+		"footprint": [
+			3.3,
+			3.64
+		],
+		"height": 2.03,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable_end",
+		"name": "Roof Gable End",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable-end.glb",
+		"footprint": [
+			3.26,
+			3.21
+		],
+		"height": 1.71,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable_top",
+		"name": "Roof Gable Top",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable-top.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.13,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable",
+		"name": "Roof Gable",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable.glb",
+		"footprint": [
+			3.3,
+			3.21
+		],
+		"height": 1.71,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_corner_round",
+		"name": "Roof High Corner Round",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-corner-round.glb",
+		"footprint": [
+			3.21,
+			3.21
+		],
+		"height": 3.53,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_corner",
+		"name": "Roof High Corner",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-corner.glb",
+		"footprint": [
+			3.21,
+			3.21
+		],
+		"height": 3.53,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_cornerinner",
+		"name": "Roof High Cornerinner",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-cornerinner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.42,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_flat",
+		"name": "Roof High Flat",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-flat.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_gable_detail",
+		"name": "Roof High Gable Detail",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-gable-detail.glb",
+		"footprint": [
+			3.3,
+			3.8
+		],
+		"height": 3.94,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_gable_end",
+		"name": "Roof High Gable End",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-gable-end.glb",
+		"footprint": [
+			3.35,
+			3.4
+		],
+		"height": 3.47,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_gable_top",
+		"name": "Roof High Gable Top",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-gable-top.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.92,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_gable",
+		"name": "Roof High Gable",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-gable.glb",
+		"footprint": [
+			3.3,
+			3.4
+		],
+		"height": 3.47,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_left",
+		"name": "Roof High Left",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-left.glb",
+		"footprint": [
+			3.42,
+			3.0
+		],
+		"height": 3.78,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_point",
+		"name": "Roof High Point",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-point.glb",
+		"footprint": [
+			3.3,
+			3.3
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_right",
+		"name": "Roof High Right",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-right.glb",
+		"footprint": [
+			3.42,
+			3.0
+		],
+		"height": 3.78,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high_window",
+		"name": "Roof High Window",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high-window.glb",
+		"footprint": [
+			3.21,
+			3.0
+		],
+		"height": 3.53,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_high",
+		"name": "Roof High",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-high.glb",
+		"footprint": [
+			3.21,
+			3.0
+		],
+		"height": 3.53,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_left",
+		"name": "Roof Left",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-left.glb",
+		"footprint": [
+			3.4,
+			3.0
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_point",
+		"name": "Roof Point",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-point.glb",
+		"footprint": [
+			3.3,
+			3.3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_right",
+		"name": "Roof Right",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-right.glb",
+		"footprint": [
+			3.4,
+			3.0
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_window",
+		"name": "Roof Window",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-window.glb",
+		"footprint": [
+			3.2,
+			3.0
+		],
+		"height": 1.94,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof",
+		"name": "Roof",
+		"category": "buildings/roofs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof.glb",
+		"footprint": [
+			3.2,
+			3.0
+		],
+		"height": 1.94,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_full_corner_inner",
+		"name": "Stairs Full Corner Inner",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-full-corner-inner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_full_corner_outer",
+		"name": "Stairs Full Corner Outer",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-full-corner-outer.glb",
+		"footprint": [
+			3.06,
+			3.06
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_full",
+		"name": "Stairs Full",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-full.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_stone_corner",
+		"name": "Stairs Stone Corner",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-stone-corner.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_stone_handrail",
+		"name": "Stairs Stone Handrail",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-stone-handrail.glb",
+		"footprint": [
+			3.06,
+			1.5
+		],
+		"height": 4.34,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_stone_round",
+		"name": "Stairs Stone Round",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-stone-round.glb",
+		"footprint": [
+			2.59,
+			1.48
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_stone",
+		"name": "Stairs Stone",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-stone.glb",
+		"footprint": [
+			3.06,
+			1.5
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wide_stone_handrail",
+		"name": "Stairs Wide Stone Handrail",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wide-stone-handrail.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 4.34,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wide_stone",
+		"name": "Stairs Wide Stone",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wide-stone.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wide_wood_handrail",
+		"name": "Stairs Wide Wood Handrail",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wide-wood-handrail.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 4.34,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wide_wood",
+		"name": "Stairs Wide Wood",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wide-wood.glb",
+		"footprint": [
+			3.06,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wood_handrail",
+		"name": "Stairs Wood Handrail",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wood-handrail.glb",
+		"footprint": [
+			3.06,
+			1.5
+		],
+		"height": 4.34,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_wood",
+		"name": "Stairs Wood",
+		"category": "buildings/stairs",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/stairs-wood.glb",
+		"footprint": [
+			3.06,
+			1.5
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_arch_top_detail",
+		"name": "Wall Arch Top Detail",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-arch-top-detail.glb",
+		"footprint": [
+			0.48,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_arch_top",
+		"name": "Wall Arch Top",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-arch-top.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_arch",
+		"name": "Wall Arch",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-arch.glb",
+		"footprint": [
+			0.3,
+			0.9
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_block_half",
+		"name": "Wall Block Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-block-half.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_block",
+		"name": "Wall Block",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-block.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_broken",
+		"name": "Wall Broken",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-broken.glb",
+		"footprint": [
+			0.35,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_detail",
+		"name": "Wall Corner Detail",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-corner-detail.glb",
+		"footprint": [
+			0.48,
+			0.48
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_diagonal_half",
+		"name": "Wall Corner Diagonal Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-corner-diagonal-half.glb",
+		"footprint": [
+			1.65,
+			2.93
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_diagonal",
+		"name": "Wall Corner Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-corner-diagonal.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_edge",
+		"name": "Wall Corner Edge",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-corner-edge.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner",
+		"name": "Wall Corner",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-corner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_curved",
+		"name": "Wall Curved",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_detail_cross",
+		"name": "Wall Detail Cross",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-detail-cross.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_detail_diagonal",
+		"name": "Wall Detail Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-detail-diagonal.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_detail_horizontal",
+		"name": "Wall Detail Horizontal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-detail-horizontal.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_diagonal",
+		"name": "Wall Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-diagonal.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_door",
+		"name": "Wall Door",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-door.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_base",
+		"name": "Wall Doorway Base",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-doorway-base.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_round",
+		"name": "Wall Doorway Round",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-doorway-round.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_square_wide_curved",
+		"name": "Wall Doorway Square Wide Curved",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-doorway-square-wide-curved.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_square_wide",
+		"name": "Wall Doorway Square Wide",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-doorway-square-wide.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_square",
+		"name": "Wall Doorway Square",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-doorway-square.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_half",
+		"name": "Wall Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-half.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_rounded",
+		"name": "Wall Rounded",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-rounded.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_side",
+		"name": "Wall Side",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-side.glb",
+		"footprint": [
+			0.3,
+			0.78
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_slope",
+		"name": "Wall Slope",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-slope.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_glass",
+		"name": "Wall Window Glass",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-window-glass.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_round",
+		"name": "Wall Window Round",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-window-round.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_shutters",
+		"name": "Wall Window Shutters",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-window-shutters.glb",
+		"footprint": [
+			0.53,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_small",
+		"name": "Wall Window Small",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-window-small.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_stone",
+		"name": "Wall Window Stone",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall-window-stone.glb",
+		"footprint": [
+			0.45,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_arch_top_detail",
+		"name": "Wall Wood Arch Top Detail",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-arch-top-detail.glb",
+		"footprint": [
+			0.48,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_arch_top",
+		"name": "Wall Wood Arch Top",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-arch-top.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_arch",
+		"name": "Wall Wood Arch",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-arch.glb",
+		"footprint": [
+			0.3,
+			0.9
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_block_half",
+		"name": "Wall Wood Block Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-block-half.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_block",
+		"name": "Wall Wood Block",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-block.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_broken",
+		"name": "Wall Wood Broken",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-broken.glb",
+		"footprint": [
+			0.34,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_corner_diagonal_half",
+		"name": "Wall Wood Corner Diagonal Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-corner-diagonal-half.glb",
+		"footprint": [
+			1.65,
+			2.93
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_corner_diagonal",
+		"name": "Wall Wood Corner Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-corner-diagonal.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_corner_edge",
+		"name": "Wall Wood Corner Edge",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-corner-edge.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_corner",
+		"name": "Wall Wood Corner",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-corner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_curved",
+		"name": "Wall Wood Curved",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-curved.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_detail_cross",
+		"name": "Wall Wood Detail Cross",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-detail-cross.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_detail_diagonal",
+		"name": "Wall Wood Detail Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-detail-diagonal.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_detail_horizontal",
+		"name": "Wall Wood Detail Horizontal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-detail-horizontal.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_diagonal",
+		"name": "Wall Wood Diagonal",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-diagonal.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_door",
+		"name": "Wall Wood Door",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-door.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_doorway_base",
+		"name": "Wall Wood Doorway Base",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-doorway-base.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_doorway_round",
+		"name": "Wall Wood Doorway Round",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-doorway-round.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_doorway_square_wide_curved",
+		"name": "Wall Wood Doorway Square Wide Curved",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-doorway-square-wide-curved.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_doorway_square_wide",
+		"name": "Wall Wood Doorway Square Wide",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-doorway-square-wide.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_doorway_square",
+		"name": "Wall Wood Doorway Square",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-doorway-square.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_half",
+		"name": "Wall Wood Half",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-half.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_rounded",
+		"name": "Wall Wood Rounded",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-rounded.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_side",
+		"name": "Wall Wood Side",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-side.glb",
+		"footprint": [
+			0.3,
+			0.78
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_slope",
+		"name": "Wall Wood Slope",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-slope.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_window_glass",
+		"name": "Wall Wood Window Glass",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-window-glass.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_window_round",
+		"name": "Wall Wood Window Round",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-window-round.glb",
+		"footprint": [
+			0.6,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_window_shutters",
+		"name": "Wall Wood Window Shutters",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-window-shutters.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_window_small",
+		"name": "Wall Wood Window Small",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-window-small.glb",
+		"footprint": [
+			0.6,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood_window_stone",
+		"name": "Wall Wood Window Stone",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood-window-stone.glb",
+		"footprint": [
+			0.45,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_wood",
+		"name": "Wall Wood",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [
+			"wood"
+		],
+		"model": "models/wall-wood.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall",
+		"name": "Wall",
+		"category": "buildings/walls",
+		"themes": [
+			"medieval",
+			"town",
+			"castle"
+		],
+		"tags": [
+			"stone"
+		],
+		"model": "models/wall.glb",
+		"footprint": [
+			0.3,
+			3.0
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "watermill_wide",
+		"name": "Watermill Wide",
+		"category": "buildings/mills",
+		"themes": [
+			"medieval",
+			"countryside",
+			"farm"
+		],
+		"tags": [],
+		"model": "models/watermill-wide.glb",
+		"footprint": [
+			3.15,
+			5.4
+		],
+		"height": 5.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "watermill",
+		"name": "Watermill",
+		"category": "buildings/mills",
+		"themes": [
+			"medieval",
+			"countryside",
+			"farm"
+		],
+		"tags": [],
+		"model": "models/watermill.glb",
+		"footprint": [
+			2.55,
+			5.4
+		],
+		"height": 5.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "windmill",
+		"name": "Windmill",
+		"category": "buildings/mills",
+		"themes": [
+			"medieval",
+			"countryside",
+			"farm"
+		],
+		"tags": [],
+		"model": "models/windmill.glb",
+		"footprint": [
+			1.41,
+			9.34
+		],
+		"height": 9.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

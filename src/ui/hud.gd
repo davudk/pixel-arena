@@ -9,6 +9,7 @@ const OVERRIDE_COLOR := Color(1.0, 0.85, 0.4)
 
 var settings: ViewSettings
 var info: Label
+var _box: Panel
 
 var _fields := {}  # settings key -> {control, label, kind}
 
@@ -19,15 +20,14 @@ func _init() -> void:
 	set_anchors_preset(PRESET_FULL_RECT)
 
 	info = Label.new()
-	info.position = Vector2(12, 8)
+	info.position = Vector2(PropBrowser.WIDTH + 28, 8)
 	info.add_theme_color_override("font_outline_color", Color.BLACK)
 	info.add_theme_constant_override("outline_size", 4)
 	add_child(info)
 
 	var hints := Label.new()
-	hints.text = "MMB / Space+drag: pan   RMB / Alt+drag: orbit   Wheel / pinch: zoom   WASD: move   Q/E: rotate\n" \
-		+ "1 top-down  2 isometric  3 three-quarter   P perspective   G grid   " \
-		+ "LMB: place test box (until M3)   Shift+LMB: remove   Cmd+Z / Cmd+Shift+Z   Cmd+S / Cmd+O / Cmd+N"
+	hints.text = "Camera: MMB / Space+drag pan · RMB / Alt+drag orbit · wheel / pinch zoom · WASD move · Q/E turn · 1/2/3 views · P perspective · G grid\n" \
+		+ "Edit: click select · Shift+click add · drag box · drag to move (Cmd = no snap) · R rotate · Del delete · Cmd+D duplicate · Cmd+C/V · I pick prop · F focus · Esc · Cmd+Z / Cmd+Shift+Z · Cmd+S/O/N"
 	hints.anchor_top = 1.0
 	hints.anchor_bottom = 1.0
 	hints.anchor_right = 1.0
@@ -42,6 +42,23 @@ func _init() -> void:
 	add_child(hints)
 
 	_build_panel()
+
+	_box = Panel.new()
+	_box.mouse_filter = MOUSE_FILTER_IGNORE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1.0, 0.8, 0.3, 0.12)
+	style.border_color = Color(1.0, 0.8, 0.3, 0.9)
+	style.set_border_width_all(1)
+	_box.add_theme_stylebox_override("panel", style)
+	_box.visible = false
+	add_child(_box)
+
+
+## Shows the box-select rectangle (an empty rect hides it).
+func set_box(rect: Rect2) -> void:
+	_box.visible = rect.has_area()
+	_box.position = rect.position
+	_box.size = rect.size
 
 
 func setup(p_settings: ViewSettings) -> void:

@@ -1,0 +1,200 @@
+[
+	{
+		"id": "road_bend",
+		"name": "Road Bend",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-bend.glb",
+		"footprint": [
+			9.0,
+			9.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_corner_inner",
+		"name": "Road Corner Inner",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-corner-inner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_corner",
+		"name": "Road Corner",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-corner.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curb_end",
+		"name": "Road Curb End",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-curb-end.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curb",
+		"name": "Road Curb",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-curb.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_edge_slope",
+		"name": "Road Edge Slope",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-edge-slope.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_edge",
+		"name": "Road Edge",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-edge.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slope",
+		"name": "Road Slope",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-slope.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.67,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road",
+		"name": "Road",
+		"category": "terrain/roads",
+		"themes": [
+			"medieval",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 0.08,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

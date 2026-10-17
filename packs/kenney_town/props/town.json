@@ -1,0 +1,260 @@
+[
+	{
+		"id": "banner_green",
+		"name": "Banner Green",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/banner-green.glb",
+		"footprint": [
+			0.15,
+			1.5
+		],
+		"height": 2.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "banner_red",
+		"name": "Banner Red",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/banner-red.glb",
+		"footprint": [
+			0.15,
+			1.5
+		],
+		"height": 2.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cart_high",
+		"name": "Cart High",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/cart-high.glb",
+		"footprint": [
+			2.68,
+			4.17
+		],
+		"height": 2.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cart",
+		"name": "Cart",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/cart.glb",
+		"footprint": [
+			2.68,
+			4.02
+		],
+		"height": 1.61,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lantern",
+		"name": "Lantern",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/lantern.glb",
+		"footprint": [
+			0.65,
+			0.67
+		],
+		"height": 4.67,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		},
+		"light": {
+			"color": "#ffd27a",
+			"energy": 1.2,
+			"range": 5.0
+		}
+	},
+	{
+		"id": "stall_bench",
+		"name": "Stall Bench",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/stall-bench.glb",
+		"footprint": [
+			0.78,
+			2.82
+		],
+		"height": 0.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stall_green",
+		"name": "Stall Green",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/stall-green.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stall_red",
+		"name": "Stall Red",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/stall-red.glb",
+		"footprint": [
+			3.0,
+			3.0
+		],
+		"height": 3.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stall_stool",
+		"name": "Stall Stool",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/stall-stool.glb",
+		"footprint": [
+			0.78,
+			0.78
+		],
+		"height": 0.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stall",
+		"name": "Stall",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/stall.glb",
+		"footprint": [
+			1.95,
+			3.0
+		],
+		"height": 1.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wheel",
+		"name": "Wheel",
+		"category": "town/market",
+		"themes": [
+			"medieval",
+			"town",
+			"market"
+		],
+		"tags": [],
+		"model": "models/wheel.glb",
+		"footprint": [
+			0.72,
+			1.4
+		],
+		"height": 1.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	}
+]

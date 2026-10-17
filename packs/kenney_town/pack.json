@@ -1,0 +1,12 @@
+{
+	"id": "kenney_town",
+	"name": "Fantasy Town Kit",
+	"version": "2.0",
+	"scale": 3.0,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/fantasy-town-kit",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

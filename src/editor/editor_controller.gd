@@ -2,6 +2,7 @@ class_name EditorController
 extends Node
 ## Turns input into camera movement and editor commands. Mouse: MMB pans, RMB orbits, wheel
 ## zooms at the cursor. Trackpad: two-finger scroll pans, pinch zooms, Space/Alt + drag pans/orbits.
+## Everything else on the left button, plus unhandled keys, goes to the active EditorTool.
 
 enum Drag { NONE, PAN, ORBIT }
 
@@ -14,6 +15,7 @@ var rig: CameraRig
 
 var _drag := Drag.NONE
 var _last_mouse := Vector2.ZERO
+var _tool_pressed := false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -47,6 +49,9 @@ func _process(delta: float) -> void:
 func _mouse_button(event: InputEventMouseButton) -> void:
 	_last_mouse = event.position
 	if not event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT and _tool_pressed:
+			_tool_pressed = false
+			main.tool.on_release(event.position, event)
 		_drag = Drag.NONE
 		return
 	get_viewport().gui_release_focus()
@@ -64,10 +69,9 @@ func _mouse_button(event: InputEventMouseButton) -> void:
 				_drag = Drag.PAN
 			elif event.alt_pressed:
 				_drag = Drag.ORBIT
-			elif event.shift_pressed:
-				main.remove_test_box(event.position)
 			else:
-				main.place_test_box(event.position)
+				_tool_pressed = true
+				main.tool.on_press(event.position, event)
 
 
 func _mouse_motion(event: InputEventMouseMotion) -> void:
@@ -78,9 +82,15 @@ func _mouse_motion(event: InputEventMouseMotion) -> void:
 			rig.orbit(-event.relative.x * ORBIT_SPEED.x, -event.relative.y * ORBIT_SPEED.y)
 	_last_mouse = event.position
 	main.cursor_screen = event.position
+	if _drag == Drag.NONE:
+		main.tool.on_motion(event.position)
 
 
 func _key(event: InputEventKey) -> void:
+	var app_shortcut := event.keycode in [KEY_Z, KEY_Y, KEY_S, KEY_O, KEY_N]
+	if not (event.is_command_or_control_pressed() and app_shortcut) and main.tool.on_key(event):
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_command_or_control_pressed():
 		match event.keycode:
 			KEY_Z:

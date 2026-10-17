@@ -1,0 +1,485 @@
+[
+	{
+		"id": "crop_carrot",
+		"name": "Crop Carrot",
+		"category": "farming/crops",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crop_carrot.glb",
+		"footprint": [
+			1.03,
+			1.03
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crop_melon",
+		"name": "Crop Melon",
+		"category": "farming/crops",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crop_melon.glb",
+		"footprint": [
+			1.25,
+			1.08
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crop_pumpkin",
+		"name": "Crop Pumpkin",
+		"category": "farming/crops",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crop_pumpkin.glb",
+		"footprint": [
+			1.32,
+			1.36
+		],
+		"height": 1.0,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crop_turnip",
+		"name": "Crop Turnip",
+		"category": "farming/crops",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crop_turnip.glb",
+		"footprint": [
+			1.03,
+			1.03
+		],
+		"height": 1.98,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "surface",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crops_bamboo_stage_a",
+		"name": "Crops Bamboo Stage A",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_bambooStageA.glb",
+		"footprint": [
+			1.02,
+			0.92
+		],
+		"height": 1.65,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_bamboo_stage_b",
+		"name": "Crops Bamboo Stage B",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_bambooStageB.glb",
+		"footprint": [
+			1.02,
+			0.92
+		],
+		"height": 2.67,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_corn_stage_a",
+		"name": "Crops Corn Stage A",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_cornStageA.glb",
+		"footprint": [
+			0.91,
+			0.91
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_corn_stage_b",
+		"name": "Crops Corn Stage B",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_cornStageB.glb",
+		"footprint": [
+			0.91,
+			0.91
+		],
+		"height": 3.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_corn_stage_c",
+		"name": "Crops Corn Stage C",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_cornStageC.glb",
+		"footprint": [
+			0.91,
+			0.91
+		],
+		"height": 3.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_corn_stage_d",
+		"name": "Crops Corn Stage D",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_cornStageD.glb",
+		"footprint": [
+			1.32,
+			1.32
+		],
+		"height": 3.75,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_double_row",
+		"name": "Crops Dirt Double Row",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtDoubleRow.glb",
+		"footprint": [
+			3.0,
+			2.81
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_double_row_corner",
+		"name": "Crops Dirt Double Row Corner",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtDoubleRowCorner.glb",
+		"footprint": [
+			2.81,
+			2.81
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_double_row_end",
+		"name": "Crops Dirt Double Row End",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtDoubleRowEnd.glb",
+		"footprint": [
+			1.8,
+			2.81
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_row",
+		"name": "Crops Dirt Row",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtRow.glb",
+		"footprint": [
+			3.0,
+			1.86
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_row_corner",
+		"name": "Crops Dirt Row Corner",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtRowCorner.glb",
+		"footprint": [
+			2.34,
+			2.34
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_row_end",
+		"name": "Crops Dirt Row End",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtRowEnd.glb",
+		"footprint": [
+			1.8,
+			1.86
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_dirt_single",
+		"name": "Crops Dirt Single",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_dirtSingle.glb",
+		"footprint": [
+			1.2,
+			1.04
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_leafs_stage_a",
+		"name": "Crops Leafs Stage A",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_leafsStageA.glb",
+		"footprint": [
+			1.17,
+			1.17
+		],
+		"height": 1.28,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_leafs_stage_b",
+		"name": "Crops Leafs Stage B",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_leafsStageB.glb",
+		"footprint": [
+			1.17,
+			1.17
+		],
+		"height": 2.03,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_wheat_stage_a",
+		"name": "Crops Wheat Stage A",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_wheatStageA.glb",
+		"footprint": [
+			1.62,
+			1.34
+		],
+		"height": 1.0,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "crops_wheat_stage_b",
+		"name": "Crops Wheat Stage B",
+		"category": "farming/fields",
+		"themes": [
+			"farm",
+			"countryside",
+			"medieval"
+		],
+		"tags": [],
+		"model": "models/crops_wheatStageB.glb",
+		"footprint": [
+			1.62,
+			1.34
+		],
+		"height": 1.6,
+		"placement": {
+			"mode": "grid",
+			"step": 3.0,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

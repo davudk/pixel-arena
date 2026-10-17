@@ -1,10 +1,19 @@
 class_name ObjectVisuals
 extends RefCounted
-## Builds the scene node for a map object. Until the prop library lands (M3) every prop is a
-## placeholder box tinted by its prop id; missing props will keep using this placeholder.
+## Builds the scene node for a map object: the prop's model from the library, a pick body that
+## shares the model's collision shape, and its light. Props from missing packs render as a
+## placeholder box, so maps that use them still open and keep their data.
 
+## Physics layer of map object pick bodies.
+const PICK_LAYER := 1 << 1
+const HIGHLIGHT_SHADER := preload("res://src/world/shaders/highlight.gdshader")
+
+static var library: PropLibrary
+static var models := ModelCache.new()
 static var _box: BoxMesh
+static var _box_shape: BoxShape3D
 static var _materials: Dictionary[int, StandardMaterial3D] = {}
+static var _highlight: ShaderMaterial
 
 
 static func renders(obj: MapObject) -> bool:
@@ -16,11 +25,93 @@ static func visual_key(obj: MapObject) -> String:
 	return "%s|%s" % [obj.get_prop("prop", ""), obj.get_prop("variant", "")]
 
 
+static func prop_of(obj: MapObject) -> PropDef:
+	return library.get_prop(obj.get_prop("prop", "")) if library != null else null
+
+
 static func build(obj: MapObject) -> Node3D:
-	return placeholder(obj.get_prop("prop", ""))
+	var root := Node3D.new()
+	root.set_meta("object_id", obj.id)
+	var prop := prop_of(obj)
+	var entry := models.get_prop_entry(prop) if prop != null else null
+	if entry == null:
+		_add_placeholder(root, obj.get_prop("prop", ""))
+		_add_body(root, obj.id, _placeholder_shape(), Vector3(0, 0.45, 0), 1.0)
+		return root
+	var model := entry.scene.instantiate() as Node3D
+	model.scale = Vector3.ONE * prop.scale
+	root.add_child(model)
+	_add_body(root, obj.id, entry.shape, Vector3.ZERO, prop.scale)
+	_add_light(root, prop)
+	_autoplay(model, prop, float(obj.get_prop("anim_offset", 0.0)))
+	return root
 
 
-static func placeholder(prop_id: String) -> Node3D:
+## A see-through copy of a prop's model for placement previews (no pick body).
+static func build_ghost(prop: PropDef) -> Node3D:
+	var root := Node3D.new()
+	var entry := models.get_prop_entry(prop)
+	if entry == null:
+		_add_placeholder(root, prop.id)
+	else:
+		var model := entry.scene.instantiate() as Node3D
+		model.scale = Vector3.ONE * prop.scale
+		root.add_child(model)
+		_autoplay(model, prop, 0.0)
+	for g: GeometryInstance3D in root.find_children("*", "GeometryInstance3D", true, false):
+		g.transparency = 0.35
+		g.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return root
+
+
+static func set_highlighted(node: Node3D, on: bool) -> void:
+	if _highlight == null:
+		_highlight = ShaderMaterial.new()
+		_highlight.shader = HIGHLIGHT_SHADER
+	for g: GeometryInstance3D in node.find_children("*", "GeometryInstance3D", true, false):
+		g.material_overlay = _highlight if on else null
+
+
+static func _add_body(root: Node3D, id: String, shape: Shape3D, offset: Vector3, scale: float) -> void:
+	var body := StaticBody3D.new()
+	body.name = "PickBody"
+	body.collision_layer = PICK_LAYER
+	body.collision_mask = 0
+	body.set_meta("object_id", id)
+	var cs := CollisionShape3D.new()
+	cs.shape = shape
+	cs.position = offset
+	cs.scale = Vector3.ONE * scale
+	body.add_child(cs)
+	root.add_child(body)
+
+
+static func _add_light(root: Node3D, prop: PropDef) -> void:
+	if prop.light.is_empty():
+		return
+	var light := OmniLight3D.new()
+	light.light_color = Color(prop.light.get("color", "#ffffff"))
+	light.light_energy = float(prop.light.get("energy", 1.0))
+	light.omni_range = float(prop.light.get("range", 5.0))
+	light.position.y = minf(prop.height * 0.5, 1.0)
+	root.add_child(light)
+
+
+static func _autoplay(model: Node, prop: PropDef, offset: float) -> void:
+	if prop.autoplay == "":
+		return
+	var players := model.find_children("*", "AnimationPlayer", true, false)
+	if players.is_empty():
+		return
+	var ap: AnimationPlayer = players[0]
+	if not ap.has_animation(prop.autoplay):
+		return
+	ap.get_animation(prop.autoplay).loop_mode = Animation.LOOP_LINEAR
+	ap.play(prop.autoplay)
+	ap.seek(fposmod(offset, 1.0) * ap.current_animation_length, true)
+
+
+static func _add_placeholder(root: Node3D, prop_id: String) -> void:
 	if _box == null:
 		_box = BoxMesh.new()
 		_box.size = Vector3(0.9, 0.9, 0.9)
@@ -30,10 +121,15 @@ static func placeholder(prop_id: String) -> Node3D:
 		m.albedo_color = Color.from_hsv(hue / 12.0, 0.55, 0.85)
 		m.roughness = 1.0
 		_materials[hue] = m
-	var root := Node3D.new()
 	var mesh := MeshInstance3D.new()
 	mesh.mesh = _box
 	mesh.material_override = _materials[hue]
 	mesh.position.y = 0.45
 	root.add_child(mesh)
-	return root
+
+
+static func _placeholder_shape() -> BoxShape3D:
+	if _box_shape == null:
+		_box_shape = BoxShape3D.new()
+		_box_shape.size = Vector3(0.9, 0.9, 0.9)
+	return _box_shape
