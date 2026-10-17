@@ -3,6 +3,8 @@
 Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`.
 
 ## Commands
+- Run the app: double-click `Run Pixel Arena.command` (or `./Run\ Pixel\ Arena.command --editor`).
+  App flags after `--`: `--demo`, `--screenshot=<png>`, `--view=<key>=<value>`.
 - Import / refresh class cache (needed after adding a `class_name`):
   `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --import`
 - Run tests: `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd`

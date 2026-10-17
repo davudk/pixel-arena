@@ -341,6 +341,12 @@ docs/
     several chunks is one conflict and its copies can't diverge.
   - Branch switching replays history from the root. Periodic snapshot caching is deferred
     until histories get long enough to need it.
+- **M2 done** — PixelView (low-res SubViewport, nearest upscale, sub-texel offset for smooth
+  texel-snapped panning, color quantization + Bayer dither), CameraRig (ortho/perspective,
+  orbit, zoom-at-cursor, presets, trackpad gestures), Ground grid shader, DayCycle, sparse
+  WorldView with placeholder boxes, layered ViewSettings (player override → map default →
+  built-in) with HUD panel, save/open/new, undo/redo shortcuts. Left-click placement of test
+  boxes is temporary until M3.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.
