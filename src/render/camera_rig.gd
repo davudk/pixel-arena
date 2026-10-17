@@ -21,6 +21,8 @@ enum Preset { TOP_DOWN, ISOMETRIC, THREE_QUARTER }
 
 var pixel_view: PixelView
 var camera: Camera3D
+## (origin, direction) -> Vector3 hit or null. Defaults to the y = 0 plane.
+var ground_hit: Callable
 var orthographic := true
 
 var focus := Vector3.ZERO
@@ -113,13 +115,19 @@ func set_orthographic(value: bool) -> void:
 ## World-space ray (origin, direction) through a screen position.
 func screen_ray(screen_pos: Vector2) -> Array[Vector3]:
 	var vp := pixel_view.to_viewport(screen_pos)
-	return [camera.project_ray_origin(vp), camera.project_ray_normal(vp)]
+	var origin := camera.project_ray_origin(vp)
+	var dir := camera.project_ray_normal(vp)
+	if orthographic:
+		# Ortho rays are parallel: start well behind the near plane so terrain above it still hits.
+		origin -= dir * 2000.0
+	return [origin, dir]
 
 
-## Where the ray through `screen_pos` hits the ground plane (y = 0), or null.
-## Terrain-aware picking replaces this in M4.
+## Where the ray through `screen_pos` hits the ground (terrain), or null.
 func ground_point(screen_pos: Vector2) -> Variant:
 	var ray := screen_ray(screen_pos)
+	if ground_hit.is_valid():
+		return ground_hit.call(ray[0], ray[1])
 	return Plane(Vector3.UP, 0.0).intersects_ray(ray[0], ray[1])
 
 

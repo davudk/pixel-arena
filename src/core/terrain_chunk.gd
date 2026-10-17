@@ -13,6 +13,9 @@ const MATERIAL := "material"
 var coord: Vector2i
 var heights := PackedFloat32Array()
 var materials := PackedByteArray()
+## Height range of this chunk, kept current by write().
+var min_height := 0.0
+var max_height := 0.0
 
 
 func _init(p_coord: Vector2i = Vector2i.ZERO) -> void:
@@ -68,7 +71,17 @@ func write(layer: String, rect: Rect2i, values: Variant) -> Variant:
 			else:
 				materials[z * n + x] = values[i]
 			i += 1
+	if layer == HEIGHT:
+		update_range()
 	return prev
+
+
+func update_range() -> void:
+	min_height = INF
+	max_height = -INF
+	for h in heights:
+		min_height = minf(min_height, h)
+		max_height = maxf(max_height, h)
 
 
 func is_default() -> bool:
@@ -89,4 +102,5 @@ static func from_dict(d: Dictionary) -> TerrainChunk:
 	var chunk := TerrainChunk.new(d.coord)
 	chunk.heights = d.heights
 	chunk.materials = d.materials
+	chunk.update_range()
 	return chunk

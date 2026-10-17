@@ -2,8 +2,9 @@ class_name SelectTool
 extends EditorTool
 ## Default tool. Click selects (Shift toggles), drag on empty ground box-selects, drag a
 ## selected object to move the selection (with snapping; a single object re-seats onto surfaces).
-## Keys: R / Shift+R rotate, Delete remove, Cmd+D duplicate, Cmd+C / Cmd+V copy/paste,
-## I pick the prop under the cursor, F focus selection, Esc deselect.
+## Keys: R / Shift+R rotate, PageUp / PageDown (or = / -) raise / lower 0.25 m (Shift: 1 m),
+## Delete remove, Cmd+D duplicate, Cmd+C / Cmd+V copy/paste, I pick the prop under the cursor,
+## F focus selection, Esc deselect.
 ## Objects sitting on a selected object (children) move, rotate, copy and delete with it.
 
 enum Mode { NONE, PENDING, MOVE, BOX }
@@ -25,6 +26,7 @@ var _grab_offset := Vector3.ZERO
 var _delta := Vector3.ZERO
 var _new_parent: Variant = null  # String for single-root moves, null = keep parents
 var _exclude: Array[RID] = []
+var _primary_grounded := false
 
 
 func deactivate() -> void:
@@ -87,6 +89,10 @@ func on_key(event: InputEventKey) -> bool:
 			_delete_selection()
 		KEY_R:
 			_rotate_selection(-1.0 if event.shift_pressed else 1.0)
+		KEY_PAGEUP, KEY_EQUAL:
+			_raise_selection(1.0 if event.shift_pressed else 0.25)
+		KEY_PAGEDOWN, KEY_MINUS:
+			_raise_selection(-1.0 if event.shift_pressed else -0.25)
 		KEY_D when cmd:
 			_duplicate_selection()
 		KEY_C when cmd:
@@ -118,6 +124,9 @@ func _start_move() -> void:
 	_primary = _press_hit
 	var ground: Variant = main.rig.ground_point(_press_pos)
 	_grab_offset = (_starts[_primary] - ground) if ground != null else Vector3.ZERO
+	var p0: Vector3 = _starts[_primary]
+	_primary_grounded = doc.get_object(_primary).type == "prop" and doc.get_prop(_primary, "parent") == null \
+		and absf(p0.y - TerrainEdit.height_at_world(doc, p0.x, p0.z)) < 0.05
 	_grab_offset.y = 0.0
 	_exclude = main.world.body_rids(_moving)
 	_delta = Vector3.ZERO
@@ -147,14 +156,17 @@ func _update_move(pos: Vector2) -> void:
 		if ground == null:
 			return
 		target = ground + _grab_offset
-		target.y = 0.0 if single_root else start.y
-		if single_root:
+		target.y = start.y
+		if single_root and doc.get_object(_primary).type == "prop":
 			_new_parent = ""
 	if prop != null:
 		var snapped := Snapping.for_prop(prop, target, yaw, free)
 		target = Vector3(snapped.x, target.y, snapped.z)
 	elif not free:
 		target = Vector3(snappedf(target.x, 0.5), target.y, snappedf(target.z, 0.5))
+	# Ground-standing props follow the terrain; a single prop dropped off a surface lands on it.
+	if surface.is_empty() and (_primary_grounded or _new_parent == ""):
+		target.y = TerrainEdit.height_at_world(doc, target.x, target.z)
 
 	_delta = target - start
 	for id in _moving:
@@ -224,6 +236,16 @@ func _rotate_selection(direction: float) -> void:
 			var offset := (p - pivot).rotated(Vector3.UP, angle)
 			main.session.set_prop(id, "position", Vector3(pivot.x + offset.x, p.y, pivot.z + offset.z))
 			main.session.set_prop(id, "rotation", wrapf(float(doc.get_prop(id, "rotation", 0.0)) + angle, -PI, PI)))
+
+
+func _raise_selection(dy: float) -> void:
+	if main.selection.is_empty():
+		return
+	var doc := main.session.doc
+	var ids := Selection.with_descendants(doc, main.selection.list())
+	main.session.edit("Raise" if dy > 0 else "Lower", func() -> void:
+		for id in ids:
+			main.session.set_prop(id, "position", doc.get_prop(id, "position", Vector3.ZERO) + Vector3(0, dy, 0)))
 
 
 func _duplicate_selection() -> void:

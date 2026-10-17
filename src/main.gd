@@ -7,6 +7,7 @@ extends Control
 ##   --demo               scatter some props over a few chunks
 ##   --screenshot=<path>  save a PNG of the window after a few frames, then quit
 ##   --view=<key>=<value> override a view setting for this run only (not saved)
+##   --camera=<x>,<z>,<zoom> start the camera looking at (x, z) with that zoom
 
 var session: MapSession
 var library: PropLibrary
@@ -21,7 +22,9 @@ var pixel_view: PixelView
 var rig: CameraRig
 var day: DayCycle
 var ground: Ground
+var terrain: TerrainView
 var world: WorldView
+var toolbar: Toolbar
 var hud: Hud
 var browser: PropBrowser
 var thumbnails: ThumbnailRenderer
@@ -46,6 +49,10 @@ func _ready() -> void:
 	root3d.add_child(day)
 	ground = Ground.new()
 	root3d.add_child(ground)
+	terrain = TerrainView.new()
+	terrain.name = "Terrain"
+	terrain.chunks_changed.connect(ground.set_holes)
+	root3d.add_child(terrain)
 	world = WorldView.new()
 	world.name = "Objects"
 	root3d.add_child(world)
@@ -53,6 +60,8 @@ func _ready() -> void:
 	rig.name = "CameraRig"
 	rig.pixel_view = pixel_view
 	rig.moved.connect(_on_camera_moved)
+	rig.ground_hit = func(origin: Vector3, dir: Vector3) -> Variant:
+		return TerrainEdit.raycast(session.doc, origin, dir)
 	root3d.add_child(rig)
 	pixel_view.resized.connect(rig.apply)
 
@@ -69,6 +78,9 @@ func _ready() -> void:
 	hud.make_map_default_pressed.connect(_make_view_map_default)
 	browser = PropBrowser.new()
 	hud.add_child(browser)
+	toolbar = Toolbar.new()
+	hud.add_child(toolbar)
+	toolbar.tool_requested.connect(set_tool_by_name)
 	browser.setup(library, thumbnails)
 	browser.prop_chosen.connect(func(prop: PropDef) -> void: choose_prop(prop))
 	browser.credits_pressed.connect(func() -> void: credits.show_for(library, session.doc))
@@ -98,7 +110,13 @@ func _process(_delta: float) -> void:
 		var chunk := MapDocument.chunk_of(hit)
 		cursor = "(%.1f, %.1f)  cell %d,%d  chunk %d,%d" % [hit.x, hit.z, cell.x, cell.y, chunk.x, chunk.y]
 	var hours := int(day.time_of_day)
-	var mode := "Placing %s" % (tool as PlaceTool).prop.name if tool is PlaceTool else "%d selected" % selection.ids.size()
+	var mode := "%d selected" % selection.ids.size()
+	if tool is PlaceTool:
+		mode = "Placing %s" % (tool as PlaceTool).prop.name
+	elif tool is TerrainTool:
+		mode = "Terrain: %s, size %.1f m, strength %.2f" % [Toolbar.MODES[TerrainTool.mode], TerrainTool.radius, TerrainTool.strength]
+	elif tool is WaterTool:
+		mode = "Water: click corners, Enter to finish"
 	info_text("FPS %d   cursor %s\n%s   chunks %d   objects %d   branch %s   %02d:%02d   zoom %.0f m" % [
 		Engine.get_frames_per_second(), cursor, mode, world.chunk_count(), world.object_count(),
 		session.branch().name, hours, int((day.time_of_day - hours) * 60.0), rig.zoom])
@@ -114,6 +132,7 @@ func set_session(s: MapSession) -> void:
 	session = s
 	session.history_changed.connect(_on_history_changed)
 	world.bind(session.doc)
+	terrain.bind(session.doc)
 	settings.bind(session.doc)
 	selection.bind(session.doc)
 	dirty = false
@@ -172,6 +191,21 @@ func set_tool(new_tool: EditorTool) -> void:
 	tool.activate()
 	if not tool is PlaceTool:
 		browser.deselect()
+	if tool is TerrainTool:
+		(tool as TerrainTool).options_changed.connect(toolbar.refresh)
+	toolbar.show_tool("select" if tool is SelectTool else "terrain" if tool is TerrainTool else "water" if tool is WaterTool else "")
+
+
+func set_tool_by_name(tool_name: String) -> void:
+	match tool_name:
+		"select":
+			set_tool(SelectTool.new())
+		"terrain":
+			selection.clear()
+			set_tool(TerrainTool.new())
+		"water":
+			selection.clear()
+			set_tool(WaterTool.new())
 
 
 ## Starts placing `prop` (from the browser or the eyedropper).
@@ -218,6 +252,7 @@ func _apply_settings() -> void:
 	pixel_view.pixel_size = settings.get_value("pixel_size")
 	pixel_view.set_post(settings.get_value("color_levels"), settings.get_value("dither"))
 	ground.set_grid_visible(settings.get_value("grid"))
+	terrain.show_grid = settings.get_value("grid")
 	rig.set_orthographic(settings.get_value("projection") == "orthographic")
 	day.mode = DayCycle.Mode.CYCLE if settings.get_value("time_mode") == "cycle" else DayCycle.Mode.FIXED
 	day.day_length = settings.get_value("day_length")
@@ -279,6 +314,13 @@ func _handle_command_line() -> void:
 			var kv := arg.trim_prefix("--view=").split("=", true, 1)
 			if kv.size() == 2 and ViewSettings.DEFAULTS.has(kv[0]):
 				settings.set_override(kv[0], type_convert(str_to_var(kv[1]) if kv[1].is_valid_float() or kv[1] in ["true", "false"] else kv[1], typeof(ViewSettings.DEFAULTS[kv[0]])))
+		elif arg.begins_with("--camera="):
+			var v := arg.trim_prefix("--camera=").split_floats(",")
+			if v.size() == 3:
+				rig.focus = Vector3(v[0], 0, v[1])
+				rig.zoom_at(v[2] / rig.zoom, Vector2.ZERO)
+				rig.focus = Vector3(v[0], 0, v[1])
+				rig.apply()
 		elif arg == "--demo":
 			_scatter_demo()
 		elif arg.begins_with("--screenshot="):
@@ -306,6 +348,24 @@ func _fit_window_to_screen_scale() -> void:
 func _scatter_demo() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
+	# Terrain: a hill, a pond with sand banks, a dirt path.
+	session.begin("Demo terrain")
+	for op in TerrainBrush.sculpt_ops(session.doc, TerrainBrush.Mode.RAISE, Vector3(28, 0, -6), 10.0, 7.0):
+		session.apply(op)
+	for op in TerrainBrush.sculpt_ops(session.doc, TerrainBrush.Mode.LOWER, Vector3(-8, 0, 20), 7.0, 2.0):
+		session.apply(op)
+	for op in TerrainBrush.paint_ops(session.doc, Vector3(-8, 0, 20), 8.5, 2):
+		session.apply(op)
+	for i in 30:
+		for op in TerrainBrush.paint_ops(session.doc, Vector3(-4 + i * 1.2, 0, 6 + sin(i * 0.3) * 3.0), 1.2, 1):
+			session.apply(op)
+	session.commit()
+	var pond := PackedVector2Array()
+	for i in 12:
+		var a := TAU * i / 12.0
+		pond.append(Vector2(cos(a), sin(a)) * 6.0)
+	session.edit("Demo water", func() -> void:
+		session.create_object("water", {"position": Vector3(-8, -0.6, 20), "rotation": 0.0, "polygon": pond}))
 	var pick := func(query: String) -> Array[PropDef]: return library.search(query)
 	var trees: Array[PropDef] = pick.call("tree_oak") + pick.call("tree_default") + pick.call("tree_pine_round")
 	var rocks: Array[PropDef] = pick.call("rock_large")
@@ -318,8 +378,11 @@ func _scatter_demo() -> void:
 				continue
 			for i in group[1]:
 				var prop: PropDef = defs[rng.randi() % defs.size()]
-				var pos := Vector3(rng.randf_range(-24, 40), 0, rng.randf_range(-24, 40))
-				session.create_object("prop", {"prop": prop.id, "position": Snapping.for_prop(prop, pos, 0.0, false),
+				var pos := Snapping.for_prop(prop, Vector3(rng.randf_range(-24, 40), 0, rng.randf_range(-24, 40)), 0.0, false)
+				if Vector2(pos.x + 8, pos.z - 20).length() < 8.0:
+					continue  # keep the pond clear
+				pos.y = TerrainEdit.height_at_world(session.doc, pos.x, pos.z)
+				session.create_object("prop", {"prop": prop.id, "position": pos,
 					"rotation": rng.randf() * TAU, "anim_offset": rng.randf()})
 		var tent := library.get_prop("kenney_nature:tent_detailed_open")
 		var fire := library.get_prop("kenney_nature:campfire_logs")

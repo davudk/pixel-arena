@@ -363,6 +363,19 @@ docs/
   - Surface placement only accepts mostly-upward faces (normal.y > 0.7); sloped roofs don't
     take props.
   - Box select includes children; duplicate/paste keep parent links inside the copied set.
+- **M4 done** — terrain: per-chunk heightfield meshes (TerrainView) with a palette shader
+  (8 flat-color materials, dithered 25 cm transitions, automatic rock on steep slopes),
+  implicit ground plane with hole mask under edited chunks, heightfield raycast picking,
+  TerrainTool (raise / lower / smooth / flatten / paint, brush ring, `[ ]` size, Shift+`[ ]`
+  strength, one stroke = one undo step), water bodies (polygon relative to the object position
+  so select/move/rotate/raise work; depth-tinted shader with shoreline foam), WaterTool
+  (click corners, Enter / click first corner to finish), toolbar + terrain options panel.
+  Decisions:
+  - Unparented props standing on the terrain ride it up/down while sculpting (with their
+    children), inside the same transaction.
+  - Terrain materials are indices into a built-in palette (TerrainPalette); textures can
+    replace the flat colors later without changing map data.
+  - Rock/cliff props from the Nature Kit cover overhangs and cliff faces (option B).
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

@@ -60,6 +60,15 @@ func read_terrain(coord: Vector2i, layer: String, rect: Rect2i) -> Variant:
 	return TerrainChunk.default_values(layer, rect.get_area())
 
 
+## (min, max) terrain height over the whole map; implicit terrain counts as 0.
+func height_range() -> Vector2:
+	var r := Vector2.ZERO
+	for chunk: TerrainChunk in terrain.values():
+		r.x = minf(r.x, chunk.min_height)
+		r.y = maxf(r.y, chunk.max_height)
+	return r
+
+
 func objects_in_chunk(coord: Vector2i) -> Array[String]:
 	var out: Array[String] = []
 	out.assign(_chunk_objects.get(coord, {}).keys())

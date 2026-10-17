@@ -35,6 +35,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	main.tool.process(delta)
 	if Input.is_key_pressed(KEY_META) or Input.is_key_pressed(KEY_CTRL):
 		return
 	if get_viewport().gui_get_focus_owner() is LineEdit:
@@ -125,6 +126,12 @@ func _key(event: InputEventKey) -> void:
 			main.settings.set_override("grid", not main.settings.get_value("grid"))
 		KEY_H:
 			rig.focus = Vector3.ZERO
+		KEY_V:
+			main.set_tool_by_name("select")
+		KEY_T:
+			main.set_tool_by_name("terrain")
+		KEY_O:
+			main.set_tool_by_name("water")
 		_:
 			return
 	get_viewport().set_input_as_handled()

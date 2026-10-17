@@ -9,9 +9,66 @@ const SIZE := TerrainChunk.SIZE
 
 
 static func height_at(doc: MapDocument, sx: int, sz: int) -> float:
-	var c := Vector2i(_div(sx), _div(sz))
-	var local := Vector2i(posmod(sx, SIZE), posmod(sz, SIZE))
-	return doc.read_terrain(c, TerrainChunk.HEIGHT, Rect2i(local, Vector2i.ONE))[0]
+	var chunk: TerrainChunk = doc.terrain.get(Vector2i(_div(sx), _div(sz)))
+	if chunk == null:
+		return 0.0
+	return chunk.heights[posmod(sz, SIZE) * TerrainChunk.SAMPLES + posmod(sx, SIZE)]
+
+
+## Terrain height at any world (x, z), bilinearly interpolated between samples.
+static func height_at_world(doc: MapDocument, x: float, z: float) -> float:
+	var sx := floori(x)
+	var sz := floori(z)
+	var fx := x - sx
+	var fz := z - sz
+	var h00 := height_at(doc, sx, sz)
+	var h10 := height_at(doc, sx + 1, sz)
+	var h01 := height_at(doc, sx, sz + 1)
+	var h11 := height_at(doc, sx + 1, sz + 1)
+	return lerpf(lerpf(h00, h10, fx), lerpf(h01, h11, fx), fz)
+
+
+## Where a ray first meets the terrain surface, or null. Marches through the map's height
+## band in ~0.25 m horizontal steps, then refines by bisection.
+static func raycast(doc: MapDocument, origin: Vector3, dir: Vector3) -> Variant:
+	dir = dir.normalized()
+	var band := doc.height_range()
+	var lo := band.x - 0.01
+	var hi := band.y + 0.01
+	if absf(dir.y) < 1e-6:
+		return null
+	var t0 := (hi - origin.y) / dir.y
+	var t1 := (lo - origin.y) / dir.y
+	if t0 > t1:
+		var tmp := t0
+		t0 = t1
+		t1 = tmp
+	t0 = maxf(t0, 0.0)
+	if t1 < 0.0:
+		return null
+	var horizontal := Vector2(dir.x, dir.z).length()
+	var dt := minf(0.25 / maxf(horizontal, 1e-4), t1 - t0)
+	dt = maxf(dt, (t1 - t0) / 4000.0)
+	var prev_t := t0
+	var t := t0
+	while dt > 0.0 and t < t1:
+		t = minf(t + dt, t1)
+		var p := origin + dir * t
+		if p.y - height_at_world(doc, p.x, p.z) <= 0.0:
+			var a := prev_t
+			var b := t
+			for i in 14:
+				var m := (a + b) * 0.5
+				var q := origin + dir * m
+				if q.y - height_at_world(doc, q.x, q.z) > 0.0:
+					a = m
+				else:
+					b = m
+			p = origin + dir * b
+			return Vector3(p.x, height_at_world(doc, p.x, p.z), p.z)
+		prev_t = t
+	var end := origin + dir * t1
+	return Vector3(end.x, height_at_world(doc, end.x, end.z), end.z)
 
 
 static func material_at(doc: MapDocument, cx: int, cz: int) -> int:

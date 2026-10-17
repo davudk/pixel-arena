@@ -27,6 +27,11 @@ func on_motion(_pos: Vector2) -> void:
 	pass
 
 
+## Called every frame while the tool is active.
+func process(_delta: float) -> void:
+	pass
+
+
 ## Return true if the key was used.
 func on_key(_event: InputEventKey) -> bool:
 	return false

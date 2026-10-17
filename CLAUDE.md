@@ -4,7 +4,7 @@ Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`
 
 ## Commands
 - Run the app: double-click `Run Pixel Arena.command` (or `./Run\ Pixel\ Arena.command --editor`).
-  App flags after `--`: `--demo`, `--screenshot=<png>`, `--view=<key>=<value>`.
+  App flags after `--`: `--demo`, `--screenshot=<png>`, `--view=<key>=<value>`, `--camera=<x>,<z>,<zoom>`.
 - Import / refresh class cache (needed after adding a `class_name`):
   `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --import`
 - Run tests: `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/run_tests.gd`
@@ -18,4 +18,6 @@ Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`
 - The document changes only through ops (`Ops`) applied inside a `MapSession` transaction.
 - Prop packs (`packs/`) are data + assets only; manifests are validated and only CC0 / CC-BY
   licenses load. Keep attribution in the manifest.
+- GDScript lambdas capture locals by value: collect results from `session.edit(...)` callbacks
+  through an Array/Dictionary, not by assigning an outer local.
 - Tests live in `tests/test_*.gd`, extend `TestCase`, and use `check*` helpers.

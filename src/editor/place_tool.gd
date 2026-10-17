@@ -81,4 +81,6 @@ func _compute_target(pos: Vector2) -> Dictionary:
 	var ground: Variant = main.rig.ground_point(pos)
 	if ground == null:
 		return {}
-	return {"position": Snapping.for_prop(prop, ground, yaw, free), "parent": ""}
+	var p := Snapping.for_prop(prop, ground, yaw, free)
+	p.y = TerrainEdit.height_at_world(main.session.doc, p.x, p.z)
+	return {"position": p, "parent": ""}

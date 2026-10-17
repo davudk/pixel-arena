@@ -7,6 +7,7 @@ extends RefCounted
 ## Physics layer of map object pick bodies.
 const PICK_LAYER := 1 << 1
 const HIGHLIGHT_SHADER := preload("res://src/world/shaders/highlight.gdshader")
+const WATER_SHADER := preload("res://src/world/shaders/water.gdshader")
 
 static var library: PropLibrary
 static var models := ModelCache.new()
@@ -14,14 +15,17 @@ static var _box: BoxMesh
 static var _box_shape: BoxShape3D
 static var _materials: Dictionary[int, StandardMaterial3D] = {}
 static var _highlight: ShaderMaterial
+static var _water: ShaderMaterial
 
 
 static func renders(obj: MapObject) -> bool:
-	return obj.type == "prop"
+	return obj.type == "prop" or obj.type == "water"
 
 
 ## Changes to this key mean the node must be rebuilt rather than just moved.
 static func visual_key(obj: MapObject) -> String:
+	if obj.type == "water":
+		return "water|%d" % hash(obj.get_prop("polygon", PackedVector2Array()))
 	return "%s|%s" % [obj.get_prop("prop", ""), obj.get_prop("variant", "")]
 
 
@@ -32,6 +36,9 @@ static func prop_of(obj: MapObject) -> PropDef:
 static func build(obj: MapObject) -> Node3D:
 	var root := Node3D.new()
 	root.set_meta("object_id", obj.id)
+	if obj.type == "water":
+		_build_water(root, obj)
+		return root
 	var prop := prop_of(obj)
 	var entry := models.get_prop_entry(prop) if prop != null else null
 	if entry == null:
@@ -70,6 +77,48 @@ static func set_highlighted(node: Node3D, on: bool) -> void:
 		_highlight.shader = HIGHLIGHT_SHADER
 	for g: GeometryInstance3D in node.find_children("*", "GeometryInstance3D", true, false):
 		g.material_overlay = _highlight if on else null
+
+
+## Water body: a flat polygon (relative to the object's position, so the surface sits at
+## position.y) with a matching pick body.
+static func _build_water(root: Node3D, obj: MapObject) -> void:
+	var polygon: PackedVector2Array = obj.get_prop("polygon", PackedVector2Array())
+	var mesh := water_mesh(polygon)
+	if mesh == null:
+		return
+	if _water == null:
+		_water = ShaderMaterial.new()
+		_water.shader = WATER_SHADER
+	var mi := MeshInstance3D.new()
+	mi.mesh = mesh
+	mi.material_override = _water
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(mi)
+	var shape := ConcavePolygonShape3D.new()
+	shape.set_faces(mesh.get_faces())
+	_add_body(root, obj.id, shape, Vector3.ZERO, 1.0)
+
+
+## Triangulated flat mesh for a polygon in the XZ plane, or null if it's degenerate.
+static func water_mesh(polygon: PackedVector2Array) -> ArrayMesh:
+	if polygon.size() < 3:
+		return null
+	var tris := Geometry2D.triangulate_polygon(polygon)
+	if tris.is_empty():
+		return null
+	var verts := PackedVector3Array()
+	var normals := PackedVector3Array()
+	for p in polygon:
+		verts.append(Vector3(p.x, 0.0, p.y))
+		normals.append(Vector3.UP)
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_INDEX] = tris
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
 
 
 static func _add_body(root: Node3D, id: String, shape: Shape3D, offset: Vector3, scale: float) -> void:
