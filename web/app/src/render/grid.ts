@@ -20,6 +20,8 @@ export const gridUniforms = {
   near: { value: 0.5 },
   far: { value: 1000 },
   lineWidth: { value: 1 }, // output pixels
+  /** Building cells (kit cell size, m) drawn stronger while building; 0: off. */
+  cellSize: { value: 0 },
 }
 
 const VERT = /* glsl */ `
@@ -41,6 +43,7 @@ uniform float margin;
 uniform float near;
 uniform float far;
 uniform float lineWidth;
+uniform float cellSize;
 varying vec3 vWorld;
 varying float vDepth;
 #ifdef HOLES
@@ -67,7 +70,10 @@ void main() {
   float tol = fwidth(vDepth) * pixelSize * 1.5 + 0.02;
   if (abs(vDepth - scene) > tol) discard;
   float pxPerM = 1.0 / max(max(fwidth(vWorld.x), fwidth(vWorld.z)), 1e-5) / lineWidth;
-  float a = max(gridLine(vWorld.xz, 1.0) * 0.16 * smoothstep(4.0, 8.0, pxPerM), gridLine(vWorld.xz, 32.0) * 0.45);
+  // 1 m lines when zoomed in; major lines every 24 m (a multiple of 1, 2, 3, 4, 6 and 8 m, so
+  // building cells, brush sizes and grid props all meet them); building cells while building.
+  float a = max(gridLine(vWorld.xz, 1.0) * 0.16 * smoothstep(4.0, 8.0, pxPerM), gridLine(vWorld.xz, 24.0) * 0.45);
+  if (cellSize > 0.0) a = max(a, gridLine(vWorld.xz, cellSize) * 0.32 * smoothstep(1.0, 2.5, pxPerM));
   if (a <= 0.0) discard;
   gl_FragColor = vec4(1.0, 1.0, 1.0, a);
 }`

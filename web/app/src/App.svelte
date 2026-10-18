@@ -18,6 +18,7 @@
   import { Thumbnails } from './library/thumbs'
   import { CameraRig, ISO_PITCH, PixelRenderer, TOP_PITCH } from './render/pixel'
   import { WalkCamera } from './render/walk'
+  import { gridUniforms } from './render/grid'
   import { DayCycle } from './render/day-cycle'
   import { Ground } from './render/ground'
   import { TerrainView } from './render/terrain-view'
@@ -102,7 +103,7 @@
   let historyOpen = $state(false)
   let viewButton: HTMLButtonElement = $state()!
   /** Below this top-bar width the file buttons fold into a File menu. */
-  const COMPACT_TOPBAR = 560
+  const COMPACT_TOPBAR = 490
   let topbarWidth = $state(1000)
   let fileOpen = $state(false)
   let fileButton: HTMLButtonElement = $state()!
@@ -845,6 +846,8 @@
       terrain.flush()
       world?.update(dt, walking ? walk.camera : rig.camera)
       if (!walking) editor?.tool.update?.(dt)
+      // New buildings start on whole cells of the kit, so the grid shows them while building.
+      gridUniforms.cellSize.value = !walking && activeTool === 'build' ? (editor?.library.kits.get(toolParams.build.kit)?.cellSize ?? 0) : 0
       editor?.thumbnails.tick()
       pixel.render(scene, walking ? walk : rig)
       frames++
@@ -964,13 +967,6 @@
     <button class="icon" class:on={historyOpen} onclick={() => (historyOpen = !historyOpen)} title={withKey('History: branches and edits', 'Mod+Shift+H')} aria-label="History"><Icon name="clock" /></button>
     <button class="icon" onclick={enterWalk} title={withKey('Walk: look around in first person', 'G')} aria-label="Walk"><Icon name="walk" /></button>
     <button class="icon" class:on={viewOpen} bind:this={viewButton} onclick={() => (viewOpen = !viewOpen)} title="View: filter, time of day, visible levels" aria-label="View settings" aria-expanded={viewOpen}><Icon name="eye" /></button>
-    <div class="group">
-      <button class="icon" class:on={leftVisible} onclick={() => {
-        const hide = leftVisible
-        ui.leftHidden = ui.toolsHidden = hide
-      }} title="Tool panels (Tab hides all panels)" aria-label="Toggle tool panels"><Icon name="panelLeft" /></button>
-      <button class="icon" class:on={!ui.rightHidden} onclick={() => (ui.rightHidden = !ui.rightHidden)} title="Inspector panel (Tab hides all panels)" aria-label="Toggle inspector panel"><Icon name="panelRight" /></button>
-    </div>
     <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
       const f = (e.currentTarget as HTMLInputElement).files?.[0]
       if (f) openFile(f)

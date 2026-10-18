@@ -13,7 +13,8 @@ styles live in `web/app/src/app.css`; tool settings are drawn from the registry 
 - **Catalogue** (left, below, 8 px apart): what you can apply, and what of it is already in the map.
 - **Selection** (right, under the top bar): the selected object's properties. It is shown only while
   something is selected, and it is the only place existing objects are edited.
-- **Top bar**: file, undo and redo, History (dialog), Walk, View (popover), and the panel toggles.
+- **Top bar**: file, undo and redo, History (dialog), Walk, View (popover). There are no panel
+  toggles: the rail collapses the catalogue, Selection follows the selection, Tab hides everything.
 - **Rare tasks** open as a popover (View, list options, filters, themes) or a dialog (History, Export).
 - **Tab** hides everything.
 
