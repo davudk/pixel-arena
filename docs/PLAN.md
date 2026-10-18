@@ -4,14 +4,13 @@ Working title: **pixel-arena**. A desktop map editor (Steam, Windows + macOS) fo
 3D maps rendered with swappable stylized filters (pixel art by default). Users place props from a
 large, searchable library, sculpt terrain, and construct modular buildings.
 
-Engine: **Godot 4.7 (standard / GDScript)** — `/Applications/Godot.app`.
+Stack: **TypeScript + three.js, Svelte UI, Electron + steamworks.js for desktop** (`web/`).
 
-> **Platform decision (2026-10-18):** the app is being ported from Godot to a web stack
-> (TypeScript + three.js, Svelte UI, Electron for desktop) so the editor gets an HTML/CSS UI and
-> shared maps open natively in a browser. Evidence: `web-spike/REPORT.md` (on the `web-spike`
-> branch). The Godot code stays as the reference implementation until the port reaches parity;
-> M7 (filters & export) will be built in the web version. Port progress is tracked under
-> "Status" below.
+> **Platform decision (2026-10-18):** the app started in Godot 4.7 (GDScript) and was ported to
+> a web stack so the editor gets an HTML/CSS UI and shared maps open natively in a browser
+> (evidence: `REPORT.md` on the `web-spike` branch). The port reached parity and the Godot build
+> and the spike were removed from `web-port` on 2026-10-18; both remain in git history. Milestone
+> notes below that mention Godot describe that history.
 
 ---
 
@@ -44,7 +43,7 @@ Engine: **Godot 4.7 (standard / GDScript)** — `/Applications/Godot.app`.
 
 ## 2. Core principles
 
-1. **The map is data.** A pure-data document is the source of truth; Godot nodes are a
+1. **The map is data.** A pure-data document is the source of truth; three.js objects are a
    disposable view generated from it. The data layer has no dependency on the scene tree so it
    can be reused by a headless server and a web viewer.
 2. **Every edit is a transaction of primitive ops.** Undo/redo, autosave, branching, timelapse
@@ -59,7 +58,7 @@ Engine: **Godot 4.7 (standard / GDScript)** — `/Applications/Godot.app`.
 
 ## 3. World & coordinates
 
-- Godot Y-up; ground plane is XZ. **1 unit = 1 meter. Grid cell = 1 m.**
+- Y-up; ground plane is XZ. **1 unit = 1 meter. Grid cell = 1 m.**
 - **Chunks:** 32 × 32 m. A chunk exists only if it contains something (objects or edited
   terrain). Stored in a `Dictionary[Vector2i → Chunk]`. Empty space costs nothing.
 - Untouched terrain is implicit: flat, height 0, default material.
@@ -179,7 +178,8 @@ that inverts *your own* last transaction:
 
 ## 6. Persistence
 
-- One project file `*.pxmap` = zip (Godot `ZIPPacker`/`ZIPReader`) containing:
+- One project file `*.pxmap` = zip (fflate), JSON in Godot's `JSON.from_native` encoding (kept for
+  compatibility with files saved by the Godot build) containing:
   - `meta.json` (format version, map id; later packs used, thumbnail)
   - `history.json` (all branches, their transactions, undo/redo stacks)
   - `snapshot.json` (document at the current branch head; JSON now, binary later if needed)
@@ -305,21 +305,16 @@ packs/<pack_id>/
 
 ## 11. Project structure
 ```
-project.godot
-src/
-  core/      # pure data: document, objects, ops, txns, history, branches, serialization, uuid
-  library/   # pack + manifest loading, runtime glTF loader, search index, thumbnails
-  world/     # view nodes: chunk views, terrain mesh, prop instances, building mesh generation
-  render/    # camera, filter pipeline, shaders, lighting / time of day
-  editor/    # tools, input, selection, snapping, high-level commands → transactions
-  ui/        # panels, prop browser, branch/history panel, settings, dialogs
-  export/    # snapshot + map renders
-packs/       # built-in packs (CC0 Kenney kits), .gdignore'd
-tests/       # unit tests (GUT), run headless
-tools/       # asset import / manifest helper scripts
+web/
+  core/      # @pixel-arena/core: pure data — document, ops, history, branches, merge, terrain,
+             # buildings, .pxmap files (Vitest tests in core/test)
+  app/       # @pixel-arena/app: three.js + Svelte editor (library, render, world, editor, ui)
+  desktop/   # @pixel-arena/desktop: Electron shell, Steam, packaging
+packs/       # built-in packs (CC0 Kenney kits)
 docs/
+Run Pixel Arena.command   # double-click launcher for the desktop app
 ```
-`src/core` must not reference `Node` or any rendering API.
+`web/core` must not reference the DOM or any rendering API.
 
 ---
 
@@ -439,8 +434,6 @@ docs/
     need hundreds of visible characters.
   - Water depth comes from the terrain heightfield under the polygon (no depth-buffer read).
   - Outlines: depth Laplacian plus a low-res view-normal pass that only runs when outlines are on.
-  - `web/` and `web-spike/` carry a `.gdignore`: without it Godot scans `node_modules` and the
-    report images, which made `--demo --screenshot` hang on `frame_post_draw`.
 - **Step 3 in progress — editor tools.** Done: editor context + tool interface (`web/app/src/editor`),
   picking (instanced hits resolve to object ids), HTML prop browser (search, theme chips,
   categories, thumbnails, random rotation), place tool (ghost, grid / subgrid / free snapping via
@@ -490,10 +483,13 @@ docs/
   Windows here), Steam with the client running, the overlay drawing over WebGL.
   Before release: our own Steam app id, `restartAppIfNecessary`, Developer ID signing and
   notarization, app icons, a Content-Security-Policy.
+- Godot build and `web-spike/` removed (2026-10-18). `Run Pixel Arena.command` now opens the
+  desktop app. `tools/import_kenney.gd` went with it: re-importing or adding Kenney packs needs a
+  TS port of the importer.
 - Next: v1 polish (M8).
 
-Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
-web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.
+Future: underground layers → co-op server (Node, reusing `web/core`) → share links →
+web viewer (the web app in a read-only mode) → video/timelapse → Workshop.
 
 ---
 
