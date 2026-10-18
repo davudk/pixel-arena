@@ -469,7 +469,18 @@ docs/
   position), name and discard dialogs. Merge-review logic lives in `ui/merge-review.ts`.
   Verified by `?selftest=branches` and `?selftest=branches-ui` (clicks the real panel buttons).
   **The web editor now matches the Godot build's features (M0–M6).**
-- Next: M7 (filters & export) in the web version, then the Electron shell + Steam spike.
+- **M7 done (web) — filters & export.** Filter presets (pixel, clean, retro / PICO-8, gameboy,
+  oil painting, gothic, sepia, crt) with every option overridable: pixel size, outline (+ color),
+  palette or color levels with ordered dither, brightness / contrast / saturation / tint,
+  Kuwahara oil paint, vignette, grain, scanlines. Layered view settings (player override in
+  localStorage → map default in `@settings` → preset → built-in) with "Make map defaults" /
+  "Use map defaults". One post shader serves screen and export (it does ACES tone mapping and
+  sRGB itself, so exports match the screen). Export dialog (Cmd+E): current view at 1/2/4×,
+  whole map top-down at 4–32 px/m (tiled, seamless, capped at 16384 px), five angle views (zip).
+  Verified by `?selftest=filters` and `?selftest=export`.
+  The paused Godot M7 work was dropped in favour of the web version.
+- Next: Electron shell + Steam spike (desktop file access, packaging for Windows/macOS,
+  steamworks.js and the overlay), then v1 polish (M8).
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

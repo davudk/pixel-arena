@@ -120,11 +120,11 @@
 
 <style>
   .history {
-    position: absolute; right: 12px; top: 330px; bottom: 12px; width: 260px; padding: 10px 12px;
+    flex: 1; padding: 10px 12px;
     border-radius: 12px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; gap: 8px; min-height: 0;
   }
-  .history.closed { bottom: auto; }
+  .history.closed { flex: none; }
   header { display: flex; align-items: center; justify-content: space-between; }
   h2, h3 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
   .toggle { border: 0; background: transparent; padding: 0 4px; color: var(--muted); }

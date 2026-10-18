@@ -5,6 +5,9 @@
 import * as THREE from 'three'
 import { BuildingLayout, MAIN, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { buildReview, resolutions } from '../ui/merge-review'
+import type { ViewSettings } from '../render/view-settings'
+import type { Exporter } from '../render/exporter'
+import { PRESET_ORDER } from '../render/filters'
 import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
@@ -14,7 +17,16 @@ import { BuildingTool, buildSettings } from './building-tool'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export async function runSelfTest(name: string, editor: Editor, busy: () => boolean) {
+/** App pieces some tests need beyond the editor. */
+export interface SelfTestExtras {
+  settings: ViewSettings
+  exporter: Exporter
+  canvas: HTMLCanvasElement
+  /** Opens .pxmap bytes the way the app does (binds every view). */
+  open: (bytes: Uint8Array, name: string) => void
+}
+
+export async function runSelfTest(name: string, editor: Editor, busy: () => boolean, extras: SelfTestExtras) {
   const failures: string[] = []
   const check = (ok: unknown, what: string) => {
     if (!ok) failures.push(what)
@@ -31,6 +43,8 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'building') await buildingTest(editor, check, settle)
     else if (name === 'branches') await branchesTest(editor, check, settle)
     else if (name === 'branches-ui') await branchesUi(editor, check, settle)
+    else if (name === 'filters') await filtersTest(editor, check, settle, extras)
+    else if (name === 'export') await exportTest(editor, check, settle, extras)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -431,4 +445,104 @@ async function branchesUi(editor: Editor, check: (ok: unknown, what: string) => 
   await settle()
   check(document.querySelector('[role="dialog"]'), 'merge dialog open')
   check(s().branches.has(autumn), 'nothing merged yet')
+}
+
+const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+
+/** Average (max - min channel) over sampled pixels: 0 for grey, higher for colorful. */
+function meanChroma(source: HTMLCanvasElement, samples = 48): number {
+  const c = document.createElement('canvas')
+  c.width = c.height = samples
+  const ctx = c.getContext('2d')!
+  ctx.drawImage(source, 0, 0, samples, samples)
+  const d = ctx.getImageData(0, 0, samples, samples).data
+  let sum = 0
+  for (let i = 0; i < d.length; i += 4) sum += (Math.max(d[i], d[i + 1], d[i + 2]) - Math.min(d[i], d[i + 1], d[i + 2])) / 255
+  return sum / (d.length / 4)
+}
+
+/** Distinct colors among a grid of samples from a canvas (ignores tiny regions). */
+function colorsIn(source: HTMLCanvasElement, samples = 48): number {
+  const c = document.createElement('canvas')
+  c.width = samples
+  c.height = samples
+  const ctx = c.getContext('2d')!
+  ctx.imageSmoothingEnabled = false
+  ctx.drawImage(source, 0, 0, samples, samples)
+  const d = ctx.getImageData(0, 0, samples, samples).data
+  const seen = new Set<number>()
+  for (let i = 0; i < d.length; i += 4) seen.add((d[i] << 16) | (d[i + 1] << 8) | d[i + 2])
+  return seen.size
+}
+
+async function saveShot(name: string, canvas: HTMLCanvasElement) {
+  await fetch(`/__save?name=${name}`, { method: 'POST', body: canvas.toDataURL('image/png') }).catch(() => {})
+}
+
+async function openDemo(x: SelfTestExtras, settle: () => Promise<void>) {
+  const bytes = new Uint8Array(await (await fetch('/fixtures/demo.pxmap')).arrayBuffer())
+  x.open(bytes, 'demo.pxmap')
+  await settle()
+  await new Promise((r) => setTimeout(r, 1500)) // terrain + models
+  await settle()
+}
+
+async function filtersTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  await openDemo(x, settle)
+  editor.rig.focus.set(-4, 0, 2)
+  editor.rig.zoom = 48
+  const counts: Record<string, number> = {}
+  const chroma: Record<string, number> = {}
+  for (const preset of PRESET_ORDER) {
+    x.settings.chooseFilter(preset)
+    await frame()
+    await frame()
+    // three.js attaches `diagnostics` to its program wrappers when a shader fails to compile.
+    const programs = (editor.pixel.renderer.info.programs ?? []) as unknown as { diagnostics?: { runnable: boolean } }[]
+    const bad = programs.filter((p) => p.diagnostics && !p.diagnostics.runnable)
+    check(bad.length === 0, `${preset}: shaders compile`)
+    counts[preset] = colorsIn(x.canvas)
+    chroma[preset] = meanChroma(x.canvas)
+    await saveShot(`filter-${preset.replace(' ', '-')}.png`, x.canvas)
+  }
+  check(counts.gameboy <= 4, `gameboy uses at most 4 colors (got ${counts.gameboy})`)
+  check(counts.retro <= 16, `retro (PICO-8) uses at most 16 colors (got ${counts.retro})`)
+  check(counts.clean > 24 && counts.pixel > 24, `clean / pixel keep full color (${counts.clean}, ${counts.pixel})`)
+  check(chroma.sepia < chroma.pixel * 0.6, `sepia is far less colorful (${chroma.sepia.toFixed(3)} vs ${chroma.pixel.toFixed(3)})`)
+
+  // Option override wins over the preset; choosing a preset clears overrides.
+  x.settings.chooseFilter('pixel')
+  x.settings.setOverride('pixel_size', 5)
+  check(x.settings.get('pixel_size') === 5 && editor.pixel.pixelSize === 5, 'option override applies')
+  x.settings.chooseFilter('gameboy')
+  check(x.settings.get('pixel_size') === 4, 'choosing a preset resets option overrides')
+  x.settings.chooseFilter('pixel')
+}
+
+async function exportTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  await openDemo(x, settle)
+  x.settings.chooseFilter('pixel')
+  await frame()
+  const filter = x.settings.filterOptions()
+
+  const snap = x.exporter.snapshot(x.canvas, 2)
+  check(snap.width === x.canvas.width * 2 && snap.height === x.canvas.height * 2, 'snapshot is 2x the canvas')
+
+  const t0 = performance.now()
+  const top = x.exporter.topDown(editor.session.doc, filter, 32, 3, false)!
+  const ms = Math.round(performance.now() - t0)
+  check(top && top.width % 3 === 0 && top.height % 3 === 0, `top-down sized in whole texels (${top?.width}x${top?.height})`)
+  check(top && top.width > 1024, `top-down spans several tiles (${top?.width} px wide, ${ms} ms)`)
+  check(top && colorsIn(top.canvas) > 12, 'top-down has content')
+  if (top) await saveShot('export-top-down.png', top.canvas)
+
+  const views = x.exporter.angles(editor.session.doc, filter, 1024, 3, false)
+  check(views.length === 5, `5 angle views (got ${views.length})`)
+  check(views.every((v) => Math.max(v.width, v.height) <= 1024 + 3 && v.width % 3 === 0 && colorsIn(v.canvas) > 12), 'angle views sized and non-empty')
+  const ne = views.find((v) => v.name === 'iso-ne')
+  if (ne) await saveShot('export-iso-ne.png', ne.canvas)
+
+  // The screen keeps rendering normally afterwards.
+  await frame()
+  check(colorsIn(x.canvas) > 24, 'screen still renders after export')
 }

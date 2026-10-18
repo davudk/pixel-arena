@@ -4,7 +4,8 @@
   // to the active tool (see editor/editor.ts).
   //
   // URL parameters (for automated checks): map=<url of .pxmap>, camera=<x>,<z>,<zoom>,
-  // time=<hours>, pixel=<n>, outline=0|1, grid=0|1, cutaway=<level>, scatter=<n> (adds n random
+  // time=<hours>, pixel=<n>, outline=<0-1>, grid=0|1, filter=<preset> (view params apply to this
+  // page load only and aren't saved), cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
   // selftest=place|select|terrain|building|branches (drives the tools end to end, writes shots/selftest-<name>.json),
@@ -19,6 +20,10 @@
   import { Ground } from './render/ground'
   import { TerrainView } from './render/terrain-view'
   import { showGrid } from './render/terrain-shading'
+  import { ViewSettings } from './render/view-settings'
+  import ViewPanel from './ui/ViewPanel.svelte'
+  import ExportDialog, { type ExportRequest } from './ui/ExportDialog.svelte'
+  import { download, Exporter, type ExportImage } from './render/exporter'
   import { WorldView } from './world/world-view'
   import { Editor, type BoxRect, type Pointer } from './editor/editor'
   import { PlaceTool } from './editor/place-tool'
@@ -42,11 +47,16 @@
   let status = $state('Loading library…')
   let mapName = $state('Untitled')
   let dirty = $state(false)
-  let pixelSize = $state(num('pixel', 3))
-  let outline = $state(num('outline', 1) === 1)
-  let grid = $state(num('grid', 1) === 1)
-  let timeOfDay = $state(num('time', 10))
-  let cycle = $state(false)
+  let timeOfDay = $state(10)
+  // URL view params are one-off: they don't touch the viewer's saved settings.
+  const viewParams = ['pixel', 'outline', 'grid', 'time', 'filter'].filter((k) => params.has(k))
+  const settings = new ViewSettings(viewParams.length === 0)
+  if (params.has('filter')) settings.chooseFilter(params.get('filter')!)
+  if (params.has('pixel')) settings.setOverride('pixel_size', num('pixel', 3))
+  if (params.has('outline')) settings.setOverride('outline', num('outline', 0.55))
+  if (params.has('grid')) settings.setOverride('grid', num('grid', 1) === 1)
+  if (params.has('time')) settings.setOverride('time_of_day', num('time', 10))
+  let appliedTime: number | null = null
   let cutaway = $state(num('cutaway', -1))
   let fps = $state(0)
   let stats = $state('')
@@ -61,6 +71,8 @@
   let library: Library | null = $state(null)
   let dialog: DialogState = $state(null)
   let editorReady = $state(false)
+  let exportOpen = $state(false)
+  let exporter: Exporter | null = null
   let thumbnails: Thumbnails | null = $state(null)
 
   let pixel: PixelRenderer
@@ -76,21 +88,50 @@
   const keys = new Set<string>()
   let unbindHistory = () => {}
 
-  $effect(() => {
-    if (!pixel) return
-    pixel.pixelSize = pixelSize
-    pixel.outline = outline ? 0.55 : 0
+  /** Applies resolved view settings to the renderer, grid and lighting. */
+  function applySettings() {
+    if (!pixel || !day) return
+    const o = settings.filterOptions()
+    pixel.pixelSize = Number(o.pixel_size)
+    pixel.pass.applyFilter(o)
     resize()
-  })
-  $effect(() => {
-    showGrid.value = grid
-  })
-  $effect(() => {
-    if (!day) return
-    day.timeOfDay = timeOfDay
-    day.mode = cycle ? 'cycle' : 'fixed'
+    showGrid.value = Boolean(settings.get('grid'))
+    day.mode = settings.get('time_mode') === 'cycle' ? 'cycle' : 'fixed'
+    day.dayLength = Number(settings.get('day_length'))
+    // Only jump the clock when the time setting itself changed, so a running cycle isn't reset.
+    const t = Number(settings.get('time_of_day'))
+    if (t !== appliedTime) {
+      appliedTime = t
+      day.timeOfDay = t
+      timeOfDay = t
+    }
     day.apply()
-  })
+  }
+
+  /** Runs an export and downloads the result. Returns a summary for the dialog. */
+  async function runExport(r: ExportRequest): Promise<string> {
+    if (!editor || !exporter) return ''
+    const filter = settings.filterOptions()
+    const px = Math.max(1, Math.round(Number(filter.pixel_size)))
+    let images: ExportImage[] = []
+    if (r.mode === 'snapshot') images = [exporter.snapshot(canvas, r.scale)]
+    else if (r.mode === 'top-down') {
+      const img = exporter.topDown(editor.session.doc, filter, r.ppm, px, r.grid)
+      images = img ? [img] : []
+    } else images = exporter.angles(editor.session.doc, filter, r.size, px, r.grid)
+    if (images.length === 0) return 'Nothing to export.'
+    await download(images, mapName.replace(/\.pxmap$/, ''))
+    ;(window as any).pixelArena.lastExport = images
+    return images.map((i) => `${i.name}: ${i.width} × ${i.height}`).join(' · ')
+  }
+
+  function makeMapDefaults() {
+    if (!editor) return
+    const s = editor.session
+    const list = settings.mapDefaultOps()
+    s.edit('Set map view defaults', () => list.forEach((op) => s.apply(op)))
+    settings.clearOverrides()
+  }
   $effect(() => {
     if (editor) editor.viewCutaway = cutaway
     if (activeTool !== 'building') world?.setCutaway(cutaway)
@@ -111,6 +152,7 @@
     dirty = false
     world.bind(s.doc)
     terrain.bind(s.doc)
+    settings.bind(s.doc)
     unbindHistory()
     unbindHistory = s.historyChanged.connect(() => {
       dirty = true
@@ -280,16 +322,17 @@
 
   function onKey(e: KeyboardEvent, down: boolean) {
     if ((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type !== 'checkbox') return
-    if (dialog) return
+    if (dialog || exportOpen) return
     const k = e.key.toLowerCase()
     if (down) keys.add(k)
     else keys.delete(k)
     if (!down) return
     const cmd = e.metaKey || e.ctrlKey
-    if (cmd && ['z', 'y', 's', 'o'].includes(k)) {
+    if (cmd && ['z', 'y', 's', 'o', 'e'].includes(k)) {
       if (k === 'z') e.shiftKey ? redo() : undo()
       else if (k === 'y') redo()
       else if (k === 's') save()
+      else if (k === 'e') exportOpen = true
       else fileInput.click()
       e.preventDefault()
       return
@@ -345,13 +388,14 @@
     ground = new Ground()
     terrain = new TerrainView()
     terrain.onChunksChanged = (chunks) => ground.setHoles(chunks)
+    settings.changed.connect(applySettings)
     scene.add(ground.mesh, terrain.root)
     const cam = params.get('camera')?.split(',').map(Number)
     if (cam?.length === 3) {
       rig.focus.set(cam[0], 0, cam[1])
       rig.zoom = cam[2]
     }
-    resize()
+    applySettings()
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
@@ -378,6 +422,7 @@
       ed.box.connect((r) => (boxRect = r))
       library = lib
       thumbnails = thumbs
+      exporter = new Exporter(pixel.renderer, scene, ground, day, lib)
       editorReady = true
       setSession(editor.session, 'Untitled')
       status = ''
@@ -385,7 +430,11 @@
       if (params.get('scatter')) scatter(lib, editor.session, Number(params.get('scatter')))
       if (params.get('tool')) setToolByName(params.get('tool')!)
       if (params.get('shot')) screenshotWhenReady(params.get('shot')!)
-      if (params.get('selftest')) runSelfTest(params.get('selftest')!, editor, () => world.busy)
+      if (params.get('selftest'))
+        runSelfTest(params.get('selftest')!, editor, () => world.busy, {
+          settings, exporter: exporter!, canvas,
+          open: (bytes, name) => setSession(openProject(bytes), name),
+        })
     })
     ;(window as any).pixelArena = { get editor() { return editor }, rig, scene, pixel }
 
@@ -401,7 +450,7 @@
       if ((dx || dz) && !keys.has('meta') && !keys.has('control')) rig.panRelative(dx * 0.8 * dt, dz * 0.8 * dt)
       rig.update(dt)
       day.update(dt)
-      if (cycle) timeOfDay = day.timeOfDay
+      if (day.mode === 'cycle') timeOfDay = day.timeOfDay
       day.follow(rig.focus, rig.zoom * 1.2)
       ground.follow(rig.focus)
       terrain.flush()
@@ -450,6 +499,7 @@
       <button onclick={newMap} title="New map">New</button>
       <button onclick={() => fileInput.click()} title="Open (Cmd+O)">Open…</button>
       <button onclick={save} title="Save (Cmd+S)">Save</button>
+      <button onclick={() => (exportOpen = true)} title="Export image (Cmd+E)">Export…</button>
       <span class="sep"></span>
       <button onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)">Undo</button>
       <button onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)">Redo</button>
@@ -470,24 +520,14 @@
     {#if activeTool === 'terrain'}<TerrainOptions />{/if}
     {#if activeTool === 'building' && editor}<BuildingOptions {editor} />{/if}
 
-    <aside class="panel">
-      <h2>View</h2>
-      <label>Pixel size <select bind:value={pixelSize}>{#each [1, 2, 3, 4, 6] as n (n)}<option value={n}>{n}</option>{/each}</select></label>
-      <label><input type="checkbox" bind:checked={outline} /> Outlines</label>
-      <label><input type="checkbox" bind:checked={grid} /> Grid</label>
-      <label class="time">Time <input type="range" min="0" max="24" step="0.25" bind:value={timeOfDay} /> <span>{clock}</span></label>
-      <label><input type="checkbox" bind:checked={cycle} /> Day/night cycle</label>
-      <label>Building level
-        <select bind:value={cutaway}>
-          <option value={-1}>All</option>
-          {#each [0, 1, 2, 3] as l (l)}<option value={l}>Up to {l}</option>{/each}
-        </select>
-      </label>
-    </aside>
 
-    {#if editorReady && editor}
-      <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
-    {/if}
+
+    <div class="right">
+      <ViewPanel {settings} bind:cutaway {clock} onmapdefaults={makeMapDefaults} />
+      {#if editorReady && editor}
+        <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
+      {/if}
+    </div>
 
     <footer class="status">
       {#if status}{status}{:else}{#if toolInfo}{toolInfo}<br />{/if}{selected ? `${selected} selected · ` : ''}{fps} fps · {stats}{/if}
@@ -496,3 +536,7 @@
 </div>
 
 <Dialogs bind:dialog />
+{#if exportOpen && editor && library}
+  <ExportDialog bounds={Exporter.bounds(editor.session.doc, library)} pixelSize={Math.round(Number(settings.get('pixel_size')))}
+    onexport={runExport} onclose={() => (exportOpen = false)} />
+{/if}
