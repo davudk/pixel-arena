@@ -2,13 +2,14 @@
 // each selected prop (centered on and sized to its model's footprint, which needn't be around
 // the prop's origin), the footprint outline of a building, and the
 // shoreline of a body of water (with its islands). A selected group marks its members. Locked
-// objects are marked in grey. Lines are one low-res texel wide, so they stay crisp in the pixel
-// pass; they're depth-tested, so the object itself hides the part of the ring behind it.
+// objects are marked in grey. Drawn on the overlay (render/overlay.ts): never filtered, a fixed
+// width on screen, and still hidden where the object stands in front of its ring.
 
 import * as THREE from 'three'
 import { BuildingLayout, PackedVec2Array, Vec3, type MapObject, type MapSession } from '@pixel-arena/core'
 import type { Editor } from './editor'
 import { loadModel } from '../library/models'
+import { overlayLine, toOverlay } from '../render/overlay'
 import { GROUP, isLocked, members } from './grouping'
 
 const ACCENT = '#f2c14e'
@@ -64,21 +65,14 @@ export class SelectionMarks {
     for (const id of ids) {
       const obj = doc.getObject(id)
       if (!obj || obj.deleted) continue
-      const mark = this.markFor(obj)
-      if (!mark) continue
-      const color = isLocked(doc, id) ? LOCKED : ACCENT
-      mark.traverse((o) => {
-        const line = o as THREE.Line
-        if (line.isLine) line.material = new THREE.LineBasicMaterial({ color, transparent: true, depthWrite: false })
-        o.renderOrder = 5
-        o.raycast = () => {}
-      })
-      this.root.add(mark)
+      const mark = this.markFor(obj, isLocked(doc, id) ? LOCKED : ACCENT)
+      if (mark) this.root.add(toOverlay(mark))
     }
   }
 
   /** The mark in the object's own frame, placed like the object. */
-  private markFor(obj: MapObject): THREE.Object3D | null {
+  private markFor(obj: MapObject, color: string): THREE.Object3D | null {
+    const line = (points: THREE.Vector3[], o: { closed?: boolean; segments?: boolean } = {}) => overlayLine(points, { color, width: 2, ...o })
     const pos = obj.props.get('position')
     if (!(pos instanceof Vec3)) return null
     const group = new THREE.Group()
@@ -103,7 +97,7 @@ export class SelectionMarks {
         }).catch(() => {})
       }
       const r = Math.max(0.35, Math.hypot(w, d) * 0.45 + 0.15)
-      const ring = loop(Array.from({ length: 48 }, (_, i) => [cx + Math.cos((i / 48) * Math.PI * 2) * r, cz + Math.sin((i / 48) * Math.PI * 2) * r]))
+      const ring = line(Array.from({ length: 64 }, (_, i) => new THREE.Vector3(cx + Math.cos((i / 64) * Math.PI * 2) * r, 0, cz + Math.sin((i / 64) * Math.PI * 2) * r)), { closed: true })
       ring.scale.setScalar(scale)
       group.add(ring)
     } else if (obj.type === 'building') {
@@ -124,19 +118,15 @@ export class SelectionMarks {
         if (!has(c.x + 1, c.y)) seg(x1 + m, z0 - m, x1 + m, z1 + m)
       }
       if (!pts.length) return null
-      group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts)))
+      group.add(line(pts, { segments: true }))
     } else if (obj.type === 'water') {
       const polygon = obj.props.get('polygon')
       if (!(polygon instanceof PackedVec2Array)) return null
-      group.add(loop(polygon.points.map((p) => [p.x, p.y])))
+      const ring = (pts: PackedVec2Array) => line(pts.points.map((p) => new THREE.Vector3(p.x, 0, p.y)), { closed: true })
+      group.add(ring(polygon))
       const holes = obj.props.get('holes')
-      if (Array.isArray(holes)) for (const h of holes) if (h instanceof PackedVec2Array) group.add(loop(h.points.map((p) => [p.x, p.y])))
+      if (Array.isArray(holes)) for (const h of holes) if (h instanceof PackedVec2Array) group.add(ring(h))
     } else return null
     return group
   }
-}
-
-/** A closed line through local (x, z) points on the mark's plane. */
-function loop(points: [number, number][] | number[][]): THREE.LineLoop {
-  return new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points.map(([x, z]) => new THREE.Vector3(x, 0, z))))
 }

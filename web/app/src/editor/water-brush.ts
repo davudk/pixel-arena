@@ -8,6 +8,8 @@
 import * as THREE from 'three'
 import { terrainEdit } from '@pixel-arena/core'
 import { liquid } from '../world/liquids'
+import type { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
+import { overlayLine, setLinePoints, toOverlay } from '../render/overlay'
 import type { Editor, Pointer, Tool } from './editor'
 import { drawLabel } from './labels'
 import { params, setParams } from './tool-params'
@@ -16,14 +18,16 @@ import { addWater, eraseWater, noteWaterAdded, strokeShape } from './water-shape
 export class WaterBrushTool implements Tool {
   private path: [number, number][] = []
   private painting = false
-  private ring: THREE.Line
+  /** Brush outline and the stroke so far (unfiltered overlay, render/overlay.ts). */
+  private ring
   private preview = new THREE.Group()
 
   constructor(private editor: Editor, readonly name: 'water' | 'waterErase' = 'water') {
-    this.ring = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: this.color(), depthTest: false, transparent: true }))
+    this.ring = overlayLine([], { color: this.color(), width: 2, occluded: false })
     this.ring.renderOrder = 10
-    this.ring.frustumCulled = false
+    this.ring.userData.overlay = true // not in exports
     this.preview.renderOrder = 9
+    this.preview.userData.overlay = true
   }
 
   private get radius(): number {
@@ -111,8 +115,7 @@ export class WaterBrushTool implements Tool {
     )
     disc.position.set(x, y, z)
     disc.renderOrder = 9
-    disc.frustumCulled = false
-    this.preview.add(disc)
+    this.preview.add(toOverlay(disc))
   }
 
   private clearPreview() {
@@ -133,8 +136,7 @@ export class WaterBrushTool implements Tool {
       const z = center.z + Math.sin(a) * this.radius
       pts.push(new THREE.Vector3(x, terrainEdit.heightAtWorld(doc, x, z) + 0.08, z))
     }
-    this.ring.geometry.dispose()
-    this.ring.geometry = new THREE.BufferGeometry().setFromPoints(pts)
-    ;(this.ring.material as THREE.LineBasicMaterial).color.set(this.color())
+    setLinePoints(this.ring, pts, false)
+    ;(this.ring.material as LineMaterial).color.set(this.color())
   }
 }

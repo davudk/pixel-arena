@@ -31,5 +31,9 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
   `.icon`, `.input`) instead of new per-component CSS; tool settings come only from the registry
   (`editor/tools.ts`); `ui/SearchField.svelte` for search; `ui/keys.ts` (`key`, `withKey`,
   `saveSlotKey`) for every shortcut shown in the UI. The `panels` self-test checks the main rules.
+- Editor indicators (rings, outlines, axes, brush guides) never go through the pixel filters: use
+  `render/overlay.ts` (`overlayLine`, `toOverlay`); see `docs/UI.md`.
+- Editor indicators (rings, outlines, axes, brush guides) never go through the pixel filters: use
+  `render/overlay.ts` (`overlayLine`, `toOverlay`); see `docs/UI.md`.
 - three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
   unless they set `customProgramCacheKey` — always set it when injecting different shader code.

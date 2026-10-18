@@ -11,6 +11,7 @@
 import * as THREE from 'three'
 import { OPTIONS, PALETTES, type FilterOptions } from './filters'
 import { GRID_LAYER, gridUniforms } from './grid'
+import { OVERLAY_LAYER, overlayDepth, overlayResolution } from './overlay'
 import { showGrid } from './terrain-shading'
 
 export const MARGIN = 2
@@ -175,9 +176,7 @@ function paletteTexture(name: string): THREE.DataTexture | null {
 }
 
 /** Low-res scene render + post pass, reusable for the screen and for offscreen exports. */
-/** Objects only on this layer skip the low-res pass and filters; drawn after, at full
- *  resolution (renderOverlay). */
-export const OVERLAY_LAYER = 2
+export { OVERLAY_LAYER } from './overlay'
 
 export class PixelPass {
   readonly target = new THREE.WebGLRenderTarget(1, 1, {
@@ -303,6 +302,15 @@ export class PixelPass {
     const r = this.renderer
     const cam = this.outputCamera(this.overlayCamera, camera, low, out, pixelSize, offset)
     cam.layers.set(OVERLAY_LAYER)
+    const d = overlayDepth
+    d.oDepth.value = this.target.depthTexture
+    d.oPixelSize.value = pixelSize
+    d.oOffset.value.copy(offset)
+    d.oMargin.value = MARGIN
+    d.oNear.value = camera.near
+    d.oFar.value = camera.far
+    d.oTexel.value = (camera.top - camera.bottom) / low.y
+    overlayResolution.copy(out)
     const bg = scene.background
     const autoClear = r.autoClear
     const shadows = r.shadowMap.autoUpdate

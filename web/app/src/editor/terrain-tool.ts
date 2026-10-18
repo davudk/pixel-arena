@@ -7,6 +7,7 @@
 
 import * as THREE from 'three'
 import { MapDocument, terrainBrush, terrainEdit, Vec2i, Vec3, withDescendants } from '@pixel-arena/core'
+import { overlayLine, setLinePoints } from '../render/overlay'
 import type { Editor, Pointer, Tool } from './editor'
 import { paintLabel, sculptLabel } from './labels'
 import { params, setParams } from './tool-params'
@@ -18,13 +19,12 @@ const GROUNDED_EPSILON = 0.05
 export class TerrainTool implements Tool {
   private stroking = false
   private flattenTarget = 0
-  private ring: THREE.Line
+  /** Brush outline on the ground (unfiltered overlay, render/overlay.ts). */
+  private ring = overlayLine([], { color: '#ffd84d', width: 2, occluded: false })
 
   constructor(private editor: Editor, readonly name: 'sculpt' | 'paint' = 'sculpt') {
-    const mat = new THREE.LineBasicMaterial({ color: '#ffd84d', depthTest: false, transparent: true })
-    this.ring = new THREE.Line(new THREE.BufferGeometry(), mat)
     this.ring.renderOrder = 10
-    this.ring.frustumCulled = false
+    this.ring.userData.overlay = true // not in exports
   }
 
   activate() {
@@ -131,14 +131,13 @@ export class TerrainTool implements Tool {
   private drawRing(center: THREE.Vector3) {
     const doc = this.editor.session.doc
     const r = params[this.name].radius
-    const pts: number[] = []
-    for (let i = 0; i <= 48; i++) {
-      const a = (Math.PI * 2 * i) / 48
+    const pts: THREE.Vector3[] = []
+    for (let i = 0; i <= 64; i++) {
+      const a = (Math.PI * 2 * i) / 64
       const x = center.x + Math.cos(a) * r
       const z = center.z + Math.sin(a) * r
-      pts.push(x, terrainEdit.heightAtWorld(doc, x, z) + 0.05, z)
+      pts.push(new THREE.Vector3(x, terrainEdit.heightAtWorld(doc, x, z) + 0.05, z))
     }
-    this.ring.geometry.dispose()
-    this.ring.geometry = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(pts, 3))
+    setLinePoints(this.ring, pts, false)
   }
 }

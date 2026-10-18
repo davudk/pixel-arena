@@ -7,10 +7,7 @@
 
 import * as THREE from 'three'
 import { BuildingLayout, PackedVec2Array, Vec3 } from '@pixel-arena/core'
-import { Line2 } from 'three/examples/jsm/lines/Line2.js'
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js'
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
-import { OVERLAY_LAYER } from '../render/pixel'
+import { OVERLAY_LAYER, overlayLine } from '../render/overlay'
 import type { Editor } from './editor'
 
 export type Axis = 'x' | 'y' | 'z'
@@ -92,24 +89,14 @@ export class AxesGizmo {
     const origin = new THREE.Vector3(pos.x, pos.y, pos.z)
     // Drawn after the pixel filters at full resolution (OVERLAY_LAYER): crisp lines a fixed
     // number of screen pixels wide.
-    const dpr = window.devicePixelRatio
     const add = (o: THREE.Object3D) => {
       o.renderOrder = 20
       o.raycast = () => {}
       o.layers.set(OVERLAY_LAYER)
       this.root.add(o)
     }
-    const wide = (a: THREE.Vector3, b: THREE.Vector3, color: THREE.Color, width: number, opacity: number, dashed = false) => {
-      const geo = new LineGeometry().setPositions([a.x, a.y, a.z, b.x, b.y, b.z])
-      const mat = new LineMaterial({
-        color, linewidth: width * dpr, transparent: true, opacity, depthTest: false, depthWrite: false,
-        dashed, dashSize: 7 * px, gapSize: 5 * px,
-      })
-      mat.resolution.copy(this.editor.pixel.out)
-      const line = new Line2(geo, mat)
-      if (dashed) line.computeLineDistances()
-      add(line)
-    }
+    const wide = (a: THREE.Vector3, b: THREE.Vector3, color: THREE.Color, width: number, opacity: number, dashed = false) =>
+      add(overlayLine([a, b], { color, width, opacity, occluded: false, dashed: dashed ? [7 * px, 5 * px] : undefined }))
     for (const axis of ['x', 'y', 'z'] as Axis[]) {
       const on = axis === this.shown.axis
       const color = new THREE.Color(AXIS_COLORS[axis])

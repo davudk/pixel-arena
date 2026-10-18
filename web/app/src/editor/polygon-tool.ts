@@ -11,6 +11,7 @@
 
 import * as THREE from 'three'
 import { terrainEdit, Vec2 } from '@pixel-arena/core'
+import { overlayLine, toOverlay } from '../render/overlay'
 import type { Editor, Pointer, Tool } from './editor'
 
 const CLOSE_DISTANCE = 12 // CSS px from the first corner that closes the outline
@@ -30,6 +31,7 @@ export abstract class PolygonTool implements Tool {
 
   constructor(protected editor: Editor) {
     this.overlay.renderOrder = 10
+    this.overlay.userData.overlay = true // not in exports
   }
 
   /** Indicator color (CSS). */
@@ -152,14 +154,13 @@ export abstract class PolygonTool implements Tool {
     const lift = (v: THREE.Vector3) => new THREE.Vector3(v.x, v.y + 0.05, v.z)
     const pts = this.points.map(lift)
     const hover = this.hover && lift(this.hover)
+    // Unfiltered, at full resolution (render/overlay.ts).
     const add = (o: THREE.Object3D) => {
       o.renderOrder = 10
-      o.frustumCulled = false
-      this.overlay.add(o)
+      this.overlay.add(toOverlay(o))
     }
     const flat = (opacity = 1) => new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthTest: false, depthWrite: false, side: THREE.DoubleSide })
-    const lineMat = () => new THREE.LineBasicMaterial({ color, transparent: true, depthTest: false })
-    const line = (vs: THREE.Vector3[]) => add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(vs), lineMat()))
+    const line = (vs: THREE.Vector3[]) => add(overlayLine(vs, { color, width: 2, occluded: false }))
     const disc = (at: THREE.Vector3, r: number, opacity = 1) => {
       const m = new THREE.Mesh(new THREE.CircleGeometry(r, 20).rotateX(-Math.PI / 2), flat(opacity))
       m.position.copy(at)
@@ -190,16 +191,12 @@ export abstract class PolygonTool implements Tool {
     }
     // Dashed line from the last corner to the cursor.
     if (hover && pts.length > 0 && !this.closing) {
-      const dashed = new THREE.Line(new THREE.BufferGeometry().setFromPoints([pts.at(-1)!, hover]),
-        new THREE.LineDashedMaterial({ color, dashSize: 9 * px, gapSize: 6 * px, transparent: true, depthTest: false }))
-      dashed.computeLineDistances()
-      add(dashed)
+      add(overlayLine([pts.at(-1)!, hover], { color, width: 2, occluded: false, dashed: [9 * px, 6 * px] }))
     }
     // Cursor: a dot with a "+" (next click adds a corner) or a check (next click closes).
     if (hover) {
       const r = 11 * px
-      const white = (vs: THREE.Vector3[]) =>
-        add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(vs), new THREE.LineBasicMaterial({ color: '#ffffff', transparent: true, depthTest: false })))
+      const white = (vs: THREE.Vector3[]) => add(overlayLine(vs, { color: '#ffffff', width: 2, occluded: false }))
       // The "+" and the check face the camera, so the view's tilt doesn't squash them.
       const right = new THREE.Vector3(1, 0, 0).applyQuaternion(this.editor.rig.camera.quaternion)
       const up = new THREE.Vector3(0, 1, 0).applyQuaternion(this.editor.rig.camera.quaternion)

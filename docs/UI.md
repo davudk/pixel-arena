@@ -75,6 +75,26 @@ down); × or Esc puts it down.
   an open panel's button, a changed view setting. A setting's value uses the plain segmented
   "on" look.
 
+## Indicators on the map
+
+Lines and markers the editor draws on the map (selection rings and outlines, brush rings, polygon
+outlines, axes, guides) are never filtered: build lines with `overlayLine()` and put everything
+else through `toOverlay()` (`web/app/src/render/overlay.ts`). They are drawn after the pixel pass,
+at full resolution, a fixed number of screen pixels wide, and are left out of exports
+(`userData.overlay`). A ring around an object passes `occluded` so the object still hides the far
+side.
+
+## Indicators on the map
+
+Lines and markers the editor draws on the map are never filtered. This covers selection rings and
+outlines, brush rings, polygon outlines, axes and guides.
+
+- Build lines with `overlayLine()` and put everything else through `toOverlay()`
+  (`web/app/src/render/overlay.ts`).
+- They are drawn after the pixel pass, at full resolution, a fixed number of screen pixels wide.
+- They are left out of exports (`userData.overlay`).
+- A ring around an object passes `occluded`, so the object still hides the far side.
+
 ## Words
 
 - Sentence case; American spelling; "Group by" / "Sort by".
