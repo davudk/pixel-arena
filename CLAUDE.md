@@ -15,6 +15,10 @@ Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`
 ## Web port (`web/`)
 - npm workspace; `web/core` is the pure-data core (`@pixel-arena/core`), ported from `src/core`.
 - Tests: `npm test --prefix web` (Vitest). Type-check: `npm run check --prefix web`.
+- Run the web app: `npm run dev --prefix web` → http://localhost:5200 (`?map=/fixtures/demo.pxmap`;
+  more URL params for automated shots/perf are documented at the top of `web/app/src/App.svelte`).
+- three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
+  unless they set `customProgramCacheKey` — always set it when injecting different shader code.
 - `.pxmap` compatibility with the Godot build is a requirement: keep `test/fixtures/godot-sample.pxmap`
   passing, and keep the codec in Godot's `JSON.from_native` format.
 - Ask before adding npm dependencies.

@@ -2,9 +2,13 @@
   "name": "pixel-arena-web",
   "private": true,
   "type": "module",
-  "workspaces": ["core"],
+  "workspaces": [
+    "core",
+    "app"
+  ],
   "scripts": {
     "test": "npm run test --workspaces",
-    "check": "npm run check --workspaces"
+    "check": "npm run check --workspaces",
+    "dev": "npm run dev -w app"
   }
 }

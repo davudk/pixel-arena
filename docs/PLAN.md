@@ -422,8 +422,27 @@ docs/
     only where the schema says so (sequence numbers, lamport, format version).
   - Terrain chunks are keyed by "x,y" strings in `Map`s; object props are `Map`s (insertion order).
   - `MapSession.edit()` cancels the transaction if the callback throws.
-- Next: renderer parity on top of the spike (per-chunk instancing, normal outlines, day cycle,
-  animated characters), then tools in M3→M6 order, then M7 and Electron/Steam.
+- **Step 2 done — renderer parity** (`web/app`, Vite + Svelte + three.js on `@pixel-arena/core`):
+  opens any `.pxmap` and renders everything the document holds — instanced props, animated
+  characters, prop lights, sculpted/painted terrain chunks with the ground plane cut around them,
+  water, buildings with generated roofs and level cutaway — with the pixel filter, texel-snapped
+  camera, depth + normal outlines and the day/night cycle. Verified against the Godot build by
+  rendering the same demo map from the same camera (`web/app/fixtures/demo.pxmap`): same layout;
+  remaining differences are lighting/tone tuning. Performance (M5 MacBook, 120 Hz): demo map 120 fps;
+  2,000 props 120 fps zoomed in, 60 fps with the whole map in view.
+  Decisions:
+  - Static props are instanced per 128 m cell and prop kind: coarse enough to keep draw calls low,
+    fine enough for frustum culling on big maps (32 m cells produced thousands of draws).
+  - Animated characters are individual skinned clones; their animations advance at 15 Hz (a
+    stop-motion look that suits pixel art) and only while on screen. This took 2,000-prop scenes
+    with ~100 characters from 60 to 120 fps. Vertex-animation textures are the next step if maps
+    need hundreds of visible characters.
+  - Water depth comes from the terrain heightfield under the polygon (no depth-buffer read).
+  - Outlines: depth Laplacian plus a low-res view-normal pass that only runs when outlines are on.
+  - Known issue (Godot build, dev tooling only): `--demo --screenshot` hangs waiting for
+    `frame_post_draw`; capture with a script that waits on frames instead.
+- Next: editor tools in M3→M6 order (prop browser + placement, selection/transform, terrain and
+  water tools, building tool, branches UI), then M7 (filters & export) and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.
