@@ -669,6 +669,34 @@ async function liquidsTest(editor: Editor, check: (ok: unknown, what: string) =>
     await fetch(`/__save?name=selftest-liquids-${name}.png`, { method: 'POST', body: x.canvas.toDataURL('image/png') }).catch(() => {})
   }
   x.settings.clearOverride('time_of_day')
+
+  // Flow: the surface moves with the current, in the body's frame; the Selection rows set it.
+  const pond = ponds.find((o) => o.props.get('liquid') === 'water')!
+  const flowOf = () => {
+    let v: THREE.Vector2 | null = null
+    ;(editor.world as unknown as { singles: Map<string, { root: THREE.Object3D }> }).singles.get(pond.id)?.root.traverse((o) => {
+      if (o.userData.flowVel) v = o.userData.flowVel
+    })
+    return v as THREE.Vector2 | null
+  }
+  s.edit('Flow', () => {
+    s.setProp(pond.id, 'flow_speed', 1.5)
+    s.setProp(pond.id, 'flow_dir', 0)
+  })
+  await settle()
+  const v = flowOf()
+  check(v && Math.abs(v.length() - 1.5) < 1e-6, `flowing at 1.5 m/s (${v?.length()})`)
+  editor.selection.set([pond.id])
+  await settle()
+  const right = document.querySelector<HTMLButtonElement>('.selection-box [aria-label="Flow toward right on screen"]')
+  check(right, 'direction arrows shown while flowing')
+  right?.click()
+  await settle()
+  const w = flowOf()
+  // Screen right on the ground, for the view's yaw.
+  const sr = new THREE.Vector2(Math.cos(rig.yaw), -Math.sin(rig.yaw))
+  check(w && w.clone().normalize().dot(sr) > 0.99, `"→" flows toward screen right (${w?.x.toFixed(2)}, ${w?.y.toFixed(2)})`)
+  await desktop?.test?.capture('liquids-flow.png')
 }
 
 /** Terrain materials: every slot of the texture pack loads with its texture; the paint tool's
@@ -846,6 +874,18 @@ async function cameraTest(editor: Editor, check: (ok: unknown, what: string) => 
   tap('u')
   await sleep(1200)
   check(Math.abs(rig.pitch - iso) < 1e-3, `U again goes back to isometric (${rig.pitch.toFixed(3)})`)
+
+  // Compass: north turns with the view; clicking it faces north.
+  rig.rotateBy(Math.PI / 2)
+  await sleep(800)
+  const compass = document.querySelector<HTMLButtonElement>('.compass')
+  check(compass, 'compass shown')
+  compass?.click()
+  await sleep(1000)
+  const yaw = ((rig.yaw % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)
+  check(Math.min(yaw, Math.PI * 2 - yaw) < 1e-3, `compass click faces north (yaw ${rig.yaw.toFixed(3)})`)
+  check(compass?.textContent?.includes('N'), `compass reads N (${compass?.textContent?.trim()})`)
+  await desktop?.test?.capture('camera-compass.png')
 
   tap('g')
   await frame()

@@ -11,6 +11,9 @@
 // cracks; acid has popping bubbles; ice has cracks and a frosted rim; swamp has algae and lily
 // pads; tar a slow sheen; muddy water drifting silt. Glow (lava, acid) is a third as strong by day
 // as at night (render/day-cycle.ts waterEnv).
+//
+// A body can flow (`flow_speed`, `flow_dir`): its patterns then ride the current, with foam
+// streaks stretched along it.
 
 import * as THREE from 'three'
 import { waterEnv } from '../render/day-cycle'
@@ -33,6 +36,7 @@ uniform float uGlow;
 uniform float uFlow;
 uniform float uSparkle;
 uniform float uEdge;
+uniform vec2 uFlowVel; // world x / z, m/s (0: still)
 uniform int uLook;
 uniform float uDay;
 uniform vec3 uSky;
@@ -76,6 +80,10 @@ const LOOKS = ['water', 'lava', 'acid', 'ice', 'swamp', 'tar', 'silt']
 const SURFACE = /* glsl */ `
 vec2 xz = vWorld.xz;
 vec2 block = floor(xz * 4.0); // 25 cm: the pixel-art unit for dithering
+// Surface patterns ride the current: sampled where the water now here was at time 0.
+vec2 fp = xz - uFlowVel * uTime;
+vec2 fblock = floor(fp * 4.0);
+float speed = length(uFlowVel);
 float depth = max(uLevel - groundAt(xz), 0.0);
 float dd = clamp(depth / uDepthScale, 0.0, 1.0);
 float t = uTime * uFlow;
@@ -90,7 +98,7 @@ bool liquidLook = uLook == 0 || uLook == 2 || uLook == 4 || uLook == 6;
 
 if (uLook == 1) {
   // Lava: dark crust plates drifting on glowing cracks; the cracks widen and brighten in pulses.
-  vec2 q = xz * 0.8 + vec2(t * 0.12, t * 0.07);
+  vec2 q = fp * 0.8 + vec2(t * 0.12, t * 0.07);
   vec3 c = cells(q);
   float pulse = 0.5 + 0.5 * sin(uTime * 1.3 + c.z * 6.28);
   float crack = 1.0 - smoothstep(0.03, 0.11 + 0.05 * pulse, c.y);
@@ -110,7 +118,7 @@ if (uLook == 1) {
   col = mix(col, vec3(1.0), step(0.985, hash12(block + 3.0)) * uDay);
 } else if (uLook == 5) {
   // Tar: almost black, a slow oily sheen drifting across.
-  float sheen = sin(xz.x * 0.35 + xz.y * 0.22 + uTime * 0.25) * sin(xz.y * 0.5 - uTime * 0.18 + xz.x * 0.1);
+  float sheen = sin(fp.x * 0.35 + fp.y * 0.22 + uTime * 0.25) * sin(fp.y * 0.5 - uTime * 0.18 + fp.x * 0.1);
   col = mix(col, vec3(0.05, 0.048, 0.055), step(0.55, sheen));
   col = mix(col, vec3(0.16, 0.15, 0.18), step(0.85, sheen) * light);
   col = mix(col, vec3(0.42, 0.4, 0.46), step(0.97, sheen) * light);
@@ -119,36 +127,44 @@ if (uLook == 1) {
 if (liquidLook) {
   // Caustics: light through clear shallows, drifting on the bed (water only).
   if (uLook == 0) {
-    vec3 c = cells(xz * 0.6 + vec2(t * 0.1, -t * 0.07));
+    vec3 c = cells(fp * 0.6 + vec2(t * 0.1, -t * 0.07));
     float caustic = (1.0 - smoothstep(0.02, 0.05, c.y)) * step(band4, 0.34) * uDay;
     col = mix(col, uFoam, caustic * 0.22);
     alpha = max(alpha, caustic * 0.4);
   }
   // Muddy water: silt clouds drift through.
-  if (uLook == 6) col = mix(col, uFoam, step(0.62, vnoise(xz * 0.9 + vec2(t * 0.2, t * 0.12))) * 0.22);
+  if (uLook == 6) col = mix(col, uFoam, step(0.62, vnoise(fp * 0.9 + vec2(t * 0.2, t * 0.12))) * 0.22);
   // Swamp: algae mats and the odd lily pad.
   if (uLook == 4) {
-    col = mix(col, vec3(0.16, 0.22, 0.06), step(0.62, vnoise(xz * 0.4 + t * 0.03)) * 0.8);
-    vec2 cell = floor(xz / 1.6);
+    col = mix(col, vec3(0.16, 0.22, 0.06), step(0.62, vnoise(fp * 0.4 + t * 0.03)) * 0.8);
+    vec2 cell = floor(fp / 1.6);
     vec2 at = (cell + 0.3 + 0.4 * vec2(hash12(cell), hash12(cell + 7.0))) * 1.6;
-    float pad = step(hash12(cell + 2.0), 0.16) * step(length(xz - at), 0.38) * step(0.12, abs(atan(xz.y - at.y, xz.x - at.x) - 0.6));
+    float pad = step(hash12(cell + 2.0), 0.16) * step(length(fp - at), 0.38) * step(0.12, abs(atan(fp.y - at.y, fp.x - at.x) - 0.6));
     col = mix(col, vec3(0.13, 0.32, 0.09), pad);
     alpha = max(alpha, pad);
   }
   // Acid: bubbles grow and pop.
   if (uLook == 2) {
-    vec2 cell = floor(xz / 0.7);
+    vec2 cell = floor(fp / 0.7);
     vec2 at = (cell + 0.25 + 0.5 * vec2(hash12(cell + 1.0), hash12(cell + 9.0))) * 0.7;
     float life = fract(uTime * 0.35 + hash12(cell + 4.0));
-    float ring = step(abs(length(xz - at) - life * 0.2), 0.035) * step(0.55, hash12(cell + 6.0)) * step(life, 0.9);
+    float ring = step(abs(length(fp - at) - life * 0.2), 0.035) * step(0.55, hash12(cell + 6.0)) * step(life, 0.9);
     col = mix(col, uFoam, ring);
     glow = col * uGlow * (0.15 + 0.85 * night) * 0.6;
   }
   // The sky's color on clear water, more at the deep end.
   if (uLook == 0) col = mix(col, uSky, 0.04 + 0.08 * band4);
   // Glints on the wave crests: sunlight by day, fainter moonlight at night.
-  float crest = sin(xz.x * 0.7 + xz.y * 0.4 + t * 0.8) * sin(xz.y * 0.9 - t * 0.5);
-  float glint = step(0.94, crest) * step(0.86, hash12(block + floor(uTime * 2.0))) * uSparkle;
+  float crest = sin(fp.x * 0.7 + fp.y * 0.4 + t * 0.8) * sin(fp.y * 0.9 - t * 0.5);
+  float glint = step(0.94, crest) * step(0.86, hash12(fblock + floor(uTime * 2.0))) * uSparkle;
+  // Moving water: foam streaks stretched along the current, more the faster it runs.
+  if (speed > 0.01) {
+    vec2 d = uFlowVel / speed;
+    float along = dot(fp, d), across = dot(xz, vec2(-d.y, d.x));
+    float streak = step(0.74, vnoise(vec2(along * 0.45, across * 2.2))) * min(1.0, speed / 1.5);
+    col = mix(col, uFoam, streak * 0.4);
+    alpha = max(alpha, streak * 0.6);
+  }
   col = mix(col, mix(vec3(0.55, 0.62, 0.8), vec3(1.0, 0.98, 0.9), uDay), glint * (0.4 + 0.6 * uDay));
   alpha = max(alpha, glint * 0.9);
 }
@@ -193,6 +209,11 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
   heights.needsUpdate = true
 
   const l = liquid(obj.props.get('liquid'))
+  // Current: `flow_speed` m/s toward `flow_dir` degrees in the body's own frame (so it turns
+  // with the body), as a world x / z velocity.
+  const speed = Math.max(0, Number(obj.props.get('flow_speed') ?? 0))
+  const angle = (Number(obj.props.get('flow_dir') ?? 0) * Math.PI) / 180 - yaw
+  const flowVel = new THREE.Vector2(Math.cos(angle) * speed, Math.sin(angle) * speed)
   const opaque = l.opacity[0] >= 1
   // Polygon offset: a surface flush with the ground (no basin) would otherwise z-fight with it.
   const mat = new THREE.MeshLambertMaterial({
@@ -207,7 +228,7 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
       uShallow: { value: color(l.shallow) }, uDeep: { value: color(l.deep) }, uFoam: { value: color(l.foam) },
       uOpacity: { value: new THREE.Vector2(...l.opacity) }, uDepthScale: { value: l.depthScale },
       uGlow: { value: l.glow }, uFlow: { value: l.flow }, uSparkle: { value: l.sparkle }, uEdge: { value: l.edge },
-      uLook: { value: LOOKS.indexOf(l.look) }, ...waterEnv,
+      uLook: { value: LOOKS.indexOf(l.look) }, uFlowVel: { value: flowVel }, ...waterEnv,
     })
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vWorld;')
@@ -221,5 +242,6 @@ ${SURFACE}`)
   const mesh = new THREE.Mesh(geometry, mat)
   mesh.renderOrder = 1
   mesh.userData.dispose = () => heights.dispose()
+  mesh.userData.flowVel = flowVel
   return mesh
 }

@@ -344,6 +344,25 @@
     else if (cmd === 'grid') toggleGrid()
   }
 
+  // --- Compass -----------------------------------------------------------------------------
+  /** Compass size (CSS px); the bottom row keeps clear of it. */
+  const COMPASS = 44
+  /** The view's yaw (the walk's while walking), kept in step by the frame loop. North is -Z: it
+   *  shows on screen turned clockwise by the yaw. */
+  let compassYaw = $state(Math.PI / 4)
+  const POINTS = [['N', 'north'], ['NE', 'northeast'], ['E', 'east'], ['SE', 'southeast'], ['S', 'south'], ['SW', 'southwest'], ['W', 'west'], ['NW', 'northwest']]
+  /** The compass point the view faces (the view looks along -Z turned by the yaw). */
+  const heading = $derived.by(() => {
+    const bearing = ((((-compassYaw * 180) / Math.PI) % 360) + 360) % 360
+    const [short, name] = POINTS[Math.round(bearing / 45) % 8]
+    return { short, name }
+  })
+  function faceNorth() {
+    if (walking) return
+    const turn = ((((-rig.yaw) % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2)) - Math.PI
+    rig.rotateBy(turn)
+  }
+
   /** Grid on / off for this viewer (⌘' / Ctrl+', like Photoshop; ⌘G is Group). */
   function toggleGrid() {
     settings.setOverride('grid', !settings.get('grid'))
@@ -863,6 +882,8 @@
       gridUniforms.cellSize.value = !walking && activeTool === 'build' ? (editor?.library.kits.get(toolParams.build.kit)?.cellSize ?? 0) : 0
       editor?.thumbnails.tick()
       pixel.render(scene, walking ? walk : rig)
+      const yaw = walking ? walk.yaw : rig.yaw
+      if (Math.abs(yaw - compassYaw) > 1e-4) compassYaw = yaw
       frames++
       acc += dt
       if (acc >= 1) {
@@ -1065,10 +1086,10 @@
         </footer>
       {/if}
     </div>
-    <div class="keepout" style:min-width="{rightSpace}px"></div>
+    <div class="keepout" style:min-width="{COMPASS + GAP * 2}px"></div>
   </div>
   {#if hotbarAbove}
-    <div class="hotbar-row" style:left="{leftSpace}px" style:right="{rightSpace || GAP}px" style:bottom="{bottomRow + GAP * 2}px">
+    <div class="hotbar-row" style:left="{leftSpace}px" style:right="{COMPASS + GAP * 2}px" style:bottom="{bottomRow + GAP * 2}px">
       <Hotbar active={activeSaved} {library} {thumbnails} onuse={useTool} />
     </div>
   {/if}
@@ -1079,6 +1100,22 @@
 
   {#if ui.showStats}
     <div class="stats" style:right="{rightSpace || GAP}px">{fps} fps · {stats}</div>
+  {/if}
+  {#if editorReady}
+    <!-- Compass: north in red turns with the view; the letter is the way the view faces. Click
+         to face north. Stays while walking. -->
+    <button class="compass" style:width="{COMPASS}px" title="Facing {heading.name} · click to face north" aria-label="Compass: facing {heading.name}" onclick={faceNorth}>
+      <svg viewBox="-20 -20 40 40" aria-hidden="true">
+        <circle r="18.5" class="ring" />
+        <g transform="rotate({(compassYaw * 180) / Math.PI})">
+          <path d="M0 -15 L4 0 L-4 0 Z" class="north" />
+          <path d="M0 15 L4 0 L-4 0 Z" class="south" />
+          <text y="-8.5" class="n">N</text>
+        </g>
+        <circle r="1.6" class="pin" />
+      </svg>
+      <span class="heading-label">{heading.short}</span>
+    </button>
   {/if}
 </div>
 

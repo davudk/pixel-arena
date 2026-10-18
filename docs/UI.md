@@ -65,7 +65,7 @@ down); × or Esc puts it down.
   - Tiles: `auto-fit`, at most 4 on one row.
   - Choices: always 2 columns.
   - Never leave a 3 + 2 row: change the control instead.
-- **Labels:** one label column, `--label-w` (76 px), beside the control everywhere, popovers and
+- **Labels:** one label column, `--label-w` (84 px), beside the control everywhere, popovers and
   dialogs included. Keep labels to about 12 characters ("Levels", not "Visible levels"). Never
   override `--label-w` in a component.
 - **Heights and gaps:** one control height (`--control-h`, 28 px). Gaps: 4 px inside grids, 6 px
