@@ -63,7 +63,7 @@
 </script>
 
 {#if info.count === 0}
-  <p class="muted">Nothing selected. Click an object, or drag a box.</p>
+  <p class="muted">Nothing selected</p>
 {:else if info.single}
   <p class="name">{info.single.name}</p>
   <div class="grid">

@@ -71,7 +71,6 @@
   let cutaway = $state(num('cutaway', -1))
   let fps = $state(0)
   let stats = $state('')
-  let toolInfo = $state('')
   let activeTool = $state('select')
   let selected = $state(0)
   let boxRect: BoxRect | null = $state(null)
@@ -573,13 +572,6 @@
       ed.toolChanged.connect((t) => {
         placing = t instanceof PlaceTool ? t.prop.id : null
         activeTool = t.name
-        toolInfo = t instanceof PlaceTool
-          ? `Placing ${t.prop.name}: click to place · R rotate · Cmd = no snap · Esc stop`
-          : t instanceof WaterTool
-            ? 'Water: click corners · click the first corner or Enter to finish · Backspace undo corner · Esc'
-            : t instanceof TerrainTool || t instanceof BuildingTool
-              ? ''
-              : 'Click or drag a box to select · drag to move · R rotate · Tab hides panels'
       })
       ed.selection.changed.connect(() => (selected = ed.selection.size))
       ed.box.connect((r) => (boxRect = r))
@@ -738,7 +730,7 @@
             </button>
           {/each}
         </div>
-        {#if status || toolInfo}<span class="hint" title={status || toolInfo}>{status || toolInfo}</span>{/if}
+        {#if status}<span class="hint" title={status}>{status}</span>{/if}
         {#if selected && activeTool === 'select'}
           <span class="sep"></span>
           <span class="count">{selected} selected</span>

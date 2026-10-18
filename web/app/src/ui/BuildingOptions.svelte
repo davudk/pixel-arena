@@ -48,7 +48,6 @@
     <span>Roof</span>
     {#each ROOFS as r (r)}<button onclick={() => tool()?.setRoof(r)}>{r}</button>{/each}
   </div>
-  <p class="hint">Drag to paint floor cells · click edges for walls / doors / windows · Esc</p>
 </div>
 
 <style>
@@ -67,5 +66,4 @@
   .level button { padding: 5px 9px; }
   .roofs span { color: var(--muted); }
   .roofs button { flex: 1; padding: 5px 0; text-transform: capitalize; }
-  .hint { margin: 0; color: var(--muted); font-size: 11.5px; }
 </style>
