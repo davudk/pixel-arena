@@ -1,0 +1,22 @@
+{
+  "name": "@pixel-arena/core",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Pure-data map model: document, ops, history, branches, merge, terrain, buildings, .pxmap files. Port of the Godot src/core.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "check": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "fflate": "0.8.3"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.5"
+  }
+}

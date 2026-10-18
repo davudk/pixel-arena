@@ -1,0 +1,20 @@
+// @pixel-arena/core — pure-data map model shared by the editor, the browser viewer and (later)
+// the co-op server. Port of the Godot build's src/core.
+
+export * from './values'
+export * as codec from './codec'
+export { Signal, uuid } from './signal'
+export { MapObject } from './map-object'
+export * as terrainChunk from './terrain-chunk'
+export { TerrainChunk } from './terrain-chunk'
+export * as ops from './ops'
+export type { Op } from './ops'
+export { MapDocument, SETTINGS_ID, FORMAT_VERSION, CHUNK_SIZE, withDescendants, log } from './map-document'
+export * as terrainEdit from './terrain-edit'
+export * as terrainBrush from './terrain-brush'
+export { Transaction, Branch } from './history'
+export * as merge from './merge'
+export { MapSession, MAIN, type HistoryEntry } from './map-session'
+export { BuildingLayout } from './building-layout'
+export * as snapping from './snapping'
+export { saveProject, openProject, ProjectError, EXTENSION } from './project-file'

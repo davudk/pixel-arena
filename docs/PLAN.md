@@ -6,6 +6,13 @@ large, searchable library, sculpt terrain, and construct modular buildings.
 
 Engine: **Godot 4.7 (standard / GDScript)** — `/Applications/Godot.app`.
 
+> **Platform decision (2026-10-18):** the app is being ported from Godot to a web stack
+> (TypeScript + three.js, Svelte UI, Electron for desktop) so the editor gets an HTML/CSS UI and
+> shared maps open natively in a browser. Evidence: `web-spike/REPORT.md` (on the `web-spike`
+> branch). The Godot code stays as the reference implementation until the port reaches parity;
+> M7 (filters & export) will be built in the web version. Port progress is tracked under
+> "Status" below.
+
 ---
 
 ## 1. Scope
@@ -400,6 +407,23 @@ docs/
   - A branch started from an earlier entry begins with an empty undo stack (its parent's undo
     entries may refer to edits that aren't part of it).
   - Branch operations switch to the select tool first, so no tool holds ids from another branch.
+
+### Web port
+- **Step 1 done — core data layer** (`web/core`, package `@pixel-arena/core`): values, Godot-
+  compatible JSON codec, document + spatial index, ops, terrain edit/raycast/brushes, transactions,
+  per-author undo, branches, three-way merge, building layout, snapping, `.pxmap` read/write
+  (fflate). 82 Vitest tests, all ported from the Godot suite plus codec tests. Cross-checked both
+  ways: the TS core opens a Godot-saved project (`test/fixtures/godot-sample.pxmap`), replays it to
+  exactly Godot's snapshot and merges its branch; Godot opens a TS-saved project, finds the TS
+  edits, and undoes/redoes them.
+  Decisions:
+  - Values mirror Godot types (`Vec2`, `Vec2i`, `Vec3`, `Rect2i`, `PackedVec2Array`, typed
+    arrays). JS numbers have no int/float split: generic numbers are written as floats, and ints
+    only where the schema says so (sequence numbers, lamport, format version).
+  - Terrain chunks are keyed by "x,y" strings in `Map`s; object props are `Map`s (insertion order).
+  - `MapSession.edit()` cancels the transaction if the callback throws.
+- Next: renderer parity on top of the spike (per-chunk instancing, normal outlines, day cycle,
+  animated characters), then tools in M3→M6 order, then M7 and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

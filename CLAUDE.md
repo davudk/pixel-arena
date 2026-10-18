@@ -12,6 +12,13 @@ Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`
 - Editor smoke test (drives tools end to end): `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s tests/smoke_editor.gd`
 - Re-import a Kenney pack: `... -s tools/import_kenney.gd -- <nature|town|characters> <glb dir> <License.txt>`
 
+## Web port (`web/`)
+- npm workspace; `web/core` is the pure-data core (`@pixel-arena/core`), ported from `src/core`.
+- Tests: `npm test --prefix web` (Vitest). Type-check: `npm run check --prefix web`.
+- `.pxmap` compatibility with the Godot build is a requirement: keep `test/fixtures/godot-sample.pxmap`
+  passing, and keep the codec in Godot's `JSON.from_native` format.
+- Ask before adding npm dependencies.
+
 ## Rules
 - `src/core` is pure data: no `Node`, scene tree, or rendering APIs. It will be reused by a
   headless co-op server and a web viewer.

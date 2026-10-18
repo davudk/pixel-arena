@@ -1,0 +1,10 @@
+{
+  "name": "pixel-arena-web",
+  "private": true,
+  "type": "module",
+  "workspaces": ["core"],
+  "scripts": {
+    "test": "npm run test --workspaces",
+    "check": "npm run check --workspaces"
+  }
+}
