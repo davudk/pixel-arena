@@ -31,6 +31,7 @@ contextBridge.exposeInMainWorld('pixelArenaDesktop', {
     ? {
         tempFile: (name) => ipcRenderer.invoke('test:tempFile', name),
         rotate: (degrees) => ipcRenderer.send('test:rotate', degrees),
+        capture: (name) => ipcRenderer.invoke('test:capture', name),
         done: (ok) => ipcRenderer.send('test:done', ok),
       }
     : null,

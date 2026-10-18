@@ -1,20 +1,23 @@
 <script lang="ts">
-  // The tool in hand, at the top of every mode panel. A label row ("Current tool", then Save and
-  // Clear as text buttons; Save reads "Saved" when it matches a saved tool, Clear puts the tool
-  // down like Esc), then a compact, read-only card of fixed height: the tool's picture (prop
-  // thumbnail, liquid or material color, or icon), name and kind, and a summary of its settings
-  // (edited in the panel's sections below; see ToolSettings.svelte). Choices made from the
-  // panel's catalogue (prop, shape, material, liquid, kit, piece) show in the title. With
-  // nothing in hand: the same box, dashed, "No tool selected".
+  // The tool in hand, at the top of the tools container: a compact, read-only card with its
+  // picture (prop thumbnail, liquid or material color, or icon), name (the most specific
+  // catalogue choice: "Lava", "Raise", "Oak tree") and kind. On its right: a menu (add to or
+  // remove from saved tools, or edit the saved one) and × to put the tool down (Esc). Its
+  // settings are edited in the rows below it (ToolSettings.svelte). With nothing in hand: the
+  // same box, dashed; clicking it picks up the mode's last tool.
   import { onDestroy } from 'svelte'
   import type { Editor } from '../editor/editor'
   import type { Thumbnails } from '../library/thumbs'
   import { params, paramsChanged, type ParamTool } from '../editor/tool-params'
-  import { applies, inHand, TOOLS, type ParamDef } from '../editor/tools'
+  import { inHand, TOOLS, type ParamDef } from '../editor/tools'
   import { PALETTE } from '../render/terrain-shading'
   import { liquid } from '../world/liquids'
+  import Icon from './Icon.svelte'
+  import Popover from './Popover.svelte'
   import ToolIcon from './ToolIcon.svelte'
+  import ToolMenu from './ToolMenu.svelte'
   import { key, saveSlotKey } from './keys'
+  import { remove, label } from './saved-tools'
   import { ui } from './ui-state.svelte'
 
   interface Props {
@@ -22,10 +25,13 @@
     thumbnails: Thumbnails | null
     /** The saved tool matching the one in hand. */
     active: string | null
+    /** The mode's tool to pick up from the empty card, and its name. */
+    fallback: { tool: ParamTool; label: string } | null
     onsave: () => void
     onclear: () => void
+    onpickup: () => void
   }
-  let { editor, thumbnails, active, onsave, onclear }: Props = $props()
+  let { editor, thumbnails, active, fallback, onsave, onclear, onpickup }: Props = $props()
 
   let rev = $state(0)
   const offs = [paramsChanged.connect(() => rev++), editor.toolChanged.connect(() => rev++)]
@@ -33,7 +39,7 @@
 
   const PICKED = new Set<ParamDef['kind']>(['choice', 'material', 'prop', 'kit'])
 
-  /** How a catalogue choice reads ("Raise", "Dirt", "Lava", "Bed", "Timber house"). */
+  /** How a catalogue choice reads ("Raise", "Dirt", "Lava", "Wall", "Timber house"). */
   function display(def: ParamDef, value: unknown): string {
     if (def.kind === 'prop') return editor.library.props.get(String(value))?.name ?? String(value)
     if (def.kind === 'kit') return editor.library.kits.get(String(value))?.name ?? String(value)
@@ -54,68 +60,59 @@
     const title = main.length ? display(main.at(-1)!, values[main.at(-1)!.key]) : def.label
     const subtitle = [...(main.length ? [def.label] : []), ...main.slice(0, -1), ...picked.filter((p) => p.detail)]
       .map((x) => (typeof x === 'string' ? x : display(x, values[x.key]))).join(' · ')
-    const controls = def.params.filter((p) => !PICKED.has(p.kind))
     const prop = tool === 'place' ? editor.library.props.get(params.place.prop) : undefined
     const credit = prop ? `${editor.library.packs.get(prop.packId)?.name ?? ''} · ${prop.attribution.author ?? ''} (${prop.attribution.license})` : ''
-    return { tool, title, subtitle, controls, values, credit }
+    return { tool, title, subtitle, values, credit, saveable: def.saveable }
   })
   const saved = $derived(active ? ui.tools.find((t) => t.id === active) : undefined)
-  /** Read-only summary of the settings: "Size 4 m", "Snap on"; ones that don't apply are left out. */
-  const summary = $derived.by(() => {
-    rev
-    if (!now) return []
-    return now.controls
-      .filter((d) => applies(d, now.tool as ParamTool, editor.library))
-      .map((d) => {
-        const v = now.values[d.key]
-        const value = d.kind === 'toggle' ? (v ? 'on' : 'off') : d.format ? d.format(Number(v)) : String(v)
-        return { key: d.key, label: d.label, value, off: d.kind === 'toggle' && !v }
-      })
-  })
+
+  let menuButton: HTMLButtonElement | null = $state(null)
+  let menu: 'menu' | 'edit' | null = $state(null)
 </script>
 
-<div class="current-tool">
-  <div class="bar">
-    <span class="heading">Current tool</span>
-    {#if now}
-      <button class="text" disabled={!!saved} onclick={onsave}
-        title={saved ? 'This tool is saved' : `Save this tool (${saveSlotKey()} saves it on a number key)`}>{saved ? 'Saved' : 'Save'}</button>
-      <button class="text" onclick={onclear} title="Put the tool down ({key('Esc')})">Clear</button>
+{#if now}
+  <div class="card">
+    <div class="pic" title={now.credit}><ToolIcon tool={{ tool: now.tool as ParamTool, params: now.values }} size={22} library={editor.library} {thumbnails} /></div>
+    <div class="names">
+      <div class="title">{now.title}</div>
+      <div class="sub">{now.subtitle}{#if saved}{#if saved.slot} · key {saved.slot}{:else} · saved{/if}{/if}</div>
+    </div>
+    {#if now.saveable}
+      <button class="icon bare-icon" class:on={menu !== null} bind:this={menuButton} aria-label="Tool menu" aria-expanded={menu !== null}
+        title="Saved tools" onclick={() => (menu = menu ? null : 'menu')}><Icon name="menu" /></button>
     {/if}
+    <button class="icon bare-icon" aria-label="Put the tool down" title="Put the tool down ({key('Esc')})" onclick={onclear}><Icon name="x" /></button>
   </div>
-  {#if now}
-    <div class="card">
-      <div class="head">
-        <div class="pic" title={now.credit}><ToolIcon tool={{ tool: now.tool as ParamTool, params: now.values }} size={22} library={editor.library} {thumbnails} /></div>
-        <div class="names">
-          <div class="title">{now.title}</div>
-          <div class="sub">{now.subtitle}{#if saved?.slot} · key {saved.slot}{/if}</div>
-        </div>
-      </div>
-      {#if summary.length}
-        <div class="summary">
-          {#each summary as s (s.key)}<span class="pill" class:off={s.off}><span class="name">{s.label}</span> {s.value}</span>{/each}
-        </div>
+{:else}
+  <button class="card empty-card" disabled={!fallback} onclick={onpickup} title={fallback ? `Pick up ${fallback.label}` : ''}>
+    Nothing in hand
+  </button>
+{/if}
+
+{#if menu === 'menu' && menuButton && now}
+  <Popover anchor={menuButton} width={240} onclose={() => (menu = null)}>
+    <div class="menu-list" role="menu">
+      {#if saved}
+        <button role="menuitem" onclick={() => (menu = 'edit')}>Name and key…</button>
+        <button role="menuitem" onclick={() => { remove(saved.id); menu = null }}>Remove from saved tools</button>
+      {:else}
+        <button role="menuitem" onclick={() => { onsave(); menu = null }}>Add to saved tools<span class="shortcut">{saveSlotKey()}</span></button>
       {/if}
     </div>
-  {:else}
-    <div class="card empty-card"><span>No tool selected</span></div>
-  {/if}
-</div>
+  </Popover>
+{:else if menu === 'edit' && menuButton && saved}
+  <ToolMenu id={saved.id} anchor={menuButton} library={editor.library} onclose={() => (menu = null)} />
+{/if}
 
 <style>
-  .current-tool { display: flex; flex-direction: column; gap: 6px; }
-  .bar { display: flex; align-items: center; gap: 4px; min-height: 22px; }
-  .bar .heading { flex: 1; }
-  .text { padding: 2px 8px; font-size: 12px; border-radius: var(--radius-sm); }
-  .text:disabled { opacity: 1; color: var(--accent); border-color: transparent; background: transparent; }
-  /* Always this tall, so the panel below doesn't jump as tools change. */
+  /* Always this tall, so the rows below don't jump as tools change. */
   .card {
-    height: 104px; display: flex; flex-direction: column; gap: 8px; padding: 8px; overflow: hidden;
-    border-radius: var(--radius-card); border: 1px solid var(--line); background: var(--card);
+    height: 54px; display: flex; align-items: center; gap: 10px; padding: 8px 6px 8px 8px; overflow: hidden;
+    border-radius: var(--radius-card); border: 1px solid var(--line); background: var(--card); width: 100%;
   }
-  .empty-card { align-items: center; justify-content: center; border-style: dashed; background: transparent; color: var(--muted); }
-  .head { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .empty-card { justify-content: center; border-style: dashed; background: transparent; color: var(--muted); font-size: 12.5px; }
+  .empty-card:hover:not(:disabled) { background: var(--hover); color: var(--text); }
+  .empty-card:disabled { opacity: 1; }
   .pic {
     flex: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
     border-radius: var(--radius); background: var(--input);
@@ -123,11 +120,7 @@
   .names { flex: 1; min-width: 0; }
   .title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sub { color: var(--muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .summary { display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; overflow: hidden; }
-  .pill {
-    padding: 2px 7px; border-radius: var(--radius-sm); background: var(--input); font-size: 11.5px;
-    font-variant-numeric: tabular-nums; white-space: nowrap;
-  }
-  .pill .name { color: var(--muted); }
-  .pill.off { color: var(--muted); }
+  .bare-icon { flex: none; padding: 4px; border-color: transparent; background: transparent; color: var(--muted); }
+  .bare-icon:hover:not(:disabled) { color: var(--text); background: var(--hover); }
+  .bare-icon.on, .bare-icon.on:hover:not(:disabled) { color: var(--text); background: var(--hover); border-color: transparent; }
 </style>

@@ -64,8 +64,8 @@
 
 <style>
   .hotbar {
-    pointer-events: auto; min-width: 0; max-width: 100%; padding: 6px; border-radius: 12px;
-    background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    pointer-events: auto; min-width: 0; max-width: 100%; padding: 6px; border-radius: var(--radius-lg);
+    background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px); box-shadow: var(--shadow);
   }
   .strip {
     display: flex; gap: 6px; overflow-x: auto; overscroll-behavior-x: contain;

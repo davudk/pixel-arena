@@ -52,31 +52,35 @@
 </script>
 
 <Modal title="Export image" width={460} oncancel={onclose}>
-  <div class="modes" role="radiogroup" aria-label="What to export">
-    <label class="check"><input type="radio" bind:group={mode} value="snapshot" /> Current view</label>
-    <label class="check"><input type="radio" bind:group={mode} value="top-down" /> Whole map, top-down</label>
-    <label class="check"><input type="radio" bind:group={mode} value="angles" /> Whole map, 5 angles (zip)</label>
+  <div class="field"><span class="label">Export</span>
+    <div class="seg" role="group" aria-label="What to export">
+      {#each [['snapshot', 'This view'], ['top-down', 'Top-down'], ['angles', '5 angles']] as const as [id, name] (id)}
+        <button class:on={mode === id} aria-pressed={mode === id} onclick={() => (mode = id)}>{name}</button>
+      {/each}
+    </div>
   </div>
   {#if mode === 'snapshot'}
     <label class="field"><span class="label">Scale</span>
       <select bind:value={scale}>{#each [1, 2, 4] as k (k)}<option value={k}>{k}×</option>{/each}</select>
     </label>
   {:else if mode === 'top-down'}
-    <label class="field"><span class="label">Pixels per meter</span>
-      <select bind:value={ppm}>{#each [4, 8, 16, 32] as k (k)}<option value={k}>{k}</option>{/each}</select>
+    <label class="field"><span class="label" title="Pixels per meter">Resolution</span>
+      <select bind:value={ppm}>{#each [4, 8, 16, 32] as k (k)}<option value={k}>{k} px per meter</option>{/each}</select>
     </label>
     {#if topDownSize}
-      <p class="muted">{topDownSize.w} × {topDownSize.h} px{topDownSize.capped ? ` (capped at ${MAX_SIZE} px per side)` : ''}</p>
+      <p class="muted">The whole map at {topDownSize.w} × {topDownSize.h} px{topDownSize.capped ? ` (capped at ${MAX_SIZE} px per side)` : ''}</p>
     {:else}
-      <p class="muted">The map is empty</p>
+      <p class="empty">No objects yet</p>
     {/if}
   {:else}
-    <label class="field"><span class="label">Long side</span>
+    <label class="field" title="Five angles in a zip file"><span class="label">Long side</span>
       <select bind:value={size}>{#each [1024, 2048, 4096] as k (k)}<option value={k}>{k} px</option>{/each}</select>
     </label>
   {/if}
   {#if mode !== 'snapshot'}
-    <label class="check"><input type="checkbox" bind:checked={grid} /> Grid</label>
+    <div class="field"><span class="label">Grid</span>
+      <button class="switch" class:on={grid} role="switch" aria-checked={grid} aria-label="Grid" onclick={() => (grid = !grid)}></button>
+    </div>
   {/if}
   {#if result}<p class="result">{result}</p>{/if}
   {#snippet actions()}
@@ -86,9 +90,6 @@
 </Modal>
 
 <style>
-  .modes { display: flex; flex-direction: column; gap: 6px; }
-  .field { --label-w: 120px; }
-  input[type='radio'] { accent-color: var(--accent); margin: 0; }
   .muted { margin: 0; }
   .result { margin: 0; color: var(--accent); }
 </style>

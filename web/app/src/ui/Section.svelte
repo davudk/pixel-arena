@@ -1,5 +1,5 @@
 <script lang="ts">
-  // A collapsible section of the right-hand panel; `open` is remembered per player (ui-state).
+  // A collapsible section of a right-hand container (Selection, History); `open` is remembered per player (ui-state).
   import type { Snippet } from 'svelte'
   import Icon from './Icon.svelte'
 

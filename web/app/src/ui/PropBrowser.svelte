@@ -1,15 +1,13 @@
 <script lang="ts">
-  // Props mode's catalogue (under the current-tool card): saved prop tools, the theme picker (a
-  // popover of theme cards beside the panel), a toolbar (search, category filter, view options:
+  // Props mode's catalogue (placement settings are in the tools container): the theme picker (a
+  // popover of theme cards beside the panel), a toolbar (search, category filter, list options:
   // layout, card size, group by, sort by), then favorites, recently placed and the props,
   // grouped. Choosing a prop picks it up for placing; props can also be dragged onto the map.
   import type { Library, PropDef } from '../library/library'
   import type { Thumbnails } from '../library/thumbs'
   import Icon from './Icon.svelte'
-  import SavedTools from './SavedTools.svelte'
   import Popover from './Popover.svelte'
   import SearchField from './SearchField.svelte'
-  import ToolSettings from './ToolSettings.svelte'
   import { RECENT_MAX, thumbUrls, toggleFavourite, ui, type CardSize, type GroupBy, type SortBy } from './ui-state.svelte'
   import { categoryTree, filterProps, groupProps, propTooltip, sortProps, themeCover, type CategoryNode, type Group } from './prop-list'
 
@@ -19,11 +17,8 @@
     selected: string | null
     usage: Map<string, number>
     onchoose: (prop: PropDef) => void
-    /** Saved prop tools: the one in hand, and picking one up. */
-    activeSaved: string | null
-    onuse: (id: string) => void
   }
-  let { library, thumbnails, selected, usage, onchoose, activeSaved, onuse }: Props = $props()
+  let { library, thumbnails, selected, usage, onchoose }: Props = $props()
 
   let panel: HTMLElement = $state()!
   let themeButton: HTMLButtonElement = $state()!
@@ -134,11 +129,6 @@
 {/snippet}
 
 <aside class="browser" bind:this={panel}>
-  <section class="section">
-    <h3 class="heading">Placement</h3>
-    <ToolSettings {library} tool="place" />
-  </section>
-  <SavedTools mode="props" active={activeSaved} {library} {thumbnails} {onuse} />
   <button class="theme" class:open={open === 'theme'} bind:this={themeButton} title="Choose a theme" onclick={() => (open = open === 'theme' ? null : 'theme')}>
     <Icon name="palette" />
     <span class="name" class:cap={!!ui.theme}>{ui.theme ? pretty(ui.theme) : 'All themes'}</span>
@@ -153,7 +143,7 @@
       onclick={() => (open = open === 'filter' ? null : 'filter')}>
       <Icon name="filter" />{#if hiddenCount > 0}<span class="badge"></span>{/if}
     </button>
-    <button class="icon" bind:this={viewButton} title="View options" aria-label="View options" onclick={() => (open = open === 'view' ? null : 'view')}>
+    <button class="icon" bind:this={viewButton} title="List options" aria-label="List options" onclick={() => (open = open === 'view' ? null : 'view')}>
       <Icon name="sliders" />
     </button>
   </div>
@@ -215,25 +205,25 @@
 {/if}
 
 {#if open === 'view'}
-  <Popover anchor={viewButton} width={250} onclose={() => (open = null)}>
+  <Popover anchor={viewButton} width={290} onclose={() => (open = null)}>
     <div class="pop">
-      <div class="field stack"><span class="label">Layout</span>
+      <div class="field"><span class="label">Layout</span>
         <div class="seg" role="group" aria-label="Layout">
-          <button class:on={ui.viewMode === 'cards'} onclick={() => (ui.viewMode = 'cards')}><Icon name="grid" size={14} /> Cards</button>
-          <button class:on={ui.viewMode === 'list'} onclick={() => (ui.viewMode = 'list')}><Icon name="list" size={14} /> List</button>
+          <button class:on={ui.viewMode === 'cards'} onclick={() => (ui.viewMode = 'cards')}><Icon name="grid" size={14} />Cards</button>
+          <button class:on={ui.viewMode === 'list'} onclick={() => (ui.viewMode = 'list')}><Icon name="list" size={14} />List</button>
         </div>
       </div>
       {#if ui.viewMode === 'cards'}
-        <div class="field stack"><span class="label">Card size</span>
+        <div class="field"><span class="label">Card size</span>
           <div class="seg" role="group" aria-label="Card size">
             {#each [['s', 'Small'], ['m', 'Medium'], ['l', 'Large']] as const as [k, l] (k)}<button class:on={ui.cardSize === k} onclick={() => (ui.cardSize = k)}>{l}</button>{/each}
           </div>
         </div>
       {/if}
-      <label class="field stack"><span class="label">Group by</span>
+      <label class="field"><span class="label">Group by</span>
         <select bind:value={ui.groupBy}>{#each GROUPS as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
       </label>
-      <div class="field stack"><span class="label">Sort by</span>
+      <div class="field"><span class="label">Sort by</span>
         <div class="sort">
           <select bind:value={ui.sortBy} aria-label="Sort by">{#each SORTS as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
           <button class="icon" title={descending ? 'Descending' : 'Ascending'} aria-label={descending ? 'Descending' : 'Ascending'} onclick={() => (descending = !descending)}>
@@ -246,7 +236,7 @@
 {/if}
 
 <style>
-  .browser { display: flex; flex-direction: column; gap: 10px; padding: 10px; flex: 1; min-height: 0; }
+  .browser { display: flex; flex-direction: column; gap: 6px; padding: 10px; flex: 1; min-height: 0; }
   .cap { text-transform: capitalize; }
 
   .theme { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-card); text-align: left; font-weight: 500; }

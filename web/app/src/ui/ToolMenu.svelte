@@ -22,7 +22,7 @@
 {#if tool}
   <Popover {anchor} {placement} width={250} {onclose}>
     <div class="pop">
-      <label class="field stack"><span class="label">Name</span>
+      <label class="field"><span class="label">Name</span>
         <input class="input" placeholder={describe(tool, library)} bind:value={name}
           onchange={() => rename(id, name)} onkeydown={(e) => e.key === 'Enter' && (rename(id, name), onclose())} />
       </label>
@@ -36,7 +36,7 @@
           {/each}
         </div>
       </div>
-      <button class="danger-text" onclick={() => { remove(id); onclose() }}>Delete</button>
+      <div class="action-bar"><button class="danger-text" onclick={() => { remove(id); onclose() }}>Remove from saved tools</button></div>
     </div>
   </Popover>
 {/if}

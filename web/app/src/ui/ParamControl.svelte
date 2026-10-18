@@ -1,19 +1,21 @@
 <script lang="ts">
-  // One tool parameter, drawn from its definition in the registry (tools.ts): a slider with
-  // presets (range), an on/off button (toggle) or − value + (stepper). Disabled, with the
-  // reason as a tooltip, when it doesn't apply to the tool's current values.
+  // One tool setting as a row (label column + one control), drawn from its definition in the
+  // registry (tools.ts): range → slider with an editable value (snap marks from `presets`),
+  // toggle → switch, stepper → − value +, choice with `detail` → segmented control. Disabled,
+  // with the reason as text, when it doesn't apply for a reason elsewhere (ToolSettings hides
+  // the ones that belong to another variant or to a switch that is off).
   import { onDestroy } from 'svelte'
-  import type { Library } from '../library/library'
+  import type { Editor } from '../editor/editor'
   import { params, paramsChanged, setParams, type ParamTool } from '../editor/tool-params'
-  import { applies, type ParamDef } from '../editor/tools'
+  import { applies, inHand, pickUp, TOOLS, type ParamDef } from '../editor/tools'
   import Icon from './Icon.svelte'
 
   interface Props {
+    editor: Editor
     tool: ParamTool
     def: ParamDef
-    library: Library
   }
-  let { tool, def, library }: Props = $props()
+  let { editor, tool, def }: Props = $props()
 
   let rev = $state(0)
   const off = paramsChanged.connect(() => rev++)
@@ -25,48 +27,63 @@
   })
   const on = $derived.by(() => {
     rev
-    return applies(def, tool, library)
+    return applies(def, tool, editor.library)
   })
-  const set = (v: unknown) => setParams(tool, { [def.key]: v } as never)
-  const fmt = (v: number) => (def.format ? def.format(v) : String(v))
+  /** Settings that pick the implementation (water's shape) re-create the tool in hand. */
+  function set(v: unknown) {
+    const patch = { [def.key]: v } as never
+    if (TOOLS[tool].recreateOn?.includes(def.key) && inHand(editor) === tool) pickUp(editor, tool, patch)
+    else setParams(tool, patch)
+  }
+  const scale = def.scale ?? 1
+  const shown = (v: number) => String(Number((v * scale).toFixed(2)))
+  const listId = `ticks-${tool}-${def.key}`
+
+  function typed(e: Event) {
+    const el = e.currentTarget as HTMLInputElement
+    const v = Number(el.value) / scale
+    if (Number.isFinite(v)) set(Math.max(def.min ?? -Infinity, Math.min(def.max ?? Infinity, v)))
+    el.value = shown(Number(value))
+  }
 </script>
 
-{#if def.kind === 'range'}
-  <div class="range" class:off={!on} title={on ? '' : (def.why ?? '')}>
-    <div class="field">
-      <span class="label">{def.label}</span>
-      <input type="range" min={def.min} max={def.max} step={def.step} value={Number(value)} disabled={!on} aria-label={def.label}
-        oninput={(e) => set(Number((e.currentTarget as HTMLInputElement).value))} />
-      <span class="val">{fmt(Number(value))}</span>
+<div class="field" class:sub={!!def.parent} class:off={!on}>
+  <span class="label" title={def.label}>{def.label}</span>
+  {#if !on}
+    <span class="reason">{def.why ?? ''}</span>
+  {:else if def.kind === 'range'}
+    <div class="slider">
+      <input type="range" min={def.min} max={def.max} step={def.step} value={Number(value)} aria-label={def.label}
+        list={def.presets ? listId : undefined} oninput={(e) => set(Number((e.currentTarget as HTMLInputElement).value))} />
+      {#if def.presets}
+        <datalist id={listId}>{#each def.presets as p (p)}<option value={p}></option>{/each}</datalist>
+      {/if}
+      <span class="val">
+        <input class="input" inputmode="decimal" value={shown(Number(value))} aria-label="{def.label} value"
+          onchange={typed} onkeydown={(e) => e.key === 'Enter' && (e.currentTarget as HTMLInputElement).blur()} />
+        <span class="unit">{def.unit ?? ''}</span>
+      </span>
     </div>
-    {#if def.presets}
-      <div class="presets">
-        {#each def.presets as p (p)}
-          <button class:on={Math.abs(Number(value) - p) < 1e-6} disabled={!on} onclick={() => set(p)}>{fmt(p).replace(/ m$/, '')}</button>
-        {/each}
-      </div>
-    {/if}
-  </div>
-{:else if def.kind === 'toggle'}
-  <button class="toggle" class:on={on && value === true} aria-pressed={on && value === true} disabled={!on}
-    title={on ? '' : (def.why ?? '')} onclick={() => set(!value)}>
-    {#if def.icon}<Icon name={def.icon} />{/if}{def.label}
-  </button>
-{:else if def.kind === 'stepper'}
-  <div class="stepper">
-    <button class="icon" disabled={Number(value) <= (def.min ?? -Infinity)} aria-label="{def.label} down" onclick={() => set(Number(value) - (def.step ?? 1))}><Icon name="down" /></button>
-    <span>{def.label} {fmt(Number(value))}</span>
-    <button class="icon" disabled={Number(value) >= (def.max ?? Infinity)} aria-label="{def.label} up" onclick={() => set(Number(value) + (def.step ?? 1))}><Icon name="up" /></button>
-  </div>
-{/if}
+  {:else if def.kind === 'toggle'}
+    <button class="switch" class:on={value === true} role="switch" aria-checked={value === true} aria-label={def.label} onclick={() => set(!value)}></button>
+  {:else if def.kind === 'stepper'}
+    <div class="stepper">
+      <button class="icon" disabled={Number(value) <= (def.min ?? -Infinity)} aria-label="{def.label} down" onclick={() => set(Number(value) - (def.step ?? 1))}><Icon name="minus" /></button>
+      <span class="num">{def.format ? def.format(Number(value)) : String(value)}</span>
+      <button class="icon" disabled={Number(value) >= (def.max ?? Infinity)} aria-label="{def.label} up" onclick={() => set(Number(value) + (def.step ?? 1))}><Icon name="plus" /></button>
+    </div>
+  {:else if def.kind === 'choice'}
+    <div class="seg" role="group" aria-label={def.label}>
+      {#each def.options ?? [] as o (o.value)}
+        <button class:on={value === o.value} aria-pressed={value === o.value} onclick={() => set(o.value)}>
+          {#if o.icon}<Icon name={o.icon} size={14} />{/if}{o.label}
+        </button>
+      {/each}
+    </div>
+  {/if}
+</div>
 
 <style>
-  .range.off { opacity: 0.4; }
-  /* Slider row uses the shared .field (64px label column); value readout at the end. */
-  .field input { flex: 1; }
-  .field .val { flex: none; width: 44px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; color: var(--muted); }
-  .presets { display: flex; gap: 3px; margin: 4px 0 0 72px; }
-  .presets button { flex: 1; padding: 3px 0; font-size: 11px; font-variant-numeric: tabular-nums; min-width: 0; }
-  .stepper { display: flex; align-items: center; gap: 6px; }
-  .stepper span { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
+  .stepper { display: flex; align-items: center; gap: 4px; }
+  .stepper .num { flex: 1; text-align: center; font-variant-numeric: tabular-nums; }
 </style>

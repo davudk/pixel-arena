@@ -31,6 +31,7 @@ uniform float pixelSize;   // device pixels per texel
 uniform vec2 offset;       // sub-texel camera remainder, in texels
 uniform float near;
 uniform float far;
+uniform bool perspective;   // walk preview: depth is not linear
 uniform float exposure;
 uniform float outline;
 uniform vec3 outlineColor;
@@ -63,7 +64,9 @@ vec3 normalAt(ivec2 p) {
 }
 
 float viewDepth(ivec2 p) {
-  return near + texelFetch(tDepth, p, 0).r * (far - near); // orthographic: depth is linear
+  float d = texelFetch(tDepth, p, 0).r;
+  if (perspective) return near * far / (far - d * (far - near));
+  return near + d * (far - near); // orthographic: depth is linear
 }
 
 // Kuwahara: average of the least-varying of the four quadrants around the texel.
@@ -196,7 +199,7 @@ export class PixelPass {
       uniforms: {
         tColor: u(this.target.texture), tDepth: u(this.target.depthTexture), tNormal: u(this.normals.texture),
         uPalette: u(null), sourceSize: u(new THREE.Vector2()), outputSize: u(new THREE.Vector2()), pixelSize: u(1),
-        offset: u(new THREE.Vector2()), near: u(0.5), far: u(1000), exposure: u(1.05),
+        offset: u(new THREE.Vector2()), near: u(0.5), far: u(1000), perspective: u(false), exposure: u(1.05),
         outline: u(0), outlineColor: u(new THREE.Color('#1a1626')), brightness: u(0), contrast: u(1), saturation: u(1),
         tint: u(new THREE.Color('#ffffff')), tintAmount: u(0), colorLevels: u(0), paletteSize: u(0), dither: u(0),
         oil: u(0), vignette: u(0), grain: u(0), scanlines: u(0), time: u(0),
@@ -234,8 +237,8 @@ export class PixelPass {
 
   /** Renders `scene` through `camera` into `low` texels and post-processes it to `out` device
    *  pixels (into `output`, or the canvas when null). `camera` must frame the whole low-res
-   *  target, margins included. */
-  render(scene: THREE.Scene, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2, output: THREE.WebGLRenderTarget | null) {
+   *  target, margins included. A perspective camera (walk preview) gets no grid. */
+  render(scene: THREE.Scene, camera: THREE.OrthographicCamera | THREE.PerspectiveCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2, output: THREE.WebGLRenderTarget | null) {
     const r = this.renderer
     if (this.target.width !== low.x || this.target.height !== low.y) {
       this.target.setSize(low.x, low.y)
@@ -248,6 +251,7 @@ export class PixelPass {
     u.offset.value.copy(offset)
     u.near.value = camera.near
     u.far.value = camera.far
+    u.perspective.value = camera instanceof THREE.PerspectiveCamera
     u.time.value = this.clock.getElapsedTime()
     r.setRenderTarget(this.target)
     r.render(scene, camera)
@@ -267,7 +271,7 @@ export class PixelPass {
     }
     r.setRenderTarget(output)
     r.render(this.postScene, this.postCamera)
-    if (showGrid.value) this.renderGrid(scene, camera, low, out, pixelSize, offset)
+    if (showGrid.value && camera instanceof THREE.OrthographicCamera) this.renderGrid(scene, camera, low, out, pixelSize, offset)
     r.setRenderTarget(null)
   }
 
@@ -349,7 +353,8 @@ export class PixelRenderer {
     this.low.set(Math.ceil(this.out.x / px) + MARGIN * 2, Math.ceil(this.out.y / px) + MARGIN * 2)
   }
 
-  render(scene: THREE.Scene, rig: CameraRig) {
+  /** Through the editor's rig, or the walk preview's camera. */
+  render(scene: THREE.Scene, rig: { camera: THREE.OrthographicCamera | THREE.PerspectiveCamera; subpixel: THREE.Vector2 }) {
     this.pass.render(scene, rig.camera, this.low, this.out, this.devicePixelSize, rig.subpixel, null)
   }
 
@@ -375,11 +380,17 @@ export class PixelRenderer {
   }
 }
 
+/** True isometric tilt, and looking straight down. */
+export const ISO_PITCH = -Math.atan(1 / Math.SQRT2)
+export const TOP_PITCH = -Math.PI / 2
+
 export class CameraRig {
   readonly camera = new THREE.OrthographicCamera()
   focus = new THREE.Vector3()
   yaw = Math.PI / 4
-  pitch = -Math.atan(1 / Math.SQRT2) // true isometric
+  pitch = ISO_PITCH
+  /** Where `pitch` is easing to (top-down toggle); dragging sets both. */
+  pitchTarget: number | null = null
   zoom = 40 // visible world height (m)
   readonly subpixel = new THREE.Vector2()
   private yawTarget = this.yaw
@@ -402,6 +413,13 @@ export class CameraRig {
 
   update(dt: number) {
     this.yaw += (this.yawTarget - this.yaw) * (1 - Math.exp(-dt * 14))
+    if (this.pitchTarget !== null) {
+      this.pitch += (this.pitchTarget - this.pitch) * (1 - Math.exp(-dt * 14))
+      if (Math.abs(this.pitchTarget - this.pitch) < 1e-4) {
+        this.pitch = this.pitchTarget
+        this.pitchTarget = null
+      }
+    }
     const basis = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(this.pitch, this.yaw, 0, 'YXZ'))
     const back = new THREE.Vector3(0, 0, 1).applyMatrix4(basis)
     const dist = this.zoom * 2 + 50

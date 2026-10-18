@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Select mode's left panel: every object on the map. View options (popover, same wording as the
+  // Select mode's left panel: every object on the map. List options (popover, same wording as the
   // props panel): group by object type, prop category or none; sort by name, custom order (drag to
   // reorder), newest or oldest.
   // User groups are expandable rows; things sitting on others are indented under them.
@@ -205,7 +205,7 @@
 <div class="outliner">
   <div class="toolbar">
     <SearchField bind:value={query} placeholder="Search objects" />
-    <button class="icon" bind:this={settingsButton} title="View options" aria-label="View options"
+    <button class="icon" bind:this={settingsButton} title="List options" aria-label="List options"
       onclick={() => (settingsOpen = !settingsOpen)}><Icon name="sliders" /></button>
   </div>
   <div class="list" role="tree" aria-multiselectable="true">
@@ -219,7 +219,7 @@
       {#if open}
         {#each s.rows as r (r.id)}
           {@const on = isOn(r)}
-          <div class="row" class:on class:locked={r.locked || r.lockedBy} class:group={r.isGroup}
+          <div class="list-row row" class:on class:locked={r.locked || r.lockedBy} class:group={r.isGroup}
             class:drop-before={dropAt?.id === r.id && dropAt.zone === 'before'} class:drop-after={dropAt?.id === r.id && dropAt.zone === 'after'}
             class:drop-into={dropAt?.id === r.id && dropAt.zone === 'into'}
             style:padding-left="{6 + r.depth * 14}px" role="treeitem" aria-selected={on} tabindex="-1"
@@ -249,7 +249,7 @@
         {/each}
       {/if}
     {:else}
-      <p class="empty">{query ? `No objects match “${query}”` : 'The map is empty'}</p>
+      <p class="empty">{query ? `No objects match “${query}”` : 'No objects yet'}</p>
     {/each}
   </div>
 </div>
@@ -257,10 +257,10 @@
 {#if settingsOpen}
   <Popover anchor={settingsButton} width={240} onclose={() => (settingsOpen = false)}>
     <div class="pop">
-      <label class="field stack"><span class="label">Group by</span>
+      <label class="field"><span class="label">Group by</span>
         <select bind:value={ui.outliner.groupBy}>{#each GROUP_BY as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
       </label>
-      <label class="field stack"><span class="label">Sort by</span>
+      <label class="field"><span class="label">Sort by</span>
         <select bind:value={ui.outliner.sort}>{#each SORTS as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
       </label>
     </div>
@@ -283,16 +283,11 @@
 {/if}
 
 <style>
-  .outliner { display: flex; flex-direction: column; gap: 8px; padding: 10px; min-height: 0; flex: 1; }
+  .outliner { display: flex; flex-direction: column; gap: 6px; padding: 10px; min-height: 0; flex: 1; }
   .toolbar { display: flex; gap: 6px; }
   .list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; }
   /* Tree rows: the shared list-row look, with drag-and-drop indicators. */
-  .row {
-    position: relative; display: flex; align-items: center; gap: 5px; padding: 2px 4px 2px 6px; border-radius: var(--radius-sm);
-    font-size: 12.5px; flex: none; cursor: default; min-height: 26px;
-  }
-  .row:hover { background: var(--hover); }
-  .row.on { background: var(--accent-bg); color: var(--accent); }
+  .row { position: relative; cursor: default; }
   .row.group { font-weight: 500; }
   .row.locked .name { opacity: 0.55; }
   .row.drop-before { box-shadow: inset 0 2px 0 var(--accent); }
@@ -300,7 +295,7 @@
   .row.drop-into { outline: 1px solid var(--accent); }
   .twist { width: 14px; height: 14px; padding: 0; display: flex; align-items: center; justify-content: center; flex: none; }
   .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rename { flex: 1; padding: 2px 5px; border-radius: 5px; }
+  .rename { flex: 1; padding: 2px 5px; border-radius: var(--radius-sm); }
   .lock { padding: 3px; visibility: hidden; flex: none; }
   .row:hover .lock, .lock.shown { visibility: visible; }
   .lock.shown { color: var(--accent); }

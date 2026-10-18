@@ -1,44 +1,32 @@
 <script lang="ts">
-  // A tool's settings as controls, for the mode panels' settings sections (the current-tool card
-  // only summarizes them). Shows the given tool's parameters, optionally only `keys`, leaving out
-  // choices made from the panel's catalogue: on/off settings as a row of toggle buttons, then
-  // sliders and steppers. Panels pass the tool in hand, or the one last used in their mode so it
-  // can be set up before picking it.
-  import type { Library } from '../library/library'
+  // A tool's settings as rows, in registry order (tools.ts), for the tools container. Choices
+  // made from the mode's catalogue (prop, material, kit, and choices without `detail`) are left
+  // out; settings of another variant (`hide`) and ones under a switch that is off (`parent`)
+  // are hidden; the rest that don't apply show disabled with the reason.
   import { onDestroy } from 'svelte'
+  import type { Editor } from '../editor/editor'
   import { paramsChanged, type ParamTool } from '../editor/tool-params'
   import { applies, TOOLS } from '../editor/tools'
   import ParamControl from './ParamControl.svelte'
 
   interface Props {
-    library: Library
+    editor: Editor
     tool: ParamTool
-    keys?: string[]
   }
-  let { library, tool, keys }: Props = $props()
+  let { editor, tool }: Props = $props()
 
   let rev = $state(0)
   const off = paramsChanged.connect(() => rev++)
   onDestroy(off)
 
-  const CATALOGUE = new Set(['choice', 'material', 'prop', 'kit'])
-  // Settings of another variant (`hide`, e.g. brush size while drawing a polygon) are left out;
-  // others that don't apply show disabled.
+  const CATALOGUE = new Set(['material', 'prop', 'kit'])
   const defs = $derived.by(() => {
     rev
-    return TOOLS[tool].params.filter((p) => !CATALOGUE.has(p.kind) && (!keys || keys.includes(p.key)) && !(p.hide && !applies(p, tool, library)))
+    return TOOLS[tool].params.filter((p) => {
+      if (CATALOGUE.has(p.kind) || (p.kind === 'choice' && !p.detail)) return false
+      return !((p.hide || p.parent) && !applies(p, tool, editor.library))
+    })
   })
-  const toggles = $derived(defs.filter((p) => p.kind === 'toggle'))
-  const controls = $derived(defs.filter((p) => p.kind !== 'toggle'))
 </script>
 
-{#if toggles.length}
-  <div class="toggles">
-    {#each toggles as def (`${tool}:${def.key}`)}<ParamControl {tool} {def} {library} />{/each}
-  </div>
-{/if}
-{#each controls as def (`${tool}:${def.key}`)}<ParamControl {tool} {def} {library} />{/each}
-
-<style>
-  .toggles { display: flex; flex-wrap: wrap; gap: 6px; }
-</style>
+{#each defs as def (`${tool}:${def.key}`)}<ParamControl {editor} {tool} {def} />{/each}

@@ -34,7 +34,7 @@ export interface DesktopApi {
     overlay(dialog: 'friends' | 'community' | 'players' | 'settings' | 'achievements'): Promise<boolean>
   }
   /** Only when the desktop app was started with --selftest. */
-  test: { tempFile(name: string): Promise<string>; rotate(degrees: number): void; done(ok: boolean): void } | null
+  test: { tempFile(name: string): Promise<string>; rotate(degrees: number): void; capture(name: string): Promise<void>; done(ok: boolean): void } | null
 }
 
 export const desktop: DesktopApi | null = (globalThis as { pixelArenaDesktop?: DesktopApi }).pixelArenaDesktop ?? null

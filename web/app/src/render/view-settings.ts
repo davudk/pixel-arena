@@ -75,6 +75,12 @@ export class ViewSettings {
     this.save()
   }
 
+  /** Back to the map's value for one setting. */
+  clearOverride(key: ViewKey) {
+    delete this.overrides[key]
+    this.save()
+  }
+
   clearOverrides() {
     this.overrides = {}
     this.save()

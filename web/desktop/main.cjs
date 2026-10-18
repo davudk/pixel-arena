@@ -169,6 +169,12 @@ if (SELFTEST) {
   })
   // Stands in for a real trackpad rotation (degrees, counter-clockwise positive).
   ipcMain.on('test:rotate', (e, degrees) => BrowserWindow.fromWebContents(e.sender)?.emit('rotate-gesture', {}, degrees))
+  // A screenshot of the whole window (panels included) into the shots folder.
+  ipcMain.handle('test:capture', async (e, name) => {
+    const image = await e.sender.capturePage()
+    fs.mkdirSync(DIRS.shots, { recursive: true })
+    fs.writeFileSync(path.join(DIRS.shots, path.basename(name)), image.toPNG())
+  })
   ipcMain.on('test:done', (_e, ok) => {
     console.log(`selftest ${SELFTEST}: ${ok ? 'PASS' : 'FAIL'}`)
     app.exit(ok ? 0 : 1)

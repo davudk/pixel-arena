@@ -32,13 +32,19 @@ export interface Option<V = string | number> {
 export interface ParamDef {
   key: string
   label: string
-  /** range: slider with presets · toggle: on/off button · stepper: − value + · choice: one of
-   *  `options` · material / prop / kit: picked from the panel's own catalogue. */
+  /** range: slider with an editable value · toggle: switch · stepper: − value + · choice: one
+   *  of `options` (a catalogue in the mode's panel, or with `detail` a segmented setting) ·
+   *  material / prop / kit: picked from the panel's own catalogue. */
   kind: 'range' | 'toggle' | 'stepper' | 'choice' | 'material' | 'prop' | 'kit'
   min?: number
   max?: number
   step?: number
+  /** Snap marks on the slider; only for ranges spanning orders of magnitude (brush size). */
   presets?: number[]
+  /** Unit after the editable value, and the factor from the stored value to the shown one
+   *  (100 for a percentage stored as 0..1). */
+  unit?: string
+  scale?: number
   format?: (v: number) => string
   options?: Option[]
   icon?: string
@@ -50,6 +56,8 @@ export interface ParamDef {
   why?: string
   /** Hidden (not just disabled) when it doesn't apply: it belongs to another variant of the tool. */
   hide?: boolean
+  /** Key of the switch this setting depends on: shown indented under it, only while it is on. */
+  parent?: string
   /** A catalogue choice that only qualifies the tool (water's polygon / brush): shown under the
    *  current tool's name rather than as it. */
   detail?: boolean
@@ -73,8 +81,8 @@ export interface ToolDef {
 const meters = (v: number) => `${Number(v.toFixed(2))} m`
 const percent = (v: number) => `${Math.round(v * 100)}%`
 const SHAPES: Option[] = [{ value: 'polygon', label: 'Polygon', icon: 'polygon' }, { value: 'brush', label: 'Brush', icon: 'brush' }]
-const RADIUS_WATER: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters }
-const RADIUS: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 1, max: 32, step: 0.5, presets: [1, 2, 4, 8, 16, 32], format: meters }
+const RADIUS_WATER: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters, unit: 'm' }
+const RADIUS: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 1, max: 32, step: 0.5, presets: [1, 2, 4, 8, 16, 32], format: meters, unit: 'm' }
 
 export const TOOLS: Record<ToolId, ToolDef> = {
   select: {
@@ -86,7 +94,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     id: 'place', mode: 'props', label: 'Place prop', icon: 'cube', saveable: true,
     params: [
       { key: 'prop', label: 'Prop', kind: 'prop' },
-      { key: 'randomRotation', label: 'Random rotation', kind: 'toggle', icon: 'shuffle' },
+      { key: 'randomRotation', label: 'Random angle', kind: 'toggle', icon: 'shuffle' },
       {
         key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet',
         applies: (p, library) => library.props.get(String(p.prop))?.mode !== 'free', why: 'This prop always places freely',
@@ -105,11 +113,11 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     id: 'sculpt', mode: 'terrain', label: 'Sculpt', icon: 'raise', saveable: true,
     params: [
       {
-        key: 'op', label: 'Shape', kind: 'choice',
+        key: 'op', label: 'Effect', kind: 'choice',
         options: (['raise', 'lower', 'smooth', 'flatten'] as const).map((v) => ({ value: v, label: opName(v), icon: v })),
       },
       RADIUS,
-      { key: 'strength', label: 'Strength', kind: 'range', min: 0.05, max: 1, step: 0.05, presets: [0.1, 0.25, 0.5, 0.75, 1], format: percent },
+      { key: 'strength', label: 'Strength', kind: 'range', min: 0.05, max: 1, step: 0.05, format: percent, unit: '%', scale: 100 },
     ],
     create: (editor) => new TerrainTool(editor, 'sculpt'),
     describe: (p) => `${opName(p.op as ToolParams['sculpt']['op'])} · ${meters(Number(p.radius))} · ${percent(Number(p.strength))}`,
@@ -130,14 +138,8 @@ export const TOOLS: Record<ToolId, ToolDef> = {
       { ...RADIUS_WATER, applies: (p) => p.shape === 'brush', hide: true },
       { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', applies: (p) => p.shape === 'polygon', hide: true },
       { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel' },
-      {
-        key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
-        applies: (p) => p.dig === true, why: 'Only when digging a basin',
-      },
-      {
-        key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
-        applies: (p) => p.dig === true, why: 'Only when digging a basin',
-      },
+      { key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, format: meters, unit: 'm', parent: 'dig' },
+      { key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, format: meters, unit: 'm', parent: 'dig' },
     ],
     create: (editor) => (params.water.shape === 'brush' ? new WaterBrushTool(editor, 'water') : new WaterTool(editor, 'water')),
     describe: (p) => {
@@ -204,5 +206,7 @@ export function putDown(editor: Editor) {
 
 /** Whether a parameter applies for the tool's current values. */
 export function applies(def: ParamDef, tool: ParamTool, library: Library): boolean {
-  return def.applies ? def.applies(params[tool] as unknown as Record<string, unknown>, library) : true
+  const values = params[tool] as unknown as Record<string, unknown>
+  if (def.parent && values[def.parent] !== true) return false
+  return def.applies ? def.applies(values, library) : true
 }

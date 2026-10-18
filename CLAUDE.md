@@ -24,11 +24,12 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
   the old Godot build) and the codec in Godot's `JSON.from_native` format.
 - Prop packs (`packs/`) are data + assets only; manifests are validated and only CC0 / CC-BY
   licenses load. Keep attribution in the manifest.
-- UI consistency: use the tokens and shared styles in `web/app/src/app.css` (`.heading`, `.section`,
-  `.field` / `.field.stack`, `.check`, `.seg`, `.tiles` / `.tile`, `.choices` / `.choice`, `.swatch`,
-  `.list-row`, `.group-head`, `.count`, `.empty`, `.pop`, `.menu-list`, `button.on` / `.primary` /
-  `.danger` / `.bare` / `.icon`, `.input`) instead of new per-component CSS; `ui/SearchField.svelte`
-  for search; `ui/keys.ts` (`key`, `withKey`, `saveSlotKey`) for every shortcut shown in the UI.
-  Wording: sentence case, "Group by" / "Sort by", American spelling, no full stop on empty states.
+- UI consistency: follow `docs/UI.md` (one control per kind of decision, fixed panel order, one
+  label column, hide vs disable, wording). Use the tokens and shared styles in `web/app/src/app.css`
+  (`.field` rows, `.slider`, `.switch`, `.seg`, `.tiles`, `.choices`, `.list-row`, `.heading-row`,
+  `.action-bar`, `.empty`, `.pop`, `.menu-list`, `button.on` / `.primary` / `.danger` / `.bare` /
+  `.icon`, `.input`) instead of new per-component CSS; tool settings come only from the registry
+  (`editor/tools.ts`); `ui/SearchField.svelte` for search; `ui/keys.ts` (`key`, `withKey`,
+  `saveSlotKey`) for every shortcut shown in the UI. The `panels` self-test checks the main rules.
 - three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
   unless they set `customProgramCacheKey` — always set it when injecting different shader code.

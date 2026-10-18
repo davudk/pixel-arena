@@ -67,6 +67,8 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'filters') await filtersTest(editor, check, settle, extras)
     else if (name === 'export') await exportTest(editor, check, settle, extras)
     else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
+    else if (name === 'camera') await cameraTest(editor, check, settle, extras)
+    else if (name === 'panels') await panelsTest(editor, check, settle, extras)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -439,13 +441,15 @@ async function branchesTest(editor: Editor, check: (ok: unknown, what: string) =
   check(s().branch().forkSeq === older.seq, 'branched at the history entry')
   check(!s().doc.hasObject(rock), 'older state shown')
 
-  // The panel lists both branches; undoing the merge works from main.
+  // The History dialog lists both branches; undoing the merge works from main.
+  ;(document.querySelector('button[aria-label="History"]') as HTMLButtonElement | null)?.click()
   await settle()
   const items = document.querySelectorAll('.history .branches li')
   check(items.length === 2, `panel lists 2 branches (got ${items.length})`)
   // "From history" inherits main's first two entries (Place stump, Paint blue) and has none of its own.
   const entries = document.querySelectorAll('.history .list li')
   check(entries.length === 2, `panel lists the branch's history (got ${entries.length})`)
+  ;(document.querySelector('button[aria-label="History"]') as HTMLButtonElement | null)?.click()
   editor.switchBranch(MAIN)
   s().undo()
   check(!s().doc.hasObject(rock), 'undo reverts the whole merge')
@@ -466,13 +470,14 @@ async function branchesUi(editor: Editor, check: (ok: unknown, what: string) => 
   editor.newBranch(MAIN, -1, 'Night market')
   editor.switchBranch(MAIN)
   s().edit('Recolor trees', () => ids.slice(0, 2).forEach((id) => s().setProp(id, 'variant', 'summer')))
+  ;(document.querySelector('button[aria-label="History"]') as HTMLButtonElement | null)?.click()
   await settle()
-  const rows = [...document.querySelectorAll<HTMLButtonElement>('.history .branches li button')]
+  const rows = [...document.querySelectorAll<HTMLElement>('.history .branches li .list-row')]
   const row = rows.find((b) => b.textContent?.includes('Autumn version'))
   check(row, 'branch row shown')
-  row?.click()
+  row?.querySelector<HTMLButtonElement>('button.more')?.click()
   await settle()
-  const mergeButton = [...document.querySelectorAll<HTMLButtonElement>('.history .actions button')].find((b) => b.textContent?.startsWith('Merge'))
+  const mergeButton = [...document.querySelectorAll<HTMLButtonElement>('.menu-list button')].find((b) => b.textContent?.startsWith('Merge'))
   check(mergeButton && !mergeButton.disabled, 'Merge enabled for the branch')
   mergeButton?.click()
   await settle()
@@ -635,6 +640,159 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** The panels follow the UI rules (docs/UI.md) in every mode: one label column, tile rows on
+ *  one line, two-column choices, settings under their switch, the tools container hidden with
+ *  nothing in hand and the catalogue collapsed; History and View open; Selection shows a
+ *  building's roof. Saves a window shot per view (panels-*.png). */
+async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  const demo = await fetch('fixtures/demo.pxmap').then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null)
+  if (demo) x.open(new Uint8Array(demo), 'demo.pxmap')
+  await settle()
+  const $ = <T extends Element = HTMLElement>(sel: string) => document.querySelector<T>(sel)
+  const $$ = <T extends Element = HTMLElement>(sel: string) => [...document.querySelectorAll<T>(sel)]
+  const press = (key: string) => {
+    window.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }))
+    window.dispatchEvent(new KeyboardEvent('keyup', { key, bubbles: true }))
+  }
+  const shot = async (name: string) => {
+    await frame()
+    await desktop?.test?.capture(`panels-${name}.png`)
+  }
+  const button = (root: string, text: string) => $$<HTMLButtonElement>(`${root} button`).find((b) => b.textContent?.trim() === text)
+  const oneRow = (els: HTMLElement[]) => els.length > 0 && els.every((e) => e.offsetTop === els[0].offsetTop)
+  const columns = (el: HTMLElement | null) => (el ? getComputedStyle(el).gridTemplateColumns.split(' ').length : 0)
+  const labelWidths = () => new Set($$('.field:not(.stack) > .label').filter((l) => l.offsetParent).map((l) => Math.round(l.getBoundingClientRect().width)))
+
+  // Water: Draw / Erase switch, Shape as a setting, Depth and Shore only under Dig basin.
+  press('o')
+  await settle()
+  check(button('.tools-box .verbs', 'Draw') && button('.tools-box .verbs', 'Erase'), 'water: Draw / Erase switch')
+  check($('.tools-box .seg[aria-label="Shape"]'), 'water: shape is a setting')
+  check(!$('.presets'), 'no preset button rows')
+  check(columns($('.catalog .choices')) === 2, 'liquids in two columns')
+  setParams('water', { dig: true })
+  await settle()
+  const withDig = $$('.tools-box .field.sub').length
+  setParams('water', { dig: false })
+  await settle()
+  check(withDig === 2 && $$('.tools-box .field.sub').length === 0, `depth and shore only under Dig basin (${withDig})`)
+  setParams('water', { dig: true })
+  check(labelWidths().size === 1, `one label width (${[...labelWidths()].join(', ')})`)
+  await shot('water')
+
+  // Terrain: Sculpt shows the four effects on one row; Paint shows materials instead.
+  press('t')
+  await settle()
+  button('.tools-box .verbs', 'Sculpt')?.click()
+  await settle()
+  check(oneRow($$('.catalog .tiles .tile')) && $$('.catalog .tiles .tile').length === 4, 'four effects on one row')
+  await shot('terrain')
+  button('.tools-box .verbs', 'Paint')?.click()
+  await settle()
+  check(!$('.catalog .tiles') && columns($('.catalog .choices')) === 2, 'paint shows materials only')
+
+  // Build: four pieces on one row, Erase in the switch; Level as a row.
+  press('b')
+  await settle()
+  check(oneRow($$('.catalog .tiles .tile')) && $$('.catalog .tiles .tile').length === 4, 'four pieces on one row')
+  check(button('.tools-box .verbs', 'Erase'), 'build: Erase in the switch')
+  button('.tools-box .verbs', 'Erase')?.click()
+  await settle()
+  check(toolParams.build.piece === 'erase', 'Erase picks up erasing')
+  button('.tools-box .verbs', 'Build')?.click()
+  await settle()
+  check(toolParams.build.piece !== 'erase', 'Build goes back to the last piece')
+  await shot('build')
+
+  // Props: placement settings in the tools container.
+  press('p')
+  await settle()
+  check($('.tools-box button[role="switch"][aria-label="Random angle"]'), 'props: random rotation is a switch')
+  await shot('props')
+
+  // Collapsed catalogue with nothing in hand: no tools container; with a tool in hand: shown.
+  putDown(editor)
+  ;($$<HTMLButtonElement>('.rail button').find((b) => b.classList.contains('on')))?.click()
+  await settle()
+  check(!$('.tools-box'), 'tools container hidden with nothing in hand and the catalogue collapsed')
+  pickUp(editor, 'water')
+  await settle()
+  check($('.tools-box') && !$('.catalog'), 'tools container shown with a tool in hand')
+  ;($$<HTMLButtonElement>('.rail button').find((b) => b.classList.contains('on')))?.click()
+  await settle()
+
+  // Selection: a building shows its kit and roof.
+  const building = [...editor.session.doc.objects.values()].find((o) => !o.deleted && o.type === 'building')
+  press('v')
+  await settle()
+  if (building) {
+    editor.selection.set([building.id])
+    await settle()
+    check($('.selection-box .seg[aria-label="Roof"]'), 'selection: roof of the building')
+    await shot('selection')
+    editor.selection.clear()
+    await settle()
+    check(!$('.selection-box'), 'selection container hidden with nothing selected')
+  }
+
+  // View popover groups; History dialog.
+  $<HTMLButtonElement>('button[aria-label="View settings"]')?.click()
+  await settle()
+  const headings = $$('.popover .heading').map((h) => h.textContent?.trim())
+  check(['Look', 'Time', 'Display'].every((h) => headings.includes(h)), `view groups (${headings.join(', ')})`)
+  await shot('view')
+  $<HTMLButtonElement>('button[aria-label="View settings"]')?.click()
+  $<HTMLButtonElement>('button[aria-label="History"]')?.click()
+  await settle()
+  check($$('.history .branches li').length >= 1, 'history dialog lists branches')
+  await shot('history')
+}
+
+/** Top-down (U) eases to looking straight down and back; Walk (G) moves on the terrain with WASD
+ *  and Esc returns to the editor view where the walk ended. */
+async function cameraTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  const app = (window as any).pixelArena
+  const { rig } = editor
+  const press = (key: string, down = true) => window.dispatchEvent(new KeyboardEvent(down ? 'keydown' : 'keyup', { key, bubbles: true }))
+  const tap = (key: string) => { press(key); press(key, false) }
+  const snap = (name: string) => fetch(`/__save?name=${name}`, { method: 'POST', body: x.canvas.toDataURL('image/png') }).catch(() => {})
+  // The demo map, so the shots show something to walk among.
+  const demo = await fetch('fixtures/demo.pxmap').then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null)
+  if (demo) x.open(new Uint8Array(demo), 'demo.pxmap')
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 40
+  await settle()
+  const iso = rig.pitch
+  tap('u')
+  await sleep(1200)
+  check(Math.abs(rig.pitch + Math.PI / 2) < 1e-3, `U looks straight down (${rig.pitch.toFixed(3)})`)
+  await snap('selftest-camera-top.png')
+  tap('u')
+  await sleep(1200)
+  check(Math.abs(rig.pitch - iso) < 1e-3, `U again goes back to isometric (${rig.pitch.toFixed(3)})`)
+
+  tap('g')
+  await frame()
+  check(app.walking, 'G starts walking')
+  check(x.canvas.parentElement?.classList.contains('walking'), 'the UI hides while walking')
+  const start = app.walk.position.clone()
+  press('w')
+  await sleep(800)
+  press('w', false)
+  await frame()
+  await snap('selftest-camera-walk.png')
+  const moved = app.walk.position.clone().sub(start)
+  check(Math.hypot(moved.x, moved.z) > 2, `W walks forward (${Math.hypot(moved.x, moved.z).toFixed(2)} m)`)
+  const floor = terrainEdit.heightAtWorld(editor.session.doc, app.walk.position.x, app.walk.position.z)
+  check(Math.abs(app.walk.position.y - floor) < 1e-3, 'feet stay on the terrain')
+  const gl = app.pixel.renderer.getContext() as WebGL2RenderingContext
+  check(gl.getError() === gl.NO_ERROR, 'perspective render has no GL errors')
+  tap('Escape')
+  await frame()
+  check(!app.walking, 'Esc stops walking')
+  check(Math.hypot(rig.focus.x - app.walk.position.x, rig.focus.z - app.walk.position.z) < 1e-3, 'the editor view moves to where the walk ended')
+}
+
 async function gesturesTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
   // Classifier.
   const c = new WheelClassifier()
