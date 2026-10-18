@@ -13,6 +13,14 @@ const NIGHT_SKY = new THREE.Color('#050814')
 const NIGHT_HORIZON = new THREE.Color('#0f1429')
 /** Tilt of the sun's path away from straight overhead, so noon shadows still have direction. */
 const PATH_TILT = THREE.MathUtils.degToRad(35)
+/** Light the water shader reads (world/water.ts): how much day it is (0 night, 1 day), the
+ *  sky's color (surfaces tint toward it) and the sun's direction. Shared uniform objects. */
+export const waterEnv = {
+  uDay: { value: 1 },
+  uSky: { value: new THREE.Color('#b8d1eb') },
+  uSunDir: { value: new THREE.Vector3(0, 1, 0) },
+}
+
 const smoothstep = (a: number, b: number, x: number) => {
   const t = Math.min(Math.max((x - a) / (b - a), 0), 1)
   return t * t * (3 - 2 * t)
@@ -61,6 +69,9 @@ export class DayCycle {
     this.sky.intensity = 0.55 + day * 1.05
     const bg = NIGHT_SKY.clone().lerp(DAY_SKY, day).lerp(horizon, 0.35)
     this.scene.background = bg
+    waterEnv.uDay.value = day
+    waterEnv.uSky.value.copy(bg).lerp(horizon, 0.4)
+    waterEnv.uSunDir.value.copy(this.sunDir)
   }
 
   /** Keeps the shadow box on the view: `extent` is half its width in meters. */

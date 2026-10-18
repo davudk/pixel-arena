@@ -72,6 +72,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'camera') await cameraTest(editor, check, settle, extras)
     else if (name === 'panels') await panelsTest(editor, check, settle, extras)
     else if (name === 'materials') await materialsTest(editor, check, settle, extras)
+    else if (name === 'liquids') await liquidsTest(editor, check, settle, extras)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -645,6 +646,31 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** Every liquid side by side (an 8 m pond each, dug 1.5 m, in two rows), shot at noon and at
+ *  night: selftest-liquids-noon.png / -night.png. Checks each pond renders. */
+async function liquidsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  const { rig } = editor
+  const s = editor.session
+  LIQUIDS.forEach((l, i) => {
+    const x0 = -20 + (i % 4) * 10
+    const z0 = -10 + Math.floor(i / 4) * 10
+    s.edit(`Pond ${l.id}`, () => addWater(s, [[[[x0, z0], [x0 + 8, z0], [x0 + 8, z0 + 8], [x0, z0 + 8]]]], { liquid: l.id, dig: true, depth: 1.5, shore: 2, start: [x0, z0] }))
+  })
+  const ponds = [...s.doc.objects.values()].filter((o) => !o.deleted && o.type === 'water')
+  check(ponds.length === LIQUIDS.length, `one pond per liquid (${ponds.length})`)
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 34
+  rig.update(0)
+  for (const [time, name] of [[12, 'noon'], [22, 'night'], [17.6, 'dusk']] as const) {
+    x.settings.setOverride('time_of_day', time)
+    await settle()
+    await sleep(600) // let the surfaces animate a little
+    await frame()
+    await fetch(`/__save?name=selftest-liquids-${name}.png`, { method: 'POST', body: x.canvas.toDataURL('image/png') }).catch(() => {})
+  }
+  x.settings.clearOverride('time_of_day')
+}
+
 /** Terrain materials: every slot of the texture pack loads with its texture; the paint tool's
  *  polygon shape fills the cells inside the clicked outline (one undo step) and stays in hand.
  *  Leaves a swatch of every material by the camera (selftest-materials.png). */

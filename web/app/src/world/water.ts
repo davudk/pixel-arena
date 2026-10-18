@@ -1,10 +1,19 @@
 // Water bodies: a flat polygon with optional holes (relative to the object's position, surface at
-// position.y) and a stylized shader: shallow-to-deep color, shoreline foam, drifting sparkles. The
-// look comes from the object's liquid (liquids.ts: water, lava, acid, ...) as uniforms, so every
-// liquid shares one shader program. Depth comes from the terrain heightfield under the polygon
-// (sampled into a small texture), so it's independent of the view and needs no depth-buffer read.
+// position.y) and a stylized, pixel-art shader. Every liquid shares one program; the object's
+// liquid (liquids.ts) sets its uniforms. Depth comes from the terrain heightfield under the
+// polygon (sampled into a small texture), so it's independent of the view and needs no
+// depth-buffer read.
+//
+// The common surface: depth in four flat bands from shore to deep (dithered at the band edges),
+// clear shallows with drifting caustics, a tint toward the sky's current color, sun glints on the
+// wave crests (moonlit at night), and shore foam that laps in and out with a wave line running up
+// the slope. Each liquid's `look` adds its own detail: lava is dark crust plates with glowing
+// cracks; acid has popping bubbles; ice has cracks and a frosted rim; swamp has algae and lily
+// pads; tar a slow sheen; muddy water drifting silt. Glow (lava, acid) is a third as strong by day
+// as at night (render/day-cycle.ts waterEnv).
 
 import * as THREE from 'three'
+import { waterEnv } from '../render/day-cycle'
 import { liquid } from './liquids'
 import { PackedVec2Array, terrainEdit, type MapDocument, type MapObject, type Vec3 } from '@pixel-arena/core'
 
@@ -24,11 +33,32 @@ uniform float uGlow;
 uniform float uFlow;
 uniform float uSparkle;
 uniform float uEdge;
+uniform int uLook;
+uniform float uDay;
+uniform vec3 uSky;
+uniform vec3 uSunDir;
 varying vec3 vWorld;
 float hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * 0.1031);
   p3 += dot(p3, p3.yzx + 33.33);
   return fract((p3.x + p3.y) * p3.z);
+}
+float vnoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash12(i), hash12(i + vec2(1, 0)), f.x), mix(hash12(i + vec2(0, 1)), hash12(i + vec2(1, 1)), f.x), f.y);
+}
+// Cells around p: distance to the nearest point, distance to the cell edge (F2 - F1), cell id.
+vec3 cells(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  float d1 = 8.0, d2 = 8.0, id = 0.0;
+  for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) {
+    vec2 g = vec2(float(x), float(y));
+    vec2 r = g + vec2(hash12(i + g), hash12(i + g + 19.7)) - f;
+    float d = dot(r, r);
+    if (d < d1) { d2 = d1; d1 = d; id = hash12(i + g + 5.3); } else if (d < d2) d2 = d;
+  }
+  return vec3(sqrt(d1), sqrt(d2) - sqrt(d1), id);
 }
 float groundAt(vec2 xz) {
   vec2 t = clamp(xz - uHeightRect.xy, vec2(0.0), uHeightRect.zw - 1.001);
@@ -38,6 +68,102 @@ float groundAt(vec2 xz) {
   float c = texelFetch(uHeights, i + ivec2(0, 1), 0).r, d = texelFetch(uHeights, i + ivec2(1, 1), 0).r;
   return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }`
+
+/** Liquid looks, in the order the shader numbers them (uLook). */
+const LOOKS = ['water', 'lava', 'acid', 'ice', 'swamp', 'tar', 'silt']
+
+/** Sets col (color), alpha and glow (emitted light) for this fragment. */
+const SURFACE = /* glsl */ `
+vec2 xz = vWorld.xz;
+vec2 block = floor(xz * 4.0); // 25 cm: the pixel-art unit for dithering
+float depth = max(uLevel - groundAt(xz), 0.0);
+float dd = clamp(depth / uDepthScale, 0.0, 1.0);
+float t = uTime * uFlow;
+// Four flat bands from shore to deep, dithered where they meet.
+float band4 = clamp(floor(dd * 3.999 + (hash12(block) - 0.5) * 0.45), 0.0, 3.0) / 3.0;
+vec3 col = mix(uShallow, uDeep, band4);
+float alpha = mix(uOpacity.x, uOpacity.y, band4);
+vec3 glow = vec3(0.0);
+float night = 1.0 - uDay;
+float light = 0.35 + 0.65 * uDay;
+bool liquidLook = uLook == 0 || uLook == 2 || uLook == 4 || uLook == 6;
+
+if (uLook == 1) {
+  // Lava: dark crust plates drifting on glowing cracks; the cracks widen and brighten in pulses.
+  vec2 q = xz * 0.8 + vec2(t * 0.12, t * 0.07);
+  vec3 c = cells(q);
+  float pulse = 0.5 + 0.5 * sin(uTime * 1.3 + c.z * 6.28);
+  float crack = 1.0 - smoothstep(0.03, 0.11 + 0.05 * pulse, c.y);
+  float hot = clamp(crack + (1.0 - band4) * 0.35 * step(0.6, vnoise(q * 2.0 + uTime * 0.2)), 0.0, 1.0);
+  vec3 crust = mix(vec3(0.03, 0.016, 0.012), vec3(0.07, 0.035, 0.022), c.z);
+  vec3 molten = mix(uDeep, uShallow, hot * hot);
+  col = mix(crust, molten, step(0.5, hot));
+  glow = molten * step(0.5, hot) * uGlow * (0.3 + 0.7 * night);
+  // A crust rim where it meets the shore.
+  col = mix(col, uFoam, step(0.6, 1.0 - smoothstep(0.0, uEdge, depth) + hash12(block) * 0.3));
+} else if (uLook == 3) {
+  // Ice: still; pale cracks, a frosted rim, a few glints by day.
+  vec3 c = cells(xz * 0.45);
+  col = mix(col, uFoam, (1.0 - smoothstep(0.03, 0.08, c.y)) * 0.6);
+  col = mix(col, vec3(0.3, 0.45, 0.56), 1.0 - smoothstep(0.0, 0.035, c.y));
+  col = mix(col, uFoam, step(0.55, 1.0 - smoothstep(0.0, uEdge * 1.5, depth) + hash12(block) * 0.35));
+  col = mix(col, vec3(1.0), step(0.985, hash12(block + 3.0)) * uDay);
+} else if (uLook == 5) {
+  // Tar: almost black, a slow oily sheen drifting across.
+  float sheen = sin(xz.x * 0.35 + xz.y * 0.22 + uTime * 0.25) * sin(xz.y * 0.5 - uTime * 0.18 + xz.x * 0.1);
+  col = mix(col, vec3(0.05, 0.048, 0.055), step(0.55, sheen));
+  col = mix(col, vec3(0.16, 0.15, 0.18), step(0.85, sheen) * light);
+  col = mix(col, vec3(0.42, 0.4, 0.46), step(0.97, sheen) * light);
+}
+
+if (liquidLook) {
+  // Caustics: light through clear shallows, drifting on the bed (water only).
+  if (uLook == 0) {
+    vec3 c = cells(xz * 0.6 + vec2(t * 0.1, -t * 0.07));
+    float caustic = (1.0 - smoothstep(0.02, 0.05, c.y)) * step(band4, 0.34) * uDay;
+    col = mix(col, uFoam, caustic * 0.22);
+    alpha = max(alpha, caustic * 0.4);
+  }
+  // Muddy water: silt clouds drift through.
+  if (uLook == 6) col = mix(col, uFoam, step(0.62, vnoise(xz * 0.9 + vec2(t * 0.2, t * 0.12))) * 0.22);
+  // Swamp: algae mats and the odd lily pad.
+  if (uLook == 4) {
+    col = mix(col, vec3(0.16, 0.22, 0.06), step(0.62, vnoise(xz * 0.4 + t * 0.03)) * 0.8);
+    vec2 cell = floor(xz / 1.6);
+    vec2 at = (cell + 0.3 + 0.4 * vec2(hash12(cell), hash12(cell + 7.0))) * 1.6;
+    float pad = step(hash12(cell + 2.0), 0.16) * step(length(xz - at), 0.38) * step(0.12, abs(atan(xz.y - at.y, xz.x - at.x) - 0.6));
+    col = mix(col, vec3(0.13, 0.32, 0.09), pad);
+    alpha = max(alpha, pad);
+  }
+  // Acid: bubbles grow and pop.
+  if (uLook == 2) {
+    vec2 cell = floor(xz / 0.7);
+    vec2 at = (cell + 0.25 + 0.5 * vec2(hash12(cell + 1.0), hash12(cell + 9.0))) * 0.7;
+    float life = fract(uTime * 0.35 + hash12(cell + 4.0));
+    float ring = step(abs(length(xz - at) - life * 0.2), 0.035) * step(0.55, hash12(cell + 6.0)) * step(life, 0.9);
+    col = mix(col, uFoam, ring);
+    glow = col * uGlow * (0.15 + 0.85 * night) * 0.6;
+  }
+  // The sky's color on clear water, more at the deep end.
+  if (uLook == 0) col = mix(col, uSky, 0.04 + 0.08 * band4);
+  // Glints on the wave crests: sunlight by day, fainter moonlight at night.
+  float crest = sin(xz.x * 0.7 + xz.y * 0.4 + t * 0.8) * sin(xz.y * 0.9 - t * 0.5);
+  float glint = step(0.94, crest) * step(0.86, hash12(block + floor(uTime * 2.0))) * uSparkle;
+  col = mix(col, mix(vec3(0.55, 0.62, 0.8), vec3(1.0, 0.98, 0.9), uDay), glint * (0.4 + 0.6 * uDay));
+  alpha = max(alpha, glint * 0.9);
+}
+
+if (uLook != 1 && uLook != 3) {
+  // Shore foam laps in and out; a thin wave line runs up the slope and fades.
+  float reach = uEdge * (0.75 + 0.35 * sin(uTime * 1.1 * max(uFlow, 0.2)));
+  float rim = step(0.55, 1.0 - smoothstep(0.0, reach, depth) + hash12(block) * 0.3);
+  float phase = fract(uTime * 0.22 * max(uFlow, 0.2));
+  float line = step(abs(depth - uEdge * (2.6 - 2.0 * phase)), 0.05) * (1.0 - phase) * step(0.55, hash12(block + 11.0));
+  float foam = max(rim * 0.85, line * 0.6) * (uLook == 5 ? 0.0 : 1.0);
+  col = mix(col, uFoam, foam);
+  alpha = max(alpha, foam);
+}
+diffuseColor = vec4(col, alpha);`
 
 export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null {
   const polygon = obj.props.get('polygon') as PackedVec2Array | null
@@ -81,6 +207,7 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
       uShallow: { value: color(l.shallow) }, uDeep: { value: color(l.deep) }, uFoam: { value: color(l.foam) },
       uOpacity: { value: new THREE.Vector2(...l.opacity) }, uDepthScale: { value: l.depthScale },
       uGlow: { value: l.glow }, uFlow: { value: l.flow }, uSparkle: { value: l.sparkle }, uEdge: { value: l.edge },
+      uLook: { value: LOOKS.indexOf(l.look) }, ...waterEnv,
     })
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vWorld;')
@@ -88,17 +215,8 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAG}`)
       .replace('#include <color_fragment>', `#include <color_fragment>
-float depth = max(uLevel - groundAt(vWorld.xz), 0.0);
-float dd = clamp(depth / uDepthScale, 0.0, 1.0);
-vec3 col = mix(uShallow, uDeep, dd);
-float t = uTime * uFlow;
-float band = sin(vWorld.x * 0.7 + vWorld.z * 0.4 + t * 0.8) * sin(vWorld.z * 0.9 - t * 0.5);
-col = mix(col, uFoam, step(0.93, band) * step(0.5, hash12(floor(vWorld.xz * 3.0))) * uSparkle);
-float edge = 1.0 - smoothstep(0.0, uEdge, depth);
-col = mix(col, uFoam, step(0.55, edge + hash12(floor(vWorld.xz * 4.0)) * 0.3) * 0.85);
-diffuseColor = vec4(col, mix(uOpacity.x, uOpacity.y, dd));`)
-      // Lava and acid light themselves.
-      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += col * uGlow;')
+${SURFACE}`)
+      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += glow;')
   }
   const mesh = new THREE.Mesh(geometry, mat)
   mesh.renderOrder = 1
