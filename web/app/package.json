@@ -17,9 +17,10 @@
   },
   "dependencies": {
     "@pixel-arena/core": "*",
+    "fflate": "0.8.3",
+    "polygon-clipping": "0.15.7",
     "svelte": "5.57.2",
     "three": "0.186.1",
-    "three-mesh-bvh": "0.9.16",
-    "fflate": "0.8.3"
+    "three-mesh-bvh": "0.9.16"
   }
 }

@@ -22,6 +22,7 @@ import { BuildingTool } from './building-tool'
 import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
 import * as grouping from './grouping'
+import { addWater, eraseWater, overlapArea, shapeArea, strokeShape, worldShape } from './water-shapes'
 import { outline } from '../ui/objects'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
@@ -68,6 +69,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
+    else if (name === 'waterrules') await waterRulesTest(editor, check, settle)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
@@ -894,4 +896,82 @@ async function outlinerTest(editor: Editor, check: (ok: unknown, what: string) =
   grouping.ungroup(s, g, lib)
   check(doc.getObject(g)!.deleted && grouping.parentGroup(doc, a) === null, 'ungroup dissolves the group')
   editor.selection.clear()
+}
+
+/** Water never overlaps: the same liquid merges (keeping the height it started in), another
+ *  liquid is replaced (islands become holes), the same liquid at another height stays apart, the
+ *  brush paints a stroke, and erasing cuts water away (splitting a body if needed). Each is one
+ *  undo step. */
+async function waterRulesTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  await settle()
+  const s = editor.session
+  const doc = s.doc
+  const sq = (x: number, z: number, size: number) => [[[[x, z], [x + size, z], [x + size, z + size], [x, z + size]]]] as [number, number][][][]
+  const water = () => [...doc.objects.values()].filter((o) => !o.deleted && o.type === 'water')
+  const of = (liquid: string) => water().filter((o) => o.props.get('liquid') === liquid)
+  const add = (shape: [number, number][][][], liquid: string, start: [number, number], label = 'Add') =>
+    s.edit(label, () => addWater(s, shape, { liquid, dig: true, depth: 1.5, shore: 2, start }))
+  const noOverlaps = () => {
+    const w = water()
+    for (let i = 0; i < w.length; i++) for (let j = i + 1; j < w.length; j++) if (overlapArea(worldShape(w[i]), worldShape(w[j])) > 0.01) return false
+    return true
+  }
+  const area = (o: { id: string } | undefined) => (o ? shapeArea(worldShape(doc.getObject(o.id)!)) : 0)
+
+  add(sq(0, 0, 8), 'water', [0, 0])
+  check(of('water').length === 1 && Math.abs(area(of('water')[0]) - 64) < 0.5, 'a lake')
+  const level = (of('water')[0].props.get('position') as Vec3).y
+
+  // Same liquid overlapping, started inside the lake: one body, the lake's height.
+  add(sq(6, 6, 8), 'water', [7, 7])
+  check(of('water').length === 1, `same liquid merges (${of('water').length} bodies)`)
+  check(Math.abs(area(of('water')[0]) - (64 + 64 - 4)) < 0.5, `merged area (${area(of('water')[0]).toFixed(1)})`)
+  check(Math.abs((of('water')[0].props.get('position') as Vec3).y - level) < 1e-6, 'keeps the height it started in')
+  s.undo()
+  check(of('water').length === 1 && Math.abs(area(of('water')[0]) - 64) < 0.5, 'undo restores the lake')
+  s.redo()
+
+  // Another liquid replaces water where it goes.
+  add(sq(10, 10, 6), 'lava', [16, 16])
+  check(of('lava').length === 1 && Math.abs(area(of('lava')[0]) - 36) < 0.5, 'lava placed')
+  check(noOverlaps(), 'no overlaps after lava')
+  check(Math.abs(area(of('water')[0]) - (124 - 16)) < 0.5, `the lake gave way (${area(of('water')[0]).toFixed(1)})`)
+
+  // An island of tar inside the lake: the lake gets a hole.
+  add(sq(2, 2, 2), 'tar', [3, 3])
+  const holes = of('water')[0].props.get('holes')
+  check(Array.isArray(holes) && holes.length === 1, 'an island becomes a hole')
+  check(noOverlaps(), 'no overlaps after the island')
+
+  // Same liquid, clearly another height: kept apart, the new water stops at the lake's edge.
+  s.edit('Raise', () => s.setProp(of('lava')[0].id, 'position', (of('lava')[0].props.get('position') as Vec3).add(new Vec3(0, 1, 0))))
+  add(sq(14, 8, 6), 'lava', [19, 9])
+  check(of('lava').length === 2 && noOverlaps(), `lava at another height stays apart (${of('lava').length})`)
+
+  // The brush: a stroke of water joins the lake it starts in.
+  const before = area(of('water')[0])
+  pickUp(editor, 'waterBrush', { liquid: 'water', radius: 1.5, dig: true })
+  const brush = editor.tool
+  const at = (x: number, z: number): Pointer => {
+    const p = editor.pixel.toScreen(new THREE.Vector3(x, terrainEdit.heightAtWorld(doc, x, z), z), editor.rig)!
+    return { x: p.x, y: p.y, shift: false, alt: false, cmd: false }
+  }
+  editor.rig.focus.set(4, 0, 4)
+  editor.rig.zoom = 50
+  editor.rig.update(0)
+  await settle()
+  brush.pointerDown?.(at(1, 1))
+  for (let x = 1; x >= -8; x -= 0.5) brush.pointerMove?.(at(x, 1))
+  brush.pointerUp?.(at(-8, 1))
+  check(of('water').length === 1 && area(of('water')[0]) > before + 15, `the brush stroke joins the lake (${area(of('water')[0]).toFixed(1)})`)
+  check(s.branch().txns.at(-1)?.label === 'Draw water', `brush label (${s.branch().txns.at(-1)?.label})`)
+  const stroke = strokeShape([[0, 0], [4, 0]], 1)
+  check(Math.abs(shapeArea(stroke) - (Math.PI + 8)) < 0.3, `stroke area (${shapeArea(stroke).toFixed(2)})`)
+
+  // Erasing a band across the lake splits it in two.
+  const lakesBefore = of('water').length
+  s.edit('Erase water', () => eraseWater(s, [[[[-9, 4.5], [8.5, 4.5], [8.5, 5.5], [-9, 5.5]]]]))
+  check(of('water').length === lakesBefore + 1, `erasing across splits the lake (${of('water').length})`)
+  check(noOverlaps(), 'still no overlaps')
+  putDown(editor)
 }

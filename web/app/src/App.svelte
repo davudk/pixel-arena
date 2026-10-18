@@ -450,9 +450,11 @@
   let tipTimer = 0
   function showBrushTip() {
     const hand = editor && inHand(editor)
-    if (!editor || (hand !== 'sculpt' && hand !== 'paint')) return
-    const def = TOOLS[hand]
-    const text = def.params.filter((p) => p.kind === 'range').map((p) => p.format!(Number((toolParams[hand] as unknown as Record<string, unknown>)[p.key]))).join(' · ')
+    if (!editor || !hand) return
+    // Brush tools: their size, and strength when they have one.
+    const shown = TOOLS[hand].params.filter((p) => p.key === 'radius' || p.key === 'strength')
+    if (!shown.length) return
+    const text = shown.map((p) => p.format!(Number((toolParams[hand] as unknown as Record<string, unknown>)[p.key]))).join(' · ')
     brushTip = { x: editor.cursor.x, y: editor.cursor.y, text }
     clearTimeout(tipTimer)
     tipTimer = window.setTimeout(() => (brushTip = null), 900)

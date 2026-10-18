@@ -523,6 +523,12 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   corner dots, a dashed segment to the cursor, a first-corner ring that snaps and fills when
   closing, and a fill preview. Water panel: liquid picker, basin settings, change a body's liquid.
   `?selftest=water`.
+- Water never overlaps (`editor/water-shapes.ts`, using `polygon-clipping`): new water takes the
+  height of the body it starts in (else the lowest ground along its edge), merges with the same
+  liquid it touches, replaces other liquids where it goes (islands become `holes` on a body),
+  and stays apart from the same liquid at a clearly different height (a step). Water brush
+  (solid round brush: liquid, size, dig basin) and Erase water tools join Draw in Water mode;
+  each stroke is one undo step. `?selftest=waterrules`.
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

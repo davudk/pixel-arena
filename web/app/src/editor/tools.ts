@@ -17,6 +17,7 @@ import { SelectTool } from './select-tool'
 import { TerrainTool } from './terrain-tool'
 import { MAX_LEVEL, params, setParams, type ParamTool, type ToolParams } from './tool-params'
 import { WaterTool } from './water-tool'
+import { WaterBrushTool } from './water-brush'
 
 export type ToolId = 'select' | ParamTool
 /** Left-panel views; each tool belongs to one. */
@@ -132,6 +133,30 @@ export const TOOLS: Record<ToolId, ToolDef> = {
       return `${drawLabel(String(p.liquid))} · ${extras.join(', ')}`
     },
   },
+  waterBrush: {
+    id: 'waterBrush', mode: 'water', label: 'Water brush', icon: 'brush', saveable: true,
+    params: [
+      { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
+      { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters },
+      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel', quick: true },
+      {
+        key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
+        applies: (p) => p.dig === true, why: 'Only when digging a basin',
+      },
+      {
+        key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
+        applies: (p) => p.dig === true, why: 'Only when digging a basin',
+      },
+    ],
+    create: (editor) => new WaterBrushTool(editor, 'waterBrush'),
+    describe: (p) => `${drawLabel(String(p.liquid)).replace(/^Draw/, 'Paint')} · ${meters(Number(p.radius))}${p.dig === false ? ' · no basin' : ''}`,
+  },
+  waterErase: {
+    id: 'waterErase', mode: 'water', label: 'Erase water', icon: 'eraser', saveable: true,
+    params: [{ key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters }],
+    create: (editor) => new WaterBrushTool(editor, 'waterErase'),
+    describe: (p) => `Erase water · ${meters(Number(p.radius))}`,
+  },
   build: {
     id: 'build', mode: 'build', label: 'Build', icon: 'building', saveable: true,
     params: [
@@ -148,7 +173,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
 }
 
 export const MODE_TOOLS: Record<Mode, ToolId[]> = {
-  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water'], build: ['build'],
+  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water', 'waterBrush', 'waterErase'], build: ['build'],
 }
 
 /** The registry id of a tool instance (the select tool for anything unknown). */

@@ -5,6 +5,7 @@
   import type { Thumbnails } from '../library/thumbs'
   import { TOOLS } from '../editor/tools'
   import { PALETTE } from '../render/terrain-shading'
+  import { liquid } from '../world/liquids'
   import Icon from './Icon.svelte'
   import { thumbUrls, type SavedTool } from './ui-state.svelte'
 
@@ -29,7 +30,9 @@
   })
 </script>
 
-{#if tool.tool === 'paint'}
+{#if (tool.tool === 'water' || tool.tool === 'waterBrush') && p.liquid}
+  <span class="swatch" style:width="{size}px" style:height="{size}px" style:background={liquid(p.liquid).shallow}></span>
+{:else if tool.tool === 'paint'}
   <span class="swatch" style:width="{size}px" style:height="{size}px" style:background={PALETTE[Number(p.material)]?.color}></span>
 {:else if thumb}
   <img src={thumb} alt="" width={size + 6} height={size + 6} />

@@ -1,12 +1,12 @@
-// Water bodies: a flat polygon (relative to the object's position, surface at position.y) with a
-// stylized shader: shallow-to-deep color, shoreline foam, drifting sparkles. The look comes from
-// the object's liquid (liquids.ts: water, lava, acid, ...) as uniforms, so every liquid shares one
-// shader program. Depth comes from the terrain heightfield under the polygon (sampled into a small
-// texture), so it's independent of the view and needs no depth-buffer read.
+// Water bodies: a flat polygon with optional holes (relative to the object's position, surface at
+// position.y) and a stylized shader: shallow-to-deep color, shoreline foam, drifting sparkles. The
+// look comes from the object's liquid (liquids.ts: water, lava, acid, ...) as uniforms, so every
+// liquid shares one shader program. Depth comes from the terrain heightfield under the polygon
+// (sampled into a small texture), so it's independent of the view and needs no depth-buffer read.
 
 import * as THREE from 'three'
 import { liquid } from './liquids'
-import { terrainEdit, type MapDocument, type MapObject, type PackedVec2Array, type Vec3 } from '@pixel-arena/core'
+import { PackedVec2Array, terrainEdit, type MapDocument, type MapObject, type Vec3 } from '@pixel-arena/core'
 
 export const waterTime = { value: 0 }
 
@@ -43,6 +43,11 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
   const polygon = obj.props.get('polygon') as PackedVec2Array | null
   if (!polygon || polygon.points.length < 3) return null
   const shape = new THREE.Shape(polygon.points.map((p) => new THREE.Vector2(p.x, p.y)))
+  // Islands, or other liquids cut out of this one (see editor/water-shapes.ts).
+  const holes = obj.props.get('holes')
+  if (Array.isArray(holes)) {
+    for (const h of holes) if (h instanceof PackedVec2Array && h.points.length >= 3) shape.holes.push(new THREE.Path(h.points.map((p) => new THREE.Vector2(p.x, p.y))))
+  }
   // Shape is in XY; rotate so local y becomes +z (matching the Godot polygon's (x, z)).
   const geometry = new THREE.ShapeGeometry(shape).rotateX(Math.PI / 2)
   const pos = obj.props.get('position') as Vec3

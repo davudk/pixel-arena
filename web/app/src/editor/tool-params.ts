@@ -16,6 +16,9 @@ export interface ToolParams {
   /** Liquid id (world/liquids.ts); dig lowers the ground inside into a basin `depth` deep with a
    *  `shore` wide slope at the edge. */
   water: { liquid: string; dig: boolean; depth: number; shore: number; snap: boolean }
+  /** The water brush: same liquid and basin settings as drawing, plus its size. */
+  waterBrush: { liquid: string; radius: number; dig: boolean; depth: number; shore: number }
+  waterErase: { radius: number }
   build: { kit: string; piece: BuildPiece; level: number }
 }
 /** Tools that have parameters (everything but select). */
@@ -26,6 +29,8 @@ export const DEFAULT_PARAMS: ToolParams = {
   sculpt: { op: 'raise', radius: 4, strength: 0.5 },
   paint: { material: 1, radius: 4 },
   water: { liquid: 'water', dig: true, depth: 1.5, shore: 3, snap: true },
+  waterBrush: { liquid: 'water', radius: 2, dig: true, depth: 1.5, shore: 2 },
+  waterErase: { radius: 2 },
   build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0 },
 }
 

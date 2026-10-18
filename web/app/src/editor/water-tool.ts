@@ -3,10 +3,10 @@
 // is held); click the first corner again or press Enter to finish; Backspace removes the last
 // corner; Esc drops the outline, or puts the tool down when there is none.
 //
-// With params.water.dig (default) the surface sits at the lowest ground along the outline, so it
-// never spills, and the ground inside is lowered into a basin `depth` deep that eases in over
-// `shore` meters from the edge; ground already lower (a hollow) is left alone. The basin and the
-// water are one edit (one undo step). Without dig the surface sits at the first corner's height.
+// The new shape goes through the water rules in water-shapes.ts: it merges with the same liquid
+// it touches (keeping the height of the body it started in), replaces other liquids where it
+// overlaps them, and on dry ground (params.water.dig, the default) sits at the lowest ground
+// along its edge with a basin dug beneath it. All of it is one edit (one undo step).
 //
 // While drawing, indicators replace any on-screen text: a liquid-colored cursor dot with a "+",
 // corner dots joined by solid lines, a dashed line from the last corner to the cursor (no closing
@@ -17,16 +17,15 @@
 // any other object; PageUp / PageDown in the select tool raise or lower the surface.
 
 import * as THREE from 'three'
-import { PackedVec2Array, Rect2i, terrainEdit, Vec2, Vec3, type MapDocument } from '@pixel-arena/core'
+import { terrainEdit, Vec2 } from '@pixel-arena/core'
 import { liquid } from '../world/liquids'
 import type { Editor, Pointer, Tool } from './editor'
 import { drawLabel } from './labels'
 import { params } from './tool-params'
+import { addWater, type Ring } from './water-shapes'
 
 const CLOSE_DISTANCE = 12 // CSS px from the first corner that closes the outline
 const SNAP = 0.5 // m
-
-type TerrainOp = ReturnType<typeof terrainEdit.heightOps>[number]
 
 export class WaterTool implements Tool {
   readonly name = 'water'
@@ -96,27 +95,24 @@ export class WaterTool implements Tool {
     return true
   }
 
-  /** Creates the water object (digging its basin) and selects it, if the outline is a valid
-   *  simple polygon. Returns its id, or null (and keeps editing). */
+  /** Adds the outline as water (merging, replacing, digging; see water-shapes.ts) and selects
+   *  the body that holds it, if the outline is a valid simple polygon. Returns that body's id,
+   *  or null (and keeps editing). */
   finish(): string | null {
     if (this.points.length < 3) return null
-    const world = this.points.map((p) => new Vec2(p.x, p.z))
-    const cx = world.reduce((a, p) => a + p.x, 0) / world.length
-    const cz = world.reduce((a, p) => a + p.y, 0) / world.length
-    const polygon = world.map((p) => new Vec2(p.x - cx, p.y - cz))
-    if (selfIntersects(polygon)) return null
+    if (selfIntersects(this.points.map((p) => new Vec2(p.x, p.z)))) return null
+    const ring: Ring = this.points.map((p) => [p.x, p.z])
     const w = params.water
     const s = this.editor.session
-    const basin = w.dig ? planBasin(s.doc, world, w.depth, w.shore) : { level: this.points[0].y, ops: [] }
+    const start: [number, number] = [this.points[0].x, this.points[0].z]
     this.points = []
-    let id = ''
+    let ids: string[] = []
     s.edit(drawLabel(w.liquid), () => {
-      for (const op of basin.ops) s.apply(op)
-      id = s.createObject('water', { position: new Vec3(cx, basin.level, cz), rotation: 0, polygon: new PackedVec2Array(polygon), liquid: w.liquid })
+      ids = addWater(s, [[ring]], { liquid: w.liquid, dig: w.dig, depth: w.depth, shore: w.shore, start })
     })
     this.editor.setTool(this.editor.defaultTool())
-    this.editor.selection.set([id])
-    return id
+    this.editor.selection.set(ids)
+    return ids[0] ?? null
   }
 
   private snapped(p: Pointer): THREE.Vector3 | null {
@@ -210,71 +206,6 @@ export class WaterTool implements Tool {
       }
     }
   }
-}
-
-/** Where the surface of water drawn along `poly` (world x, z) goes, and the terrain ops that dig
- *  its basin: surface at the lowest ground along the outline; inside, ground lowered toward
- *  `surface - depth`, easing in over `shore` meters from the edge. Ground is never raised, and an
- *  area that is already a hollow below the surface is left as it is. */
-export function planBasin(doc: MapDocument, poly: Vec2[], depth: number, shore: number): { level: number; ops: TerrainOp[] } {
-  const n = poly.length
-  // Lowest ground along the outline, sampled every half meter.
-  let level = Infinity
-  for (let i = 0; i < n; i++) {
-    const a = poly[i]
-    const b = poly[(i + 1) % n]
-    const steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.5))
-    for (let k = 0; k < steps; k++) {
-      const t = k / steps
-      level = Math.min(level, terrainEdit.heightAtWorld(doc, a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t))
-    }
-  }
-  const x0 = Math.floor(Math.min(...poly.map((p) => p.x)))
-  const z0 = Math.floor(Math.min(...poly.map((p) => p.y)))
-  const x1 = Math.ceil(Math.max(...poly.map((p) => p.x)))
-  const z1 = Math.ceil(Math.max(...poly.map((p) => p.y)))
-  const rect = new Rect2i(x0, z0, x1 - x0 + 1, z1 - z0 + 1)
-  const inside = (x: number, z: number) => insidePolygon(poly, x, z)
-
-  // Already a hollow (nothing inside reaches the surface): just fill it. Samples on or right by
-  // the outline sit at rim height by definition, so they don't count.
-  let interiorMax = -Infinity
-  for (let sz = rect.y; sz < rect.endY; sz++)
-    for (let sx = rect.x; sx < rect.endX; sx++)
-      if (inside(sx, sz) && edgeDistance(poly, sx, sz) >= 0.5) interiorMax = Math.max(interiorMax, terrainEdit.heightAt(doc, sx, sz))
-  if (interiorMax === -Infinity || interiorMax < level - 0.1) return { level, ops: [] }
-
-  const ease = (t: number) => (1 - Math.cos(Math.PI * Math.min(1, Math.max(0, t)))) / 2
-  const ops = terrainEdit.heightOps(doc, rect, (sx, sz, old) => {
-    if (!inside(sx, sz)) return old
-    const target = level - depth * ease(edgeDistance(poly, sx, sz) / shore)
-    return Math.min(old, Math.round(target * 1000) / 1000)
-  })
-  return { level, ops }
-}
-
-function insidePolygon(poly: Vec2[], x: number, z: number): boolean {
-  let inside = false
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const a = poly[i]
-    const b = poly[j]
-    if (a.y > z !== b.y > z && x < ((b.x - a.x) * (z - a.y)) / (b.y - a.y) + a.x) inside = !inside
-  }
-  return inside
-}
-
-/** Distance from (x, z) to the polygon's outline. */
-function edgeDistance(poly: Vec2[], x: number, z: number): number {
-  let best = Infinity
-  for (let i = 0; i < poly.length; i++) {
-    const a = poly[i]
-    const b = poly[(i + 1) % poly.length]
-    const dx = b.x - a.x
-    const dz = b.y - a.y
-    const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.y) * dz) / (dx * dx + dz * dz || 1)))
-    best = Math.min(best, Math.hypot(x - (a.x + dx * t), z - (a.y + dz * t)))
-  }
-  return best
 }
 
 /** True if any two non-adjacent edges of the closed polygon cross. */
