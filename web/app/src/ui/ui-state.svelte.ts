@@ -70,6 +70,11 @@ function load(): UiPrefs {
       }))
     }
     delete saved.brushes
+    // The water brush became the brush shape of Draw.
+    if (Array.isArray(saved.tools)) {
+      saved.tools = saved.tools.map((t: SavedTool | (Omit<SavedTool, 'tool'> & { tool: 'waterBrush' })) =>
+        t.tool === 'waterBrush' ? { ...t, tool: 'water', params: { ...t.params, shape: 'brush' } } : t)
+    }
     delete saved.randomRotation
     delete saved.snap
     return { ...base, ...saved, sections: { ...base.sections, ...(saved.sections ?? {}) }, outliner: { ...base.outliner, ...(saved.outliner ?? {}) } }

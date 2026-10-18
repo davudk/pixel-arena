@@ -1,9 +1,11 @@
-// Draws a body of water (or another liquid: params.water.liquid) as a polygon (port of
-// WaterTool): click to add corners (snapped to 0.5 m unless params.water.snap is off or Cmd/Ctrl
-// is held); click the first corner again or press Enter to finish; Backspace removes the last
-// corner; Esc drops the outline, or puts the tool down when there is none.
+// Water by polygon outline (port of WaterTool): the polygon shape of two registry tools, "water"
+// (draws params.water.liquid) and "waterErase" (cuts the outline out of any water). Click to add
+// corners (snapped to 0.5 m unless the tool's snap is off or Cmd/Ctrl is held; Shift keeps the
+// new side at a multiple of 45°); click the first corner again or press Enter to finish;
+// Backspace removes the last corner; Esc drops the outline, or puts the tool down when there is
+// none.
 //
-// The new shape goes through the water rules in water-shapes.ts: it merges with the same liquid
+// Drawn shapes go through the water rules in water-shapes.ts: they merge with the same liquid
 // it touches (keeping the height of the body it started in), replaces other liquids where it
 // overlaps them, and on dry ground (params.water.dig, the default) sits at the lowest ground
 // along its edge with a basin dug beneath it. All of it is one edit (one undo step).
@@ -22,13 +24,12 @@ import { liquid } from '../world/liquids'
 import type { Editor, Pointer, Tool } from './editor'
 import { drawLabel } from './labels'
 import { params } from './tool-params'
-import { addWater, type Ring } from './water-shapes'
+import { addWater, eraseWater, type Ring } from './water-shapes'
 
 const CLOSE_DISTANCE = 12 // CSS px from the first corner that closes the outline
 const SNAP = 0.5 // m
 
 export class WaterTool implements Tool {
-  readonly name = 'water'
   private points: THREE.Vector3[] = []
   private hover: THREE.Vector3 | null = null
   /** The cursor is on the first corner (with 3+ corners): a click closes the outline. */
@@ -36,7 +37,7 @@ export class WaterTool implements Tool {
   private overlay = new THREE.Group()
   private drawnZoom = 0
 
-  constructor(private editor: Editor) {
+  constructor(private editor: Editor, readonly name: 'water' | 'waterErase' = 'water') {
     this.overlay.renderOrder = 10
   }
 
@@ -104,6 +105,12 @@ export class WaterTool implements Tool {
     const ring: Ring = this.points.map((p) => [p.x, p.z])
     const w = params.water
     const s = this.editor.session
+    if (this.name === 'waterErase') {
+      this.points = []
+      s.edit('Erase water', () => eraseWater(s, [[ring]]))
+      this.redraw()
+      return null
+    }
     const start: [number, number] = [this.points[0].x, this.points[0].z]
     this.points = []
     let ids: string[] = []
@@ -118,9 +125,25 @@ export class WaterTool implements Tool {
   private snapped(p: Pointer): THREE.Vector3 | null {
     const hit = this.editor.groundAt(p)
     if (!hit) return null
-    const free = p.cmd || !params.water.snap
-    const x = free ? hit.x : Math.round(hit.x / SNAP) * SNAP
-    const z = free ? hit.z : Math.round(hit.z / SNAP) * SNAP
+    const free = p.cmd || !params[this.name].snap
+    let x = free ? hit.x : Math.round(hit.x / SNAP) * SNAP
+    let z = free ? hit.z : Math.round(hit.z / SNAP) * SNAP
+    // Shift: the new side runs at a multiple of 45° from the last corner. With snapping on, its
+    // length steps so the corner stays on the grid (half meters along an axis, half-meter
+    // diagonals along a diagonal).
+    const last = this.points.at(-1)
+    if (p.shift && last) {
+      const angle = Math.round(Math.atan2(hit.z - last.z, hit.x - last.x) / (Math.PI / 4)) * (Math.PI / 4)
+      const dx = Math.cos(angle)
+      const dz = Math.sin(angle)
+      let len = (hit.x - last.x) * dx + (hit.z - last.z) * dz
+      if (!free) {
+        const step = Math.abs(dx) > 1e-6 && Math.abs(dz) > 1e-6 ? SNAP * Math.SQRT2 : SNAP
+        len = Math.round(len / step) * step
+      }
+      x = last.x + Math.round(dx * len * 1e6) / 1e6
+      z = last.z + Math.round(dz * len * 1e6) / 1e6
+    }
     return new THREE.Vector3(x, terrainEdit.heightAtWorld(this.editor.session.doc, x, z), z)
   }
 
@@ -141,8 +164,8 @@ export class WaterTool implements Tool {
     // World meters per CSS pixel, so markers keep their on-screen size (big enough to survive
     // the pixel filter's low resolution).
     const px = this.editor.rig.zoom / Math.max(1, this.editor.pixel.canvas.clientHeight)
-    const l = liquid(params.water.liquid)
-    const color = new THREE.Color(l.shallow)
+    // Erasing draws in the danger red; drawing in the liquid's color.
+    const color = new THREE.Color(this.name === 'waterErase' ? '#ff8a7a' : liquid(params.water.liquid).shallow)
     const lift = (v: THREE.Vector3) => new THREE.Vector3(v.x, v.y + 0.05, v.z)
     const pts = this.points.map(lift)
     const hover = this.hover && lift(this.hover)

@@ -1,7 +1,7 @@
 <script lang="ts">
-  // Build mode's catalogue (under the current-tool card, which holds the level): saved build
-  // tools, the kit (cards drawn in the kit's colors), the piece (picking it picks up the tool; the
-  // piece in hand again puts it down) and the roof of the building being edited.
+  // Build mode's panel (under the current-tool card): saved build tools, the kit (cards drawn in
+  // the kit's colors), the piece (picking it picks up the tool; the piece in hand again puts it
+  // down), the level being built on, and the roof of the building being edited.
   import { onDestroy } from 'svelte'
   import { BuildingTool } from '../editor/building-tool'
   import type { Editor } from '../editor/editor'
@@ -9,6 +9,7 @@
   import { inHand, pickUp, putDown, TOOLS } from '../editor/tools'
   import Icon from './Icon.svelte'
   import SavedTools from './SavedTools.svelte'
+  import ToolSettings from './ToolSettings.svelte'
 
   interface Props {
     editor: Editor
@@ -88,6 +89,11 @@
         <button class="tile" class:on aria-pressed={on} onclick={() => choosePiece(String(p.value))}><Icon name={p.icon ?? ''} size={20} /><span>{p.label}</span></button>
       {/each}
     </div>
+  </section>
+
+  <section class="section">
+    <h3 class="heading">Level</h3>
+    <ToolSettings library={editor.library} tool="build" keys={['level']} />
   </section>
 
   <section class="section">

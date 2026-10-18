@@ -48,6 +48,11 @@ export interface ParamDef {
   applies?: (p: Record<string, unknown>, library: Library) => boolean
   /** Why it doesn't apply (tooltip). */
   why?: string
+  /** Hidden (not just disabled) when it doesn't apply: it belongs to another variant of the tool. */
+  hide?: boolean
+  /** A catalogue choice that only qualifies the tool (water's polygon / brush): shown under the
+   *  current tool's name rather than as it. */
+  detail?: boolean
 }
 
 export interface ToolDef {
@@ -56,6 +61,9 @@ export interface ToolDef {
   label: string
   icon: string
   saveable: boolean
+  /** Changing one of these while the tool is in hand makes a new instance (they pick the
+   *  implementation, e.g. water's polygon or brush). */
+  recreateOn?: string[]
   params: ParamDef[]
   create: (editor: Editor) => Tool | null
   /** Short description of the settings (saved-tool names, tooltips). */
@@ -64,6 +72,8 @@ export interface ToolDef {
 
 const meters = (v: number) => `${Number(v.toFixed(2))} m`
 const percent = (v: number) => `${Math.round(v * 100)}%`
+const SHAPES: Option[] = [{ value: 'polygon', label: 'Polygon', icon: 'polygon' }, { value: 'brush', label: 'Brush', icon: 'brush' }]
+const RADIUS_WATER: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters }
 const RADIUS: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 1, max: 32, step: 0.5, presets: [1, 2, 4, 8, 16, 32], format: meters }
 
 export const TOOLS: Record<ToolId, ToolDef> = {
@@ -110,10 +120,15 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     create: (editor) => new TerrainTool(editor, 'paint'),
     describe: (p) => `Paint ${PALETTE[Number(p.material)]?.name ?? ''} · ${meters(Number(p.radius))}`,
   },
+  // Water: Draw and Erase, each by polygon outline or round brush (the `shape` setting picks the
+  // implementation: WaterTool or WaterBrushTool).
   water: {
-    id: 'water', mode: 'water', label: 'Draw water', icon: 'droplet', saveable: true,
+    id: 'water', mode: 'water', label: 'Draw water', icon: 'droplet', saveable: true, recreateOn: ['shape'],
     params: [
       { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
+      { key: 'shape', label: 'Shape', kind: 'choice', options: SHAPES, detail: true },
+      { ...RADIUS_WATER, applies: (p) => p.shape === 'brush', hide: true },
+      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', applies: (p) => p.shape === 'polygon', hide: true },
       { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel' },
       {
         key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
@@ -123,37 +138,22 @@ export const TOOLS: Record<ToolId, ToolDef> = {
         key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
         applies: (p) => p.dig === true, why: 'Only when digging a basin',
       },
-      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet' },
     ],
-    create: (editor) => new WaterTool(editor),
+    create: (editor) => (params.water.shape === 'brush' ? new WaterBrushTool(editor, 'water') : new WaterTool(editor, 'water')),
     describe: (p) => {
-      const extras = [p.dig === false ? 'no basin' : `${meters(Number(p.depth))} deep`, p.snap === false ? 'no snap' : ''].filter(Boolean)
-      return `${drawLabel(String(p.liquid))} · ${extras.join(', ')}`
+      const how = p.shape === 'brush' ? `brush ${meters(Number(p.radius))}` : 'polygon'
+      return `${drawLabel(String(p.liquid))} · ${how}${p.dig === false ? ' · no basin' : ''}`
     },
   },
-  waterBrush: {
-    id: 'waterBrush', mode: 'water', label: 'Water brush', icon: 'brush', saveable: true,
-    params: [
-      { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
-      { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters },
-      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel' },
-      {
-        key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
-        applies: (p) => p.dig === true, why: 'Only when digging a basin',
-      },
-      {
-        key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
-        applies: (p) => p.dig === true, why: 'Only when digging a basin',
-      },
-    ],
-    create: (editor) => new WaterBrushTool(editor, 'waterBrush'),
-    describe: (p) => `${drawLabel(String(p.liquid)).replace(/^Draw/, 'Paint')} · ${meters(Number(p.radius))}${p.dig === false ? ' · no basin' : ''}`,
-  },
   waterErase: {
-    id: 'waterErase', mode: 'water', label: 'Erase water', icon: 'eraser', saveable: true,
-    params: [{ key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters }],
-    create: (editor) => new WaterBrushTool(editor, 'waterErase'),
-    describe: (p) => `Erase water · ${meters(Number(p.radius))}`,
+    id: 'waterErase', mode: 'water', label: 'Erase water', icon: 'eraser', saveable: true, recreateOn: ['shape'],
+    params: [
+      { key: 'shape', label: 'Shape', kind: 'choice', options: SHAPES, detail: true },
+      { ...RADIUS_WATER, applies: (p) => p.shape === 'brush', hide: true },
+      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', applies: (p) => p.shape === 'polygon', hide: true },
+    ],
+    create: (editor) => (params.waterErase.shape === 'brush' ? new WaterBrushTool(editor, 'waterErase') : new WaterTool(editor, 'waterErase')),
+    describe: (p) => `Erase water · ${p.shape === 'brush' ? `brush ${meters(Number(p.radius))}` : 'polygon'}`,
   },
   build: {
     id: 'build', mode: 'build', label: 'Build', icon: 'building', saveable: true,
@@ -171,7 +171,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
 }
 
 export const MODE_TOOLS: Record<Mode, ToolId[]> = {
-  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water', 'waterBrush', 'waterErase'], build: ['build'],
+  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water', 'waterErase'], build: ['build'],
 }
 
 /** The registry id of a tool instance (the select tool for anything unknown). */
@@ -189,7 +189,7 @@ export function inHand(editor: Editor): ParamTool | null {
  *  its parameters. Returns false if the tool can't be created (e.g. no prop chosen). */
 export function pickUp<T extends ParamTool>(editor: Editor, id: T, patch: Partial<ToolParams[T]> = {}): boolean {
   if (Object.keys(patch).length) setParams(id, patch)
-  if (inHand(editor) === id) return true
+  if (inHand(editor) === id && !TOOLS[id].recreateOn?.some((k) => k in patch)) return true
   editor.selection.clear()
   const tool = TOOLS[id].create(editor)
   if (!tool) return false

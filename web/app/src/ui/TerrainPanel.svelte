@@ -1,14 +1,17 @@
 <script lang="ts">
-  // Terrain mode's catalogue (under the current-tool card, which holds size and strength): saved
-  // terrain tools, Sculpt (the sculpt tool's shapes) and Paint (each material swatch picks up the
-  // paint tool). Picking the tool already in hand again puts it down.
+  // Terrain mode's panel (under the current-tool card): saved terrain tools, Sculpt (the sculpt
+  // tool's shapes), Paint (each material swatch picks up the paint tool) and Brush (size, and
+  // strength when sculpting, for the terrain tool in hand or the last one used). Picking the tool
+  // already in hand again puts it down.
   import { onDestroy } from 'svelte'
   import type { Editor } from '../editor/editor'
-  import { params, paramsChanged } from '../editor/tool-params'
+  import { params, paramsChanged, type ParamTool } from '../editor/tool-params'
   import { inHand, pickUp, putDown, TOOLS } from '../editor/tools'
   import { PALETTE } from '../render/terrain-shading'
   import Icon from './Icon.svelte'
   import SavedTools from './SavedTools.svelte'
+  import ToolSettings from './ToolSettings.svelte'
+  import { ui } from './ui-state.svelte'
 
   interface Props {
     editor: Editor
@@ -27,6 +30,8 @@
     const hand = inHand(editor)
     return { hand: hand === 'sculpt' || hand === 'paint' ? hand : null, op: params.sculpt.op, material: params.paint.material }
   })
+  /** Whose settings the Brush section shows: the terrain tool in hand, else the last one used. */
+  const brushTool = $derived<ParamTool>(now.hand ?? ui.terrainTool)
   const shapes = TOOLS.sculpt.params.find((p) => p.key === 'op')!.options!
 
   function sculpt(op: string) {
@@ -65,5 +70,10 @@
         </button>
       {/each}
     </div>
+  </section>
+
+  <section class="section">
+    <h3 class="heading">Brush</h3>
+    <ToolSettings library={editor.library} tool={brushTool} />
   </section>
 </div>

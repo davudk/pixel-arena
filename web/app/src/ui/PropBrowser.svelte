@@ -9,6 +9,7 @@
   import SavedTools from './SavedTools.svelte'
   import Popover from './Popover.svelte'
   import SearchField from './SearchField.svelte'
+  import ToolSettings from './ToolSettings.svelte'
   import { RECENT_MAX, thumbUrls, toggleFavourite, ui, type CardSize, type GroupBy, type SortBy } from './ui-state.svelte'
   import { categoryTree, filterProps, groupProps, propTooltip, sortProps, themeCover, type CategoryNode, type Group } from './prop-list'
 
@@ -133,6 +134,10 @@
 {/snippet}
 
 <aside class="browser" bind:this={panel}>
+  <section class="section">
+    <h3 class="heading">Placement</h3>
+    <ToolSettings {library} tool="place" />
+  </section>
   <SavedTools mode="props" active={activeSaved} {library} {thumbnails} {onuse} />
   <button class="theme" class:open={open === 'theme'} bind:this={themeButton} title="Choose a theme" onclick={() => (open = open === 'theme' ? null : 'theme')}>
     <Icon name="palette" />

@@ -6,6 +6,7 @@
 import { Signal } from '@pixel-arena/core'
 
 export type SculptOp = 'raise' | 'lower' | 'smooth' | 'flatten'
+export type WaterShape = 'polygon' | 'brush'
 export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window'
 export const MAX_LEVEL = 9
 
@@ -13,12 +14,12 @@ export interface ToolParams {
   place: { prop: string; randomRotation: boolean; snap: boolean }
   sculpt: { op: SculptOp; radius: number; strength: number }
   paint: { material: number; radius: number }
-  /** Liquid id (world/liquids.ts); dig lowers the ground inside into a basin `depth` deep with a
-   *  `shore` wide slope at the edge. */
-  water: { liquid: string; dig: boolean; depth: number; shore: number; snap: boolean }
-  /** The water brush: same liquid and basin settings as drawing, plus its size. */
-  waterBrush: { liquid: string; radius: number; dig: boolean; depth: number; shore: number }
-  waterErase: { radius: number }
+  /** Drawing water. Liquid id (world/liquids.ts); shape: a polygon outline (corners snapped when
+   *  `snap`) or a round brush `radius` wide; dig lowers the ground inside into a basin `depth`
+   *  deep with a `shore` wide slope at the edge. */
+  water: { liquid: string; shape: WaterShape; radius: number; snap: boolean; dig: boolean; depth: number; shore: number }
+  /** Erasing water, by polygon outline or round brush. */
+  waterErase: { shape: WaterShape; radius: number; snap: boolean }
   build: { kit: string; piece: BuildPiece; level: number }
 }
 /** Tools that have parameters (everything but select). */
@@ -28,9 +29,8 @@ export const DEFAULT_PARAMS: ToolParams = {
   place: { prop: '', randomRotation: false, snap: true },
   sculpt: { op: 'raise', radius: 4, strength: 0.5 },
   paint: { material: 1, radius: 4 },
-  water: { liquid: 'water', dig: true, depth: 1.5, shore: 3, snap: true },
-  waterBrush: { liquid: 'water', radius: 2, dig: true, depth: 1.5, shore: 2 },
-  waterErase: { radius: 2 },
+  water: { liquid: 'water', shape: 'polygon', radius: 2, snap: true, dig: true, depth: 1.5, shore: 3 },
+  waterErase: { shape: 'brush', radius: 2, snap: true },
   build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0 },
 }
 

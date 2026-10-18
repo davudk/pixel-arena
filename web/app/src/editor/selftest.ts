@@ -22,7 +22,8 @@ import { BuildingTool } from './building-tool'
 import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
 import * as grouping from './grouping'
-import { addWater, eraseWater, overlapArea, shapeArea, strokeShape, worldShape } from './water-shapes'
+import { WaterBrushTool } from './water-brush'
+import { addWater, containsPoint, eraseWater, overlapArea, shapeArea, strokeShape, worldShape } from './water-shapes'
 import { outline } from '../ui/objects'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
@@ -699,6 +700,14 @@ async function gesturesTest(editor: Editor, check: (ok: unknown, what: string) =
   const y0 = rig.focus.y
   for (let i = 0; i < 5; i++) await wheel({ deltaX: 40, deltaY: -30 })
   check(Math.abs(rig.focus.y - y0) < 1e-9, 'panning over terrain keeps the focus height')
+
+  // Option/Alt + scroll turns the view (one mouse notch, 100 px, is 15°) and doesn't zoom.
+  await sleep(400)
+  const yawBefore = rig.yaw
+  const zoomBefore = rig.zoom
+  await wheel({ deltaY: 100, altKey: true })
+  check(Math.abs(rig.yaw - yawBefore - Math.PI / 12) < 1e-6, `Alt+scroll rotates (${(((rig.yaw - yawBefore) * 180) / Math.PI).toFixed(1)}°)`)
+  check(rig.zoom === zoomBefore, 'Alt+scroll does not zoom')
 }
 
 /** The tool registry: picking up with parameters, saved tools with and without number keys,
@@ -950,7 +959,7 @@ async function waterRulesTest(editor: Editor, check: (ok: unknown, what: string)
 
   // The brush: a stroke of water joins the lake it starts in.
   const before = area(of('water')[0])
-  pickUp(editor, 'waterBrush', { liquid: 'water', radius: 1.5, dig: true })
+  pickUp(editor, 'water', { shape: 'brush', liquid: 'water', radius: 1.5, dig: true })
   const brush = editor.tool
   const at = (x: number, z: number): Pointer => {
     const p = editor.pixel.toScreen(new THREE.Vector3(x, terrainEdit.heightAtWorld(doc, x, z), z), editor.rig)!
@@ -973,5 +982,70 @@ async function waterRulesTest(editor: Editor, check: (ok: unknown, what: string)
   s.edit('Erase water', () => eraseWater(s, [[[[-9, 4.5], [8.5, 4.5], [8.5, 5.5], [-9, 5.5]]]]))
   check(of('water').length === lakesBefore + 1, `erasing across splits the lake (${of('water').length})`)
   check(noOverlaps(), 'still no overlaps')
+
+  // Erasing a hole: dry land inside, a sloped shore around it (not a pit with walls).
+  const h = (x: number, z: number) => terrainEdit.heightAtWorld(doc, x, z)
+  add(sq(30, 0, 14), 'water', [30, 0])
+  const pond = of('water').find((o) => containsPointOf(o, 37, 7))!
+  const pondLevel = (pond.props.get('position') as Vec3).y
+  check(h(37, 7) < pondLevel - 1, `pond dug (${h(37, 7).toFixed(2)})`)
+  s.edit('Erase water', () => eraseWater(s, strokeShape([[37, 7]], 2)))
+  const holes2 = of('water').find((o) => containsPointOf(o, 31, 1))?.props.get('holes')
+  check(Array.isArray(holes2) && holes2.length === 1, 'erasing inside makes a hole')
+  check(Math.abs(h(37, 7) - (pondLevel + 0.05)) < 0.02, `the hole is dry land (${h(37, 7).toFixed(2)})`)
+  check(h(37, 9.6) > pondLevel - 0.6 && h(37, 9.6) < pondLevel, `a sloped shore around the hole (${h(37, 9.6).toFixed(2)})`)
+
+  // Erasing a circle with a slightly offset circle leaves no thin ring behind.
+  const ringBefore = water().length
+  add(strokeShape([[60, 20]], 4), 'water', [60, 20])
+  s.edit('Erase water', () => eraseWater(s, strokeShape([[60.3, 20]], 4)))
+  check(water().length === ringBefore, `no sliver left (${water().length} bodies, was ${ringBefore})`)
+
+  // Two lakes joined by a stroke become one body with no ridge where they met.
+  add(sq(0, 40, 6), 'water', [0, 40])
+  add(sq(10, 40, 6), 'water', [10, 40])
+  const ridgeBefore = h(8, 43)
+  add(strokeShape([[3, 43], [13, 43]], 1.5), 'water', [3, 43])
+  check(of('water').filter((o) => containsPointOf(o, 3, 43) || containsPointOf(o, 13, 43)).length === 1, 'the lakes merge into one')
+  check(h(8, 43) < ridgeBefore - 0.3 || ridgeBefore < -1, `no ridge at the join (${ridgeBefore.toFixed(2)} → ${h(8, 43).toFixed(2)})`)
+  check(h(6, 43) < -0.8, `the old shore is dug out (${h(6, 43).toFixed(2)})`)
+
+  // Polygon erase: the outline is cut out like the brush's stroke.
+  pickUp(editor, 'waterErase', { shape: 'polygon', snap: true })
+  check(editor.tool instanceof WaterTool, 'Erase with the polygon shape uses the outline tool')
+  pickUp(editor, 'waterErase', { shape: 'brush' })
+  check(editor.tool instanceof WaterBrushTool, 'switching the shape swaps the tool in hand')
+  pickUp(editor, 'waterErase', { shape: 'polygon' })
+  const eraser = editor.tool as WaterTool
+  const areaBefore = area(of('water').find((o) => containsPointOf(o, 31, 1)))
+  editor.rig.focus.set(37, 0, 7)
+  editor.rig.update(0)
+  await settle()
+  for (const [x, z] of [[31, 1], [34, 1], [34, 4], [31, 4], [31, 1]] as [number, number][]) {
+    eraser.pointerMove(at(x, z))
+    eraser.pointerDown(at(x, z))
+  }
+  const pondAfter = of('water').find((o) => containsPointOf(o, 37, 1))
+  check(pondAfter && area(pondAfter) < areaBefore - 8, `polygon erase cut the corner out (${areaBefore.toFixed(1)} → ${area(pondAfter).toFixed(1)})`)
+  check(s.branch().txns.at(-1)?.label === 'Erase water', 'polygon erase label')
+
+  // Shift keeps each new side at a multiple of 45°.
+  pickUp(editor, 'water', { shape: 'polygon', snap: true, liquid: 'water' })
+  const drawer = editor.tool as WaterTool
+  const sh = (x: number, z: number): Pointer => ({ ...at(x, z), shift: true })
+  drawer.pointerMove(at(80, 0))
+  drawer.pointerDown(at(80, 0))
+  drawer.pointerMove(sh(84, 0.7)) // nearly along +x: snaps to the axis
+  drawer.pointerDown(sh(84, 0.7))
+  drawer.pointerMove(sh(87.2, 3.4)) // nearly diagonal: snaps to 45°
+  drawer.pointerDown(sh(87.2, 3.4))
+  const pts = (drawer as unknown as { points: THREE.Vector3[] }).points
+  check(pts.length === 3 && Math.abs(pts[1].z - 0) < 1e-6, `Shift keeps the first side on the axis (${pts[1]?.z})`)
+  check(pts.length === 3 && Math.abs((pts[2].x - pts[1].x) - (pts[2].z - pts[1].z)) < 1e-6, `Shift keeps the second side at 45° (${pts[2] && (pts[2].x - pts[1].x).toFixed(2)}, ${pts[2] && (pts[2].z - pts[1].z).toFixed(2)})`)
+  drawer.key(new KeyboardEvent('keydown', { key: 'Escape' }))
   putDown(editor)
+}
+
+function containsPointOf(o: { props: Map<string, unknown> } & Parameters<typeof worldShape>[0], x: number, z: number): boolean {
+  return containsPoint(worldShape(o), x, z)
 }

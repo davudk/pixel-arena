@@ -30,7 +30,7 @@
   })
 </script>
 
-{#if (tool.tool === 'water' || tool.tool === 'waterBrush') && p.liquid}
+{#if tool.tool === 'water' && p.liquid}
   <span class="swatch" style:width="{size}px" style:height="{size}px" style:background={liquid(p.liquid).shallow}></span>
 {:else if tool.tool === 'paint'}
   <span class="swatch" style:width="{size}px" style:height="{size}px" style:background={PALETTE[Number(p.material)]?.color}></span>

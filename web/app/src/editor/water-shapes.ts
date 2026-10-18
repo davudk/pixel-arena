@@ -193,10 +193,27 @@ function bodies(doc: MapDocument): Body[] {
     .filter((b) => !isEmpty(b.shape))
 }
 
+/** Pieces (and holes) thinner than this on average (m) are dropped when water is written: the
+ *  thin rings and slivers a slightly misaligned erase or cut leaves behind. Average width is
+ *  measured as 2 × area / perimeter, so thin parts of a bigger body (a channel off a lake) stay. */
+const MIN_WIDTH = 0.6
+
+function perimeter(r: Ring): number {
+  let p = 0
+  for (let i = 0; i < r.length; i++) p += Math.hypot(r[(i + 1) % r.length][0] - r[i][0], r[(i + 1) % r.length][1] - r[i][1])
+  return p
+}
+const wideEnough = (r: Ring) => (2 * ringArea(r)) / Math.max(perimeter(r), 1e-9) >= MIN_WIDTH
+
+function dropSlivers(shape: MultiPolygon): MultiPolygon {
+  return shape.filter((poly) => wideEnough(poly[0])).map((poly) => [poly[0], ...poly.slice(1).filter(wideEnough)])
+}
+
 /** Writes `shape` into a body: the first polygon goes to `keep` (or a new object), any further
- *  separate pieces become new bodies with the same liquid and level. An empty shape deletes
- *  `keep`. Returns the ids. Call inside a session edit. */
+ *  separate pieces become new bodies with the same liquid and level; slivers are dropped. An
+ *  empty shape deletes `keep`. Returns the ids. Call inside a session edit. */
 function writeBody(session: MapSession, keep: MapObject | null, shape: MultiPolygon, level: number, liquid: string, extra: Record<string, Value> = {}): string[] {
+  shape = dropSlivers(shape)
   const ids: string[] = []
   if (isEmpty(shape)) {
     if (keep) session.deleteObject(keep.id)
@@ -261,26 +278,73 @@ export function addWater(session: MapSession, shape: MultiPolygon, o: AddOptions
   const keep = (startBody && startBody.liquid === o.liquid ? startBody : null) ?? merging[0] ?? null
   for (const b of merging) if (b !== keep) session.deleteObject(b.obj.id)
 
-  // Dig where there was no water before (existing beds stay as they are).
-  if (o.dig) {
-    const dig = difference(add, before)
-    if (!isEmpty(dig)) for (const op of planBasin(doc, dig, o.depth, o.shore, level).ops) session.apply(op)
-  }
   const merged = merging.length ? unionAll([add, ...merging.map((b) => b.shape)]) : add
+  // Dig the basin. When bodies merge, over the whole merged shape: its shore then follows the new
+  // outline, so no ridge or shoreline is left where the old edges met (ground is only lowered).
+  // Otherwise only where there was no water before (existing beds stay as they are).
+  if (o.dig) {
+    const dig = merging.length ? merged : difference(add, before)
+    if (!isEmpty(dig)) for (const op of planBasin(doc, dig, o.depth, o.shore, level, true).ops) session.apply(op)
+  }
   return writeBody(session, keep?.obj ?? null, merged, level, o.liquid, keep ? extrasOf(keep.obj) : {})
 }
 
-/** Cuts `shape` out of every body it covers, as part of the current edit. Returns true if any
- *  water was removed. */
-export function eraseWater(session: MapSession, shape: MultiPolygon): boolean {
+/** Ground just above the surface where water is erased (dry land, a little proud of the water). */
+const LAND = 0.05
+
+/** Cuts `shape` out of every body it covers, as part of the current edit, and turns what was cut
+ *  into land: ground there rises to just above that body's surface, and the water left around it
+ *  gets a sloped shore over `shore` meters from the new edge (holes and islands then show the
+ *  same shoreline as the outer edge). Ground is only raised. Returns true if any water was
+ *  removed. */
+export function eraseWater(session: MapSession, shape: MultiPolygon, shore = 2): boolean {
   const cut = clean(shape)
+  const doc = session.doc
   let changed = false
-  for (const b of bodies(session.doc)) {
-    if (!intersects(b.shape, cut)) continue
-    writeBody(session, b.obj, difference(b.shape, cut), b.level, b.liquid, extrasOf(b.obj))
+  for (const b of bodies(doc)) {
+    if (isEmpty(cut) || !intersects(b.shape, cut)) continue
+    // What stays (without slivers), and so everything that becomes land.
+    const left = dropSlivers(difference(b.shape, cut))
+    const removed = difference(b.shape, left)
+    if (isEmpty(removed)) continue
+    writeBody(session, b.obj, left, b.level, b.liquid, extrasOf(b.obj))
+    for (const op of raiseShore(doc, removed, left, b.level, shore)) session.apply(op)
     changed = true
   }
   return changed
+}
+
+/** Terrain ops that make `removed` dry land beside the water `left` (surface `level`): inside
+ *  `removed`, ground up to `level + LAND`; in the water within `shore` of the removed area, ground
+ *  eased up toward the surface so the new edge has a sloped shore. Only raises. */
+function raiseShore(doc: MapDocument, removed: MultiPolygon, left: MultiPolygon, level: number, shore: number): TerrainOp[] {
+  const rings = removed.flatMap((poly) => poly.map(openRing))
+  const edges: [number, number, number, number][] = []
+  for (const r of rings) for (let i = 0; i < r.length; i++) edges.push([r[i][0], r[i][1], r[(i + 1) % r.length][0], r[(i + 1) % r.length][1]])
+  const xs = rings.flatMap((r) => r.map((p) => p[0]))
+  const zs = rings.flatMap((r) => r.map((p) => p[1]))
+  const x0 = Math.floor(Math.min(...xs) - shore)
+  const z0 = Math.floor(Math.min(...zs) - shore)
+  const rect = new Rect2i(x0, z0, Math.ceil(Math.max(...xs) + shore) - x0 + 1, Math.ceil(Math.max(...zs) + shore) - z0 + 1)
+  const distance = (x: number, z: number) => {
+    let best = Infinity
+    for (const [ax, az, bx, bz] of edges) {
+      const dx = bx - ax
+      const dz = bz - az
+      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1)))
+      best = Math.min(best, Math.hypot(x - (ax + dx * t), z - (az + dz * t)))
+    }
+    return best
+  }
+  const ease = (t: number) => (1 - Math.cos(Math.PI * Math.min(1, Math.max(0, t)))) / 2
+  const DEEP = 2 // how far below the surface the eased shore reaches at `shore` meters out
+  return terrainEdit.heightOps(doc, rect, (sx, sz, old) => {
+    if (containsPoint(removed, sx, sz) && !containsPoint(left, sx, sz)) return Math.max(old, Math.round((level + LAND) * 1000) / 1000)
+    if (!containsPoint(left, sx, sz)) return old
+    const d = distance(sx, sz)
+    if (d >= shore) return old
+    return Math.max(old, Math.round((level - DEEP * ease(d / shore)) * 1000) / 1000)
+  })
 }
 
 /** Shapes that only share an edge still count as touching (so painting right up to a lake
@@ -306,7 +370,7 @@ function touches(a: MultiPolygon, b: MultiPolygon): boolean {
  *  at `level` if given, else the lowest ground along the shape's edges; inside, ground lowered
  *  toward `surface - depth`, easing in over `shore` meters from the edge. Ground is never raised,
  *  and an area that is already a hollow below the surface is left as it is. */
-export function planBasin(doc: MapDocument, shape: MultiPolygon, depth: number, shore: number, level?: number): { level: number; ops: TerrainOp[] } {
+export function planBasin(doc: MapDocument, shape: MultiPolygon, depth: number, shore: number, level?: number, always = false): { level: number; ops: TerrainOp[] } {
   const rings = shape.flatMap((poly) => poly.map(openRing))
   const edges: [number, number, number, number][] = []
   for (const r of rings) for (let i = 0; i < r.length; i++) edges.push([r[i][0], r[i][1], r[(i + 1) % r.length][0], r[(i + 1) % r.length][1]])
@@ -342,7 +406,8 @@ export function planBasin(doc: MapDocument, shape: MultiPolygon, depth: number, 
     for (let sx = rect.x; sx < rect.endX; sx++)
       if (inside(sx, sz) && edgeDistance(sx, sz) >= 0.5) interiorMax = Math.max(interiorMax, terrainEdit.heightAt(doc, sx, sz))
   const surface = level
-  if (interiorMax === -Infinity || interiorMax < surface - 0.1) return { level: surface, ops: [] }
+  // (`always`: reshaping a merged body, where the old beds make it look like a hollow.)
+  if (!always && (interiorMax === -Infinity || interiorMax < surface - 0.1)) return { level: surface, ops: [] }
 
   const ease = (t: number) => (1 - Math.cos(Math.PI * Math.min(1, Math.max(0, t)))) / 2
   const ops = terrainEdit.heightOps(doc, rect, (sx, sz, old) => {

@@ -1,8 +1,8 @@
 <script lang="ts">
   // Pixel Arena (web): viewport + editor shell. Camera input (MMB / Space+drag pan, RMB /
-  // Alt+drag orbit, mouse wheel zoom, trackpad two-finger pan / pinch zoom / rotate, WASD, Q/E)
-  // is handled here; the left button and unhandled keys go
-  // to the active tool (see editor/editor.ts).
+  // Alt+drag orbit, mouse wheel zoom, Alt+scroll rotate, trackpad two-finger pan / pinch zoom /
+  // rotate, WASD, Q/E) is handled here; the left button and unhandled keys go to the active tool
+  // (see editor/editor.ts).
   //
   // URL parameters (for automated checks): map=<url of .pxmap>, camera=<x>,<z>,<zoom>,
   // time=<hours>, pixel=<n>, outline=<0-1>, grid=0|1, filter=<preset> (view params apply to this
@@ -521,6 +521,14 @@
     e.preventDefault()
     if (!editor) return
     const p = pointer(e)
+    // Option/Alt + scroll (mouse wheel or two fingers) turns the view around its centre, like
+    // Q / E and the rotate gesture: scrolling down or right turns it clockwise.
+    if (e.altKey && !e.ctrlKey) {
+      const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+      const px = e.deltaMode === 1 ? d * 16 : e.deltaMode === 2 ? d * 400 : d
+      rotateGesture(-px * ROTATE_PER_PX)
+      return
+    }
     const kind = wheel.classify({ deltaX: e.deltaX, deltaY: e.deltaY, deltaMode: e.deltaMode, ctrlKey: e.ctrlKey,
       wheelDeltaY: (e as WheelEvent & { wheelDeltaY?: number }).wheelDeltaY, timeStamp: e.timeStamp })
     if (kind === 'pan') {
@@ -541,6 +549,9 @@
 
   /** Counter-clockwise finger rotation in degrees turns the map counter-clockwise on screen,
    *  pivoting on the ground at the centre of the view. */
+  /** Degrees of view rotation per scrolled pixel with Option/Alt held (one mouse notch ≈ 15°). */
+  const ROTATE_PER_PX = 0.15
+
   function rotateGesture(degrees: number) {
     if (!editor) return
     const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2, shift: false, alt: false, cmd: false }

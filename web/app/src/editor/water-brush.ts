@@ -1,9 +1,9 @@
-// Water by brush: two registry tools on one implementation. "waterBrush" paints a liquid with a
-// solid round brush (params.waterBrush: liquid, radius, dig, depth, shore; no strength, water is
-// there or it isn't); "waterErase" removes water (params.waterErase: radius; the ground is left
-// as it is). Drag to paint; on release the stroke (the area the brush swept) goes through the
-// water rules in water-shapes.ts (merge with the same liquid, replace others, dig a basin on dry
-// ground) as one edit. [ / ] change the size; Esc puts the tool down.
+// Water by round brush: the brush shape of two registry tools, "water" (paints params.water.liquid
+// with a solid brush: no strength, water is there or it isn't; dig / depth / shore as for
+// drawing) and "waterErase" (removes water; what's erased becomes land). Drag to paint; on
+// release the stroke (the area the brush swept) goes through the water rules in water-shapes.ts
+// (merge with the same liquid, replace others, dig a basin on dry ground) as one edit. [ / ]
+// change the size; Esc puts the tool down.
 
 import * as THREE from 'three'
 import { terrainEdit } from '@pixel-arena/core'
@@ -19,7 +19,7 @@ export class WaterBrushTool implements Tool {
   private ring: THREE.Line
   private preview = new THREE.Group()
 
-  constructor(private editor: Editor, readonly name: 'waterBrush' | 'waterErase' = 'waterBrush') {
+  constructor(private editor: Editor, readonly name: 'water' | 'waterErase' = 'water') {
     this.ring = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: this.color(), depthTest: false, transparent: true }))
     this.ring.renderOrder = 10
     this.ring.frustumCulled = false
@@ -31,7 +31,7 @@ export class WaterBrushTool implements Tool {
   }
 
   private color(): string {
-    return this.name === 'waterErase' ? '#ff8a7a' : liquid(params.waterBrush.liquid).shallow
+    return this.name === 'waterErase' ? '#ff8a7a' : liquid(params.water.liquid).shallow
   }
 
   activate() {
@@ -80,7 +80,7 @@ export class WaterBrushTool implements Tool {
       s.edit('Erase water', () => eraseWater(s, shape))
       return
     }
-    const b = params.waterBrush
+    const b = params.water
     s.edit(drawLabel(b.liquid), () => {
       addWater(s, shape, { liquid: b.liquid, dig: b.dig, depth: b.depth, shore: b.shore, start })
     })

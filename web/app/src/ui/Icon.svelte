@@ -10,6 +10,7 @@
     chevronDown: 'M6 9l6 6l6-6',
     x: 'M6 6l12 12 M18 6L6 18',
     check: 'M5 12.5l4.5 4.5L19 7.5',
+    polygon: 'M5 8l6-4.5l8 3.5l-1.5 9.5L8 20z M5 8h.01 M11 3.5h.01 M19 7h.01',
     panelLeft: 'M4 5h16v14H4z M9.5 5v14',
     panelRight: 'M4 5h16v14H4z M14.5 5v14',
     pointer: 'M6 3l12 9l-5.5 1.2L15 19l-2.5 1.2l-2.6-5.6L6 18z',

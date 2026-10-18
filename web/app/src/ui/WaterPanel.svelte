@@ -1,7 +1,8 @@
 <script lang="ts">
-  // Water mode's catalogue (under the current-tool card, which holds size and basin settings):
-  // saved water tools; the tools (Draw an outline, paint with the Brush, Erase; picking the one in
-  // hand again puts it down); the liquid used by Draw and Brush; and the map's bodies with their
+  // Water mode's panel (under the current-tool card): saved water tools; the tools (Draw and
+  // Erase; picking the one in hand again puts it down); their settings (shape: polygon or brush,
+  // then the rest, for the tool in hand or the last one used); the liquid to draw; and the map's
+  // bodies with their
   // liquid, size and surface height (click one to move the camera to it; its swatch changes its
   // liquid). Bodies never overlap: see editor/water-shapes.ts.
   import { onDestroy } from 'svelte'
@@ -14,6 +15,7 @@
   import Icon from './Icon.svelte'
   import Popover from './Popover.svelte'
   import SavedTools from './SavedTools.svelte'
+  import ToolSettings from './ToolSettings.svelte'
   import { key } from './keys'
   import { objectPosition } from './objects'
 
@@ -40,20 +42,30 @@
     offs.forEach((f) => f())
   })
 
-  type WaterTool = 'water' | 'waterBrush' | 'waterErase'
+  type WaterTool = 'water' | 'waterErase'
   const TOOL_TILES: { id: WaterTool; label: string; icon: string; title: string }[] = [
-    { id: 'water', label: 'Draw', icon: 'droplet', title: `Draw an outline: click corners, then the first corner (or ${key('Enter')}) to finish` },
-    { id: 'waterBrush', label: 'Brush', icon: 'brush', title: `Paint with a round brush (${key('[')} and ${key(']')} change its size)` },
-    { id: 'waterErase', label: 'Erase', icon: 'eraser', title: 'Erase water with a round brush (the ground stays as it is)' },
+    { id: 'water', label: 'Draw', icon: 'droplet', title: 'Add water' },
+    { id: 'waterErase', label: 'Erase', icon: 'eraser', title: 'Remove water (what is erased becomes land)' },
   ]
-  /** The water tool last picked up (a liquid choice picks it up again). */
+  const SHAPES: { id: 'polygon' | 'brush'; label: string; icon: string; title: string }[] = [
+    { id: 'polygon', label: 'Polygon', icon: 'polygon', title: `Click corners, then the first corner (or ${key('Enter')}) to finish · ${key('Shift')} for 45° sides` },
+    { id: 'brush', label: 'Brush', icon: 'brush', title: `Drag a round brush (${key('[')} and ${key(']')} change its size)` },
+  ]
+  /** The water tool last picked up (its settings show when nothing is in hand). */
   let last: WaterTool = $state('water')
   const now = $derived.by(() => {
     rev
     const hand = inHand(editor)
-    const tool = (hand === 'water' || hand === 'waterBrush' || hand === 'waterErase' ? hand : null) as WaterTool | null
-    return { tool, liquid: params.water.liquid }
+    const tool = (hand === 'water' || hand === 'waterErase' ? hand : null) as WaterTool | null
+    return { tool, liquid: params.water.liquid, shape: params[tool ?? last].shape }
   })
+
+  /** Polygon or brush for the tool in hand (or the last one used); swaps the tool in hand. */
+  function setShape(shape: 'polygon' | 'brush') {
+    const t = now.tool ?? last
+    if (now.tool) pickUp(editor, t, { shape })
+    else setParams(t, { shape })
+  }
   $effect(() => {
     if (now.tool) last = now.tool
   })
@@ -63,11 +75,9 @@
     else pickUp(editor, id)
   }
 
-  /** Draw and Brush share the liquid; picking one picks up Draw, or keeps the brush in hand. */
+  /** Picking a liquid picks up Draw with it. */
   function chooseLiquid(id: string) {
-    setParams('water', { liquid: id })
-    setParams('waterBrush', { liquid: id })
-    if (now.tool !== 'water' && now.tool !== 'waterBrush') pickUp(editor, last === 'waterBrush' ? 'waterBrush' : 'water')
+    pickUp(editor, 'water', { liquid: id })
   }
 
   const bodies = $derived.by(() => {
@@ -115,10 +125,20 @@
   </section>
 
   <section class="section">
+    <h3 class="heading">Settings</h3>
+    <div class="seg" role="group" aria-label="Shape">
+      {#each SHAPES as sh (sh.id)}
+        <button class:on={now.shape === sh.id} aria-pressed={now.shape === sh.id} title={sh.title} onclick={() => setShape(sh.id)}><Icon name={sh.icon} size={14} />{sh.label}</button>
+      {/each}
+    </div>
+    <ToolSettings library={editor.library} tool={now.tool ?? last} />
+  </section>
+
+  <section class="section">
     <h3 class="heading">Liquid</h3>
     <div class="choices">
       {#each LIQUIDS as l (l.id)}
-        {@const on = now.liquid === l.id && (now.tool === 'water' || now.tool === 'waterBrush')}
+        {@const on = now.liquid === l.id && now.tool === 'water'}
         <button class="choice" class:on aria-pressed={on} onclick={() => chooseLiquid(l.id)}>
           <span class="swatch lg" class:glow={l.glow > 0} style:background={swatch(l)} style:--glow={l.shallow}></span><span>{l.name}</span>
         </button>
