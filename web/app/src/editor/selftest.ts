@@ -4,8 +4,9 @@
 
 import * as THREE from 'three'
 import { merge, openProject, saveProject, Vec3 } from '@pixel-arena/core'
-import { idleTool, type Editor, type Pointer } from './editor'
+import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
+import { SelectTool } from './select-tool'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -21,6 +22,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
   }
   try {
     if (name === 'place') await placeTest(editor, check, settle)
+    else if (name === 'select') await selectTest(editor, check, settle)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -95,7 +97,106 @@ async function placeTest(editor: Editor, check: (ok: unknown, what: string) => v
 
   // Esc leaves the tool; save/open round-trips everything.
   wall.key(new KeyboardEvent('keydown', { key: 'Escape' }))
-  check(editor.tool === idleTool, 'Esc stops placing')
+  check(editor.tool.name === 'select', 'Esc returns to the select tool')
   const reopened = openProject(saveProject(s))
   check(merge.diff(s.doc, reopened.doc).size === 0, 'save/open round trip')
+}
+
+async function selectTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const { library, session: s, rig, pixel, selection } = editor
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 30
+  await settle()
+  const ptr = (v: THREE.Vector3, extra: Partial<Pointer> = {}): Pointer => {
+    const p = pixel.toScreen(v, rig)!
+    return { x: p.x, y: p.y, shift: false, alt: false, cmd: false, ...extra }
+  }
+  const moved = (p: Pointer, dx: number, dy: number): Pointer => ({ ...p, x: p.x + dx, y: p.y + dy })
+  const key = (k: string, mods: KeyboardEventInit = {}) => editor.tool.key?.(new KeyboardEvent('keydown', { key: k, ...mods }))
+  const props = () => [...s.doc.objects.values()].filter((o) => o.type === 'prop' && !o.deleted)
+  const placeAt = async (propId: string, at: Pointer) => {
+    const tool = new PlaceTool(editor, library.props.get(propId)!)
+    editor.setTool(tool)
+    await settle()
+    tool.pointerMove(at)
+    tool.pointerDown(at)
+    editor.setTool(new SelectTool(editor))
+    await settle()
+  }
+
+  await placeAt('kenney_nature:stump_square_detailed_wide', ptr(new THREE.Vector3(0, 0, 0)))
+  const stump = props()[0]
+  const pos = () => s.doc.getProp(stump.id, 'position') as Vec3
+  const top = () => ptr(new THREE.Vector3(pos().x, pos().y + 0.3, pos().z))
+  const tool = editor.tool as SelectTool
+  check(editor.tool.name === 'select', 'select tool active')
+
+  // Click selects; R rotates by the prop's snap; undo.
+  tool.pointerDown(top())
+  tool.pointerUp(top())
+  check(selection.list().join() === stump.id, 'click selects the stump')
+  key('r')
+  check(Math.abs(Number(s.doc.getProp(stump.id, 'rotation')) - (15 * Math.PI) / 180) < 1e-9, 'R rotates 15 deg')
+  s.undo()
+  check(Number(s.doc.getProp(stump.id, 'rotation')) === 0, 'undo rotation')
+  await settle()
+  check(editor.world.highlightRoot.children.length === 1, 'selected object is highlighted')
+
+  // Drag-move (grab the stump, drag 150 px right).
+  const before = pos()
+  const grab = top()
+  tool.pointerDown(grab)
+  tool.pointerMove(moved(grab, 40, 0))
+  tool.pointerMove(moved(grab, 150, 0))
+  tool.pointerUp(moved(grab, 150, 0))
+  check(before.distanceTo(pos()) > 1, `drag moved the stump ${before.x},${before.z} -> ${pos().x},${pos().z}`)
+  check(Math.abs(pos().x * 2 - Math.round(pos().x * 2)) < 1e-9, 'move snapped to 0.5 m')
+  await settle()
+
+  // A pot on top; duplicate copies stump + pot; delete removes both; undo restores.
+  await placeAt('kenney_nature:pot_small', top())
+  const pot = props().find((o) => o.props.get('prop') === 'kenney_nature:pot_small')!
+  check(pot.props.get('parent') === stump.id, 'pot parented to stump')
+  selection.set([stump.id])
+  key('d', { metaKey: true })
+  check(props().length === 4, `Cmd+D duplicates stump and pot (got ${props().length})`)
+  check(selection.size === 1 && !selection.has(stump.id), 'duplicate selects the copy')
+  const copyPot = props().find((o) => o.id !== pot.id && o.props.get('prop') === 'kenney_nature:pot_small')
+  check(copyPot && copyPot.props.get('parent') === selection.list()[0], 'copied pot parented to the copied stump')
+  selection.set([stump.id])
+  key('Delete')
+  check(props().length === 2, `Delete removes stump and pot (got ${props().length})`)
+  s.undo()
+  check(props().length === 4, 'undo restores them')
+  await settle()
+
+  // Box select the whole viewport.
+  const corner = { x: 2, y: 2, shift: false, alt: false, cmd: false }
+  const far = { x: pixel.out.x / devicePixelRatio - 2, y: pixel.out.y / devicePixelRatio - 2, shift: false, alt: false, cmd: false }
+  tool.pointerDown(corner)
+  tool.pointerMove(far)
+  tool.pointerUp(far)
+  check(selection.size === 4, `box select (got ${selection.size})`)
+  rig.focus.set(pos().x - 1, 0, pos().z)
+  rig.zoom = 14
+  await settle()
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+  await fetch('/__save?name=selftest-select.png', { method: 'POST', body: pixel.renderer.domElement.toDataURL('image/png') }).catch(() => {})
+  rig.zoom = 30
+  rig.focus.set(0, 0, 0)
+  await settle()
+
+  // Copy / paste at another spot keeps parent links.
+  key('c', { metaKey: true })
+  editor.cursor = ptr(new THREE.Vector3(-6, 0, 4))
+  key('v', { metaKey: true })
+  check(props().length === 8, `paste (got ${props().length})`)
+
+  // Esc clears; I picks the prop under the cursor into the place tool.
+  key('Escape')
+  check(selection.size === 0, 'Esc clears the selection')
+  await settle()
+  editor.cursor = top()
+  key('i')
+  check(editor.tool instanceof PlaceTool && (editor.tool as PlaceTool).prop.id === 'kenney_nature:pot_small', 'I picks the pot into the place tool')
 }

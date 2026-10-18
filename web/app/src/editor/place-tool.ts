@@ -8,7 +8,7 @@ import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js'
 import { snapping, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { snapProp, type PropDef } from '../library/library'
 import { loadModel } from '../library/models'
-import { idleTool, type Editor, type Pointer, type Tool } from './editor'
+import type { Editor, Pointer, Tool } from './editor'
 
 export class PlaceTool implements Tool {
   readonly name = 'place'
@@ -86,7 +86,7 @@ export class PlaceTool implements Tool {
       return true
     }
     if (e.key === 'Escape') {
-      this.editor.setTool(idleTool)
+      this.editor.setTool(this.editor.defaultTool())
       return true
     }
     return false

@@ -448,9 +448,14 @@ docs/
   redo, New / Open / Save (browser build downloads the `.pxmap`), unsaved-changes marker. Verified
   by `?selftest=place`, which drives the real tool code (placement, snapping, picking, parenting,
   rotation, undo/redo, grid snapping, save/open round trip).
-  Next: select tool (click / box select, drag-move, rotate, delete, duplicate, copy/paste,
-  eyedropper, highlight), then terrain and water tools, building tool, branches UI; then M7
-  (filters & export) and Electron/Steam.
+  Select tool done (default tool): click / Shift-click / box select (HTML overlay), drag-move
+  with snapping, surface re-seating and terrain following, rotate about the centroid, raise /
+  lower, delete, duplicate and copy/paste (children included, parent links remapped),
+  eyedropper, focus; selection highlight via additive rim "proxies" (instances can't take a
+  per-instance overlay; drawn in the transparent pass so the object can't paint over them).
+  Verified by `?selftest=select`.
+  Next: terrain and water tools, building tool, branches & history UI; then M7 (filters &
+  export) and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

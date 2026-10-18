@@ -8,6 +8,7 @@ import type { Library } from '../library/library'
 import type { Thumbnails } from '../library/thumbs'
 import type { CameraRig, PixelRenderer } from '../render/pixel'
 import type { WorldView } from '../world/world-view'
+import { Selection } from './selection'
 
 /** Pointer position in CSS pixels relative to the canvas, plus modifiers. */
 export interface Pointer {
@@ -38,13 +39,25 @@ export interface Tool {
   update?(dt: number): void
 }
 
-/** Does nothing; the default until the select tool is ported. */
+/** Does nothing (used while switching maps). */
 export const idleTool: Tool = { name: 'none' }
+
+export interface BoxRect {
+  x: number
+  y: number
+  w: number
+  h: number
+}
 
 export class Editor {
   readonly toolChanged = new Signal<Tool>()
   readonly sessionChanged = new Signal<MapSession>()
+  /** Box-select rectangle in CSS px (null hides it). */
+  readonly box = new Signal<BoxRect | null>()
+  readonly selection = new Selection()
   tool: Tool = idleTool
+  /** Creates the tool to return to (the select tool; set by the app to avoid an import cycle). */
+  defaultTool: () => Tool = () => idleTool
   cursor: Pointer = { x: 0, y: 0, shift: false, alt: false, cmd: false }
   private raycaster = new THREE.Raycaster()
 
@@ -56,12 +69,17 @@ export class Editor {
     readonly rig: CameraRig,
     readonly pixel: PixelRenderer,
     readonly scene: THREE.Scene,
-  ) {}
+  ) {
+    this.selection.changed.connect(() => world.setHighlights(this.selection.list()))
+    this.selection.bind(session.doc)
+  }
 
   setSession(s: MapSession) {
     this.setTool(idleTool)
     this.session = s
+    this.selection.bind(s.doc)
     this.sessionChanged.emit(s)
+    this.setTool(this.defaultTool())
   }
 
   setTool(tool: Tool) {

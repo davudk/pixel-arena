@@ -7,7 +7,7 @@
   // time=<hours>, pixel=<n>, outline=0|1, grid=0|1, cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place (drives the place tool end to end, writes shots/selftest-place.json).
+  // selftest=place|select (drives the tools end to end, writes shots/selftest-<name>.json).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
   import { MapSession, openProject, saveProject, Vec3 } from '@pixel-arena/core'
@@ -19,8 +19,9 @@
   import { TerrainView } from './render/terrain-view'
   import { showGrid } from './render/terrain-shading'
   import { WorldView } from './world/world-view'
-  import { Editor, idleTool, type Pointer } from './editor/editor'
+  import { Editor, type BoxRect, type Pointer } from './editor/editor'
   import { PlaceTool } from './editor/place-tool'
+  import { SelectTool } from './editor/select-tool'
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
 
@@ -41,6 +42,8 @@
   let fps = $state(0)
   let stats = $state('')
   let toolInfo = $state('')
+  let selected = $state(0)
+  let boxRect: BoxRect | null = $state(null)
   let placing: string | null = $state(null)
   let randomRotation = $state(false)
   let canUndo = $state(false)
@@ -218,12 +221,11 @@
     else keys.delete(k)
     if (!down) return
     const cmd = e.metaKey || e.ctrlKey
-    if (cmd) {
+    if (cmd && ['z', 'y', 's', 'o'].includes(k)) {
       if (k === 'z') e.shiftKey ? redo() : undo()
       else if (k === 'y') redo()
       else if (k === 's') save()
-      else if (k === 'o') fileInput.click()
-      else return
+      else fileInput.click()
       e.preventDefault()
       return
     }
@@ -231,6 +233,7 @@
       e.preventDefault()
       return
     }
+    if (cmd) return
     if (k === 'q') rig.rotateBy(Math.PI / 4)
     else if (k === 'e') rig.rotateBy(-Math.PI / 4)
   }
@@ -289,10 +292,16 @@
       world.setCutaway(cutaway)
       const thumbs = new Thumbnails(pixel.renderer)
       editor = new Editor(new MapSession(), lib, thumbs, world, rig, pixel, scene)
-      editor.toolChanged.connect((t) => {
+      const ed = editor
+      ed.defaultTool = () => new SelectTool(ed)
+      ed.toolChanged.connect((t) => {
         placing = t instanceof PlaceTool ? t.prop.id : null
-        toolInfo = t instanceof PlaceTool ? `Placing ${t.prop.name}: click to place · R rotate · Cmd = no snap · Esc stop` : ''
+        toolInfo = t instanceof PlaceTool
+          ? `Placing ${t.prop.name}: click to place · R rotate · Cmd = no snap · Esc stop`
+          : 'Click / drag-box to select · drag to move · R rotate · Del · Cmd+D · Cmd+C/V · I pick prop · F focus'
       })
+      ed.selection.changed.connect(() => (selected = ed.selection.size))
+      ed.box.connect((r) => (boxRect = r))
       library = lib
       thumbnails = thumbs
       setSession(editor.session, 'Untitled')
@@ -357,6 +366,9 @@
   <main>
     <canvas bind:this={canvas} onpointerdown={onPointerDown} onpointermove={onPointerMove}
       onpointerup={onPointerUp} onwheel={onWheel} oncontextmenu={(e) => e.preventDefault()}></canvas>
+    {#if boxRect}
+      <div class="boxsel" style:left="{boxRect.x}px" style:top="{boxRect.y}px" style:width="{boxRect.w}px" style:height="{boxRect.h}px"></div>
+    {/if}
 
     <header class="bar">
       <button onclick={newMap} title="New map">New</button>
@@ -389,7 +401,7 @@
     </aside>
 
     <footer class="status">
-      {#if status}{status}{:else}{#if toolInfo}{toolInfo}<br />{/if}{fps} fps · {stats}{/if}
+      {#if status}{status}{:else}{#if toolInfo}{toolInfo}<br />{/if}{selected ? `${selected} selected · ` : ''}{fps} fps · {stats}{/if}
     </footer>
   </main>
 </div>
