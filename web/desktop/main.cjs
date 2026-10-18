@@ -167,6 +167,8 @@ if (SELFTEST) {
     granted.add(file)
     return file
   })
+  // Stands in for a real trackpad rotation (degrees, counter-clockwise positive).
+  ipcMain.on('test:rotate', (e, degrees) => BrowserWindow.fromWebContents(e.sender)?.emit('rotate-gesture', {}, degrees))
   ipcMain.on('test:done', (_e, ok) => {
     console.log(`selftest ${SELFTEST}: ${ok ? 'PASS' : 'FAIL'}`)
     app.exit(ok ? 0 : 1)
@@ -229,6 +231,8 @@ function createWindow() {
   win.webContents.on('will-navigate', (e, url) => {
     if (!url.startsWith(HOST) && !url.startsWith('http://localhost:5200')) e.preventDefault()
   })
+  // Trackpad rotation isn't a web event; forward it (macOS only).
+  win.on('rotate-gesture', (_e, degrees) => win.webContents.send('gesture:rotate', degrees))
   win.on('close', (e) => {
     if (SELFTEST || !docState.get(win)?.dirty) return
     const choice = dialog.showMessageBoxSync(win, {

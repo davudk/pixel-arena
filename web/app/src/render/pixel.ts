@@ -345,6 +345,16 @@ export class CameraRig {
 
   constructor(private pixel: PixelRenderer) {}
 
+  /** Turns the whole rig by `angle` around the vertical axis through `pivot`, immediately
+   *  (trackpad gestures follow the fingers). With the ground point at the screen centre as the
+   *  pivot, that point stays put on screen. */
+  rotateAround(pivot: THREE.Vector3, angle: number) {
+    const offset = this.focus.clone().sub(pivot).applyAxisAngle(new THREE.Vector3(0, 1, 0), angle)
+    this.focus.set(pivot.x + offset.x, this.focus.y, pivot.z + offset.z)
+    this.yaw += angle
+    this.yawTarget += angle
+  }
+
   rotateBy(angle: number) {
     this.yawTarget += angle
   }
@@ -382,9 +392,15 @@ export class CameraRig {
     cam.updateMatrixWorld()
   }
 
-  /** Pans so the ground point under `from` ends up under `to`. */
+  /** Pans so the ground point under `from` ends up under `to`. The focus stays on its
+   *  horizontal plane: the move is slid along the view direction (which doesn't change the
+   *  orthographic image), so panning over hills doesn't make the focus drift up or down. */
   panScreen(from: THREE.Vector3 | null, to: THREE.Vector3 | null) {
-    if (from && to) this.focus.add(from.sub(to))
+    if (!from || !to) return
+    const move = from.sub(to)
+    const view = this.camera.getWorldDirection(new THREE.Vector3())
+    if (Math.abs(view.y) > 1e-6) move.addScaledVector(view, -move.y / view.y)
+    this.focus.add(move)
   }
 
   /** Pans in screen directions scaled by zoom (keyboard). */

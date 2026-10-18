@@ -1,6 +1,7 @@
 <script lang="ts">
   // Pixel Arena (web): viewport + editor shell. Camera input (MMB / Space+drag pan, RMB /
-  // Alt+drag orbit, wheel zoom, WASD, Q/E) is handled here; the left button and unhandled keys go
+  // Alt+drag orbit, mouse wheel zoom, trackpad two-finger pan / pinch zoom / rotate, WASD, Q/E)
+  // is handled here; the left button and unhandled keys go
   // to the active tool (see editor/editor.ts).
   //
   // URL parameters (for automated checks): map=<url of .pxmap>, camera=<x>,<z>,<zoom>,
@@ -8,7 +9,7 @@
   // page load only and aren't saved), cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select|terrain|building|branches|filters|export|desktop (drives the tools end to end, writes shots/selftest-<name>.json),
+  // selftest=place|select|terrain|building|branches|filters|export|gestures|desktop (drives the tools end to end, writes shots/selftest-<name>.json),
   // tool=select|terrain|water|building (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
@@ -39,6 +40,7 @@
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
   import { desktop, type MenuCommand, type SteamStatus } from './platform'
+  import { pinchFactor, WheelClassifier, wheelFactor } from './editor/gestures'
 
   const params = new URLSearchParams(location.search)
   const num = (k: string, d: number) => (params.has(k) ? Number(params.get(k)) : d)
@@ -385,14 +387,48 @@
     }
   }
 
+  // Trackpad: two-finger move pans, pinch zooms at the fingers, rotate turns the view around
+  // its centre. Mouse wheel zooms at the cursor. See editor/gestures.ts.
+  const wheel = new WheelClassifier()
   function onWheel(e: WheelEvent) {
     e.preventDefault()
     if (!editor) return
     const p = pointer(e)
+    const kind = wheel.classify({ deltaX: e.deltaX, deltaY: e.deltaY, deltaMode: e.deltaMode, ctrlKey: e.ctrlKey,
+      wheelDeltaY: (e as WheelEvent & { wheelDeltaY?: number }).wheelDeltaY, timeStamp: e.timeStamp })
+    if (kind === 'pan') {
+      const ahead = editor.groundAt({ ...p, x: p.x + e.deltaX, y: p.y + e.deltaY })
+      rig.panScreen(ahead, editor.groundAt(p))
+      return
+    }
+    zoomAt(p, kind === 'pinch' ? pinchFactor(e.deltaY) : wheelFactor(e.deltaY))
+  }
+
+  function zoomAt(p: Pointer, factor: number) {
+    if (!editor) return
     const before = editor.groundAt(p)
-    rig.zoom = Math.max(4, Math.min(400, rig.zoom * Math.pow(1.0015, e.deltaY)))
+    rig.zoom = Math.max(4, Math.min(400, rig.zoom * factor))
     rig.update(0)
     rig.panScreen(before, editor.groundAt(p))
+  }
+
+  /** Counter-clockwise finger rotation in degrees turns the map counter-clockwise on screen,
+   *  pivoting on the ground at the centre of the view. */
+  function rotateGesture(degrees: number) {
+    if (!editor) return
+    const centre = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2, shift: false, alt: false, cmd: false }
+    rig.rotateAround(editor.groundAt(centre) ?? rig.focus, (-degrees * Math.PI) / 180)
+  }
+
+  // Safari's own trackpad rotation (degrees, clockwise positive, cumulative per gesture).
+  let safariRotation = 0
+  function onGesture(e: Event & { rotation?: number; type: string }) {
+    e.preventDefault()
+    if (e.type === 'gesturestart') safariRotation = 0
+    else if (e.rotation !== undefined) {
+      rotateGesture(safariRotation - e.rotation)
+      safariRotation = e.rotation
+    }
   }
 
   function onKey(e: KeyboardEvent, down: boolean) {
@@ -514,6 +550,9 @@
     })
     ;(window as any).pixelArena = { get editor() { return editor }, rig, scene, pixel }
     const offMenu = desktop?.onCommand(menuCommand)
+    const offRotate = desktop?.onRotate?.(rotateGesture)
+    const gestures = ['gesturestart', 'gesturechange'] as const
+    gestures.forEach((t) => canvas.addEventListener(t, onGesture as EventListener))
     desktop?.steam.status().then((st) => (steam = st))
 
     let last = performance.now()
@@ -552,6 +591,8 @@
       cancelAnimationFrame(raf)
       ro.disconnect()
       offMenu?.()
+      offRotate?.()
+      gestures.forEach((t) => canvas.removeEventListener(t, onGesture as EventListener))
     }
   })
 

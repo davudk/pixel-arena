@@ -27,12 +27,14 @@ export interface DesktopApi {
   saveFileAs(suggestedName: string, bytes: Uint8Array): Promise<FileRef | null>
   setDocument(state: { name: string; path: string | null; dirty: boolean }): void
   onCommand(cb: (cmd: MenuCommand) => void): () => void
+  /** macOS trackpad rotation: degrees since the last call, counter-clockwise positive. */
+  onRotate?(cb: (degrees: number) => void): () => void
   steam: {
     status(): Promise<SteamStatus>
     overlay(dialog: 'friends' | 'community' | 'players' | 'settings' | 'achievements'): Promise<boolean>
   }
   /** Only when the desktop app was started with --selftest. */
-  test: { tempFile(name: string): Promise<string>; done(ok: boolean): void } | null
+  test: { tempFile(name: string): Promise<string>; rotate(degrees: number): void; done(ok: boolean): void } | null
 }
 
 export const desktop: DesktopApi | null = (globalThis as { pixelArenaDesktop?: DesktopApi }).pixelArenaDesktop ?? null

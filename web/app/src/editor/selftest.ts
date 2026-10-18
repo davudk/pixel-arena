@@ -3,7 +3,7 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, MAIN, MapSession, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { buildReview, resolutions } from '../ui/merge-review'
 import type { ViewSettings } from '../render/view-settings'
 import type { Exporter } from '../render/exporter'
@@ -15,6 +15,7 @@ import { TerrainTool, terrainSettings } from './terrain-tool'
 import { WaterTool } from './water-tool'
 import { BuildingTool, buildSettings } from './building-tool'
 import { desktop } from '../platform'
+import { WheelClassifier } from './gestures'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -56,6 +57,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'branches-ui') await branchesUi(editor, check, settle)
     else if (name === 'filters') await filtersTest(editor, check, settle, extras)
     else if (name === 'export') await exportTest(editor, check, settle, extras)
+    else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
@@ -607,4 +609,73 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(typeof st.ok === 'boolean' && st.appId > 0, 'steam status shape')
   if (st.ok) check(st.name && st.steamId, 'steam user known')
   await saveShot('selftest-desktop.png', x.canvas)
+}
+
+/** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
+ *  desktop rotate gesture through the main process. */
+async function gesturesTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  // Classifier.
+  const c = new WheelClassifier()
+  const ev = (o: Partial<{ deltaX: number; deltaY: number; deltaMode: number; ctrlKey: boolean; wheelDeltaY: number; timeStamp: number }>) =>
+    ({ deltaX: 0, deltaY: 0, deltaMode: 0, ctrlKey: false, timeStamp: 0, ...o })
+  check(c.classify(ev({ deltaY: 4, wheelDeltaY: -12, timeStamp: 0 })) === 'pan', 'trackpad move pans')
+  check(c.classify(ev({ deltaY: 40, wheelDeltaY: -120, timeStamp: 16 })) === 'pan', 'same stream stays a pan')
+  check(c.classify(ev({ deltaY: -3, ctrlKey: true, timeStamp: 32 })) === 'pinch', 'ctrl+wheel is a pinch')
+  check(c.classify(ev({ deltaY: 100, wheelDeltaY: -120, timeStamp: 1000 })) === 'zoom', 'mouse notch zooms')
+  check(c.classify(ev({ deltaY: 3, deltaMode: 1, timeStamp: 2000 })) === 'zoom', 'line-mode wheel zooms')
+  check(c.classify(ev({ deltaX: 5, deltaY: 1, timeStamp: 3000 })) === 'pan', 'sideways move pans')
+
+  const { rig } = editor
+  const s = editor.session
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 40
+  await settle()
+  const canvas = x.canvas
+  const r = canvas.getBoundingClientRect()
+  const p = { x: r.width * 0.3, y: r.height * 0.4, shift: false, alt: false, cmd: false }
+  const wheel = async (o: WheelEventInit) => {
+    canvas.dispatchEvent(new WheelEvent('wheel', { clientX: r.left + p.x, clientY: r.top + p.y, bubbles: true, cancelable: true, ...o }))
+    rig.update(0)
+    await frame()
+  }
+  await sleep(400) // new stream
+
+  // Two-finger move: the ground that was under p + delta is now under p; zoom unchanged.
+  const target = editor.groundAt({ ...p, x: p.x + 60, y: p.y + 40 })!
+  await wheel({ deltaX: 60, deltaY: 40 })
+  const now = editor.groundAt(p)!
+  check(rig.zoom === 40, `pan keeps zoom (${rig.zoom})`)
+  check(now.distanceTo(target) < 0.5, `pan follows the fingers (${now.distanceTo(target).toFixed(2)} m off)`)
+
+  // Pinch out: zoom in, the ground under the fingers stays put.
+  await sleep(400)
+  const under = editor.groundAt(p)!
+  await wheel({ deltaY: -30, ctrlKey: true })
+  check(rig.zoom < 40, `pinch out zooms in (${rig.zoom.toFixed(1)})`)
+  check(editor.groundAt(p)!.distanceTo(under) < 0.5, 'pinch zooms around the fingers')
+
+  // Rotate: turns around the view centre (focus stays), counter-clockwise fingers -> yaw down.
+  if (desktop?.test) {
+    // On a hill, so the ground at the centre is well above the focus plane.
+    s.edit('Gesture hill', () => terrainEdit.heightOps(s.doc, new Rect2i(-10, -10, 20, 20), () => 6).forEach((op) => s.apply(op)))
+    rig.focus.set(0, 0, 0)
+    rig.update(0)
+    await settle()
+    const centre = { x: r.width / 2, y: r.height / 2, shift: false, alt: false, cmd: false }
+    const pivot = editor.groundAt(centre)!
+    const yaw = rig.yaw
+    for (let i = 0; i < 6; i++) {
+      desktop.test.rotate(15)
+      await sleep(50)
+    }
+    await sleep(200)
+    rig.update(0)
+    const after = editor.groundAt(centre)!
+    check(Math.abs(rig.yaw - (yaw - Math.PI / 2)) < 1e-6, `rotate gesture turns the view (${(((rig.yaw - yaw) * 180) / Math.PI).toFixed(1)}°)`)
+    check(after.distanceTo(pivot) < 0.3, `rotation pivots on the ground at the view centre (${after.distanceTo(pivot).toFixed(2)} m drift)`)
+  }
+  // Panning over the hill keeps the focus on its plane.
+  const y0 = rig.focus.y
+  for (let i = 0; i < 5; i++) await wheel({ deltaX: 40, deltaY: -30 })
+  check(Math.abs(rig.focus.y - y0) < 1e-9, 'panning over terrain keeps the focus height')
 }

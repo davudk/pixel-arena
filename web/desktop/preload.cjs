@@ -18,6 +18,11 @@ contextBridge.exposeInMainWorld('pixelArenaDesktop', {
     ipcRenderer.on('menu:command', listener)
     return () => ipcRenderer.removeListener('menu:command', listener)
   },
+  onRotate: (cb) => {
+    const listener = (_e, degrees) => cb(degrees)
+    ipcRenderer.on('gesture:rotate', listener)
+    return () => ipcRenderer.removeListener('gesture:rotate', listener)
+  },
   steam: {
     status: () => ipcRenderer.invoke('steam:status'),
     overlay: (dialog) => ipcRenderer.invoke('steam:overlay', dialog),
@@ -25,6 +30,7 @@ contextBridge.exposeInMainWorld('pixelArenaDesktop', {
   test: selftest
     ? {
         tempFile: (name) => ipcRenderer.invoke('test:tempFile', name),
+        rotate: (degrees) => ipcRenderer.send('test:rotate', degrees),
         done: (ok) => ipcRenderer.send('test:done', ok),
       }
     : null,
