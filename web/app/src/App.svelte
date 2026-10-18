@@ -31,7 +31,9 @@
   import { SelectTool } from './editor/select-tool'
   import { TerrainTool } from './editor/terrain-tool'
   import { WaterTool } from './editor/water-tool'
-  import BrushSettings from './ui/BrushSettings.svelte'
+  import Hotbar from './ui/Hotbar.svelte'
+  import { isCurrent, loadBrush, saveBrush } from './ui/brushes'
+  import { terrainSettings } from './editor/terrain-tool'
   import TerrainPanel from './ui/TerrainPanel.svelte'
   import WaterPanel from './ui/WaterPanel.svelte'
   import Outliner from './ui/Outliner.svelte'
@@ -399,18 +401,54 @@
     else setMode(m)
   }
 
-  /** Keeps the mode in step when the tool changes some other way (keys, Esc, self-tests). */
+  /** Keeps the mode in step when a mode's tool is picked some other way (keys, self-tests).
+   *  Putting a tool down (Esc, None) leaves the mode and its panel as they are. */
   function syncMode(toolName: string) {
     if (toolName === 'place') ui.mode = 'props'
     else if (toolName === 'terrain') ui.mode = 'terrain'
     else if (toolName === 'water') ui.mode = 'water'
     else if (toolName === 'building') ui.mode = 'build'
-    else if (ui.mode !== 'props') ui.mode = 'select'
+  }
+
+  /** Puts the current mode's tool down; the panel stays. */
+  function noTool() {
+    if (editor && !(editor.tool instanceof SelectTool)) editor.setTool(editor.defaultTool())
+  }
+
+  // --- Saved brushes (number keys) ------------------------------------------------------
+
+  let brushRev = $state(0)
+  terrainSettings.changed.connect(() => brushRev++)
+  const activeBrush = $derived.by(() => {
+    brushRev
+    return activeTool === 'terrain' ? (ui.brushes.find(isCurrent)?.slot ?? null) : null
+  })
+
+  /** Loads a saved brush and picks it up (switching to Terrain if needed). */
+  function useBrush(slot: number) {
+    if (!editor || !loadBrush(slot)) return
+    ui.mode = 'terrain'
+    if (!(editor.tool instanceof TerrainTool)) setToolByName('terrain')
+  }
+
+  // A short size / strength readout by the cursor when the brush changes from the keyboard.
+  let brushTip: { x: number; y: number; text: string } | null = $state(null)
+  let tipTimer = 0
+  function showBrushTip() {
+    if (!editor || !(editor.tool instanceof TerrainTool)) return
+    const c = editor.cursor
+    brushTip = { x: c.x, y: c.y, text: `${Number.isInteger(terrainSettings.radius) ? terrainSettings.radius : terrainSettings.radius.toFixed(1)} m · ${Math.round(terrainSettings.strength * 100)}%` }
+    clearTimeout(tipTimer)
+    tipTimer = window.setTimeout(() => (brushTip = null), 900)
   }
 
   let level = $state(buildSettings.level)
   buildSettings.changed.connect(() => (level = buildSettings.level))
-  const setLevel = (l: number) => editor?.tool instanceof BuildingTool && editor.tool.setLevel(l)
+  function setLevel(l: number) {
+    if (editor?.tool instanceof BuildingTool) return editor.tool.setLevel(l)
+    buildSettings.level = Math.max(0, Math.min(MAX_LEVEL, l))
+    buildSettings.changed.emit()
+  }
 
   // Dragging a prop from the panel onto the map places it where it's dropped.
   const PROP_MIME = 'application/x-pixel-arena-prop'
@@ -535,7 +573,28 @@
       e.preventDefault()
       return
     }
+    // Number keys: 1-9 picks up a saved brush; Cmd/Ctrl+1-9 (Alt+1-9 in a browser, where
+    // Cmd/Ctrl+digit switches tabs) saves the current one to that key.
+    if (/^[1-9]$/.test(e.key) || /^Digit[1-9]$/.test(e.code)) {
+      const slot = Number(e.code.startsWith('Digit') ? e.code.slice(5) : e.key)
+      const save = (desktop ? cmd : e.altKey || cmd) && !e.shiftKey
+      if (save) {
+        if (editor?.tool instanceof TerrainTool) {
+          saveBrush(slot)
+          status = `Saved brush to ${slot}`
+          window.setTimeout(() => status === `Saved brush to ${slot}` && (status = ''), 1500)
+        }
+        e.preventDefault()
+        return
+      }
+      if (!cmd && !e.altKey && ui.brushes.some((b) => b.slot === slot)) {
+        useBrush(slot)
+        e.preventDefault()
+        return
+      }
+    }
     if (editor?.tool.key?.(e)) {
+      if (editor.tool instanceof TerrainTool && /^[[\]{}]$/.test(e.key)) showBrushTip()
       e.preventDefault()
       return
     }
@@ -708,13 +767,18 @@
 
   <div class="side left" class:hidden={ui.leftHidden} style:left="{GAP + RAIL + GAP}px" style:width="{ui.leftWidth}px">
     <!-- As tall as the top bar, so popovers opened from the panel start just below it. -->
-    <div class="panelhead">{MODES.find((m) => m.mode === ui.mode)?.label}</div>
+    <div class="panelhead">
+      <span>{MODES.find((m) => m.mode === ui.mode)?.label}</span>
+      {#if ui.mode !== 'select' && activeTool !== 'select'}
+        <button class="none" onclick={noTool} title="Put the tool down (Esc)"><Icon name="pointer" size={14} /> None</button>
+      {/if}
+    </div>
     {#if !library || !thumbnails || !editorReady || !editor}
       <p class="loading">Loading…</p>
     {:else if ui.mode === 'props'}
       <PropBrowser {library} {thumbnails} {usage} selected={placing} onchoose={choose} />
     {:else if ui.mode === 'terrain'}
-      <TerrainPanel />
+      <TerrainPanel {editor} onuse={useBrush} />
     {:else if ui.mode === 'water'}
       <WaterPanel {editor} />
     {:else if ui.mode === 'build'}
@@ -776,17 +840,17 @@
   <!-- Centered on the whole window; the side spacers keep it clear of the panels, so it only
        shifts when it would otherwise run into one. -->
   <div class="bottom">
-    <div class="keepout" style:min-width="{leftSpace}px"></div>
+    <div class="keepout left" style:min-width="{leftSpace}px" style:padding-left="{leftSpace}px">
+      <Hotbar active={activeBrush} onuse={useBrush} />
+    </div>
     <div class="center" data-avoid style:max-width="calc(100% - {leftSpace + rightSpace}px)">
-      {#if (ui.mode === 'props' || ui.mode === 'terrain' || ui.mode === 'build' || (selected && activeTool === 'select') || status) && editorReady}
+      {#if (ui.mode === 'props' || ui.mode === 'build' || (selected && activeTool === 'select') || status) && editorReady}
         <footer class="bottombar">
           {#if ui.mode === 'props'}
             <button class="toggle" class:on={ui.randomRotation} aria-pressed={ui.randomRotation} onclick={() => (ui.randomRotation = !ui.randomRotation)}
               title="Give each placed prop a random rotation"><Icon name="shuffle" /> Random rotation</button>
             <button class="toggle" class:on={ui.snap} aria-pressed={ui.snap} onclick={() => (ui.snap = !ui.snap)}
               title="Snap placed props to the grid (hold Cmd to place freely)"><Icon name="magnet" /> Snap</button>
-          {:else if ui.mode === 'terrain'}
-            <BrushSettings />
           {:else if ui.mode === 'build'}
             <div class="level">
               <button class="icon" onclick={() => setLevel(level - 1)} disabled={level <= 0} title="Level down (PageDown)" aria-label="Level down"><Icon name="down" /></button>
@@ -795,7 +859,7 @@
             </div>
           {/if}
           {#if selected && activeTool === 'select'}
-            {#if ui.mode === 'props' || ui.mode === 'terrain' || ui.mode === 'build'}<span class="sep"></span>{/if}
+            {#if ui.mode === 'props' || ui.mode === 'build'}<span class="sep"></span>{/if}
             <span class="count">{selected} selected</span>
             <div class="actions">
               <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
@@ -812,6 +876,10 @@
     </div>
     <div class="keepout" style:min-width="{rightSpace}px"></div>
   </div>
+
+  {#if brushTip}
+    <div class="brushtip" style:left="{brushTip.x + 18}px" style:top="{brushTip.y + 14}px">{brushTip.text}</div>
+  {/if}
 
   {#if ui.showStats}
     <div class="stats" style:right="{rightSpace || GAP}px">{fps} fps · {stats}</div>

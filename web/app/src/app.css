@@ -47,7 +47,8 @@ input[type='checkbox'] { accent-color: var(--accent); }
 .rail button.on { color: var(--accent); background: rgba(242, 193, 78, 0.14); }
 .rail button.on.collapsed { background: transparent; box-shadow: inset 2px 0 0 var(--accent); }
 /* Top of the left panel: the mode's name, as tall as the top bar (panel border included). */
-.panelhead { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; padding: 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
+.panelhead { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
+.panelhead .none { display: flex; align-items: center; gap: 5px; padding: 4px 8px; font-size: 12px; font-weight: 400; color: var(--muted); }
 .inspector { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow-y: auto; }
 
 .topbar { position: absolute; top: 10px; height: var(--bar-h); z-index: 4; display: flex; gap: 8px; align-items: center; padding: 0 6px; min-width: 0; }
@@ -60,6 +61,9 @@ input[type='checkbox'] { accent-color: var(--accent); }
 
 .bottom { position: absolute; left: 0; right: 0; bottom: 10px; z-index: 4; display: flex; align-items: flex-end; pointer-events: none; }
 .bottom .keepout { flex: 1 1 0; }
+/* Saved-brush hotbar sits at the left of the bottom row, after the panels, and scrolls. */
+.bottom .keepout.left { display: flex; min-width: 0; overflow: hidden; padding-right: 10px; }
+.brushtip { position: absolute; z-index: 7; padding: 3px 8px; border-radius: 6px; background: rgba(20, 22, 28, 0.9); color: var(--text); font-size: 12px; font-variant-numeric: tabular-nums; pointer-events: none; white-space: nowrap; }
 .bottom .center { flex: none; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
 .bottombar { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px; max-width: 100%; }
 .bottombar .tools { display: flex; gap: 2px; padding: 2px; border-radius: 9px; background: #15171c; flex: none; }

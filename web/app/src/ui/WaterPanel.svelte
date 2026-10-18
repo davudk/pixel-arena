@@ -1,10 +1,12 @@
 <script lang="ts">
-  // Water mode's left panel: the map's water bodies with their size and surface height.
-  // Click one to move the camera to it.
+  // Water mode's left panel: "Draw water" (picks up the water tool; again puts it down), then
+  // the map's water bodies with their size and surface height. Click one to move the camera to it.
   import { onDestroy } from 'svelte'
   import { PackedVec2Array, type MapSession } from '@pixel-arena/core'
   import type { Editor } from '../editor/editor'
   import { objectPosition } from './objects'
+  import { WaterTool } from '../editor/water-tool'
+  import Icon from './Icon.svelte'
 
   let { editor }: { editor: Editor } = $props()
 
@@ -17,11 +19,16 @@
     rev++
   }
   watch(editor.session)
-  const offSession = editor.sessionChanged.connect(watch)
+  let armed = $state(editor.tool instanceof WaterTool)
+  const offs = [editor.sessionChanged.connect(watch), editor.toolChanged.connect((t) => (armed = t instanceof WaterTool))]
   onDestroy(() => {
     offDoc()
-    offSession()
+    offs.forEach((f) => f())
   })
+
+  function toggleDraw() {
+    editor.setTool(armed ? editor.defaultTool() : new WaterTool(editor))
+  }
 
   /** Polygon area (shoelace). */
   function area(poly: PackedVec2Array): number {
@@ -52,6 +59,7 @@
 </script>
 
 <div class="panel-body">
+  <button class="draw" class:on={armed} aria-pressed={armed} onclick={toggleDraw}><Icon name="droplet" size={20} /> Draw water</button>
   <h3>Water bodies</h3>
   {#each bodies as b (b.id)}
     <button class="body" onclick={() => focus(b.id)}>
@@ -72,4 +80,6 @@
   .name { flex: 1; }
   .meta { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
   .empty { color: var(--muted); margin: 0; padding: 12px 2px; }
+  .draw { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; margin-bottom: 8px; }
+  .draw.on { background: rgba(242, 193, 78, 0.16); color: var(--accent); border-color: rgba(242, 193, 78, 0.45); }
 </style>

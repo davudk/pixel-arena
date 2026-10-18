@@ -1,7 +1,8 @@
 <script lang="ts">
   // Build mode's left panel: the kit (cards drawn in the kit's colors), the piece to draw
-  // (foundation, wall, door, window, erase) and the roof of the building being edited. The
-  // level lives in the bottom bar.
+  // (foundation, wall, door, window, erase) and the roof of the building being edited. Picking a
+  // piece picks up the build tool; picking the active piece again puts it down. The level lives
+  // in the bottom bar.
   import { onDestroy } from 'svelte'
   import { buildSettings, BuildingTool, type BuildMode } from '../editor/building-tool'
   import type { Editor } from '../editor/editor'
@@ -42,12 +43,26 @@
     rev
     const target = tool()?.target ?? ''
     const roof = target ? String(editor.session.doc.getProp(target, 'roof/style') ?? 'gable') : null
-    return { mode: buildSettings.mode, kitId: buildSettings.kitId, roof }
+    return { mode: buildSettings.mode, kitId: buildSettings.kitId, roof, armed: !!tool() }
   })
 
   function setMode(m: BuildMode) {
+    if (tool() && buildSettings.mode === m) {
+      editor.setTool(editor.defaultTool())
+      return
+    }
     buildSettings.mode = m
     buildSettings.changed.emit()
+    if (!tool()) editor.setTool(new BuildingTool(editor))
+  }
+
+  function setKit(id: string) {
+    const t = tool()
+    if (t) t.setKit(id)
+    else {
+      buildSettings.kitId = id
+      buildSettings.changed.emit()
+    }
   }
 </script>
 
@@ -55,7 +70,7 @@
   <h3>Kit</h3>
   <div class="kits">
     {#each kits as k (k.id)}
-      <button class="kit" class:on={view.kitId === k.id} onclick={() => tool()?.setKit(k.id)}>
+      <button class="kit" class:on={view.kitId === k.id} onclick={() => setKit(k.id)}>
         <svg viewBox="0 0 48 40" aria-hidden="true">
           <path d="M4 20 L24 6 L44 20 Z" fill={k.colors.roof} />
           <rect x="9" y="20" width="30" height="13" fill={k.colors.gable} />
@@ -69,7 +84,7 @@
   <h3>Piece</h3>
   <div class="tiles">
     {#each PIECES as p (p.mode)}
-      <button class="tile" class:on={view.mode === p.mode} onclick={() => setMode(p.mode)}><Icon name={p.icon} size={22} /><span>{p.label}</span></button>
+      <button class="tile" class:on={view.armed && view.mode === p.mode} aria-pressed={view.armed && view.mode === p.mode} onclick={() => setMode(p.mode)}><Icon name={p.icon} size={22} /><span>{p.label}</span></button>
     {/each}
   </div>
   <h3>Roof</h3>
