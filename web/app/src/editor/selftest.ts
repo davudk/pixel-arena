@@ -3,10 +3,12 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { merge, openProject, saveProject, Vec3 } from '@pixel-arena/core'
+import { merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
 import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
+import { TerrainTool, terrainSettings } from './terrain-tool'
+import { WaterTool } from './water-tool'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -23,6 +25,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
   try {
     if (name === 'place') await placeTest(editor, check, settle)
     else if (name === 'select') await selectTest(editor, check, settle)
+    else if (name === 'terrain') await terrainTest(editor, check, settle)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -199,4 +202,78 @@ async function selectTest(editor: Editor, check: (ok: unknown, what: string) => 
   editor.cursor = top()
   key('i')
   check(editor.tool instanceof PlaceTool && (editor.tool as PlaceTool).prop.id === 'kenney_nature:pot_small', 'I picks the pot into the place tool')
+}
+
+async function terrainTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const { library, session: s, rig, pixel, world } = editor
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 30
+  await settle()
+  const ptr = (v: THREE.Vector3): Pointer => {
+    const p = pixel.toScreen(v, rig)!
+    return { x: p.x, y: p.y, shift: false, alt: false, cmd: false }
+  }
+  const doc = s.doc
+
+  // A tree on the ground, then a raise stroke under it: the tree rides the terrain.
+  const place = new PlaceTool(editor, library.props.get('kenney_nature:tree_oak')!)
+  editor.setTool(place)
+  await settle()
+  const spot = ptr(new THREE.Vector3(2, 0, 2))
+  place.pointerMove(spot)
+  place.pointerDown(spot)
+  const tree = [...doc.objects.values()].find((o) => o.props.get('prop') === 'kenney_nature:tree_oak')!
+  const treeY = (tree.props.get('position') as Vec3).y
+
+  const terrain = new TerrainTool(editor)
+  editor.setTool(terrain)
+  Object.assign(terrainSettings, { mode: 'raise', radius: 5, strength: 1 })
+  editor.cursor = spot
+  terrain.pointerDown(spot)
+  for (let i = 0; i < 20; i++) terrain.update(1 / 60)
+  terrain.pointerUp()
+  const tp = doc.getProp(tree.id, 'position') as Vec3
+  const groundY = terrainEdit.heightAtWorld(doc, tp.x, tp.z)
+  check(groundY > 1, `terrain raised (${groundY.toFixed(2)})`)
+  check(Math.abs(tp.y - groundY) < 0.01, `tree rides the terrain (${tp.y.toFixed(2)} vs ${groundY.toFixed(2)})`)
+  await settle()
+  check(doc.terrain.size > 0, 'terrain chunk stored')
+  s.undo()
+  check(Math.abs((doc.getProp(tree.id, 'position') as Vec3).y - treeY) < 1e-9, 'undo lowers the tree')
+  check(doc.terrain.size === 0, 'undo removes the terrain chunk')
+
+  // Paint sand.
+  terrainSettings.mode = 'paint'
+  terrainSettings.material = 2
+  terrain.pointerDown(spot)
+  terrain.pointerUp()
+  const g = editor.groundAt(spot)!
+  check(terrainEdit.materialAt(doc, Math.floor(g.x), Math.floor(g.z)) === 2, 'painted sand')
+
+  // [ shrinks the brush and notifies the options panel.
+  let notified = false
+  const off = terrainSettings.changed.connect(() => (notified = true))
+  const r0 = terrainSettings.radius
+  terrain.key(new KeyboardEvent('keydown', { key: '[' }))
+  off()
+  check(terrainSettings.radius < r0 && notified, '[ shrinks the brush')
+
+  // Water: three corners + Enter -> created, selected, back to the select tool; PageUp raises it.
+  const water = new WaterTool(editor)
+  editor.setTool(water)
+  for (const c of [new THREE.Vector3(-8, 0, -4), new THREE.Vector3(-2, 0, -4), new THREE.Vector3(-5, 0, 1)]) {
+    const p = ptr(c)
+    water.pointerMove(p)
+    water.pointerDown(p)
+  }
+  water.key(new KeyboardEvent('keydown', { key: 'Enter' }))
+  const ids = editor.selection.list()
+  const obj = ids.length === 1 ? doc.getObject(ids[0]) : undefined
+  check(obj?.type === 'water', 'water created and selected')
+  check(editor.tool.name === 'select', 'back to the select tool')
+  const y0 = (obj?.props.get('position') as Vec3 | undefined)?.y ?? NaN
+  editor.tool.key?.(new KeyboardEvent('keydown', { key: 'PageUp' }))
+  check(Math.abs((doc.getProp(ids[0], 'position') as Vec3).y - y0 - 0.25) < 1e-9, 'PageUp raises the water by 0.25 m')
+  await settle()
+  check(world.highlightRoot.children.length === 1, 'water rendered and highlighted')
 }

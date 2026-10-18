@@ -454,8 +454,12 @@ docs/
   eyedropper, focus; selection highlight via additive rim "proxies" (instances can't take a
   per-instance overlay; drawn in the transparent pass so the object can't paint over them).
   Verified by `?selftest=select`.
-  Next: terrain and water tools, building tool, branches & history UI; then M7 (filters &
-  export) and Electron/Steam.
+  Terrain and water tools done: raise / lower / smooth / flatten / paint brushes with a
+  terrain-following ring (one stroke = one undo step, grounded props ride the surface), HTML
+  options panel synced with `[` / `]` keys, water polygons (snapped corners, close on the first
+  corner or Enter, self-intersection check), tool switcher (V / T / O). Verified by
+  `?selftest=terrain`.
+  Next: building tool, branches & history UI; then M7 (filters & export) and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

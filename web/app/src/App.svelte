@@ -7,7 +7,8 @@
   // time=<hours>, pixel=<n>, outline=0|1, grid=0|1, cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select (drives the tools end to end, writes shots/selftest-<name>.json).
+  // selftest=place|select|terrain (drives the tools end to end, writes shots/selftest-<name>.json),
+  // tool=select|terrain|water (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
   import { MapSession, openProject, saveProject, Vec3 } from '@pixel-arena/core'
@@ -22,6 +23,9 @@
   import { Editor, type BoxRect, type Pointer } from './editor/editor'
   import { PlaceTool } from './editor/place-tool'
   import { SelectTool } from './editor/select-tool'
+  import { TerrainTool } from './editor/terrain-tool'
+  import { WaterTool } from './editor/water-tool'
+  import TerrainOptions from './ui/TerrainOptions.svelte'
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
 
@@ -42,6 +46,7 @@
   let fps = $state(0)
   let stats = $state('')
   let toolInfo = $state('')
+  let activeTool = $state('select')
   let selected = $state(0)
   let boxRect: BoxRect | null = $state(null)
   let placing: string | null = $state(null)
@@ -160,6 +165,18 @@
 
   // --- Tools --------------------------------------------------------------------------
 
+  const TOOLS = [
+    { name: 'select', label: 'Select', key: 'V' },
+    { name: 'terrain', label: 'Terrain', key: 'T' },
+    { name: 'water', label: 'Water', key: 'O' },
+  ]
+
+  function setToolByName(name: string) {
+    if (!editor) return
+    if (name !== 'select') editor.selection.clear()
+    editor.setTool(name === 'terrain' ? new TerrainTool(editor) : name === 'water' ? new WaterTool(editor) : new SelectTool(editor))
+  }
+
   function choose(prop: PropDef) {
     if (!editor) return
     const tool = new PlaceTool(editor, prop)
@@ -234,7 +251,10 @@
       return
     }
     if (cmd) return
-    if (k === 'q') rig.rotateBy(Math.PI / 4)
+    if (k === 'v') setToolByName('select')
+    else if (k === 't') setToolByName('terrain')
+    else if (k === 'o') setToolByName('water')
+    else if (k === 'q') rig.rotateBy(Math.PI / 4)
     else if (k === 'e') rig.rotateBy(-Math.PI / 4)
   }
 
@@ -296,9 +316,14 @@
       ed.defaultTool = () => new SelectTool(ed)
       ed.toolChanged.connect((t) => {
         placing = t instanceof PlaceTool ? t.prop.id : null
+        activeTool = t.name
         toolInfo = t instanceof PlaceTool
           ? `Placing ${t.prop.name}: click to place · R rotate · Cmd = no snap · Esc stop`
-          : 'Click / drag-box to select · drag to move · R rotate · Del · Cmd+D · Cmd+C/V · I pick prop · F focus'
+          : t instanceof WaterTool
+            ? 'Water: click corners · click the first corner or Enter to finish · Backspace undo corner · Esc'
+            : t instanceof TerrainTool
+              ? ''
+              : 'Click / drag-box to select · drag to move · R rotate · PgUp/PgDn raise · Del · Cmd+D · Cmd+C/V · I pick prop · F focus'
       })
       ed.selection.changed.connect(() => (selected = ed.selection.size))
       ed.box.connect((r) => (boxRect = r))
@@ -308,6 +333,7 @@
       status = ''
       if (params.get('map')) await openUrl(params.get('map')!)
       if (params.get('scatter')) scatter(lib, editor.session, Number(params.get('scatter')))
+      if (params.get('tool')) setToolByName(params.get('tool')!)
       if (params.get('shot')) screenshotWhenReady(params.get('shot')!)
       if (params.get('selftest')) runSelfTest(params.get('selftest')!, editor, () => world.busy)
     })
@@ -377,6 +403,12 @@
       <span class="sep"></span>
       <button onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)">Undo</button>
       <button onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)">Redo</button>
+      <span class="sep"></span>
+      <div class="tools" role="group" aria-label="Tools">
+        {#each TOOLS as t (t.name)}
+          <button class:on={activeTool === t.name} title="{t.label} ({t.key})" onclick={() => setToolByName(t.name)}>{t.label}</button>
+        {/each}
+      </div>
       <span class="name">{mapName}{dirty ? ' •' : ''}</span>
       <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
         const f = (e.currentTarget as HTMLInputElement).files?.[0]
@@ -384,6 +416,8 @@
         ;(e.currentTarget as HTMLInputElement).value = ''
       }} />
     </header>
+
+    {#if activeTool === 'terrain'}<TerrainOptions />{/if}
 
     <aside class="panel">
       <h2>View</h2>

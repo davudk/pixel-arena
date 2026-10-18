@@ -41,3 +41,6 @@ input[type='checkbox'] { accent-color: var(--accent); }
 
 .status { left: 12px; bottom: 12px; padding: 8px 12px; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; }
 .boxsel { position: absolute; pointer-events: none; border: 1px solid rgba(242, 193, 78, 0.9); background: rgba(242, 193, 78, 0.12); border-radius: 2px; }
+.bar .tools { display: flex; gap: 2px; padding: 2px; border-radius: 9px; background: #15171c; }
+.bar .tools button { border-color: transparent; background: transparent; padding: 5px 11px; }
+.bar .tools button.on { background: #30353f; color: var(--accent); }
