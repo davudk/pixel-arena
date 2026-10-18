@@ -21,6 +21,8 @@ import { LIQUIDS } from '../world/liquids'
 import { BuildingTool } from './building-tool'
 import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
+import * as grouping from './grouping'
+import { outline } from '../ui/objects'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -64,6 +66,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'export') await exportTest(editor, check, settle, extras)
     else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
     else if (name === 'tools') await toolsTest(editor, check, settle)
+    else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
@@ -825,4 +828,70 @@ async function waterTest(editor: Editor, check: (ok: unknown, what: string) => v
   check(LIQUIDS.every((l) => [...doc.objects.values()].some((o) => !o.deleted && o.props.get('liquid') === l.id)), 'every liquid drawn')
   await saveShot('selftest-water-liquids.png', x.canvas)
   setParams('water', { liquid: 'water', dig: true, depth: 1.5 })
+}
+
+/** Groups, locks, names and custom order (map data, undoable), the select tool's handling of
+ *  them, and the outliner's sections and order. */
+async function outlinerTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  await openDemo(x, settle)
+  const s = editor.session
+  const doc = s.doc
+  const lib = editor.library
+  editor.setTool(editor.defaultTool())
+  const props = [...doc.objects.values()].filter((o) => !o.deleted && o.type === 'prop' && !o.props.has('parent')).slice(0, 3).map((o) => o.id)
+  const [a, b, c] = props
+
+  // Group two props.
+  const g = grouping.groupSelection(s, [a, b], lib)!
+  check(g && doc.getObject(g)?.type === 'group', 'group created')
+  check(grouping.members(doc, g).sort().join() === [a, b].sort().join(), 'group has both members')
+  check(grouping.pickTargets(doc, a).length === 2, 'picking a member selects the group')
+  check(s.branch().txns.at(-1)?.label === 'Group 2 objects', `group label (${s.branch().txns.at(-1)?.label})`)
+  s.undo()
+  check(!doc.getObject(g) || doc.getObject(g)!.deleted, 'undo removes the group')
+  check(grouping.parentGroup(doc, a) === null, 'undo clears membership')
+  s.redo()
+  check(grouping.parentGroup(doc, a) === g, 'redo restores it')
+
+  // Rename and lock.
+  grouping.rename(s, g, 'Camp', lib)
+  check(s.branch().txns.at(-1)?.label === 'Rename Group 1 to Camp' || s.branch().txns.at(-1)?.label?.startsWith('Rename Group'), `rename label (${s.branch().txns.at(-1)?.label})`)
+  grouping.setLocked(s, [g], true, lib)
+  check(grouping.isLocked(doc, a) && grouping.isLocked(doc, b), 'locking the group locks its members')
+  check(grouping.editable(doc, [a, b, c]).join() === c, 'locked objects are not editable')
+  editor.selection.set([a, c])
+  const sel = editor.tool as SelectTool
+  const before = doc.objects.size
+  sel.deleteSelection()
+  check(!doc.getObject(a)!.deleted && doc.getObject(c)!.deleted, 'delete skips locked objects')
+  s.undo()
+  check(doc.objects.size === before && !doc.getObject(c)!.deleted, 'undo delete')
+  grouping.setLocked(s, [g], false, lib)
+
+  // Duplicating the whole group makes a new group of copies.
+  editor.selection.set(grouping.members(doc, g))
+  sel.duplicateSelection()
+  const groups = [...doc.objects.values()].filter((o) => !o.deleted && o.type === 'group')
+  check(groups.length === 2, `duplicate makes a new group (${groups.length})`)
+  const copyGroup = groups.find((o) => o.id !== g)!
+  check(grouping.members(doc, copyGroup.id).length === 2 && editor.selection.list().every((id) => grouping.parentGroup(doc, id) === copyGroup.id), 'copies are in the new group')
+  s.undo()
+
+  // Custom order and sections.
+  grouping.reorder(s, [c, g], null, 'Reorder')
+  const custom = outline(doc, lib, { query: '', groupBy: 'none', sort: 'custom', collapsed: new Set() })
+  const top = custom[0].rows.filter((r) => r.depth === 0).map((r) => r.id)
+  check(top[0] === c && top[1] === g, 'custom order puts reordered items first')
+  check(custom[0].rows.some((r) => r.id === a && r.depth === 1), 'members nest under their group')
+  const collapsed = outline(doc, lib, { query: '', groupBy: 'none', sort: 'custom', collapsed: new Set([g]) })
+  check(!collapsed[0].rows.some((r) => r.id === a), 'a collapsed group hides its members')
+  const byType = outline(doc, lib, { query: '', groupBy: 'type', sort: 'name', collapsed: new Set() })
+  check(byType[0].key === 'group' && byType.some((sec) => sec.key === 'prop'), 'type sections, groups first')
+  const byCat = outline(doc, lib, { query: '', groupBy: 'category', sort: 'name', collapsed: new Set() })
+  check(byCat.some((sec) => sec.key.startsWith('cat:')), 'category sections')
+
+  // Ungroup.
+  grouping.ungroup(s, g, lib)
+  check(doc.getObject(g)!.deleted && grouping.parentGroup(doc, a) === null, 'ungroup dissolves the group')
+  editor.selection.clear()
 }

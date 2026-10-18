@@ -11,8 +11,12 @@ export function objectName(obj: MapObject, library: Library): string {
   return nameOf(obj.type, (k) => obj.props.get(k), library)
 }
 
-/** Name from an object's type and properties (also for copies not on the map yet). */
+/** Name from an object's type and properties (also for copies not on the map yet). A custom
+ *  'name' wins (see grouping.ts). */
 export function nameOf(type: string, get: (key: string) => unknown, library: Library): string {
+  const custom = get('name')
+  if (typeof custom === 'string' && custom) return custom
+  if (type === 'group') return 'Group'
   if (type === 'prop') {
     const id = String(get('prop'))
     return library.props.get(id)?.name ?? id

@@ -10,6 +10,8 @@ export type ViewMode = 'cards' | 'list'
 export type GroupBy = 'none' | 'category' | 'subcategory' | 'pack'
 export type SortBy = 'name' | 'size' | 'height' | 'recent' | 'used'
 export type CardSize = 's' | 'm' | 'l'
+export type OutlineGroupBy = 'type' | 'category' | 'none'
+export type OutlineSort = 'name' | 'custom' | 'newest' | 'oldest'
 export type { Mode }
 /** A registry tool saved with the parameters it keeps, optionally on a number key (1-9).
  *  See saved-tools.ts. */
@@ -38,6 +40,9 @@ const DEFAULTS = {
   recent: [] as string[],
   /** Collapsed prop groups (group keys); recently placed starts collapsed. */
   collapsedGroups: [':recent'] as string[],
+  /** Select mode's outliner: sections (by object type, by prop category, or none) and order
+   *  (by name, the map's custom order, or when objects were added). */
+  outliner: { groupBy: 'type' as OutlineGroupBy, sort: 'name' as OutlineSort },
   showStats: false,
   tools: [] as SavedTool[],
   /** Tool parameters (tool-params.ts), restored at start. */
@@ -67,7 +72,7 @@ function load(): UiPrefs {
     delete saved.brushes
     delete saved.randomRotation
     delete saved.snap
-    return { ...base, ...saved, sections: { ...base.sections, ...(saved.sections ?? {}) } }
+    return { ...base, ...saved, sections: { ...base.sections, ...(saved.sections ?? {}) }, outliner: { ...base.outliner, ...(saved.outliner ?? {}) } }
   } catch {
     return base
   }

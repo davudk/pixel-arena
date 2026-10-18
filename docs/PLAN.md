@@ -509,6 +509,13 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   or disabled). Saved tools are `{tool, params}` with an optional number key 1-9 (Cmd/Ctrl+digit
   saves, digit recalls); they show in each mode's panel and the bottom-left hotbar. Edit-history
   labels come from `labels.ts` ("Move Tent", "Delete 3 objects", "Paint Sand", "Build wall").
+- Outliner, groups and locks (web): groups are map objects (type `group`, members point to
+  them with `group`, nestable); `locked`, `name` and `order` work on any object. All undoable
+  (`editor/grouping.ts`). Clicking a grouped object on the map selects its group; locked objects
+  can't be picked, box-selected, moved or deleted; duplicating a whole group makes a new group.
+  The outliner has settings (sections by type / prop category / none; order by name / custom /
+  newest / oldest), nested group rows, lock toggles, rename, a right-click menu, multi-select and
+  drag to reorder or move into a group. Cmd/Ctrl+G groups, +Shift ungroups, Cmd/Ctrl+Shift+L locks.
 - Water (web): liquids per body (`liquid` property; water, ocean, muddy water, swamp, acid,
   lava, ice, tar; `world/liquids.ts`, absent = water). Drawing digs a basin by default (surface at
   the lowest ground along the outline, ground inside eased down to Depth over Shore meters, never

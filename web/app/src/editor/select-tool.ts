@@ -10,6 +10,7 @@ import * as THREE from 'three'
 import { copy, terrainEdit, Vec3, withDescendants, type Value } from '@pixel-arena/core'
 import { snapProp } from '../library/library'
 import type { Editor, Pointer, Tool } from './editor'
+import { editable, GROUP, isLocked, members, pickTargets, pruneEmptyGroups, selectedGroups } from './grouping'
 import { nameOf, objectsLabel } from './labels'
 import { PlaceTool } from './place-tool'
 
@@ -50,14 +51,22 @@ export class SelectTool implements Tool {
 
   pointerDown(p: Pointer) {
     this.pressAt = p
-    this.pressHit = this.editor.pick(p)?.id ?? null
+    // Locked objects can't be picked (clicks go through to the ground); grouped objects select
+    // their whole (outermost) group.
+    const hit = this.editor.pick(p)?.id ?? null
+    const doc = this.editor.session.doc
+    this.pressHit = hit && !isLocked(doc, hit) ? hit : null
     const sel = this.editor.selection
+    const targets = this.pressHit ? pickTargets(doc, this.pressHit) : []
     if (p.shift && this.pressHit) {
-      sel.toggle(this.pressHit)
+      const all = targets.every((id) => sel.has(id))
+      const next = new Set(sel.list())
+      for (const id of targets) all ? next.delete(id) : next.add(id)
+      sel.set(next)
       this.mode = 'none'
       return
     }
-    if (this.pressHit && !sel.has(this.pressHit)) sel.set([this.pressHit])
+    if (this.pressHit && !sel.has(this.pressHit)) sel.set(targets)
     this.mode = 'pending'
   }
 
@@ -106,7 +115,7 @@ export class SelectTool implements Tool {
   private startMove() {
     this.mode = 'move'
     const doc = this.editor.session.doc
-    this.moving = withDescendants(doc, this.editor.selection.list())
+    this.moving = withDescendants(doc, this.selected())
     this.starts.clear()
     for (const id of this.moving) this.starts.set(id, (doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO)
     this.primary = this.pressHit!
@@ -164,7 +173,7 @@ export class SelectTool implements Tool {
     const s = this.editor.session
     const { moving, delta, primary, newParent, starts } = this
     this.moving = []
-    s.edit(this.label('Move', this.editor.selection.list()), () => {
+    s.edit(this.label('Move', this.selected()), () => {
       if (delta.x || delta.y || delta.z) for (const id of moving) s.setProp(id, 'position', starts.get(id)!.add(delta))
       if (newParent !== null) {
         const value = newParent === '' ? null : newParent
@@ -184,11 +193,12 @@ export class SelectTool implements Tool {
   private boxSelect(r: { x: number; y: number; w: number; h: number }, add: boolean) {
     const picked = new Set(add ? this.editor.selection.list() : [])
     const { pixel, rig } = this.editor
-    for (const obj of this.editor.session.doc.objects.values()) {
+    const doc = this.editor.session.doc
+    for (const obj of doc.objects.values()) {
       const pos = obj.props.get('position')
-      if (obj.deleted || !(pos instanceof Vec3)) continue
+      if (obj.deleted || !(pos instanceof Vec3) || isLocked(doc, obj.id)) continue
       const sp = pixel.toScreen(new THREE.Vector3(pos.x, pos.y, pos.z), rig)
-      if (sp && sp.x >= r.x && sp.x <= r.x + r.w && sp.y >= r.y && sp.y <= r.y + r.h) picked.add(obj.id)
+      if (sp && sp.x >= r.x && sp.x <= r.x + r.w && sp.y >= r.y && sp.y <= r.y + r.h) for (const id of pickTargets(doc, obj.id)) picked.add(id)
     }
     this.editor.selection.set(picked)
   }
@@ -196,16 +206,19 @@ export class SelectTool implements Tool {
   // --- Selection actions (also used by the bottom bar and the Selection panel) ------------
 
   deleteSelection() {
-    const sel = this.editor.selection
-    if (sel.size === 0) return
+    const roots = this.selected()
+    if (roots.length === 0) return
     const s = this.editor.session
-    const ids = withDescendants(s.doc, sel.list())
-    s.edit(this.label('Delete', sel.list()), () => ids.forEach((id) => s.deleteObject(id)))
+    const ids = withDescendants(s.doc, roots)
+    s.edit(this.label('Delete', roots), () => {
+      ids.forEach((id) => s.deleteObject(id))
+      pruneEmptyGroups(s)
+    })
   }
 
   /** Rotates the selection about its centroid by one snap step of the first selected prop. */
   rotateSelection(direction: number) {
-    const roots = this.editor.selection.list()
+    const roots = this.selected()
     if (roots.length === 0) return
     const first = this.editor.session.doc.getObject(roots[0])!
     const prop = first.type === 'prop' ? this.editor.library.props.get(String(first.props.get('prop'))) : undefined
@@ -214,7 +227,7 @@ export class SelectTool implements Tool {
 
   /** Rotates the selection (with descendants) about its centroid by `angle` radians. */
   rotateSelectionBy(angle: number) {
-    const roots = this.editor.selection.list()
+    const roots = this.selected()
     if (roots.length === 0 || angle === 0) return
     const s = this.editor.session
     const pivot = this.centroid(roots)
@@ -234,28 +247,28 @@ export class SelectTool implements Tool {
   }
 
   raiseSelection(dy: number) {
-    const sel = this.editor.selection
-    if (sel.size === 0) return
+    const roots = this.selected()
+    if (roots.length === 0) return
     const s = this.editor.session
-    const ids = withDescendants(s.doc, sel.list())
-    s.edit(this.label(dy > 0 ? 'Raise' : 'Lower', sel.list()), () => {
+    const ids = withDescendants(s.doc, roots)
+    s.edit(this.label(dy > 0 ? 'Raise' : 'Lower', roots), () => {
       for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(new Vec3(0, dy, 0)))
     })
   }
 
   /** Moves the selection (with descendants) by `delta`. */
   translateSelection(delta: Vec3, label = 'Move') {
-    const sel = this.editor.selection
-    if (sel.size === 0) return
+    const roots = this.selected()
+    if (roots.length === 0) return
     const s = this.editor.session
-    const ids = withDescendants(s.doc, sel.list())
-    s.edit(this.label(label, sel.list()), () => {
+    const ids = withDescendants(s.doc, roots)
+    s.edit(this.label(label, roots), () => {
       for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(delta))
     })
   }
 
   duplicateSelection() {
-    const roots = this.editor.selection.list()
+    const roots = this.selected()
     if (roots.length === 0) return
     const first = this.editor.session.doc.getObject(roots[0])!
     const prop = first.type === 'prop' ? this.editor.library.props.get(String(first.props.get('prop'))) : undefined
@@ -265,7 +278,7 @@ export class SelectTool implements Tool {
   }
 
   private copySelection() {
-    if (this.editor.selection.size > 0) clipboard = this.snapshot(this.editor.selection.list())
+    if (this.selected().length > 0) clipboard = this.snapshot(this.selected())
   }
 
   private paste() {
@@ -317,9 +330,26 @@ export class SelectTool implements Tool {
     const roots: string[] = []
     const top = items.filter((i) => i.root)
     const label = top.length === 1 ? `${verb} ${nameOf(top[0].type, (k) => top[0].props[k], this.editor.library)}` : `${verb} ${top.length} objects`
+    // Groups the copies fully cover get copied too (a duplicated group is a new group); copies of
+    // part of a group stay in it. Copies are never locked.
+    const doc = s.doc
+    const copied = new Set(items.map((i) => i.id))
+    const groupCopies = new Map<string, string>()
+    const copyGroup = (g: string): string => {
+      if (groupCopies.has(g)) return groupCopies.get(g)!
+      const obj = doc.getObject(g)!
+      const parent = obj.props.get('group')
+      const props: Record<string, Value> = { name: `${nameOf(GROUP, (k) => obj.props.get(k), this.editor.library)} copy` }
+      if (typeof parent === 'string') props.group = covered(parent) ? copyGroup(parent) : parent
+      const id = s.createObject(GROUP, props)
+      groupCopies.set(g, id)
+      return id
+    }
+    const covered = (g: string) => doc.getObject(g)?.deleted === false && members(doc, g).every((m) => copied.has(m))
     s.edit(label, () => {
       for (const item of items) {
-        const { parent: _parent, ...props } = item.props
+        const { parent: _parent, locked: _locked, group, ...props } = item.props
+        if (typeof group === 'string' && doc.getObject(group)?.deleted === false) props.group = covered(group) ? copyGroup(group) : group
         props.position = ((props.position as Vec3) ?? Vec3.ZERO).add(offset)
         const id = s.createObject(item.type, props)
         remap.set(item.id, id)
@@ -333,9 +363,18 @@ export class SelectTool implements Tool {
     return roots
   }
 
-  /** History label naming what an action applies to ("Move Tent", "Delete 3 objects"). */
+  /** The selection without locked objects (what actions apply to). */
+  private selected(): string[] {
+    return editable(this.editor.session.doc, this.editor.selection.list())
+  }
+
+  /** History label naming what an action applies to ("Move Tent", "Delete 3 objects", or the
+   *  group's name when the selection is exactly one group). */
   private label(verb: string, ids: string[]): string {
-    return objectsLabel(verb, ids, this.editor.session.doc, this.editor.library)
+    const doc = this.editor.session.doc
+    const groups = selectedGroups(doc, ids)
+    if (groups.length === 1 && members(doc, groups[0]).length === ids.length) return objectsLabel(verb, groups, doc, this.editor.library)
+    return objectsLabel(verb, ids, doc, this.editor.library)
   }
 
   private centroid(ids: string[]): Vec3 {

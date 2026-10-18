@@ -41,6 +41,11 @@
     shuffle: 'M3 7h4l10 10h4 M3 17h4l3-3 M14 10l3-3h4 M18 4l3 3l-3 3 M18 14l3 3l-3 3',
     magnet: 'M6 4v8a6 6 0 0 0 12 0V4 M6 8h4 M14 8h4 M10 4v8a2 2 0 0 0 4 0V4',
     plus: 'M12 5v14 M5 12h14',
+    lock: 'M6 11h12v9H6z M8.5 11V8a3.5 3.5 0 0 1 7 0v3',
+    unlock: 'M6 11h12v9H6z M8.5 11V8a3.5 3.5 0 0 1 6.8-1.2',
+    group: 'M4 7V4h3 M17 4h3v3 M20 17v3h-3 M7 20H4v-3 M8 8h5v5H8z M11 11h5v5h-5z',
+    ungroup: 'M4 4h6v6H4z M14 14h6v6h-6z',
+    sliders: 'M4 7h10 M18 7h2 M4 17h4 M12 17h8 M14 5v4 M8 15v4',
     shovel: 'M14 4l6 6 M17 7l-6.5 6.5 M10.5 13.5l-2-2L4 16l4 4l4.5-4.5z',
   }
 </script>

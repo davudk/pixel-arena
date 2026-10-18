@@ -37,6 +37,7 @@
   import TerrainPanel from './ui/TerrainPanel.svelte'
   import WaterPanel from './ui/WaterPanel.svelte'
   import Outliner from './ui/Outliner.svelte'
+  import { canGroup, canUngroup, groupSelected, toggleLockSelected, ungroupSelected } from './ui/object-actions'
   import BuildPanel from './ui/BuildPanel.svelte'
   import HistoryPanel from './ui/HistoryPanel.svelte'
   import Dialogs, { type DialogState } from './ui/Dialogs.svelte'
@@ -79,6 +80,12 @@
   let selected = $state(0)
   let boxRect: BoxRect | null = $state(null)
   let placing: string | null = $state(null)
+  let selectionRev = $state(0)
+  /** Whether the selection can be grouped / ungrouped (bottom bar). */
+  const grouping = $derived.by(() => {
+    selectionRev
+    return editorReady && editor ? { group: canGroup(editor), ungroup: canUngroup(editor) } : { group: false, ungroup: false }
+  })
   let canUndo = $state(false)
   let canRedo = $state(false)
   let library: Library | null = $state(null)
@@ -189,6 +196,7 @@
   function refreshHistory() {
     canUndo = editor?.session.canUndo() ?? false
     canRedo = editor?.session.canRedo() ?? false
+    selectionRev++ // grouping can change with any edit
     if (editor) usage = usageCounts(editor.session.doc.objects.values())
   }
 
@@ -564,6 +572,14 @@
     else keys.delete(k)
     if (!down) return
     const cmd = e.metaKey || e.ctrlKey
+    // Groups and locks (Cmd/Ctrl+G, Cmd/Ctrl+Shift+G, Cmd/Ctrl+Shift+L).
+    if (cmd && editor && (k === 'g' || (k === 'l' && e.shiftKey))) {
+      if (k === 'l') toggleLockSelected(editor)
+      else if (e.shiftKey) ungroupSelected(editor)
+      else groupSelected(editor)
+      e.preventDefault()
+      return
+    }
     if (cmd && ['z', 'y', 's', 'o', 'e'].includes(k)) {
       if (k === 'z') e.shiftKey ? redo() : undo()
       else if (k === 'y') redo()
@@ -671,7 +687,10 @@
         activeTool = idOf(t)
         toolChanged(idOf(t))
       })
-      ed.selection.changed.connect(() => (selected = ed.selection.size))
+      ed.selection.changed.connect(() => {
+        selected = ed.selection.size
+        selectionRev++
+      })
       ed.box.connect((r) => (boxRect = r))
       library = lib
       thumbnails = thumbs
@@ -786,7 +805,7 @@
     {:else if ui.mode === 'build'}
       <BuildPanel {editor} active={activeSaved} onuse={useTool} />
     {:else}
-      <Outliner {editor} />
+      <Outliner {editor} {selectTool} />
     {/if}
     <Resizer side="left" bind:width={ui.leftWidth} min={220} max={560} initial={300} />
   </div>
@@ -860,6 +879,12 @@
             <span class="count">{selected} selected</span>
             <div class="actions">
               <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
+              {#if grouping.ungroup}
+                <button class="icon" title="Ungroup (Cmd+Shift+G)" aria-label="Ungroup" onclick={() => ungroupSelected(editor!)}><Icon name="ungroup" /></button>
+              {:else}
+                <button class="icon" title="Group (Cmd+G)" aria-label="Group" disabled={!grouping.group} onclick={() => groupSelected(editor!)}><Icon name="group" /></button>
+              {/if}
+              <button class="icon" title="Lock (Cmd+Shift+L)" aria-label="Lock" onclick={() => toggleLockSelected(editor!)}><Icon name="lock" /></button>
               <button class="icon" title="Rotate (R, Shift+R back)" aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
               <button class="icon" title="Raise (PgUp)" aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
               <button class="icon" title="Lower (PgDn)" aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
