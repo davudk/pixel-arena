@@ -463,7 +463,13 @@ docs/
   current one; erasing every cell deletes it), wall / door / window edge clicks, levels with
   cutaway (restores the view panel's cutaway on exit), roof style and kit switching, hover
   preview; options panel; Build (B) in the tool switcher. Verified by `?selftest=building`.
-  Next: branches & history UI; then M7 (filters & export) and Electron/Steam.
+  Branches & history UI done: history panel (branch tree, New / Switch / Merge / Rename /
+  Discard, history list with inherited entries dimmed, Undo / Redo, Branch here), merge review
+  dialog (Keep / Take per conflict, terrain grouped per layer, objects labelled with their
+  position), name and discard dialogs. Merge-review logic lives in `ui/merge-review.ts`.
+  Verified by `?selftest=branches` and `?selftest=branches-ui` (clicks the real panel buttons).
+  **The web editor now matches the Godot build's features (M0–M6).**
+- Next: M7 (filters & export) in the web version, then the Electron shell + Steam spike.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

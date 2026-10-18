@@ -3,7 +3,8 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, MAIN, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { buildReview, resolutions } from '../ui/merge-review'
 import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
@@ -28,6 +29,8 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'select') await selectTest(editor, check, settle)
     else if (name === 'terrain') await terrainTest(editor, check, settle)
     else if (name === 'building') await buildingTest(editor, check, settle)
+    else if (name === 'branches') await branchesTest(editor, check, settle)
+    else if (name === 'branches-ui') await branchesUi(editor, check, settle)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -355,4 +358,77 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   // Leaving the tool restores the view's cutaway setting.
   editor.setTool(editor.defaultTool())
   check(world.cutawayLevel === editor.viewCutaway, 'cutaway restored on leaving the tool')
+}
+
+async function branchesTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const { library } = editor
+  const s = () => editor.session
+  let stump = ''
+  s().edit('Place stump', () => (stump = s().createObject('prop', { prop: 'kenney_nature:stump_square_detailed_wide', position: new Vec3(0, 0, 0) })))
+
+  // Fork, edit on the branch, switch back: main doesn't see the branch's edits.
+  const exp = editor.newBranch(s().currentBranch, -1, 'Experiment')
+  check(s().branches.get(exp)?.name === 'Experiment' && s().currentBranch === exp, 'branch created and current')
+  s().edit('Paint red', () => s().setProp(stump, 'variant', 'red'))
+  let rock = ''
+  s().edit('Add rock', () => (rock = s().createObject('prop', { prop: 'kenney_nature:rock_large_a', position: new Vec3(6, 0, 6) })))
+  editor.switchBranch(MAIN)
+  check(!s().doc.hasObject(rock), "main doesn't see branch edits")
+  s().edit('Paint blue', () => s().setProp(stump, 'variant', 'blue'))
+
+  // Review: one conflict row (variant); keep ours; the rock merges cleanly.
+  const review = buildReview(s(), exp, library)
+  check(review.rows.length === 1 && review.conflicts === 1, `one conflict row (got ${review.rows.length})`)
+  check(review.rows[0]?.mine === 'blue' && review.rows[0]?.theirs === 'red', 'conflict shows both values')
+  editor.mergeBranch(exp, resolutions(review.rows, [false]))
+  check(!s().branches.has(exp), 'merged branch removed')
+  check(s().doc.getProp(stump, 'variant') === 'blue', 'kept ours on the conflict')
+  check(s().doc.hasObject(rock), 'non-conflicting change merged')
+  check(merge.diff(s().doc, s().materialize(s().currentBranch)).size === 0, 'document matches history after merge')
+
+  // Branch from an earlier history entry (before the merge).
+  const older = s().history(MAIN).find((h) => h.txn.label === 'Paint blue')!
+  editor.newBranch(older.branchId, older.seq, 'From history')
+  check(s().branch().forkSeq === older.seq, 'branched at the history entry')
+  check(!s().doc.hasObject(rock), 'older state shown')
+
+  // The panel lists both branches; undoing the merge works from main.
+  await settle()
+  const items = document.querySelectorAll('.history .branches li')
+  check(items.length === 2, `panel lists 2 branches (got ${items.length})`)
+  // "From history" inherits main's first two entries (Place stump, Paint blue) and has none of its own.
+  const entries = document.querySelectorAll('.history .list li')
+  check(entries.length === 2, `panel lists the branch's history (got ${entries.length})`)
+  editor.switchBranch(MAIN)
+  s().undo()
+  check(!s().doc.hasObject(rock), 'undo reverts the whole merge')
+}
+
+/** Leaves the UI showing a branch tree, history and an open merge review (for screenshots); it
+ *  clicks the real panel buttons, so it also checks they're wired. */
+async function branchesUi(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const s = () => editor.session
+  const ids: string[] = []
+  s().edit('Place trees', () => {
+    for (let i = 0; i < 3; i++) ids.push(s().createObject('prop', { prop: 'kenney_nature:tree_oak', position: new Vec3(i * 3, 0, 0) }))
+  })
+  const autumn = editor.newBranch(s().currentBranch, -1, 'Autumn version')
+  s().edit('Recolor trees', () => ids.forEach((id) => s().setProp(id, 'variant', 'autumn')))
+  s().edit('Move tree', () => s().setProp(ids[0], 'position', new Vec3(-4, 0, 2)))
+  editor.switchBranch(MAIN)
+  editor.newBranch(MAIN, -1, 'Night market')
+  editor.switchBranch(MAIN)
+  s().edit('Recolor trees', () => ids.slice(0, 2).forEach((id) => s().setProp(id, 'variant', 'summer')))
+  await settle()
+  const rows = [...document.querySelectorAll<HTMLButtonElement>('.history .branches li button')]
+  const row = rows.find((b) => b.textContent?.includes('Autumn version'))
+  check(row, 'branch row shown')
+  row?.click()
+  await settle()
+  const mergeButton = [...document.querySelectorAll<HTMLButtonElement>('.history .actions button')].find((b) => b.textContent?.startsWith('Merge'))
+  check(mergeButton && !mergeButton.disabled, 'Merge enabled for the branch')
+  mergeButton?.click()
+  await settle()
+  check(document.querySelector('[role="dialog"]'), 'merge dialog open')
+  check(s().branches.has(autumn), 'nothing merged yet')
 }

@@ -7,7 +7,7 @@
   // time=<hours>, pixel=<n>, outline=0|1, grid=0|1, cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select|terrain|building (drives the tools end to end, writes shots/selftest-<name>.json),
+  // selftest=place|select|terrain|building|branches (drives the tools end to end, writes shots/selftest-<name>.json),
   // tool=select|terrain|water|building (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
@@ -28,6 +28,9 @@
   import TerrainOptions from './ui/TerrainOptions.svelte'
   import { BuildingTool } from './editor/building-tool'
   import BuildingOptions from './ui/BuildingOptions.svelte'
+  import HistoryPanel from './ui/HistoryPanel.svelte'
+  import Dialogs, { type DialogState } from './ui/Dialogs.svelte'
+  import { buildReview, resolutions } from './ui/merge-review'
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
 
@@ -56,6 +59,8 @@
   let canUndo = $state(false)
   let canRedo = $state(false)
   let library: Library | null = $state(null)
+  let dialog: DialogState = $state(null)
+  let editorReady = $state(false)
   let thumbnails: Thumbnails | null = $state(null)
 
   let pixel: PixelRenderer
@@ -175,6 +180,39 @@
     { name: 'building', label: 'Build', key: 'B' },
   ]
 
+  // --- Branches ------------------------------------------------------------------------
+
+  function askNewBranch(from: string, seq: number) {
+    if (!editor) return
+    const ed = editor
+    dialog = { kind: 'name', title: 'New branch', initial: `Branch ${ed.session.branches.size}`, submit: (n) => ed.newBranch(from, seq, n) }
+  }
+
+  function askRename(id: string) {
+    if (!editor) return
+    const ed = editor
+    dialog = { kind: 'name', title: 'Rename branch', initial: ed.session.branches.get(id)!.name, submit: (n) => ed.session.renameBranch(id, n) }
+  }
+
+  function askMerge(id: string) {
+    if (!editor || !library) return
+    const ed = editor
+    const review = buildReview(ed.session, id, library)
+    dialog = { kind: 'merge', review, merge: (take) => ed.mergeBranch(id, resolutions(review.rows, take)) }
+  }
+
+  function askDiscard(id: string) {
+    if (!editor) return
+    const ed = editor
+    const b = ed.session.branches.get(id)!
+    const kids = ed.session.childrenOf(id).length
+    dialog = {
+      kind: 'confirm', title: 'Discard branch', confirmLabel: 'Discard',
+      message: `Discard “${b.name}” and its ${b.txns.length} edits${kids ? ` and ${kids} sub-branch${kids === 1 ? '' : 'es'}` : ''}? This can't be undone.`,
+      confirm: () => ed.discardBranch(id),
+    }
+  }
+
   function setToolByName(name: string) {
     if (!editor) return
     if (name !== 'select') editor.selection.clear()
@@ -242,6 +280,7 @@
 
   function onKey(e: KeyboardEvent, down: boolean) {
     if ((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type !== 'checkbox') return
+    if (dialog) return
     const k = e.key.toLowerCase()
     if (down) keys.add(k)
     else keys.delete(k)
@@ -339,6 +378,7 @@
       ed.box.connect((r) => (boxRect = r))
       library = lib
       thumbnails = thumbs
+      editorReady = true
       setSession(editor.session, 'Untitled')
       status = ''
       if (params.get('map')) await openUrl(params.get('map')!)
@@ -445,8 +485,14 @@
       </label>
     </aside>
 
+    {#if editorReady && editor}
+      <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
+    {/if}
+
     <footer class="status">
       {#if status}{status}{:else}{#if toolInfo}{toolInfo}<br />{/if}{selected ? `${selected} selected · ` : ''}{fps} fps · {stats}{/if}
     </footer>
   </main>
 </div>
+
+<Dialogs bind:dialog />

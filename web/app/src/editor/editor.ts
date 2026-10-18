@@ -3,7 +3,7 @@
 // anything; the left button and unhandled keys go to the active tool.
 
 import * as THREE from 'three'
-import { Signal, terrainEdit, Vec3, type MapSession } from '@pixel-arena/core'
+import { merge, Signal, terrainEdit, Vec3, type MapSession } from '@pixel-arena/core'
 import type { Library } from '../library/library'
 import type { Thumbnails } from '../library/thumbs'
 import type { CameraRig, PixelRenderer } from '../render/pixel'
@@ -83,6 +83,28 @@ export class Editor {
     this.selection.bind(s.doc)
     this.sessionChanged.emit(s)
     this.setTool(this.defaultTool())
+  }
+
+  // --- Branches (each op returns to the select tool so no tool holds ids from another branch)
+
+  newBranch(fromBranch: string, seq: number, name: string): string {
+    this.setTool(this.defaultTool())
+    return seq < 0 ? this.session.fork(name) : this.session.forkAt(name, fromBranch, seq)
+  }
+
+  switchBranch(id: string) {
+    this.setTool(this.defaultTool())
+    this.session.switchBranch(id)
+  }
+
+  mergeBranch(id: string, resolutions: Record<string, merge.Resolution>) {
+    this.setTool(this.defaultTool())
+    return this.session.mergeBranch(id, resolutions, merge.THEIRS)
+  }
+
+  discardBranch(id: string) {
+    this.setTool(this.defaultTool())
+    return this.session.discardBranch(id)
   }
 
   setTool(tool: Tool) {
