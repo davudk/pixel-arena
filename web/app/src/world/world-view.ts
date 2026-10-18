@@ -105,6 +105,31 @@ export class WorldView {
     }
   }
 
+  /** Nearest map object hit by a ray (instanced or single), skipping `exclude` ids. */
+  pick(raycaster: THREE.Raycaster, exclude: Set<string> = new Set()): { id: string; point: THREE.Vector3; normal: THREE.Vector3; distance: number } | null {
+    const targets: THREE.Object3D[] = []
+    for (const g of this.groups.values()) targets.push(...g.meshes)
+    for (const s of this.singles.values()) targets.push(s.root)
+    const normalMatrix = new THREE.Matrix3()
+    for (const hit of raycaster.intersectObjects(targets, true)) {
+      let id: string | undefined
+      const world = new THREE.Matrix4()
+      const mesh = hit.object as THREE.InstancedMesh
+      if (mesh.isInstancedMesh && hit.instanceId !== undefined) {
+        id = (mesh.userData.group as Group).ids[hit.instanceId]
+        mesh.getMatrixAt(hit.instanceId, world)
+        world.premultiply(mesh.matrixWorld)
+      } else {
+        for (let o: THREE.Object3D | null = hit.object; o && !id; o = o.parent) id = o.userData.objectId
+        world.copy(hit.object.matrixWorld)
+      }
+      if (!id || exclude.has(id) || !hit.object.visible) continue
+      const normal = (hit.face?.normal ?? new THREE.Vector3(0, 1, 0)).clone().applyMatrix3(normalMatrix.getNormalMatrix(world)).normalize()
+      return { id, point: hit.point.clone(), normal, distance: hit.distance }
+    }
+    return null
+  }
+
   stats() {
     let instanced = 0
     for (const g of this.groups.values()) instanced += g.ids.length
@@ -136,6 +161,7 @@ export class WorldView {
       if ('parts' in next) this.addInstance(id, obj, next.parts, next.propId)
       else {
         this.place(next.root, obj)
+        next.root.userData.objectId = id
         this.root.add(next.root)
         this.singles.set(id, next)
       }
@@ -253,6 +279,7 @@ export class WorldView {
   private grow(g: Group, capacity: number) {
     g.parts.forEach((part, i) => {
       const next = new THREE.InstancedMesh(part.geometry, part.material, capacity)
+      next.userData.group = g
       next.castShadow = true
       next.receiveShadow = true
       next.count = g.ids.length

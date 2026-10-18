@@ -143,6 +143,17 @@ export class PixelRenderer {
     this.renderer.render(this.postScene, this.postCamera)
   }
 
+  /** World point -> screen position in CSS px (inverse of toNdc), or null if behind. */
+  toScreen(world: THREE.Vector3, rig: CameraRig): THREE.Vector2 | null {
+    const ndc = world.clone().project(rig.camera)
+    if (ndc.z < -1 || ndc.z > 1) return null
+    const dpr = window.devicePixelRatio
+    const px = this.devicePixelSize
+    const sx = ((ndc.x + 1) / 2) * this.low.x
+    const sy = ((ndc.y + 1) / 2) * this.low.y
+    return new THREE.Vector2(((sx - MARGIN + rig.subpixel.x) * px) / dpr, (this.out.y - (sy - MARGIN - rig.subpixel.y) * px) / dpr)
+  }
+
   /** Screen (CSS px) -> normalized device coords of the low-res camera (for raycasts). */
   toNdc(cssX: number, cssY: number, rig: CameraRig): THREE.Vector2 {
     // Same mapping as the post pass (texel coordinates from the bottom-left).

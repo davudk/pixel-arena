@@ -2,6 +2,7 @@
 // a data URL and cached in memory (a real build would cache to disk / IndexedDB).
 
 import * as THREE from 'three'
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js'
 import { loadModel } from './models'
 import type { PropDef } from './library'
 
@@ -48,7 +49,7 @@ export class Thumbnails {
     const prop = this.queue.shift()!
     try {
       const model = await loadModel(prop)
-      const obj = model.scene.clone(true)
+      const obj = SkeletonUtils.clone(model.scene) // keeps skinned meshes bound to their bones
       this.scene.add(obj)
       const box = model.box
       const center = box.getCenter(new THREE.Vector3())

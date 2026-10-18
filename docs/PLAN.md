@@ -439,10 +439,18 @@ docs/
     need hundreds of visible characters.
   - Water depth comes from the terrain heightfield under the polygon (no depth-buffer read).
   - Outlines: depth Laplacian plus a low-res view-normal pass that only runs when outlines are on.
-  - Known issue (Godot build, dev tooling only): `--demo --screenshot` hangs waiting for
-    `frame_post_draw`; capture with a script that waits on frames instead.
-- Next: editor tools in M3→M6 order (prop browser + placement, selection/transform, terrain and
-  water tools, building tool, branches UI), then M7 (filters & export) and Electron/Steam.
+  - `web/` and `web-spike/` carry a `.gdignore`: without it Godot scans `node_modules` and the
+    report images, which made `--demo --screenshot` hang on `frame_post_draw`.
+- **Step 3 in progress — editor tools.** Done: editor context + tool interface (`web/app/src/editor`),
+  picking (instanced hits resolve to object ids), HTML prop browser (search, theme chips,
+  categories, thumbnails, random rotation), place tool (ghost, grid / subgrid / free snapping via
+  the core, surface placement with parent links, R / Shift+R rotate, Cmd = no snap, Esc), undo /
+  redo, New / Open / Save (browser build downloads the `.pxmap`), unsaved-changes marker. Verified
+  by `?selftest=place`, which drives the real tool code (placement, snapping, picking, parenting,
+  rotation, undo/redo, grid snapping, save/open round trip).
+  Next: select tool (click / box select, drag-move, rotate, delete, duplicate, copy/paste,
+  eyedropper, highlight), then terrain and water tools, building tool, branches UI; then M7
+  (filters & export) and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.
