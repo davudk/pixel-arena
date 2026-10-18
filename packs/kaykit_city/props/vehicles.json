@@ -1,0 +1,117 @@
+[
+	{
+		"id": "car_hatchback",
+		"name": "Car Hatchback",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/car-hatchback.gltf",
+		"footprint": [
+			1.68,
+			3.22
+		],
+		"height": 1.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "car_police",
+		"name": "Car Police",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/car-police.gltf",
+		"footprint": [
+			1.68,
+			3.75
+		],
+		"height": 1.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "car_sedan",
+		"name": "Car Sedan",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/car-sedan.gltf",
+		"footprint": [
+			1.68,
+			3.75
+		],
+		"height": 1.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "car_stationwagon",
+		"name": "Car Stationwagon",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/car-stationwagon.gltf",
+		"footprint": [
+			1.68,
+			3.75
+		],
+		"height": 1.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "car_taxi",
+		"name": "Car Taxi",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/car-taxi.gltf",
+		"footprint": [
+			1.68,
+			3.75
+		],
+		"height": 1.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

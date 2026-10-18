@@ -1,0 +1,442 @@
+[
+	{
+		"id": "building_a",
+		"name": "Industrial Building A",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-a.glb",
+		"footprint": [
+			20.84,
+			12.42
+		],
+		"height": 14.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_b",
+		"name": "Industrial Building B",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-b.glb",
+		"footprint": [
+			20.84,
+			12.62
+		],
+		"height": 14.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_c",
+		"name": "Industrial Building C",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-c.glb",
+		"footprint": [
+			18.76,
+			21.08
+		],
+		"height": 12.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_d",
+		"name": "Industrial Building D",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-d.glb",
+		"footprint": [
+			8.84,
+			14.2
+		],
+		"height": 14.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_e",
+		"name": "Industrial Building E",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-e.glb",
+		"footprint": [
+			16.84,
+			12.9
+		],
+		"height": 16.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_f",
+		"name": "Industrial Building F",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-f.glb",
+		"footprint": [
+			17.9,
+			12.8
+		],
+		"height": 19.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_g",
+		"name": "Industrial Building G",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-g.glb",
+		"footprint": [
+			16.78,
+			12.84
+		],
+		"height": 12.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_h",
+		"name": "Industrial Building H",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-h.glb",
+		"footprint": [
+			13.22,
+			13.1
+		],
+		"height": 7.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_i",
+		"name": "Industrial Building I",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-i.glb",
+		"footprint": [
+			10.28,
+			13
+		],
+		"height": 7.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_j",
+		"name": "Industrial Building J",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-j.glb",
+		"footprint": [
+			10.27,
+			13
+		],
+		"height": 8.61,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_k",
+		"name": "Industrial Building K",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-k.glb",
+		"footprint": [
+			13.03,
+			9.14
+		],
+		"height": 7.73,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_l",
+		"name": "Industrial Building L",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-l.glb",
+		"footprint": [
+			20.84,
+			18.7
+		],
+		"height": 19.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_m",
+		"name": "Industrial Building M",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-m.glb",
+		"footprint": [
+			13.16,
+			17
+		],
+		"height": 15.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_n",
+		"name": "Industrial Building N",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-n.glb",
+		"footprint": [
+			9.77,
+			14.2
+		],
+		"height": 19.05,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_o",
+		"name": "Industrial Building O",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-o.glb",
+		"footprint": [
+			8.84,
+			12.4
+		],
+		"height": 9.18,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_p",
+		"name": "Industrial Building P",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-p.glb",
+		"footprint": [
+			16.84,
+			9.92
+		],
+		"height": 7.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_q",
+		"name": "Industrial Building Q",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-q.glb",
+		"footprint": [
+			21.4,
+			17.7
+		],
+		"height": 8.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_r",
+		"name": "Industrial Building R",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-r.glb",
+		"footprint": [
+			24.84,
+			12.72
+		],
+		"height": 13.93,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_s",
+		"name": "Industrial Building S",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-s.glb",
+		"footprint": [
+			21.2,
+			9.16
+		],
+		"height": 8.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_t",
+		"name": "Industrial Building T",
+		"category": "buildings/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/building-t.glb",
+		"footprint": [
+			17.22,
+			13.9
+		],
+		"height": 10.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

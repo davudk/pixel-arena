@@ -1,0 +1,12 @@
+{
+	"id": "kaykit_restaurant",
+	"name": "Restaurant Bits",
+	"version": "1.0",
+	"scale": 0.75,
+	"attribution": {
+		"author": "Kay Lousberg (KayKit)",
+		"source_url": "https://kaylousberg.itch.io/restaurant-bits",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"id": "kenney_modular_buildings",
+	"name": "Modular Buildings",
+	"version": "1.0",
+	"scale": 4,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/modular-buildings",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

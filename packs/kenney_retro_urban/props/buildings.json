@@ -1,0 +1,1474 @@
+[
+	{
+		"id": "balcony_ladder_bottom",
+		"name": "Balcony Ladder Bottom",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/balcony-ladder-bottom.glb",
+		"footprint": [
+			3,
+			0.85
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "balcony_ladder_top",
+		"name": "Balcony Ladder Top",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/balcony-ladder-top.glb",
+		"footprint": [
+			3,
+			0.85
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "balcony_type_a",
+		"name": "Balcony Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/balcony-type-a.glb",
+		"footprint": [
+			3,
+			0.85
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_type_a",
+		"name": "Door Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/door-type-a.glb",
+		"footprint": [
+			1.19,
+			0.15
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_type_b",
+		"name": "Door Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/door-type-b.glb",
+		"footprint": [
+			1.19,
+			0.15
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_metal_poles",
+		"name": "Roof Metal Poles",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/roof-metal-poles.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_metal_type_a",
+		"name": "Roof Metal Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/roof-metal-type-a.glb",
+		"footprint": [
+			3.41,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_metal_type_b",
+		"name": "Roof Metal Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/roof-metal-type-b.glb",
+		"footprint": [
+			3.41,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a",
+		"name": "Wall A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_column",
+		"name": "Wall A Column",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-column.glb",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_column_painted",
+		"name": "Wall A Column Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-column-painted.glb",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_corner",
+		"name": "Wall A Corner",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-corner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_corner_painted",
+		"name": "Wall A Corner Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-corner-painted.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_detail",
+		"name": "Wall A Detail",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-detail.glb",
+		"footprint": [
+			1.8,
+			0.6
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_detail_painted",
+		"name": "Wall A Detail Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-detail-painted.glb",
+		"footprint": [
+			1.8,
+			0.6
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_diagonal",
+		"name": "Wall A Diagonal",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-diagonal.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_door",
+		"name": "Wall A Door",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-door.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_flat",
+		"name": "Wall A Flat",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-flat.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_flat_garage",
+		"name": "Wall A Flat Garage",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-flat-garage.glb",
+		"footprint": [
+			3,
+			0.3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_flat_painted",
+		"name": "Wall A Flat Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-flat-painted.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_flat_window",
+		"name": "Wall A Flat Window",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-flat-window.glb",
+		"footprint": [
+			3,
+			0.3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_garage",
+		"name": "Wall A Garage",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-garage.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_low",
+		"name": "Wall A Low",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-low.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_low_painted",
+		"name": "Wall A Low Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-low-painted.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_open",
+		"name": "Wall A Open",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-open.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_painted",
+		"name": "Wall A Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-painted.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_painted_diagonal",
+		"name": "Wall A Painted Diagonal",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-painted-diagonal.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_roof",
+		"name": "Wall A Roof",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-roof.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_roof_detailed",
+		"name": "Wall A Roof Detailed",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-roof-detailed.glb",
+		"footprint": [
+			3.41,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_roof_slant",
+		"name": "Wall A Roof Slant",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-roof-slant.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_roof_slant_detailed",
+		"name": "Wall A Roof Slant Detailed",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-roof-slant-detailed.glb",
+		"footprint": [
+			3,
+			3.41
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_a_window",
+		"name": "Wall A Window",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-a-window.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b",
+		"name": "Wall B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_column",
+		"name": "Wall B Column",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-column.glb",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_corner",
+		"name": "Wall B Corner",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-corner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_detail_painted",
+		"name": "Wall B Detail Painted",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-detail-painted.glb",
+		"footprint": [
+			1.8,
+			0.6
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_diagonal",
+		"name": "Wall B Diagonal",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-diagonal.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_door",
+		"name": "Wall B Door",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-door.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_flat",
+		"name": "Wall B Flat",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-flat.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_flat_garage",
+		"name": "Wall B Flat Garage",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-flat-garage.glb",
+		"footprint": [
+			3,
+			0.3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_flat_window",
+		"name": "Wall B Flat Window",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-flat-window.glb",
+		"footprint": [
+			3,
+			0.3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_garage",
+		"name": "Wall B Garage",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-garage.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_low",
+		"name": "Wall B Low",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-low.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_open",
+		"name": "Wall B Open",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-open.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_roof",
+		"name": "Wall B Roof",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-roof.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_roof_detailed",
+		"name": "Wall B Roof Detailed",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-roof-detailed.glb",
+		"footprint": [
+			3.41,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_roof_slant",
+		"name": "Wall B Roof Slant",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-roof-slant.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_roof_slant_detailed",
+		"name": "Wall B Roof Slant Detailed",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-roof-slant-detailed.glb",
+		"footprint": [
+			3,
+			3.41
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_b_window",
+		"name": "Wall B Window",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-b-window.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_broken_type_a",
+		"name": "Wall Broken Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-broken-type-a.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_broken_type_b",
+		"name": "Wall Broken Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-broken-type-b.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_c_flat",
+		"name": "Wall C Flat",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-c-flat.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_c_flat_low",
+		"name": "Wall C Flat Low",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-c-flat-low.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_fence",
+		"name": "Wall Fence",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-fence.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_steps_type_a",
+		"name": "Wall Steps Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-steps-type-a.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_steps_type_b",
+		"name": "Wall Steps Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-steps-type-b.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_type_a",
+		"name": "Wall Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-type-a.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_type_b",
+		"name": "Wall Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/wall-type-b.glb",
+		"footprint": [
+			3,
+			0.21
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_small_type_a",
+		"name": "Window Small Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-small-type-a.glb",
+		"footprint": [
+			1.04,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_small_type_b",
+		"name": "Window Small Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-small-type-b.glb",
+		"footprint": [
+			1.04,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_wide_type_a",
+		"name": "Window Wide Type A",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-wide-type-a.glb",
+		"footprint": [
+			1.79,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_wide_type_b",
+		"name": "Window Wide Type B",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-wide-type-b.glb",
+		"footprint": [
+			1.79,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_wide_type_c",
+		"name": "Window Wide Type C",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-wide-type-c.glb",
+		"footprint": [
+			1.79,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_wide_type_d",
+		"name": "Window Wide Type D",
+		"category": "buildings/brick",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/window-wide-type-d.glb",
+		"footprint": [
+			1.79,
+			0.15
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

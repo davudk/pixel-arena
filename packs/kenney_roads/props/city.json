@@ -1,0 +1,596 @@
+[
+	{
+		"id": "construction_barrier",
+		"name": "Construction Barrier",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/construction-barrier.glb",
+		"footprint": [
+			1.08,
+			1.8
+		],
+		"height": 1.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "construction_cone",
+		"name": "Construction Cone",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/construction-cone.glb",
+		"footprint": [
+			0.6,
+			0.6
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "construction_fence",
+		"name": "Construction Fence",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/construction-fence.glb",
+		"footprint": [
+			0.6,
+			3
+		],
+		"height": 1.43,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "construction_light",
+		"name": "Construction Light",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/construction-light.glb",
+		"footprint": [
+			0.6,
+			0.6
+		],
+		"height": 1.87,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "dumpster",
+		"name": "Dumpster",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/dumpster.glb",
+		"footprint": [
+			2.2,
+			2.96
+		],
+		"height": 1.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_pole",
+		"name": "Electricity Pole",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-pole.glb",
+		"footprint": [
+			4.63,
+			1.71
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_pole_single",
+		"name": "Electricity Pole Single",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-pole-single.glb",
+		"footprint": [
+			0.63,
+			1.71
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_pole_wide",
+		"name": "Electricity Pole Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-pole-wide.glb",
+		"footprint": [
+			8.63,
+			1.71
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_side",
+		"name": "Electricity Side",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-side.glb",
+		"footprint": [
+			4.51,
+			3.44
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_side_single",
+		"name": "Electricity Side Single",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-side-single.glb",
+		"footprint": [
+			0.51,
+			3.44
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_side_wide",
+		"name": "Electricity Side Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-side-wide.glb",
+		"footprint": [
+			8.51,
+			3.44
+		],
+		"height": 4.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_wires",
+		"name": "Electricity Wires",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-wires.glb",
+		"footprint": [
+			4.05,
+			1.48
+		],
+		"height": 0.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "electricity_wires_wide",
+		"name": "Electricity Wires Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/electricity-wires-wide.glb",
+		"footprint": [
+			8.06,
+			1.48
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_curved",
+		"name": "Light Curved",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-curved.glb",
+		"footprint": [
+			0.4,
+			1.8
+		],
+		"height": 5.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_curved_cross",
+		"name": "Light Curved Cross",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-curved-cross.glb",
+		"footprint": [
+			3.2,
+			3.2
+		],
+		"height": 5.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_curved_double",
+		"name": "Light Curved Double",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-curved-double.glb",
+		"footprint": [
+			0.4,
+			3.2
+		],
+		"height": 5.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_square",
+		"name": "Light Square",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-square.glb",
+		"footprint": [
+			0.4,
+			1.9
+		],
+		"height": 4.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_square_cross",
+		"name": "Light Square Cross",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-square-cross.glb",
+		"footprint": [
+			3.4,
+			3.4
+		],
+		"height": 4.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "light_square_double",
+		"name": "Light Square Double",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/light-square-double.glb",
+		"footprint": [
+			0.4,
+			3.4
+		],
+		"height": 4.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sign_highway",
+		"name": "Sign Highway",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/sign-highway.glb",
+		"footprint": [
+			1.06,
+			8
+		],
+		"height": 5.66,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sign_highway_detailed",
+		"name": "Sign Highway Detailed",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/sign-highway-detailed.glb",
+		"footprint": [
+			1.06,
+			8
+		],
+		"height": 6.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sign_highway_wide",
+		"name": "Sign Highway Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/sign-highway-wide.glb",
+		"footprint": [
+			1.06,
+			8
+		],
+		"height": 5.66,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "traffic_light",
+		"name": "Traffic Light",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/traffic-light.glb",
+		"footprint": [
+			0.94,
+			0.72
+		],
+		"height": 4.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "traffic_light_hanging",
+		"name": "Traffic Light Hanging",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/traffic-light-hanging.glb",
+		"footprint": [
+			0.94,
+			2.36
+		],
+		"height": 4.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "traffic_light_object_hanging",
+		"name": "Traffic Light Object Hanging",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/traffic-light-object-hanging.glb",
+		"footprint": [
+			0.78,
+			0.49
+		],
+		"height": 1.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "traffic_light_object_horizontal",
+		"name": "Traffic Light Object Horizontal",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/traffic-light-object-horizontal.glb",
+		"footprint": [
+			0.78,
+			1.15
+		],
+		"height": 0.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "traffic_light_object_vertical",
+		"name": "Traffic Light Object Vertical",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/traffic-light-object-vertical.glb",
+		"footprint": [
+			0.78,
+			0.49
+		],
+		"height": 1.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

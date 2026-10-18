@@ -1,0 +1,48 @@
+[
+	{
+		"id": "tree_large",
+		"name": "Tree Large",
+		"category": "nature/trees",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-large.glb",
+		"footprint": [
+			1.68,
+			1.94
+		],
+		"height": 6.14,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_small",
+		"name": "Tree Small",
+		"category": "nature/trees",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/tree-small.glb",
+		"footprint": [
+			1.68,
+			1.94
+		],
+		"height": 4.54,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

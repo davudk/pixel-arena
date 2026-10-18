@@ -1,0 +1,577 @@
+[
+	{
+		"id": "detail_awning_small",
+		"name": "Detail Awning Small",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-awning-small.glb",
+		"footprint": [
+			1.79,
+			0.9
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_awning_wide",
+		"name": "Detail Awning Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-awning-wide.glb",
+		"footprint": [
+			3,
+			0.9
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_barrier_strong_damaged",
+		"name": "Detail Barrier Strong Damaged",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-barrier-strong-damaged.glb",
+		"footprint": [
+			1.99,
+			0.75
+		],
+		"height": 1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_barrier_strong_type_a",
+		"name": "Detail Barrier Strong Type A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-barrier-strong-type-a.glb",
+		"footprint": [
+			1.99,
+			0.75
+		],
+		"height": 1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_barrier_strong_type_b",
+		"name": "Detail Barrier Strong Type B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-barrier-strong-type-b.glb",
+		"footprint": [
+			1.99,
+			0.75
+		],
+		"height": 1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_barrier_type_a",
+		"name": "Detail Barrier Type A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-barrier-type-a.glb",
+		"footprint": [
+			1.3,
+			0.4
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_barrier_type_b",
+		"name": "Detail Barrier Type B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-barrier-type-b.glb",
+		"footprint": [
+			1.7,
+			0.4
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_beam",
+		"name": "Detail Beam",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-beam.glb",
+		"footprint": [
+			0.75,
+			3
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_bench",
+		"name": "Detail Bench",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-bench.glb",
+		"footprint": [
+			1.81,
+			0.97
+		],
+		"height": 1.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_block",
+		"name": "Detail Block",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-block.glb",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_bricks_type_a",
+		"name": "Detail Bricks Type A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-bricks-type-a.glb",
+		"footprint": [
+			1.71,
+			1.6
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_bricks_type_b",
+		"name": "Detail Bricks Type B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-bricks-type-b.glb",
+		"footprint": [
+			1.93,
+			1.28
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_cables_type_a",
+		"name": "Detail Cables Type A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-cables-type-a.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_cables_type_b",
+		"name": "Detail Cables Type B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-cables-type-b.glb",
+		"footprint": [
+			3,
+			0.05
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_dumpster_closed",
+		"name": "Detail Dumpster Closed",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-dumpster-closed.glb",
+		"footprint": [
+			1.8,
+			1.36
+		],
+		"height": 1.63,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_dumpster_open",
+		"name": "Detail Dumpster Open",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-dumpster-open.glb",
+		"footprint": [
+			1.8,
+			1.45
+		],
+		"height": 1.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_light_double",
+		"name": "Detail Light Double",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-light-double.glb",
+		"footprint": [
+			0.26,
+			1.33
+		],
+		"height": 2.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_light_single",
+		"name": "Detail Light Single",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-light-single.glb",
+		"footprint": [
+			0.26,
+			0.79
+		],
+		"height": 2.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_light_traffic",
+		"name": "Detail Light Traffic",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-light-traffic.glb",
+		"footprint": [
+			0.47,
+			1.75
+		],
+		"height": 3.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pallet",
+		"name": "Pallet",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/pallet.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pallet_small",
+		"name": "Pallet Small",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/pallet-small.glb",
+		"footprint": [
+			1.5,
+			1.73
+		],
+		"height": 0.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "planks",
+		"name": "Planks",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/planks.glb",
+		"footprint": [
+			3.39,
+			1.71
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "scaffolding_floor",
+		"name": "Scaffolding Floor",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/scaffolding-floor.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "scaffolding_poles",
+		"name": "Scaffolding Poles",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/scaffolding-poles.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "scaffolding_structure",
+		"name": "Scaffolding Structure",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/scaffolding-structure.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

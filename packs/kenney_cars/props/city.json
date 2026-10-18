@@ -1,0 +1,68 @@
+[
+	{
+		"id": "box",
+		"name": "Box",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/box.glb",
+		"footprint": [
+			0.86,
+			0.86
+		],
+		"height": 0.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cone",
+		"name": "Cone",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cone.glb",
+		"footprint": [
+			0.57,
+			0.57
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cone_flat",
+		"name": "Cone Flat",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cone-flat.glb",
+		"footprint": [
+			0.57,
+			0.57
+		],
+		"height": 0.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

@@ -1,0 +1,3015 @@
+[
+	{
+		"id": "art_room_easel",
+		"name": "Easel",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-easel.glb",
+		"footprint": [
+			1.83,
+			1.08
+		],
+		"height": 2.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_easel_001",
+		"name": "Easel 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-easel-001.glb",
+		"footprint": [
+			1.83,
+			1.08
+		],
+		"height": 2.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_painting",
+		"name": "Painting",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-painting.glb",
+		"footprint": [
+			1.36,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_painting_001",
+		"name": "Painting 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-painting-001.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_painting_002",
+		"name": "Painting 3",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-painting-002.glb",
+		"footprint": [
+			0.84,
+			0.12
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingbig",
+		"name": "Paintingbig",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingbig.glb",
+		"footprint": [
+			0.84,
+			0.12
+		],
+		"height": 1.79,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreal",
+		"name": "Paintingreal",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreal.glb",
+		"footprint": [
+			1.36,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreal_001",
+		"name": "Paintingreal 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreal-001.glb",
+		"footprint": [
+			1.36,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference",
+		"name": "Paintingreference",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference_001",
+		"name": "Paintingreference 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference-001.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference_002",
+		"name": "Paintingreference 3",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference-002.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference_003",
+		"name": "Paintingreference 4",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference-003.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference_004",
+		"name": "Paintingreference 5",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference-004.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_paintingreference_005",
+		"name": "Paintingreference 6",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-paintingreference-005.glb",
+		"footprint": [
+			0.88,
+			0.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_palette",
+		"name": "Palette",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-palette.glb",
+		"footprint": [
+			0.67,
+			0.06
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_statue",
+		"name": "Statue",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-statue.glb",
+		"footprint": [
+			1.15,
+			0.68
+		],
+		"height": 1.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_stool",
+		"name": "Stool",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-stool.glb",
+		"footprint": [
+			0.72,
+			0.72
+		],
+		"height": 1.55,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_stool_001",
+		"name": "Stool 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-stool-001.glb",
+		"footprint": [
+			0.72,
+			0.72
+		],
+		"height": 1.55,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_table",
+		"name": "Table",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-table.glb",
+		"footprint": [
+			3,
+			2.1
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "art_room_table_001",
+		"name": "Table 2",
+		"category": "school/art",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/art-room-table-001.glb",
+		"footprint": [
+			3,
+			2.1
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_cake",
+		"name": "Cake",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-cake.glb",
+		"footprint": [
+			0.13,
+			0.13
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_cake_001",
+		"name": "Cake 2",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-cake-001.glb",
+		"footprint": [
+			0.12,
+			0.05
+		],
+		"height": 0.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_cake_002",
+		"name": "Cake 3",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-cake-002.glb",
+		"footprint": [
+			0.11,
+			0.05
+		],
+		"height": 0.11,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_caketray",
+		"name": "Caketray",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-caketray.glb",
+		"footprint": [
+			0.41,
+			0.41
+		],
+		"height": 0.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_can",
+		"name": "Can",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-can.glb",
+		"footprint": [
+			0.14,
+			0.14
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_can_001",
+		"name": "Can 2",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-can-001.glb",
+		"footprint": [
+			0.14,
+			0.14
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_can_002",
+		"name": "Can 3",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-can-002.glb",
+		"footprint": [
+			0.14,
+			0.14
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_can_003",
+		"name": "Can 4",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-can-003.glb",
+		"footprint": [
+			0.14,
+			0.14
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_carrot",
+		"name": "Carrot",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-carrot.glb",
+		"footprint": [
+			0.1,
+			0.09
+		],
+		"height": 0.41,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_chair",
+		"name": "Chair",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-chair.glb",
+		"footprint": [
+			0.58,
+			0.69
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_chair_001",
+		"name": "Chair 2",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-chair-001.glb",
+		"footprint": [
+			0.58,
+			0.69
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_chair_002",
+		"name": "Chair 3",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-chair-002.glb",
+		"footprint": [
+			0.58,
+			0.69
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_coffemaker",
+		"name": "Coffemaker",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-coffemaker.glb",
+		"footprint": [
+			0.39,
+			0.58
+		],
+		"height": 0.63,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_onion",
+		"name": "Onion",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-onion.glb",
+		"footprint": [
+			0.05,
+			0.05
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_pingpongtable",
+		"name": "Pingpongtable",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-pingpongtable.glb",
+		"footprint": [
+			3.21,
+			2.39
+		],
+		"height": 1.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_potato",
+		"name": "Potato",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-potato.glb",
+		"footprint": [
+			0.08,
+			0.08
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_showcasetable",
+		"name": "Showcasetable",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-showcasetable.glb",
+		"footprint": [
+			5.32,
+			1.74
+		],
+		"height": 2.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_showcasewood",
+		"name": "Showcasewood",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-showcasewood.glb",
+		"footprint": [
+			1.99,
+			0.76
+		],
+		"height": 0.76,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_springonion",
+		"name": "Springonion",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-springonion.glb",
+		"footprint": [
+			0.09,
+			0.05
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_table",
+		"name": "Table",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-table.glb",
+		"footprint": [
+			2.7,
+			1.42
+		],
+		"height": 1.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_tomato",
+		"name": "Tomato",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-tomato.glb",
+		"footprint": [
+			0.13,
+			0.13
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_traycafet",
+		"name": "Traycafet",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-traycafet.glb",
+		"footprint": [
+			0.91,
+			0.64
+		],
+		"height": 0.05,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "catferia_vendingmachine",
+		"name": "Vendingmachine",
+		"category": "school/cafeteria",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/catferia-vendingmachine.glb",
+		"footprint": [
+			1.58,
+			1.25
+		],
+		"height": 3.51,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_blackboardbig",
+		"name": "Blackboardbig",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-blackboardbig.glb",
+		"footprint": [
+			6.36,
+			0.39
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_blackboardbig_1",
+		"name": "Blackboardbig 2",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-blackboardbig-1.glb",
+		"footprint": [
+			6.36,
+			0.16
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_blackboardlittle",
+		"name": "Blackboardlittle",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-blackboardlittle.glb",
+		"footprint": [
+			2.07,
+			0.16
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_book",
+		"name": "Book",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-book.glb",
+		"footprint": [
+			0.28,
+			0.05
+		],
+		"height": 0.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "book_2",
+		"name": "Book",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/book-2.glb",
+		"footprint": [
+			0.32,
+			0.11
+		],
+		"height": 0.31,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_book_001",
+		"name": "Book 2",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-book-001.glb",
+		"footprint": [
+			0.32,
+			0.11
+		],
+		"height": 0.31,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "book_001_2",
+		"name": "Book 2",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/book-001-2.glb",
+		"footprint": [
+			0.19,
+			0.06
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_book_002",
+		"name": "Book 3",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-book-002.glb",
+		"footprint": [
+			0.19,
+			0.06
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "book_002_2",
+		"name": "Book 3",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/book-002-2.glb",
+		"footprint": [
+			0.28,
+			0.05
+		],
+		"height": 0.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_book_003",
+		"name": "Book 4",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-book-003.glb",
+		"footprint": [
+			0.28,
+			0.05
+		],
+		"height": 0.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "book_003_2",
+		"name": "Book 4",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/book-003-2.glb",
+		"footprint": [
+			0.32,
+			0.11
+		],
+		"height": 0.31,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_book_004",
+		"name": "Book 5",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-book-004.glb",
+		"footprint": [
+			0.19,
+			0.06
+		],
+		"height": 0.18,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_chair",
+		"name": "Chair",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-chair.glb",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 1.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_chairtable",
+		"name": "Chairtable",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-chairtable.glb",
+		"footprint": [
+			2.09,
+			1.66
+		],
+		"height": 0.96,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_chalkboard_sponge",
+		"name": "Chalkboard sponge",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-chalkboard-sponge.glb",
+		"footprint": [
+			0.32,
+			0.17
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_curtains",
+		"name": "Curtains",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-curtains.glb",
+		"footprint": [
+			4.79,
+			3.9
+		],
+		"height": 0.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "curtains_2",
+		"name": "Curtains",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/curtains-2.glb",
+		"footprint": [
+			3.9,
+			0.24
+		],
+		"height": 4.79,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_desk",
+		"name": "Desk",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-desk.glb",
+		"footprint": [
+			1.23,
+			1.13
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_lamp",
+		"name": "Lamp",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-lamp.glb",
+		"footprint": [
+			1.78,
+			0.57
+		],
+		"height": 0.47,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_locker",
+		"name": "Locker",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-locker.glb",
+		"footprint": [
+			0.41,
+			0.44
+		],
+		"height": 1.03,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_locker_001",
+		"name": "Locker 2",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-locker-001.glb",
+		"footprint": [
+			0.41,
+			0.44
+		],
+		"height": 1.03,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_pencilcase",
+		"name": "Pencilcase",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-pencilcase.glb",
+		"footprint": [
+			0.14,
+			0.12
+		],
+		"height": 0.31,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_radio",
+		"name": "Radio",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-radio.glb",
+		"footprint": [
+			1.27,
+			0.39
+		],
+		"height": 0.63,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_schoolbus",
+		"name": "Schoolbus",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-schoolbus.glb",
+		"footprint": [
+			8.02,
+			2.14
+		],
+		"height": 2.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_shelf",
+		"name": "Shelf",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-shelf.glb",
+		"footprint": [
+			2.45,
+			0.85
+		],
+		"height": 2.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_shelf_001",
+		"name": "Shelf 2",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-shelf-001.glb",
+		"footprint": [
+			6.71,
+			1.33
+		],
+		"height": 2.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_shelfwithwheels",
+		"name": "Shelfwithwheels",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-shelfwithwheels.glb",
+		"footprint": [
+			1.23,
+			0.9
+		],
+		"height": 2.01,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_table",
+		"name": "Table",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-table.glb",
+		"footprint": [
+			1.45,
+			0.84
+		],
+		"height": 1.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_tv",
+		"name": "TV",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-tv.glb",
+		"footprint": [
+			0.94,
+			0.81
+		],
+		"height": 0.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "classroom_tvnew",
+		"name": "TVNew",
+		"category": "school/classroom",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/classroom-tvnew.glb",
+		"footprint": [
+			1.81,
+			0.23
+		],
+		"height": 1.14,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_chair",
+		"name": "Chair",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-chair.glb",
+		"footprint": [
+			0.91,
+			1.06
+		],
+		"height": 1.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_keyboard",
+		"name": "Keyboard",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-keyboard.glb",
+		"footprint": [
+			1.09,
+			0.08
+		],
+		"height": 0.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_mouse",
+		"name": "Mouse",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-mouse.glb",
+		"footprint": [
+			0.19,
+			0.12
+		],
+		"height": 0.09,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_pc",
+		"name": "Pc",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-pc.glb",
+		"footprint": [
+			0.44,
+			0.85
+		],
+		"height": 0.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_pcold",
+		"name": "Pcold",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-pcold.glb",
+		"footprint": [
+			0.21,
+			0.78
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_printer",
+		"name": "Printer",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-printer.glb",
+		"footprint": [
+			1.08,
+			1.21
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_projector",
+		"name": "Projector",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-projector.glb",
+		"footprint": [
+			0.85,
+			0.84
+		],
+		"height": 0.36,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_router",
+		"name": "Router",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-router.glb",
+		"footprint": [
+			0.92,
+			0.85
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_screen",
+		"name": "Screen",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-screen.glb",
+		"footprint": [
+			1.54,
+			0.25
+		],
+		"height": 1.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_screenold",
+		"name": "Screenold",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-screenold.glb",
+		"footprint": [
+			0.85,
+			0.7
+		],
+		"height": 0.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_table",
+		"name": "Table",
+		"category": "school/computers",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-table.glb",
+		"footprint": [
+			2.8,
+			1.66
+		],
+		"height": 1.55,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_barrel",
+		"name": "Barrel",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-barrel.glb",
+		"footprint": [
+			0.62,
+			0.62
+		],
+		"height": 0.98,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_centrifuge",
+		"name": "Centrifuge",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-centrifuge.glb",
+		"footprint": [
+			0.46,
+			0.41
+		],
+		"height": 0.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_chairwithwheels",
+		"name": "Chairwithwheels",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-chairwithwheels.glb",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 1.11,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_chemestrytable",
+		"name": "CHEMESTRYtable",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-chemestrytable.glb",
+		"footprint": [
+			3.42,
+			1.12
+		],
+		"height": 1.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_cork",
+		"name": "Cork",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-cork.glb",
+		"footprint": [
+			0.05,
+			0.05
+		],
+		"height": 0.03,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_cupboard_3",
+		"name": "Cupboard 4",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-cupboard-3.glb",
+		"footprint": [
+			1.21,
+			0.61
+		],
+		"height": 2.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_fireextinguisher",
+		"name": "Fireextinguisher",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-fireextinguisher.glb",
+		"footprint": [
+			0.37,
+			0.31
+		],
+		"height": 1.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_globe_1",
+		"name": "Globe 2",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-globe-1.glb",
+		"footprint": [
+			0.37,
+			0.34
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_microscope",
+		"name": "Microscope",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-microscope.glb",
+		"footprint": [
+			0.33,
+			0.29
+		],
+		"height": 0.51,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_solarsystem_9",
+		"name": "Solarsystem 10",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-solarsystem-9.glb",
+		"footprint": [
+			2.04,
+			0.78
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial",
+		"name": "Vial",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial.glb",
+		"footprint": [
+			0.05,
+			0.05
+		],
+		"height": 0.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_001",
+		"name": "Vial 2",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-001.glb",
+		"footprint": [
+			0.05,
+			0.05
+		],
+		"height": 0.08,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_002",
+		"name": "Vial 3",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-002.glb",
+		"footprint": [
+			0.21,
+			0.21
+		],
+		"height": 0.36,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_003",
+		"name": "Vial 4",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-003.glb",
+		"footprint": [
+			0.13,
+			0.13
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_004",
+		"name": "Vial 5",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-004.glb",
+		"footprint": [
+			0.13,
+			0.13
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_005",
+		"name": "Vial 6",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-005.glb",
+		"footprint": [
+			0.12,
+			0.12
+		],
+		"height": 0.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_006",
+		"name": "Vial 7",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-006.glb",
+		"footprint": [
+			0.08,
+			0.06
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vial_007",
+		"name": "Vial 8",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vial-007.glb",
+		"footprint": [
+			0.13,
+			0.12
+		],
+		"height": 0.13,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chemestry_lab_vialholders",
+		"name": "Vialholders",
+		"category": "school/lab",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chemestry-lab-vialholders.glb",
+		"footprint": [
+			0.67,
+			0.34
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_binderfolder",
+		"name": "Binderfolder",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-binderfolder.glb",
+		"footprint": [
+			0.53,
+			0.09
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_binderfolder_001",
+		"name": "Binderfolder 2",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-binderfolder-001.glb",
+		"footprint": [
+			0.53,
+			0.09
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_binderfolder_002",
+		"name": "Binderfolder 3",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-binderfolder-002.glb",
+		"footprint": [
+			0.53,
+			0.09
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_chair",
+		"name": "Chair",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-chair.glb",
+		"footprint": [
+			0.97,
+			2.23
+		],
+		"height": 1.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_desk",
+		"name": "Desk",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-desk.glb",
+		"footprint": [
+			7.42,
+			3.31
+		],
+		"height": 3.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_drawer",
+		"name": "Drawer",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-drawer.glb",
+		"footprint": [
+			2.76,
+			2.32
+		],
+		"height": 2.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_notebook",
+		"name": "Notebook",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-notebook.glb",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_notebook_001",
+		"name": "Notebook 2",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-notebook-001.glb",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_notebook_002",
+		"name": "Notebook 3",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-notebook-002.glb",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_penholder",
+		"name": "Penholder",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-penholder.glb",
+		"footprint": [
+			0.21,
+			0.18
+		],
+		"height": 0.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_picture",
+		"name": "Picture",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-picture.glb",
+		"footprint": [
+			2.24,
+			0.11
+		],
+		"height": 1.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_plant",
+		"name": "Plant",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-plant.glb",
+		"footprint": [
+			1.02,
+			0.72
+		],
+		"height": 1.93,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_principalchair",
+		"name": "Principalchair",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-principalchair.glb",
+		"footprint": [
+			1.77,
+			1.63
+		],
+		"height": 3.03,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_shelf",
+		"name": "Shelf",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-shelf.glb",
+		"footprint": [
+			6.73,
+			1.63
+		],
+		"height": 5.37,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_telephone",
+		"name": "Telephone",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-telephone.glb",
+		"footprint": [
+			0.84,
+			0.62
+		],
+		"height": 0.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "principal_office_wallsfloor",
+		"name": "Wallsfloor",
+		"category": "school/office",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/principal-office-wallsfloor.glb",
+		"footprint": [
+			7.23,
+			9
+		],
+		"height": 4.95,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_basictoilet",
+		"name": "Toiletbasictoilet",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-basictoilet.glb",
+		"footprint": [
+			1.06,
+			1.54
+		],
+		"height": 2.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_door",
+		"name": "Toiletdoor",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-door.glb",
+		"footprint": [
+			2.34,
+			0.16
+		],
+		"height": 3.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_paper",
+		"name": "Toiletpaper",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-paper.glb",
+		"footprint": [
+			0.4,
+			0.25
+		],
+		"height": 0.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_paperhandler",
+		"name": "Toiletpaperhandler",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-paperhandler.glb",
+		"footprint": [
+			0.37,
+			0.18
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_partition",
+		"name": "Toiletpartition",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-partition.glb",
+		"footprint": [
+			0.82,
+			0.19
+		],
+		"height": 4.67,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_partition_001",
+		"name": "Toiletpartition 2",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-partition-001.glb",
+		"footprint": [
+			0.08,
+			3.18
+		],
+		"height": 3.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_pipeforsink",
+		"name": "Toiletpipeforsink",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-pipeforsink.glb",
+		"footprint": [
+			0.13,
+			0.61
+		],
+		"height": 0.81,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_pipteforurinal",
+		"name": "Toiletpipteforurinal",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-pipteforurinal.glb",
+		"footprint": [
+			0.27,
+			0.17
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_sink",
+		"name": "Toiletsink",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-sink.glb",
+		"footprint": [
+			2.8,
+			1.13
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_soapdish",
+		"name": "Toiletsoapdish",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-soapdish.glb",
+		"footprint": [
+			0.37,
+			0.31
+		],
+		"height": 0.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_urinal",
+		"name": "Toileturinal",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-urinal.glb",
+		"footprint": [
+			1.18,
+			1.67
+		],
+		"height": 0.83,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_water_1",
+		"name": "Toiletwater 2",
+		"category": "school/toilets",
+		"themes": [
+			"interior",
+			"school",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-water-1.glb",
+		"footprint": [
+			0.28,
+			0.3
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

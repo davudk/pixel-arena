@@ -1,0 +1,420 @@
+[
+	{
+		"id": "building_a",
+		"name": "Commercial Building A",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-a.glb",
+		"footprint": [
+			7.95,
+			8.46
+		],
+		"height": 11.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_b",
+		"name": "Commercial Building B",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-b.glb",
+		"footprint": [
+			8.73,
+			8.46
+		],
+		"height": 11.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_c",
+		"name": "Commercial Building C",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-c.glb",
+		"footprint": [
+			7.95,
+			9.81
+		],
+		"height": 8.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_d",
+		"name": "Commercial Building D",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-d.glb",
+		"footprint": [
+			7.56,
+			8.1
+		],
+		"height": 11.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_e",
+		"name": "Commercial Building E",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-e.glb",
+		"footprint": [
+			14.76,
+			9.07
+		],
+		"height": 8.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_f",
+		"name": "Commercial Building F",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-f.glb",
+		"footprint": [
+			7.56,
+			9.27
+		],
+		"height": 15.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_g",
+		"name": "Commercial Building G",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-g.glb",
+		"footprint": [
+			8.73,
+			8.3
+		],
+		"height": 15.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_h",
+		"name": "Commercial Building H",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-h.glb",
+		"footprint": [
+			7.95,
+			9.07
+		],
+		"height": 11.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_i",
+		"name": "Commercial Building I",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-i.glb",
+		"footprint": [
+			11.16,
+			11.72
+		],
+		"height": 15.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_j",
+		"name": "Commercial Building J",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-j.glb",
+		"footprint": [
+			18.75,
+			12.06
+		],
+		"height": 15.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_k",
+		"name": "Commercial Building K",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-k.glb",
+		"footprint": [
+			18.75,
+			8.48
+		],
+		"height": 13.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_l",
+		"name": "Commercial Building L",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-l.glb",
+		"footprint": [
+			12.33,
+			12.62
+		],
+		"height": 20.43,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_m",
+		"name": "Commercial Building M",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-m.glb",
+		"footprint": [
+			11.16,
+			11.18
+		],
+		"height": 28.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_n",
+		"name": "Commercial Building N",
+		"category": "buildings/commercial",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-n.glb",
+		"footprint": [
+			20.88,
+			16.38
+		],
+		"height": 22.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_skyscraper_a",
+		"name": "Skyscraper A",
+		"category": "buildings/skyscrapers",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-skyscraper-a.glb",
+		"footprint": [
+			12.24,
+			12.24
+		],
+		"height": 25.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_skyscraper_b",
+		"name": "Skyscraper B",
+		"category": "buildings/skyscrapers",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-skyscraper-b.glb",
+		"footprint": [
+			12.24,
+			12.24
+		],
+		"height": 40.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_skyscraper_c",
+		"name": "Skyscraper C",
+		"category": "buildings/skyscrapers",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-skyscraper-c.glb",
+		"footprint": [
+			11.52,
+			12.49
+		],
+		"height": 36.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_skyscraper_d",
+		"name": "Skyscraper D",
+		"category": "buildings/skyscrapers",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-skyscraper-d.glb",
+		"footprint": [
+			11.52,
+			12.49
+		],
+		"height": 49.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_skyscraper_e",
+		"name": "Skyscraper E",
+		"category": "buildings/skyscrapers",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/building-skyscraper-e.glb",
+		"footprint": [
+			11.65,
+			11.18
+		],
+		"height": 36.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

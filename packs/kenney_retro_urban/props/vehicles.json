@@ -1,0 +1,117 @@
+[
+	{
+		"id": "truck_flat",
+		"name": "Truck Flat",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/truck-flat.glb",
+		"footprint": [
+			2.49,
+			4.93
+		],
+		"height": 3.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck_green",
+		"name": "Truck Green",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/truck-green.glb",
+		"footprint": [
+			2.49,
+			4.93
+		],
+		"height": 3.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck_green_cargo",
+		"name": "Truck Green Cargo",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/truck-green-cargo.glb",
+		"footprint": [
+			2.49,
+			3.5
+		],
+		"height": 2.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck_grey",
+		"name": "Truck Grey",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/truck-grey.glb",
+		"footprint": [
+			2.49,
+			4.93
+		],
+		"height": 3.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck_grey_cargo",
+		"name": "Truck Grey Cargo",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/truck-grey-cargo.glb",
+		"footprint": [
+			2.49,
+			3.5
+		],
+		"height": 2.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

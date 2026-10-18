@@ -1,0 +1,2762 @@
+[
+	{
+		"id": "bathroom_cabinet",
+		"name": "Bathroom Cabinet",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathroom-cabinet.glb",
+		"footprint": [
+			0.46,
+			0.26
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bathroom_cabinet_drawer",
+		"name": "Bathroom Cabinet Drawer",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathroom-cabinet-drawer.glb",
+		"footprint": [
+			0.86,
+			0.64
+		],
+		"height": 0.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bathroom_mirror",
+		"name": "Bathroom Mirror",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathroom-mirror.glb",
+		"footprint": [
+			0.6,
+			0.29
+		],
+		"height": 0.87,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bathroom_sink",
+		"name": "Bathroom Sink",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathroom-sink.glb",
+		"footprint": [
+			0.68,
+			0.58
+		],
+		"height": 1.12,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bathroom_sink_square",
+		"name": "Bathroom Sink Square",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathroom-sink-square.glb",
+		"footprint": [
+			0.86,
+			0.6
+		],
+		"height": 1.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bathtub",
+		"name": "Bathtub",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bathtub.glb",
+		"footprint": [
+			2.38,
+			1.12
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shower",
+		"name": "Shower",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/shower.glb",
+		"footprint": [
+			1.12,
+			1.16
+		],
+		"height": 2.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shower_round",
+		"name": "Shower Round",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/shower-round.glb",
+		"footprint": [
+			1.12,
+			1.12
+		],
+		"height": 2.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet",
+		"name": "Toilet",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet.glb",
+		"footprint": [
+			0.63,
+			0.95
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toilet_square",
+		"name": "Toilet Square",
+		"category": "furniture/bathroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toilet-square.glb",
+		"footprint": [
+			0.61,
+			0.77
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bed_bunk",
+		"name": "Bed Bunk",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bed-bunk.glb",
+		"footprint": [
+			1.14,
+			2.19
+		],
+		"height": 1.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bed_double",
+		"name": "Bed Double",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bed-double.glb",
+		"footprint": [
+			1.91,
+			2.25
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bed_single",
+		"name": "Bed Single",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bed-single.glb",
+		"footprint": [
+			1.14,
+			2.25
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cabinet_bed",
+		"name": "Cabinet Bed",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cabinet-bed.glb",
+		"footprint": [
+			0.53,
+			0.43
+		],
+		"height": 0.47,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cabinet_bed_drawer",
+		"name": "Cabinet Bed Drawer",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cabinet-bed-drawer.glb",
+		"footprint": [
+			0.53,
+			0.43
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cabinet_bed_drawer_table",
+		"name": "Cabinet Bed Drawer Table",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cabinet-bed-drawer-table.glb",
+		"footprint": [
+			0.53,
+			0.43
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "side_table_drawers",
+		"name": "Side Table Drawers",
+		"category": "furniture/bedroom",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/side-table-drawers.glb",
+		"footprint": [
+			1.07,
+			0.44
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bench",
+		"name": "Bench",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bench.glb",
+		"footprint": [
+			0.8,
+			0.4
+		],
+		"height": 0.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bench_cushion",
+		"name": "Bench Cushion",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bench-cushion.glb",
+		"footprint": [
+			0.8,
+			0.4
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bench_cushion_low",
+		"name": "Bench Cushion Low",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bench-cushion-low.glb",
+		"footprint": [
+			0.84,
+			0.44
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair",
+		"name": "Chair",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 0.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_cushion",
+		"name": "Chair Cushion",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair-cushion.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_modern_cushion",
+		"name": "Chair Modern Cushion",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair-modern-cushion.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_modern_frame_cushion",
+		"name": "Chair Modern Frame Cushion",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair-modern-frame-cushion.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_rounded",
+		"name": "Chair Rounded",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair-rounded.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 0.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_round_table",
+		"name": "Lamp Round Table",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-round-table.glb",
+		"footprint": [
+			0.3,
+			0.35
+		],
+		"height": 0.63,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_square_table",
+		"name": "Lamp Square Table",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-square-table.glb",
+		"footprint": [
+			0.24,
+			0.24
+		],
+		"height": 0.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_chair",
+		"name": "Lounge Chair",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-chair.glb",
+		"footprint": [
+			0.98,
+			0.82
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_chair_relax",
+		"name": "Lounge Chair Relax",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-chair-relax.glb",
+		"footprint": [
+			0.98,
+			1.35
+		],
+		"height": 1.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_design_chair",
+		"name": "Lounge Design Chair",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-design-chair.glb",
+		"footprint": [
+			1.46,
+			0.82
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "side_table",
+		"name": "Side Table",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/side-table.glb",
+		"footprint": [
+			1.07,
+			0.44
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stool_bar",
+		"name": "Stool Bar",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stool-bar.glb",
+		"footprint": [
+			0.53,
+			0.46
+		],
+		"height": 0.87,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stool_bar_square",
+		"name": "Stool Bar Square",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stool-bar-square.glb",
+		"footprint": [
+			0.31,
+			0.3
+		],
+		"height": 0.81,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table",
+		"name": "Table",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table.glb",
+		"footprint": [
+			1.68,
+			0.89
+		],
+		"height": 0.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_cloth",
+		"name": "Table Cloth",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-cloth.glb",
+		"footprint": [
+			1.68,
+			0.89
+		],
+		"height": 0.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_cross",
+		"name": "Table Cross",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-cross.glb",
+		"footprint": [
+			1.7,
+			0.89
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_cross_cloth",
+		"name": "Table Cross Cloth",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-cross-cloth.glb",
+		"footprint": [
+			1.7,
+			0.89
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_glass",
+		"name": "Table Glass",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-glass.glb",
+		"footprint": [
+			1.68,
+			0.89
+		],
+		"height": 0.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round",
+		"name": "Table Round",
+		"category": "furniture/dining",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-round.glb",
+		"footprint": [
+			1.39,
+			1.6
+		],
+		"height": 0.73,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "hood_large",
+		"name": "Hood Large",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/hood-large.glb",
+		"footprint": [
+			0.86,
+			0.57
+		],
+		"height": 0.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "hood_modern",
+		"name": "Hood Modern",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/hood-modern.glb",
+		"footprint": [
+			0.86,
+			0.57
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_bar",
+		"name": "Kitchen Bar",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-bar.glb",
+		"footprint": [
+			0.86,
+			0.42
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_bar_end",
+		"name": "Kitchen Bar End",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-bar-end.glb",
+		"footprint": [
+			0.2,
+			0.42
+		],
+		"height": 0.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_blender",
+		"name": "Kitchen Blender",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-blender.glb",
+		"footprint": [
+			0.27,
+			0.22
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet",
+		"name": "Kitchen Cabinet",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_corner_inner",
+		"name": "Kitchen Cabinet Corner Inner",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-corner-inner.glb",
+		"footprint": [
+			0.92,
+			0.92
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_corner_round",
+		"name": "Kitchen Cabinet Corner Round",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-corner-round.glb",
+		"footprint": [
+			0.9,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_drawer",
+		"name": "Kitchen Cabinet Drawer",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-drawer.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_upper",
+		"name": "Kitchen Cabinet Upper",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-upper.glb",
+		"footprint": [
+			0.86,
+			0.44
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_upper_corner",
+		"name": "Kitchen Cabinet Upper Corner",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-upper-corner.glb",
+		"footprint": [
+			0.43,
+			0.42
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_upper_double",
+		"name": "Kitchen Cabinet Upper Double",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-upper-double.glb",
+		"footprint": [
+			0.86,
+			0.44
+		],
+		"height": 0.78,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_cabinet_upper_low",
+		"name": "Kitchen Cabinet Upper Low",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-cabinet-upper-low.glb",
+		"footprint": [
+			0.86,
+			0.44
+		],
+		"height": 0.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_coffee_machine",
+		"name": "Kitchen Coffee Machine",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-coffee-machine.glb",
+		"footprint": [
+			0.38,
+			0.48
+		],
+		"height": 0.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_fridge",
+		"name": "Kitchen Fridge",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-fridge.glb",
+		"footprint": [
+			0.86,
+			0.58
+		],
+		"height": 1.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_fridge_built_in",
+		"name": "Kitchen Fridge Built In",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-fridge-built-in.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 1.74,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_fridge_large",
+		"name": "Kitchen Fridge Large",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-fridge-large.glb",
+		"footprint": [
+			1.04,
+			0.81
+		],
+		"height": 1.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_fridge_small",
+		"name": "Kitchen Fridge Small",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-fridge-small.glb",
+		"footprint": [
+			0.86,
+			0.58
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_microwave",
+		"name": "Kitchen Microwave",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-microwave.glb",
+		"footprint": [
+			0.58,
+			0.46
+		],
+		"height": 0.36,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_sink",
+		"name": "Kitchen Sink",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-sink.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 0.98,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_stove",
+		"name": "Kitchen Stove",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-stove.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchen_stove_electric",
+		"name": "Kitchen Stove Electric",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kitchen-stove-electric.glb",
+		"footprint": [
+			0.86,
+			0.9
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_coffee",
+		"name": "Table Coffee",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-coffee.glb",
+		"footprint": [
+			1.32,
+			0.8
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_coffee_glass",
+		"name": "Table Coffee Glass",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-coffee-glass.glb",
+		"footprint": [
+			1.32,
+			0.8
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_coffee_glass_square",
+		"name": "Table Coffee Glass Square",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-coffee-glass-square.glb",
+		"footprint": [
+			0.8,
+			0.8
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_coffee_square",
+		"name": "Table Coffee Square",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/table-coffee-square.glb",
+		"footprint": [
+			0.8,
+			0.8
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "toaster",
+		"name": "Toaster",
+		"category": "furniture/kitchen",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/toaster.glb",
+		"footprint": [
+			0.38,
+			0.2
+		],
+		"height": 0.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bear",
+		"name": "Bear",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bear.glb",
+		"footprint": [
+			0.78,
+			0.5
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bookcase_closed",
+		"name": "Bookcase Closed",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bookcase-closed.glb",
+		"footprint": [
+			0.8,
+			0.5
+		],
+		"height": 1.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bookcase_closed_doors",
+		"name": "Bookcase Closed Doors",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bookcase-closed-doors.glb",
+		"footprint": [
+			0.8,
+			0.5
+		],
+		"height": 1.7,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bookcase_closed_wide",
+		"name": "Bookcase Closed Wide",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bookcase-closed-wide.glb",
+		"footprint": [
+			1.6,
+			0.5
+		],
+		"height": 1.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bookcase_open",
+		"name": "Bookcase Open",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bookcase-open.glb",
+		"footprint": [
+			0.8,
+			0.5
+		],
+		"height": 1.76,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bookcase_open_low",
+		"name": "Bookcase Open Low",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bookcase-open-low.glb",
+		"footprint": [
+			0.8,
+			0.5
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "books",
+		"name": "Books",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/books.glb",
+		"footprint": [
+			0.3,
+			0.19
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cabinet_television",
+		"name": "Cabinet Television",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cabinet-television.glb",
+		"footprint": [
+			1.6,
+			0.5
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cabinet_television_doors",
+		"name": "Cabinet Television Doors",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cabinet-television-doors.glb",
+		"footprint": [
+			1.6,
+			0.52
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "ceiling_fan",
+		"name": "Ceiling Fan",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/ceiling-fan.glb",
+		"footprint": [
+			0.91,
+			1.05
+		],
+		"height": 0.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_round_floor",
+		"name": "Lamp Round Floor",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-round-floor.glb",
+		"footprint": [
+			0.3,
+			0.35
+		],
+		"height": 1.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_square_ceiling",
+		"name": "Lamp Square Ceiling",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-square-ceiling.glb",
+		"footprint": [
+			0.24,
+			0.24
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_square_floor",
+		"name": "Lamp Square Floor",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-square-floor.glb",
+		"footprint": [
+			0.24,
+			0.24
+		],
+		"height": 1.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lamp_wall",
+		"name": "Lamp Wall",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lamp-wall.glb",
+		"footprint": [
+			0.45,
+			0.3
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_design_sofa",
+		"name": "Lounge Design Sofa",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-design-sofa.glb",
+		"footprint": [
+			2.24,
+			0.82
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_design_sofa_corner",
+		"name": "Lounge Design Sofa Corner",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-design-sofa-corner.glb",
+		"footprint": [
+			2.7,
+			2.7
+		],
+		"height": 0.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_sofa",
+		"name": "Lounge Sofa",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-sofa.glb",
+		"footprint": [
+			1.96,
+			0.82
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_sofa_corner",
+		"name": "Lounge Sofa Corner",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-sofa-corner.glb",
+		"footprint": [
+			1.96,
+			1.96
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_sofa_long",
+		"name": "Lounge Sofa Long",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-sofa-long.glb",
+		"footprint": [
+			1.96,
+			1.64
+		],
+		"height": 0.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lounge_sofa_ottoman",
+		"name": "Lounge Sofa Ottoman",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/lounge-sofa-ottoman.glb",
+		"footprint": [
+			0.88,
+			0.9
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillow",
+		"name": "Pillow",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/pillow.glb",
+		"footprint": [
+			0.46,
+			0.18
+		],
+		"height": 0.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillow_blue",
+		"name": "Pillow Blue",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/pillow-blue.glb",
+		"footprint": [
+			0.46,
+			0.13
+		],
+		"height": 0.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillow_blue_long",
+		"name": "Pillow Blue Long",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/pillow-blue-long.glb",
+		"footprint": [
+			1.03,
+			0.18
+		],
+		"height": 0.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillow_long",
+		"name": "Pillow Long",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/pillow-long.glb",
+		"footprint": [
+			0.77,
+			0.18
+		],
+		"height": 0.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_small1",
+		"name": "Plant Small1",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plant-small1.glb",
+		"footprint": [
+			0.19,
+			0.19
+		],
+		"height": 0.28,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_small2",
+		"name": "Plant Small2",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plant-small2.glb",
+		"footprint": [
+			0.19,
+			0.19
+		],
+		"height": 0.28,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plant_small3",
+		"name": "Plant Small3",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plant-small3.glb",
+		"footprint": [
+			0.2,
+			0.17
+		],
+		"height": 0.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "potted_plant",
+		"name": "Potted Plant",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/potted-plant.glb",
+		"footprint": [
+			0.42,
+			0.48
+		],
+		"height": 1.31,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "radio",
+		"name": "Radio",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/radio.glb",
+		"footprint": [
+			0.63,
+			0.2
+		],
+		"height": 0.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rug_doormat",
+		"name": "Rug Doormat",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/rug-doormat.glb",
+		"footprint": [
+			0.86,
+			0.47
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rug_rectangle",
+		"name": "Rug Rectangle",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/rug-rectangle.glb",
+		"footprint": [
+			3.14,
+			1.84
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rug_round",
+		"name": "Rug Round",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/rug-round.glb",
+		"footprint": [
+			1.84,
+			1.84
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rug_rounded",
+		"name": "Rug Rounded",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/rug-rounded.glb",
+		"footprint": [
+			3.14,
+			1.84
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "rug_square",
+		"name": "Rug Square",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/rug-square.glb",
+		"footprint": [
+			1.81,
+			1.84
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "speaker",
+		"name": "Speaker",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/speaker.glb",
+		"footprint": [
+			0.3,
+			0.3
+		],
+		"height": 1.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "speaker_small",
+		"name": "Speaker Small",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/speaker-small.glb",
+		"footprint": [
+			0.3,
+			0.27
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "television_antenna",
+		"name": "Television Antenna",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/television-antenna.glb",
+		"footprint": [
+			0.53,
+			0.16
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "television_modern",
+		"name": "Television Modern",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/television-modern.glb",
+		"footprint": [
+			1.37,
+			0.26
+		],
+		"height": 0.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "television_vintage",
+		"name": "Television Vintage",
+		"category": "furniture/living",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/television-vintage.glb",
+		"footprint": [
+			0.82,
+			0.54
+		],
+		"height": 0.54,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cardboard_box_closed",
+		"name": "Cardboard Box Closed",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cardboard-box-closed.glb",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cardboard_box_open",
+		"name": "Cardboard Box Open",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/cardboard-box-open.glb",
+		"footprint": [
+			0.74,
+			0.42
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "coat_rack",
+		"name": "Coat Rack",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/coat-rack.glb",
+		"footprint": [
+			0.9,
+			0.27
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "coat_rack_standing",
+		"name": "Coat Rack Standing",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/coat-rack-standing.glb",
+		"footprint": [
+			0.55,
+			0.55
+		],
+		"height": 1.54,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "dryer",
+		"name": "Dryer",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/dryer.glb",
+		"footprint": [
+			0.78,
+			0.76
+		],
+		"height": 0.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trashcan",
+		"name": "Trashcan",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/trashcan.glb",
+		"footprint": [
+			0.42,
+			0.47
+		],
+		"height": 0.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "washer",
+		"name": "Washer",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/washer.glb",
+		"footprint": [
+			0.78,
+			0.78
+		],
+		"height": 0.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "washer_dryer_stacked",
+		"name": "Washer Dryer Stacked",
+		"category": "furniture/misc",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/washer-dryer-stacked.glb",
+		"footprint": [
+			0.78,
+			0.78
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_desk",
+		"name": "Chair Desk",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/chair-desk.glb",
+		"footprint": [
+			0.67,
+			0.63
+		],
+		"height": 1.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_keyboard",
+		"name": "Computer Keyboard",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-keyboard.glb",
+		"footprint": [
+			0.56,
+			0.24
+		],
+		"height": 0.06,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_mouse",
+		"name": "Computer Mouse",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-mouse.glb",
+		"footprint": [
+			0.1,
+			0.17
+		],
+		"height": 0.05,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "computer_screen",
+		"name": "Computer Screen",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/computer-screen.glb",
+		"footprint": [
+			0.79,
+			0.21
+		],
+		"height": 0.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "desk",
+		"name": "Desk",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/desk.glb",
+		"footprint": [
+			1.47,
+			0.78
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "desk_corner",
+		"name": "Desk Corner",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/desk-corner.glb",
+		"footprint": [
+			1.95,
+			1.95
+		],
+		"height": 0.77,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "laptop",
+		"name": "Laptop",
+		"category": "furniture/office",
+		"themes": [
+			"interior",
+			"home",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/laptop.glb",
+		"footprint": [
+			0.53,
+			0.48
+		],
+		"height": 0.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

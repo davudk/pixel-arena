@@ -1,0 +1,1498 @@
+[
+	{
+		"id": "bridge_pillar",
+		"name": "Bridge Pillar",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bridge-pillar.glb",
+		"footprint": [
+			0.8,
+			0.8
+		],
+		"height": 4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bridge_pillar_wide",
+		"name": "Bridge Pillar Wide",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/bridge-pillar-wide.glb",
+		"footprint": [
+			1.12,
+			1.12
+		],
+		"height": 4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bend",
+		"name": "Road Bend",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bend.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bend_barrier",
+		"name": "Road Bend Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bend-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bend_sidewalk",
+		"name": "Road Bend Sidewalk",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bend-sidewalk.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bend_square",
+		"name": "Road Bend Square",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bend-square.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bend_square_barrier",
+		"name": "Road Bend Square Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bend-square-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_bridge",
+		"name": "Road Bridge",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-bridge.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_crossing",
+		"name": "Road Crossing",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-crossing.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_crossroad",
+		"name": "Road Crossroad",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-crossroad.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_crossroad_barrier",
+		"name": "Road Crossroad Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-crossroad-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_crossroad_line",
+		"name": "Road Crossroad Line",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-crossroad-line.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_crossroad_path",
+		"name": "Road Crossroad Path",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-crossroad-path.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curve",
+		"name": "Road Curve",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-curve.glb",
+		"footprint": [
+			16,
+			16
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curve_barrier",
+		"name": "Road Curve Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-curve-barrier.glb",
+		"footprint": [
+			16,
+			16
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curve_intersection",
+		"name": "Road Curve Intersection",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-curve-intersection.glb",
+		"footprint": [
+			16,
+			16
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curve_intersection_barrier",
+		"name": "Road Curve Intersection Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-curve-intersection-barrier.glb",
+		"footprint": [
+			16,
+			16
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_curve_pavement",
+		"name": "Road Curve Pavement",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-curve-pavement.glb",
+		"footprint": [
+			16,
+			16
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_driveway_double",
+		"name": "Road Driveway Double",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-driveway-double.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_driveway_double_barrier",
+		"name": "Road Driveway Double Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-driveway-double-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_driveway_single",
+		"name": "Road Driveway Single",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-driveway-single.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_driveway_single_barrier",
+		"name": "Road Driveway Single Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-driveway-single-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_end",
+		"name": "Road End",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-end.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_end_barrier",
+		"name": "Road End Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-end-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_end_round",
+		"name": "Road End Round",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-end-round.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_end_round_barrier",
+		"name": "Road End Round Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-end-round-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_intersection",
+		"name": "Road Intersection",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-intersection.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_intersection_barrier",
+		"name": "Road Intersection Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-intersection-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_intersection_line",
+		"name": "Road Intersection Line",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-intersection-line.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_intersection_path",
+		"name": "Road Intersection Path",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-intersection-path.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_roundabout",
+		"name": "Road Roundabout",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-roundabout.glb",
+		"footprint": [
+			24,
+			24
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_roundabout_barrier",
+		"name": "Road Roundabout Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-roundabout-barrier.glb",
+		"footprint": [
+			24,
+			24
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side",
+		"name": "Road Side",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side.glb",
+		"footprint": [
+			8,
+			10.48
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side_barrier",
+		"name": "Road Side Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side-barrier.glb",
+		"footprint": [
+			10.48,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side_entry",
+		"name": "Road Side Entry",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side-entry.glb",
+		"footprint": [
+			8,
+			10.48
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side_entry_barrier",
+		"name": "Road Side Entry Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side-entry-barrier.glb",
+		"footprint": [
+			10.48,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side_exit",
+		"name": "Road Side Exit",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side-exit.glb",
+		"footprint": [
+			8,
+			10.48
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_side_exit_barrier",
+		"name": "Road Side Exit Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-side-exit-barrier.glb",
+		"footprint": [
+			10.48,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_empty",
+		"name": "Road Sign Empty",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-empty.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 3.8,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_empty_hanging",
+		"name": "Road Sign Empty Hanging",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-empty-hanging.glb",
+		"footprint": [
+			0.72,
+			2.36
+		],
+		"height": 3.8,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_object_stop",
+		"name": "Road Sign Object Stop",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-object-stop.glb",
+		"footprint": [
+			0.62,
+			1.01
+		],
+		"height": 1.01,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_object_street",
+		"name": "Road Sign Object Street",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-object-street.glb",
+		"footprint": [
+			0.34,
+			1.54
+		],
+		"height": 0.48,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_object_warning",
+		"name": "Road Sign Object Warning",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-object-warning.glb",
+		"footprint": [
+			0.62,
+			1.07
+		],
+		"height": 1.07,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_stop",
+		"name": "Road Sign Stop",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-stop.glb",
+		"footprint": [
+			0.62,
+			1.11
+		],
+		"height": 3.95,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_street",
+		"name": "Road Sign Street",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-street.glb",
+		"footprint": [
+			1.57,
+			1.57
+		],
+		"height": 3.8,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_sign_warning",
+		"name": "Road Sign Warning",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-sign-warning.glb",
+		"footprint": [
+			0.62,
+			1.18
+		],
+		"height": 3.99,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant",
+		"name": "Road Slant",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_barrier",
+		"name": "Road Slant Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 2.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_curve",
+		"name": "Road Slant Curve",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-curve.glb",
+		"footprint": [
+			16,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_curve_barrier",
+		"name": "Road Slant Curve Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-curve-barrier.glb",
+		"footprint": [
+			16,
+			8
+		],
+		"height": 4.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_flat",
+		"name": "Road Slant Flat",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-flat.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_flat_curve",
+		"name": "Road Slant Flat Curve",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-flat-curve.glb",
+		"footprint": [
+			16,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_flat_high",
+		"name": "Road Slant Flat High",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-flat-high.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_high",
+		"name": "Road Slant High",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-high.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_slant_high_barrier",
+		"name": "Road Slant High Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-slant-high-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 4.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_split",
+		"name": "Road Split",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-split.glb",
+		"footprint": [
+			8,
+			16
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_split_barrier",
+		"name": "Road Split Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-split-barrier.glb",
+		"footprint": [
+			8,
+			16
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_square",
+		"name": "Road Square",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-square.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_square_barrier",
+		"name": "Road Square Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-square-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight",
+		"name": "Road Straight",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-straight.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight_barrier",
+		"name": "Road Straight Barrier",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-straight-barrier.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight_barrier_end",
+		"name": "Road Straight Barrier End",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-straight-barrier-end.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight_barrier_half",
+		"name": "Road Straight Barrier Half",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-straight-barrier-half.glb",
+		"footprint": [
+			8,
+			4
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight_half",
+		"name": "Road Straight Half",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/road-straight-half.glb",
+		"footprint": [
+			4,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "tile_high",
+		"name": "Tile High",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/tile-high.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 2,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "tile_low",
+		"name": "Tile Low",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/tile-low.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "tile_slant",
+		"name": "Tile Slant",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/tile-slant.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "tile_slant_high",
+		"name": "Tile Slant High",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/tile-slant-high.glb",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 4.16,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

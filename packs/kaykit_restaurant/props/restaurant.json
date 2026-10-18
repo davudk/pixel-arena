@@ -1,0 +1,3314 @@
+[
+	{
+		"id": "floor_kitchen",
+		"name": "Floor Kitchen",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/floor-kitchen.gltf",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "floor_kitchen_small",
+		"name": "Floor Kitchen Small",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/floor-kitchen-small.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall",
+		"name": "Wall",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall.gltf",
+		"footprint": [
+			3,
+			0.38
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_decorated",
+		"name": "Wall Decorated",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-decorated.gltf",
+		"footprint": [
+			3,
+			2.18
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_doorway",
+		"name": "Wall Doorway",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-doorway.gltf",
+		"footprint": [
+			3,
+			0.38
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_half",
+		"name": "Wall Half",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-half.gltf",
+		"footprint": [
+			1.5,
+			0.38
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_orderwindow",
+		"name": "Wall Orderwindow",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-orderwindow.gltf",
+		"footprint": [
+			3,
+			0.68
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_orderwindow_decorated",
+		"name": "Wall Orderwindow Decorated",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-orderwindow-decorated.gltf",
+		"footprint": [
+			3,
+			0.68
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_window_closed",
+		"name": "Wall Window Closed",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-window-closed.gltf",
+		"footprint": [
+			3,
+			0.38
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "wall_window_open",
+		"name": "Wall Window Open",
+		"category": "restaurant/building",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/wall-window-open.gltf",
+		"footprint": [
+			3,
+			0.38
+		],
+		"height": 3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_a",
+		"name": "Chair A",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/chair-a.gltf",
+		"footprint": [
+			0.56,
+			0.6
+		],
+		"height": 0.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_b",
+		"name": "Chair B",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/chair-b.gltf",
+		"footprint": [
+			0.56,
+			0.6
+		],
+		"height": 0.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chair_stool",
+		"name": "Chair Stool",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/chair-stool.gltf",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_vegetableburger_cooked",
+		"name": "Food Ingredient Vegetableburger Cooked",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-vegetableburger-cooked.gltf",
+		"footprint": [
+			0.55,
+			0.54
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_vegetableburger_uncooked",
+		"name": "Food Ingredient Vegetableburger Uncooked",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-vegetableburger-uncooked.gltf",
+		"footprint": [
+			0.55,
+			0.54
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_vegetableburger",
+		"name": "Food Vegetableburger",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-vegetableburger.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_a",
+		"name": "Kitchentable A",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-a.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_a_large",
+		"name": "Kitchentable A Large",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-a-large.gltf",
+		"footprint": [
+			2.25,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_a_large_decorated",
+		"name": "Kitchentable A Large Decorated",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-a-large-decorated.gltf",
+		"footprint": [
+			2.25,
+			1.5
+		],
+		"height": 1.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_b",
+		"name": "Kitchentable B",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-b.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_b_large",
+		"name": "Kitchentable B Large",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-b-large.gltf",
+		"footprint": [
+			2.25,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_sink",
+		"name": "Kitchentable Sink",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-sink.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_sink_large",
+		"name": "Kitchentable Sink Large",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-sink-large.gltf",
+		"footprint": [
+			2.25,
+			1.5
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchentable_sink_large_decorated",
+		"name": "Kitchentable Sink Large Decorated",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchentable-sink-large-decorated.gltf",
+		"footprint": [
+			2.25,
+			1.5
+		],
+		"height": 1.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round_a",
+		"name": "Table Round A",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/table-round-a.gltf",
+		"footprint": [
+			2.25,
+			2.25
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round_a_decorated",
+		"name": "Table Round A Decorated",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/table-round-a-decorated.gltf",
+		"footprint": [
+			2.25,
+			2.25
+		],
+		"height": 1.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round_a_small",
+		"name": "Table Round A Small",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/table-round-a-small.gltf",
+		"footprint": [
+			1.13,
+			1.13
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round_a_small_decorated",
+		"name": "Table Round A Small Decorated",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/table-round-a-small-decorated.gltf",
+		"footprint": [
+			1.13,
+			1.13
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "table_round_b",
+		"name": "Table Round B",
+		"category": "restaurant/dining",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/table-round-b.gltf",
+		"footprint": [
+			2.25,
+			2.25
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bowl",
+		"name": "Bowl",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/bowl.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bowl_dirty",
+		"name": "Bowl Dirty",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/bowl-dirty.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bowl_small",
+		"name": "Bowl Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/bowl-small.gltf",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 0.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "dishrack",
+		"name": "Dishrack",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/dishrack.gltf",
+		"footprint": [
+			0.9,
+			0.9
+		],
+		"height": 0.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "dishrack_plates",
+		"name": "Dishrack Plates",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/dishrack-plates.gltf",
+		"footprint": [
+			0.9,
+			0.9
+		],
+		"height": 0.82,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "door_a",
+		"name": "Door A",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/door-a.gltf",
+		"footprint": [
+			1.2,
+			0.58
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "door_b",
+		"name": "Door B",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/door-b.gltf",
+		"footprint": [
+			1.2,
+			0.58
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_burger",
+		"name": "Food Burger",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-burger.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.64,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_dinner",
+		"name": "Food Dinner",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-dinner.gltf",
+		"footprint": [
+			0.78,
+			0.71
+		],
+		"height": 0.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_bun",
+		"name": "Food Ingredient Bun",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-bun.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_bun_bottom",
+		"name": "Food Ingredient Bun Bottom",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-bun-bottom.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_bun_top",
+		"name": "Food Ingredient Bun Top",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-bun-top.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.23,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_burger_cooked",
+		"name": "Food Ingredient Burger Cooked",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-burger-cooked.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_burger_trash",
+		"name": "Food Ingredient Burger Trash",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-burger-trash.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_burger_uncooked",
+		"name": "Food Ingredient Burger Uncooked",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-burger-uncooked.gltf",
+		"footprint": [
+			0.52,
+			0.52
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_carrot",
+		"name": "Food Ingredient Carrot",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-carrot.gltf",
+		"footprint": [
+			0.42,
+			0.41
+		],
+		"height": 0.95,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_carrot_chopped",
+		"name": "Food Ingredient Carrot Chopped",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-carrot-chopped.gltf",
+		"footprint": [
+			1,
+			0.42
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_carrot_pieces",
+		"name": "Food Ingredient Carrot Pieces",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-carrot-pieces.gltf",
+		"footprint": [
+			0.41,
+			0.54
+		],
+		"height": 0.24,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_cheese",
+		"name": "Food Ingredient Cheese",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-cheese.gltf",
+		"footprint": [
+			0.73,
+			0.54
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_cheese_chopped",
+		"name": "Food Ingredient Cheese Chopped",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-cheese-chopped.gltf",
+		"footprint": [
+			0.77,
+			0.54
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_cheese_slice",
+		"name": "Food Ingredient Cheese Slice",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-cheese-slice.gltf",
+		"footprint": [
+			0.62,
+			0.62
+		],
+		"height": 0.08,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_ham",
+		"name": "Food Ingredient Ham",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-ham.gltf",
+		"footprint": [
+			1.04,
+			0.62
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_ham_cooked",
+		"name": "Food Ingredient Ham Cooked",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-ham-cooked.gltf",
+		"footprint": [
+			1.04,
+			0.62
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_ham_trash",
+		"name": "Food Ingredient Ham Trash",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-ham-trash.gltf",
+		"footprint": [
+			1.04,
+			0.62
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_lettuce",
+		"name": "Food Ingredient Lettuce",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-lettuce.gltf",
+		"footprint": [
+			0.83,
+			0.85
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_lettuce_chopped",
+		"name": "Food Ingredient Lettuce Chopped",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-lettuce-chopped.gltf",
+		"footprint": [
+			1.35,
+			0.91
+		],
+		"height": 0.61,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_lettuce_slice",
+		"name": "Food Ingredient Lettuce Slice",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-lettuce-slice.gltf",
+		"footprint": [
+			0.61,
+			0.61
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_onion",
+		"name": "Food Ingredient Onion",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-onion.gltf",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 0.65,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_onion_chopped",
+		"name": "Food Ingredient Onion Chopped",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-onion-chopped.gltf",
+		"footprint": [
+			0.92,
+			0.56
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_onion_rings",
+		"name": "Food Ingredient Onion Rings",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-onion-rings.gltf",
+		"footprint": [
+			0.58,
+			0.55
+		],
+		"height": 0.08,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_potato",
+		"name": "Food Ingredient Potato",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-potato.gltf",
+		"footprint": [
+			0.45,
+			0.51
+		],
+		"height": 0.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_potato_chopped",
+		"name": "Food Ingredient Potato Chopped",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-potato-chopped.gltf",
+		"footprint": [
+			0.78,
+			0.53
+		],
+		"height": 0.45,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_potato_mashed",
+		"name": "Food Ingredient Potato Mashed",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-potato-mashed.gltf",
+		"footprint": [
+			0.45,
+			0.48
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_steak",
+		"name": "Food Ingredient Steak",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-steak.gltf",
+		"footprint": [
+			0.79,
+			0.68
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_steak_pieces",
+		"name": "Food Ingredient Steak Pieces",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-steak-pieces.gltf",
+		"footprint": [
+			0.49,
+			0.47
+		],
+		"height": 0.33,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_tomato",
+		"name": "Food Ingredient Tomato",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-tomato.gltf",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 0.53,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_tomato_slice",
+		"name": "Food Ingredient Tomato Slice",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-tomato-slice.gltf",
+		"footprint": [
+			0.49,
+			0.49
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_ingredient_tomato_slices",
+		"name": "Food Ingredient Tomato Slices",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-ingredient-tomato-slices.gltf",
+		"footprint": [
+			0.57,
+			0.49
+		],
+		"height": 0.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "food_stew",
+		"name": "Food Stew",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/food-stew.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.28,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_a_large",
+		"name": "Jar A Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-a-large.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_a_medium",
+		"name": "Jar A Medium",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-a-medium.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_a_small",
+		"name": "Jar A Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-a-small.gltf",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.41,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_b_large",
+		"name": "Jar B Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-b-large.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_b_medium",
+		"name": "Jar B Medium",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-b-medium.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_b_small",
+		"name": "Jar B Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-b-small.gltf",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.41,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_c_large",
+		"name": "Jar C Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-c-large.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_c_medium",
+		"name": "Jar C Medium",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-c-medium.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_c_small",
+		"name": "Jar C Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-c-small.gltf",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.41,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_d_large",
+		"name": "Jar D Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-d-large.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_d_medium",
+		"name": "Jar D Medium",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-d-medium.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.49,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "jar_d_small",
+		"name": "Jar D Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/jar-d-small.gltf",
+		"footprint": [
+			0.42,
+			0.42
+		],
+		"height": 0.41,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "ketchup",
+		"name": "Ketchup",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/ketchup.gltf",
+		"footprint": [
+			0.23,
+			0.23
+		],
+		"height": 0.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "knife",
+		"name": "Knife",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/knife.gltf",
+		"footprint": [
+			0.19,
+			0.08
+		],
+		"height": 0.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lid_a",
+		"name": "Lid A",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/lid-a.gltf",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lid_b",
+		"name": "Lid B",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/lid-b.gltf",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "lid_large",
+		"name": "Lid Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/lid-large.gltf",
+		"footprint": [
+			1.13,
+			0.9
+		],
+		"height": 0.22,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "menu",
+		"name": "Menu",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/menu.gltf",
+		"footprint": [
+			0.38,
+			0.23
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "mustard",
+		"name": "Mustard",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/mustard.gltf",
+		"footprint": [
+			0.23,
+			0.23
+		],
+		"height": 0.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pan_006",
+		"name": "Pan 006",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pan-006.gltf",
+		"footprint": [
+			0.56,
+			0.96
+		],
+		"height": 0.26,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pan_a",
+		"name": "Pan A",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pan-a.gltf",
+		"footprint": [
+			0.75,
+			1.13
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pan_b",
+		"name": "Pan B",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pan-b.gltf",
+		"footprint": [
+			0.75,
+			1.13
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "papertowel",
+		"name": "Papertowel",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/papertowel.gltf",
+		"footprint": [
+			0.38,
+			0.38
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillar_a",
+		"name": "Pillar A",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pillar-a.gltf",
+		"footprint": [
+			0.45,
+			0.45
+		],
+		"height": 3.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pillar_b",
+		"name": "Pillar B",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pillar-b.gltf",
+		"footprint": [
+			0.75,
+			0.75
+		],
+		"height": 3.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plate",
+		"name": "Plate",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/plate.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plate_dirty",
+		"name": "Plate Dirty",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/plate-dirty.gltf",
+		"footprint": [
+			0.71,
+			0.71
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "plate_small",
+		"name": "Plate Small",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/plate-small.gltf",
+		"footprint": [
+			0.56,
+			0.56
+		],
+		"height": 0.07,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_a",
+		"name": "Pot A",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pot-a.gltf",
+		"footprint": [
+			1.05,
+			0.75
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_a_stew",
+		"name": "Pot A Stew",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pot-a-stew.gltf",
+		"footprint": [
+			1.05,
+			0.75
+		],
+		"height": 0.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_b",
+		"name": "Pot B",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pot-b.gltf",
+		"footprint": [
+			1.05,
+			0.75
+		],
+		"height": 0.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_b_stew",
+		"name": "Pot B Stew",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pot-b-stew.gltf",
+		"footprint": [
+			1.05,
+			0.75
+		],
+		"height": 0.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "pot_large",
+		"name": "Pot Large",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/pot-large.gltf",
+		"footprint": [
+			1.5,
+			0.9
+		],
+		"height": 0.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stew_bowl",
+		"name": "Stew Bowl",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stew-bowl.gltf",
+		"footprint": [
+			0.59,
+			0.59
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stew_pot",
+		"name": "Stew Pot",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stew-pot.gltf",
+		"footprint": [
+			0.55,
+			0.55
+		],
+		"height": 0.19,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "towelrail",
+		"name": "Towelrail",
+		"category": "restaurant/food",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/towelrail.gltf",
+		"footprint": [
+			1.2,
+			0.35
+		],
+		"height": 0.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate",
+		"name": "Crate",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_buns",
+		"name": "Crate Buns",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-buns.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_carrots",
+		"name": "Crate Carrots",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-carrots.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_cheese",
+		"name": "Crate Cheese",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-cheese.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_ham",
+		"name": "Crate Ham",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-ham.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.67,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_lettuce",
+		"name": "Crate Lettuce",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-lettuce.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_lid",
+		"name": "Crate Lid",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-lid.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_onions",
+		"name": "Crate Onions",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-onions.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_potatoes",
+		"name": "Crate Potatoes",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-potatoes.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.72,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_steak",
+		"name": "Crate Steak",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-steak.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.66,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "crate_tomatoes",
+		"name": "Crate Tomatoes",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/crate-tomatoes.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "cuttingboard",
+		"name": "Cuttingboard",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/cuttingboard.gltf",
+		"footprint": [
+			1.13,
+			0.75
+		],
+		"height": 0.11,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "extractorhood",
+		"name": "Extractorhood",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/extractorhood.gltf",
+		"footprint": [
+			1.5,
+			1.21
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "fridge_a",
+		"name": "Fridge A",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/fridge-a.gltf",
+		"footprint": [
+			1.5,
+			1.68
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "fridge_a_decorated",
+		"name": "Fridge A Decorated",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/fridge-a-decorated.gltf",
+		"footprint": [
+			1.5,
+			1.68
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "fridge_b",
+		"name": "Fridge B",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/fridge-b.gltf",
+		"footprint": [
+			1.5,
+			1.68
+		],
+		"height": 1.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencabinet",
+		"name": "Kitchencabinet",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencabinet.gltf",
+		"footprint": [
+			1.5,
+			0.78
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencabinet_corner",
+		"name": "Kitchencabinet Corner",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencabinet-corner.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencabinet_corner_half",
+		"name": "Kitchencabinet Corner Half",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencabinet-corner-half.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencabinet_half",
+		"name": "Kitchencabinet Half",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencabinet-half.gltf",
+		"footprint": [
+			1.5,
+			0.78
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_innercorner",
+		"name": "Kitchencounter Innercorner",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-innercorner.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_innercorner_backsplash",
+		"name": "Kitchencounter Innercorner Backsplash",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-innercorner-backsplash.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_outercorner",
+		"name": "Kitchencounter Outercorner",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-outercorner.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_outercorner_backsplash",
+		"name": "Kitchencounter Outercorner Backsplash",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-outercorner-backsplash.gltf",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_sink",
+		"name": "Kitchencounter Sink",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-sink.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_sink_backsplash",
+		"name": "Kitchencounter Sink Backsplash",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-sink-backsplash.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_a",
+		"name": "Kitchencounter Straight A",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-a.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_a_backsplash",
+		"name": "Kitchencounter Straight A Backsplash",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-a-backsplash.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_a_decorated",
+		"name": "Kitchencounter Straight A Decorated",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-a-decorated.gltf",
+		"footprint": [
+			1.5,
+			1.7
+		],
+		"height": 1.57,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_b",
+		"name": "Kitchencounter Straight B",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-b.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 0.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_b_backsplash",
+		"name": "Kitchencounter Straight B Backsplash",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-b-backsplash.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kitchencounter_straight_decorated",
+		"name": "Kitchencounter Straight Decorated",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/kitchencounter-straight-decorated.gltf",
+		"footprint": [
+			1.5,
+			1.53
+		],
+		"height": 1.44,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "oven",
+		"name": "Oven",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/oven.gltf",
+		"footprint": [
+			1.5,
+			1.76
+		],
+		"height": 1.51,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shelf_papertowel",
+		"name": "Shelf Papertowel",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/shelf-papertowel.gltf",
+		"footprint": [
+			1.5,
+			0.45
+		],
+		"height": 0.79,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shelf_papertowel_decorated",
+		"name": "Shelf Papertowel Decorated",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/shelf-papertowel-decorated.gltf",
+		"footprint": [
+			1.5,
+			0.47
+		],
+		"height": 1.28,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stove_multi",
+		"name": "Stove Multi",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stove-multi.gltf",
+		"footprint": [
+			1.5,
+			1.72
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stove_multi_countertop",
+		"name": "Stove Multi Countertop",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stove-multi-countertop.gltf",
+		"footprint": [
+			1.31,
+			1.31
+		],
+		"height": 0.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stove_multi_decorated",
+		"name": "Stove Multi Decorated",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stove-multi-decorated.gltf",
+		"footprint": [
+			1.65,
+			1.72
+		],
+		"height": 1.29,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stove_single",
+		"name": "Stove Single",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stove-single.gltf",
+		"footprint": [
+			1.5,
+			1.72
+		],
+		"height": 0.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "stove_single_countertop",
+		"name": "Stove Single Countertop",
+		"category": "restaurant/kitchen",
+		"themes": [
+			"interior",
+			"restaurant",
+			"shop"
+		],
+		"tags": [],
+		"model": "models/stove-single-countertop.gltf",
+		"footprint": [
+			1.31,
+			1.31
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

@@ -1,0 +1,531 @@
+[
+	{
+		"id": "cliff_corner",
+		"name": "Cliff Corner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/cliff-corner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "cliff_side",
+		"name": "Cliff Side",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/cliff-side.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 3,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "grass",
+		"name": "Grass",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/grass.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "grass_corner",
+		"name": "Grass Corner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/grass-corner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "grass_corner_inner",
+		"name": "Grass Corner Inner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/grass-corner-inner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "grass_hill",
+		"name": "Grass Hill",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/grass-hill.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 1.5,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_center",
+		"name": "Road Asphalt Center",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-center.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_corner",
+		"name": "Road Asphalt Corner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-corner.glb",
+		"footprint": [
+			6,
+			6
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_corner_inner",
+		"name": "Road Asphalt Corner Inner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-corner-inner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_corner_outer",
+		"name": "Road Asphalt Corner Outer",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-corner-outer.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_damaged",
+		"name": "Road Asphalt Damaged",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-damaged.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_pavement",
+		"name": "Road Asphalt Pavement",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-pavement.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_side",
+		"name": "Road Asphalt Side",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-side.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_asphalt_straight",
+		"name": "Road Asphalt Straight",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-asphalt-straight.glb",
+		"footprint": [
+			3,
+			6
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_center",
+		"name": "Road Dirt Center",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-center.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_corner",
+		"name": "Road Dirt Corner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-corner.glb",
+		"footprint": [
+			6,
+			6
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_corner_inner",
+		"name": "Road Dirt Corner Inner",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-corner-inner.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_corner_outer",
+		"name": "Road Dirt Corner Outer",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-corner-outer.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_damaged",
+		"name": "Road Dirt Damaged",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-damaged.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_pavement",
+		"name": "Road Dirt Pavement",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-pavement.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.02,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_side",
+		"name": "Road Dirt Side",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-side.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_straight",
+		"name": "Road Dirt Straight",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-straight.glb",
+		"footprint": [
+			3,
+			6
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_dirt_tile",
+		"name": "Road Dirt Tile",
+		"category": "terrain/urban",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/road-dirt-tile.glb",
+		"footprint": [
+			1.5,
+			1.5
+		],
+		"height": 0.15,
+		"placement": {
+			"mode": "grid",
+			"step": 3,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

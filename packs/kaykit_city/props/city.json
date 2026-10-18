@@ -1,0 +1,485 @@
+[
+	{
+		"id": "building_a",
+		"name": "Building A",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-a.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 6.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_b",
+		"name": "Building B",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-b.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 6.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_c",
+		"name": "Building C",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-c.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 11.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_d",
+		"name": "Building D",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-d.gltf",
+		"footprint": [
+			8,
+			8.08
+		],
+		"height": 11.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_e",
+		"name": "Building E",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-e.gltf",
+		"footprint": [
+			8.03,
+			8
+		],
+		"height": 9.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_f",
+		"name": "Building F",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-f.gltf",
+		"footprint": [
+			8.03,
+			8
+		],
+		"height": 9.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_g",
+		"name": "Building G",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-g.gltf",
+		"footprint": [
+			8.03,
+			8
+		],
+		"height": 11.91,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_h",
+		"name": "Building H",
+		"category": "city/buildings",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-h.gltf",
+		"footprint": [
+			8.03,
+			8
+		],
+		"height": 12.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "bench",
+		"name": "Bench",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/bench.gltf",
+		"footprint": [
+			1.6,
+			0.6
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "box_a",
+		"name": "Box A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/box-a.gltf",
+		"footprint": [
+			0.8,
+			0.81
+		],
+		"height": 0.71,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "box_b",
+		"name": "Box B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/box-b.gltf",
+		"footprint": [
+			0.61,
+			0.62
+		],
+		"height": 0.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "bush",
+		"name": "Bush",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/bush.gltf",
+		"footprint": [
+			0.76,
+			0.8
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "dumpster",
+		"name": "Dumpster",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/dumpster.gltf",
+		"footprint": [
+			2.26,
+			1.41
+		],
+		"height": 1.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "firehydrant",
+		"name": "Firehydrant",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/firehydrant.gltf",
+		"footprint": [
+			0.54,
+			0.53
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "streetlight",
+		"name": "Streetlight",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/streetlight.gltf",
+		"footprint": [
+			1.08,
+			0.28
+		],
+		"height": 3.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trafficlight_a",
+		"name": "Trafficlight A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/trafficlight-a.gltf",
+		"footprint": [
+			0.7,
+			0.6
+		],
+		"height": 2.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trafficlight_b",
+		"name": "Trafficlight B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/trafficlight-b.gltf",
+		"footprint": [
+			1.12,
+			0.6
+		],
+		"height": 3.84,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trafficlight_c",
+		"name": "Trafficlight C",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/trafficlight-c.gltf",
+		"footprint": [
+			3.19,
+			1.09
+		],
+		"height": 3.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trash_a",
+		"name": "Trash A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/trash-a.gltf",
+		"footprint": [
+			0.51,
+			0.53
+		],
+		"height": 0.21,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "trash_b",
+		"name": "Trash B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/trash-b.gltf",
+		"footprint": [
+			0.27,
+			0.28
+		],
+		"height": 0.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "watertower",
+		"name": "Watertower",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/watertower.gltf",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 2.68,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

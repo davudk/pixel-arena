@@ -74,6 +74,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'panels') await panelsTest(editor, check, settle, extras)
     else if (name === 'materials') await materialsTest(editor, check, settle, extras)
     else if (name === 'liquids') await liquidsTest(editor, check, settle, extras)
+    else if (name === 'library') await libraryTest(editor, check, report)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -647,6 +648,70 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** Every prop loads, sits on the ground and is centered on its footprint (import-packs.mjs
+ *  re-centers third-party models), with the size its manifest says. Reports per-pack counts. */
+async function libraryTest(editor: Editor, check: (ok: unknown, what: string) => void, report: Record<string, unknown>) {
+  const lib = editor.library
+  check(lib.errors.length === 0, `library loads without errors (${lib.errors.slice(0, 5).join('; ')})`)
+  const perPack: Record<string, number> = {}
+  const bad: string[] = []
+  const props = [...lib.props.values()]
+  for (let i = 0; i < props.length; i += 24) {
+    await Promise.all(props.slice(i, i + 24).map(async (p) => {
+      perPack[p.packId] = (perPack[p.packId] ?? 0) + 1
+      // The packs made by the Godot importer place some models by their own pivot; check ours.
+      if (['kenney_town', 'kenney_nature', 'kenney_characters'].includes(p.packId)) return
+      try {
+        const m = await loadModel(p)
+        const size = m.box.getSize(new THREE.Vector3())
+        const c = m.box.getCenter(new THREE.Vector3())
+        const tol = Math.max(0.03, Math.max(size.x, size.z) * 0.02)
+        if (Math.abs(c.x) > tol || Math.abs(c.z) > tol || Math.abs(m.box.min.y) > 0.03) bad.push(`${p.id} off center (${c.x.toFixed(2)}, ${m.box.min.y.toFixed(2)}, ${c.z.toFixed(2)})`)
+        else if (Math.abs(size.x - p.footprint[0]) > 0.05 || Math.abs(size.z - p.footprint[1]) > 0.05 || Math.abs(size.y - p.height) > 0.05) bad.push(`${p.id} size ${size.x.toFixed(2)}x${size.y.toFixed(2)}x${size.z.toFixed(2)} vs ${p.footprint.join('x')}h${p.height}`)
+      } catch (e) {
+        bad.push(`${p.id} failed: ${String(e).slice(0, 80)}`)
+      }
+    }))
+  }
+  check(bad.length === 0, `${bad.length} props wrong: ${bad.slice(0, 8).join('; ')}`)
+  report.props = props.length
+  report.perPack = perPack
+
+  // A scale lineup on the map: a person beside furniture, doors, cars and buildings from every
+  // pack (selftest-library-lineup*.png).
+  const LINEUP = [
+    'kenney_characters:character_female_a', 'kenney_building_kit:wall', 'kenney_building_kit:door_rotate_square_a',
+    'kenney_furniture:chair', 'kenney_furniture:bed_double', 'kenney_furniture:kitchen_fridge',
+    'kaykit_furniture:bed_double_a', 'kaykit_restaurant:chair_a', 'quaternius_interior:bed_king', 'quaternius_interior:kitchen_fridge',
+    'styloo_school:classroom_desk', 'styloo_school:classroom_locker', 'kenney_cars:sedan', 'kenney_cars:police',
+    'kenney_town:wall_door', 'kenney_retro_urban:wall_a_door', 'kenney_modular_buildings:building_door',
+    'kenney_suburban:building_type_a', 'kaykit_city:building_a', 'kenney_commercial:building_a',
+  ]
+  const s = editor.session
+  let x = -30
+  const ids: string[] = []
+  s.edit('Lineup', () => {
+    for (const id of LINEUP) {
+      const p = lib.props.get(id)
+      check(p, `lineup prop ${id} exists`)
+      if (!p) continue
+      x += p.footprint[0] / 2 + 0.6
+      ids.push(s.createObject('prop', { prop: id, position: new Vec3(x, 0, 0), rotation: 0 }))
+      x += p.footprint[0] / 2
+    }
+  })
+  await sleep(4000)
+  const rig = editor.rig
+  for (const [i, [fx, zoom]] of [[-18, 16], [-4, 18], [10, 40]].entries()) {
+    rig.focus.set(fx, 0, 0)
+    rig.zoom = zoom
+    rig.update(0)
+    await sleep(800)
+    await frame()
+    await fetch(`/__save?name=selftest-library-lineup${i + 1}.png`, { method: 'POST', body: editor.pixel.canvas.toDataURL('image/png') }).catch(() => {})
+  }
+}
+
 /** Every liquid side by side (an 8 m pond each, dug 1.5 m, in two rows), shot at noon and at
  *  night: selftest-liquids-noon.png / -night.png. Checks each pond renders. */
 async function liquidsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {

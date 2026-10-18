@@ -1,0 +1,552 @@
+[
+	{
+		"id": "hatchback_sports",
+		"name": "Hatchback Sports",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/hatchback-sports.glb",
+		"footprint": [
+			1.56,
+			3.42
+		],
+		"height": 1.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sedan",
+		"name": "Sedan",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/sedan.glb",
+		"footprint": [
+			1.8,
+			3.06
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "sedan_sports",
+		"name": "Sedan Sports",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/sedan-sports.glb",
+		"footprint": [
+			1.56,
+			3.06
+		],
+		"height": 1.32,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "suv",
+		"name": "Suv",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/suv.glb",
+		"footprint": [
+			1.8,
+			3.24
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "suv_luxury",
+		"name": "Suv Luxury",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/suv-luxury.glb",
+		"footprint": [
+			1.8,
+			3.42
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "taxi",
+		"name": "Taxi",
+		"category": "vehicles/cars",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/taxi.glb",
+		"footprint": [
+			1.8,
+			3.3
+		],
+		"height": 1.8,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tractor",
+		"name": "Tractor",
+		"category": "vehicles/farm",
+		"themes": [
+			"farm",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/tractor.glb",
+		"footprint": [
+			1.61,
+			2.64
+		],
+		"height": 1.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tractor_police",
+		"name": "Tractor Police",
+		"category": "vehicles/farm",
+		"themes": [
+			"farm",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/tractor-police.glb",
+		"footprint": [
+			1.61,
+			2.76
+		],
+		"height": 2.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tractor_shovel",
+		"name": "Tractor Shovel",
+		"category": "vehicles/farm",
+		"themes": [
+			"farm",
+			"countryside"
+		],
+		"tags": [],
+		"model": "models/tractor-shovel.glb",
+		"footprint": [
+			1.99,
+			2.96
+		],
+		"height": 1.81,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kart_oobi",
+		"name": "Kart Oobi",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kart-oobi.glb",
+		"footprint": [
+			1.17,
+			1.71
+		],
+		"height": 1.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kart_oodi",
+		"name": "Kart Oodi",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kart-oodi.glb",
+		"footprint": [
+			1.17,
+			1.71
+		],
+		"height": 1.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kart_ooli",
+		"name": "Kart Ooli",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kart-ooli.glb",
+		"footprint": [
+			1.17,
+			1.71
+		],
+		"height": 1.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kart_oopi",
+		"name": "Kart Oopi",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kart-oopi.glb",
+		"footprint": [
+			1.17,
+			1.71
+		],
+		"height": 1.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "kart_oozi",
+		"name": "Kart Oozi",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/kart-oozi.glb",
+		"footprint": [
+			1.17,
+			1.71
+		],
+		"height": 1.59,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "race",
+		"name": "Race",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/race.glb",
+		"footprint": [
+			1.56,
+			3.07
+		],
+		"height": 0.88,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "race_future",
+		"name": "Race Future",
+		"category": "vehicles/racing",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/race-future.glb",
+		"footprint": [
+			1.44,
+			3.19
+		],
+		"height": 1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "ambulance",
+		"name": "Ambulance",
+		"category": "vehicles/service",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/ambulance.glb",
+		"footprint": [
+			1.8,
+			3.9
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "firetruck",
+		"name": "Firetruck",
+		"category": "vehicles/service",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/firetruck.glb",
+		"footprint": [
+			1.8,
+			4.08
+		],
+		"height": 2.04,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "garbage_truck",
+		"name": "Garbage Truck",
+		"category": "vehicles/service",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/garbage-truck.glb",
+		"footprint": [
+			1.92,
+			4.14
+		],
+		"height": 1.92,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "police",
+		"name": "Police",
+		"category": "vehicles/service",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/police.glb",
+		"footprint": [
+			1.8,
+			3.72
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "delivery",
+		"name": "Delivery",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/delivery.glb",
+		"footprint": [
+			1.8,
+			3.9
+		],
+		"height": 1.98,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "delivery_flat",
+		"name": "Delivery Flat",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/delivery-flat.glb",
+		"footprint": [
+			1.8,
+			3.9
+		],
+		"height": 1.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck",
+		"name": "Truck",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/truck.glb",
+		"footprint": [
+			1.8,
+			3.54
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "truck_flat",
+		"name": "Truck Flat",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/truck-flat.glb",
+		"footprint": [
+			1.8,
+			3.29
+		],
+		"height": 1.56,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "van",
+		"name": "Van",
+		"category": "vehicles/trucks",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/van.glb",
+		"footprint": [
+			1.8,
+			3.3
+		],
+		"height": 1.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

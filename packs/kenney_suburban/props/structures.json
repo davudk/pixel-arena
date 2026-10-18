@@ -1,0 +1,209 @@
+[
+	{
+		"id": "fence",
+		"name": "Fence",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence.glb",
+		"footprint": [
+			3.8,
+			0.6
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_1x2",
+		"name": "Fence 1x2",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-1x2.glb",
+		"footprint": [
+			7,
+			3.5
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_1x3",
+		"name": "Fence 1x3",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-1x3.glb",
+		"footprint": [
+			10.2,
+			3.5
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_1x4",
+		"name": "Fence 1x4",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-1x4.glb",
+		"footprint": [
+			13.4,
+			3.5
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_2x2",
+		"name": "Fence 2x2",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-2x2.glb",
+		"footprint": [
+			7,
+			6.7
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_2x3",
+		"name": "Fence 2x3",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-2x3.glb",
+		"footprint": [
+			10.2,
+			6.7
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_3x2",
+		"name": "Fence 3x2",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-3x2.glb",
+		"footprint": [
+			7,
+			9.9
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_3x3",
+		"name": "Fence 3x3",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-3x3.glb",
+		"footprint": [
+			10.2,
+			9.9
+		],
+		"height": 2.16,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "fence_low",
+		"name": "Fence Low",
+		"category": "structures/fences",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/fence-low.glb",
+		"footprint": [
+			10.2,
+			6.7
+		],
+		"height": 1.36,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

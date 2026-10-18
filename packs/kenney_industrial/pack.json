@@ -1,0 +1,12 @@
+{
+	"id": "kenney_industrial",
+	"name": "City Kit (Industrial)",
+	"version": "2.0",
+	"scale": 10,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/city-kit-industrial",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

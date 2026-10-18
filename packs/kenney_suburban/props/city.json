@@ -1,0 +1,25 @@
+[
+	{
+		"id": "planter",
+		"name": "Planter",
+		"category": "city/yard",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/planter.glb",
+		"footprint": [
+			3.2,
+			2.4
+		],
+		"height": 1.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

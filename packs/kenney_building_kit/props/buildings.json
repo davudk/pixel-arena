@@ -1,0 +1,1740 @@
+[
+	{
+		"id": "barricade_doorway_a",
+		"name": "Barricade Doorway A",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-doorway-a.glb",
+		"footprint": [
+			0.08,
+			1.26
+		],
+		"height": 1.46,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "barricade_doorway_b",
+		"name": "Barricade Doorway B",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-doorway-b.glb",
+		"footprint": [
+			0.08,
+			1.26
+		],
+		"height": 1.58,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "barricade_doorway_c",
+		"name": "Barricade Doorway C",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-doorway-c.glb",
+		"footprint": [
+			0.1,
+			1.26
+		],
+		"height": 1.75,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "barricade_window_a",
+		"name": "Barricade Window A",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-window-a.glb",
+		"footprint": [
+			0.08,
+			1.26
+		],
+		"height": 0.96,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "barricade_window_b",
+		"name": "Barricade Window B",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-window-b.glb",
+		"footprint": [
+			0.08,
+			1.26
+		],
+		"height": 1.08,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "barricade_window_c",
+		"name": "Barricade Window C",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/barricade-window-c.glb",
+		"footprint": [
+			0.1,
+			1.26
+		],
+		"height": 1.36,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_round_a",
+		"name": "Door Rotate Round A",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-round-a.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_round_b",
+		"name": "Door Rotate Round B",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-round-b.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_round_c",
+		"name": "Door Rotate Round C",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-round-c.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_round_d",
+		"name": "Door Rotate Round D",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-round-d.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_square_a",
+		"name": "Door Rotate Square A",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-square-a.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_square_b",
+		"name": "Door Rotate Square B",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-square-b.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_square_c",
+		"name": "Door Rotate Square C",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-square-c.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_rotate_square_d",
+		"name": "Door Rotate Square D",
+		"category": "buildings/interior-doors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/door-rotate-square-d.glb",
+		"footprint": [
+			0.25,
+			0.92
+		],
+		"height": 2.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border",
+		"name": "Border",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_corner",
+		"name": "Border Corner",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-corner.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_corner_diagonal",
+		"name": "Border Corner Diagonal",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-corner-diagonal.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_corner_round",
+		"name": "Border Corner Round",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-corner-round.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_corner_small",
+		"name": "Border Corner Small",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-corner-small.glb",
+		"footprint": [
+			1.2,
+			1.2
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_high",
+		"name": "Border High",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-high.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_high_corner",
+		"name": "Border High Corner",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-high-corner.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_high_corner_diagonal",
+		"name": "Border High Corner Diagonal",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-high-corner-diagonal.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_high_corner_round",
+		"name": "Border High Corner Round",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-high-corner-round.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "border_high_corner_small",
+		"name": "Border High Corner Small",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/border-high-corner-small.glb",
+		"footprint": [
+			1.2,
+			1.2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "floor",
+		"name": "Floor",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/floor.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "floor_corner_diagonal",
+		"name": "Floor Corner Diagonal",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/floor-corner-diagonal.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "floor_corner_round",
+		"name": "Floor Corner Round",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/floor-corner-round.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "floor_half",
+		"name": "Floor Half",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/floor-half.glb",
+		"footprint": [
+			1,
+			2
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "floor_quarter",
+		"name": "Floor Quarter",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/floor-quarter.glb",
+		"footprint": [
+			1,
+			1
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_center",
+		"name": "Roof Flat Center",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-center.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 0.1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_corner",
+		"name": "Roof Flat Corner",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-corner.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_corner_inner",
+		"name": "Roof Flat Corner Inner",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-corner-inner.glb",
+		"footprint": [
+			2.2,
+			2.2
+		],
+		"height": 0.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_patch",
+		"name": "Roof Flat Patch",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-patch.glb",
+		"footprint": [
+			1.1,
+			1.1
+		],
+		"height": 0.05,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_patch_large",
+		"name": "Roof Flat Patch Large",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-patch-large.glb",
+		"footprint": [
+			1.6,
+			1.6
+		],
+		"height": 0.05,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_side",
+		"name": "Roof Flat Side",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-side.glb",
+		"footprint": [
+			2.2,
+			2
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_square",
+		"name": "Roof Flat Square",
+		"category": "buildings/interior-floors",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/roof-flat-square.glb",
+		"footprint": [
+			2.39,
+			2.39
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_center",
+		"name": "Stairs Center",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-center.glb",
+		"footprint": [
+			1.3,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_center_short",
+		"name": "Stairs Center Short",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-center-short.glb",
+		"footprint": [
+			1.3,
+			2
+		],
+		"height": 1.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_closed",
+		"name": "Stairs Closed",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-closed.glb",
+		"footprint": [
+			1.3,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_closed_short",
+		"name": "Stairs Closed Short",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-closed-short.glb",
+		"footprint": [
+			1.3,
+			2
+		],
+		"height": 1.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_open",
+		"name": "Stairs Open",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-open.glb",
+		"footprint": [
+			1.3,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_open_short",
+		"name": "Stairs Open Short",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-open-short.glb",
+		"footprint": [
+			1.3,
+			2
+		],
+		"height": 1.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_sides",
+		"name": "Stairs Sides",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-sides.glb",
+		"footprint": [
+			1.5,
+			4
+		],
+		"height": 2.55,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "stairs_sides_short",
+		"name": "Stairs Sides Short",
+		"category": "buildings/interior-stairs",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/stairs-sides-short.glb",
+		"footprint": [
+			1.5,
+			2
+		],
+		"height": 1.35,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "column",
+		"name": "Column",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/column.glb",
+		"footprint": [
+			0.5,
+			0.5
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "column_thin",
+		"name": "Column Thin",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/column-thin.glb",
+		"footprint": [
+			0.4,
+			0.4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "column_wide",
+		"name": "Column Wide",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/column-wide.glb",
+		"footprint": [
+			0.7,
+			0.7
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "detail_pipe",
+		"name": "Detail Pipe",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-pipe.glb",
+		"footprint": [
+			0.43,
+			0.43
+		],
+		"height": 0.43,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "gutter_vertical",
+		"name": "Gutter Vertical",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/gutter-vertical.glb",
+		"footprint": [
+			0.31,
+			0.31
+		],
+		"height": 2,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "gutter_vertical_bottom",
+		"name": "Gutter Vertical Bottom",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/gutter-vertical-bottom.glb",
+		"footprint": [
+			0.2,
+			0.3
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "gutter_vertical_short",
+		"name": "Gutter Vertical Short",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/gutter-vertical-short.glb",
+		"footprint": [
+			0.31,
+			0.31
+		],
+		"height": 1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "gutter_vertical_top",
+		"name": "Gutter Vertical Top",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/gutter-vertical-top.glb",
+		"footprint": [
+			0.2,
+			0.3
+		],
+		"height": 0.3,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "gutter_vertical_wall",
+		"name": "Gutter Vertical Wall",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/gutter-vertical-wall.glb",
+		"footprint": [
+			0.31,
+			0.31
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "plating",
+		"name": "Plating",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plating.glb",
+		"footprint": [
+			0.1,
+			1
+		],
+		"height": 1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "plating_detailed",
+		"name": "Plating Detailed",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plating-detailed.glb",
+		"footprint": [
+			0.13,
+			1
+		],
+		"height": 1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "plating_detailed_wide",
+		"name": "Plating Detailed Wide",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plating-detailed-wide.glb",
+		"footprint": [
+			0.13,
+			2
+		],
+		"height": 1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "plating_wide",
+		"name": "Plating Wide",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/plating-wide.glb",
+		"footprint": [
+			0.1,
+			2
+		],
+		"height": 1,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall",
+		"name": "Wall",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall.glb",
+		"footprint": [
+			0.1,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner",
+		"name": "Wall Corner",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_column",
+		"name": "Wall Corner Column",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-column.glb",
+		"footprint": [
+			2.07,
+			2.07
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_column_bottom",
+		"name": "Wall Corner Column Bottom",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-column-bottom.glb",
+		"footprint": [
+			2.13,
+			2.13
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_column_small",
+		"name": "Wall Corner Column Small",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-column-small.glb",
+		"footprint": [
+			1.07,
+			1.08
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_column_small_bottom",
+		"name": "Wall Corner Column Small Bottom",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-column-small-bottom.glb",
+		"footprint": [
+			1.12,
+			1.13
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_diagonal",
+		"name": "Wall Corner Diagonal",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-diagonal.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_corner_round",
+		"name": "Wall Corner Round",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-corner-round.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_round",
+		"name": "Wall Doorway Round",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-doorway-round.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_square",
+		"name": "Wall Doorway Square",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-doorway-square.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_wide_round",
+		"name": "Wall Doorway Wide Round",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-doorway-wide-round.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_doorway_wide_square",
+		"name": "Wall Doorway Wide Square",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-doorway-wide-square.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_half",
+		"name": "Wall Half",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-half.glb",
+		"footprint": [
+			0.1,
+			1
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_low",
+		"name": "Wall Low",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-low.glb",
+		"footprint": [
+			0.1,
+			2
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_round",
+		"name": "Wall Window Round",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-round.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_round_detailed",
+		"name": "Wall Window Round Detailed",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-round-detailed.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_square",
+		"name": "Wall Window Square",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-square.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_square_detailed",
+		"name": "Wall Window Square Detailed",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-square-detailed.glb",
+		"footprint": [
+			0.2,
+			2
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_wide_round",
+		"name": "Wall Window Wide Round",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-wide-round.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_wide_round_detailed",
+		"name": "Wall Window Wide Round Detailed",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-wide-round-detailed.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_wide_square",
+		"name": "Wall Window Wide Square",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-wide-square.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "wall_window_wide_square_detailed",
+		"name": "Wall Window Wide Square Detailed",
+		"category": "buildings/interior-walls",
+		"themes": [
+			"interior",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/wall-window-wide-square-detailed.glb",
+		"footprint": [
+			0.2,
+			4
+		],
+		"height": 2.4,
+		"placement": {
+			"mode": "grid",
+			"step": 2,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

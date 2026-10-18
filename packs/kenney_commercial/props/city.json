@@ -1,0 +1,134 @@
+[
+	{
+		"id": "detail_awning",
+		"name": "Detail Awning",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-awning.glb",
+		"footprint": [
+			3.6,
+			1.33
+		],
+		"height": 3.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_awning_wide",
+		"name": "Detail Awning Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-awning-wide.glb",
+		"footprint": [
+			7.2,
+			1.33
+		],
+		"height": 3.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_overhang",
+		"name": "Detail Overhang",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-overhang.glb",
+		"footprint": [
+			4.5,
+			1.8
+		],
+		"height": 3.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_overhang_wide",
+		"name": "Detail Overhang Wide",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-overhang-wide.glb",
+		"footprint": [
+			9,
+			1.8
+		],
+		"height": 3.6,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_parasol_a",
+		"name": "Detail Parasol A",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-parasol-a.glb",
+		"footprint": [
+			3.12,
+			3.6
+		],
+		"height": 4.05,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_parasol_b",
+		"name": "Detail Parasol B",
+		"category": "city/street",
+		"themes": [
+			"city",
+			"modern"
+		],
+		"tags": [],
+		"model": "models/detail-parasol-b.glb",
+		"footprint": [
+			3.12,
+			3.6
+		],
+		"height": 4.05,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

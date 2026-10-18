@@ -12,6 +12,9 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
 - Desktop from npm: `npm run desktop --prefix web`; `npm run package --prefix web` → unsigned folders in
   `web/desktop/out/` (macOS arm64/x64, Windows x64). Self-test: `web/node_modules/.bin/electron web/desktop
   --selftest=desktop` (exits 0/1).
+- Import third-party model packs (re-centered, measured, categorized; config in `web/tools/packs.config.mjs`):
+  `node web/tools/import-packs.mjs <dir of unzipped downloads> [pack id ...]`. The `library` self-test
+  checks every prop loads, is centered and matches its manifest size.
 - npm here skips install scripts, so after a fresh install run `node web/node_modules/electron/install.js`
   if `web/node_modules/electron/dist` is missing (the launcher does this).
 

@@ -1,0 +1,485 @@
+[
+	{
+		"id": "building_type_a",
+		"name": "Suburban House A",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-a.glb",
+		"footprint": [
+			10.4,
+			8.23
+		],
+		"height": 6.67,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_b",
+		"name": "Suburban House B",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-b.glb",
+		"footprint": [
+			14.62,
+			9.12
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_c",
+		"name": "Suburban House C",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-c.glb",
+		"footprint": [
+			10.29,
+			8.23
+		],
+		"height": 8.27,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_d",
+		"name": "Suburban House D",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-d.glb",
+		"footprint": [
+			14.05,
+			8.22
+		],
+		"height": 9.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_e",
+		"name": "Suburban House E",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-e.glb",
+		"footprint": [
+			10.4,
+			8.22
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_f",
+		"name": "Suburban House F",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-f.glb",
+		"footprint": [
+			11.42,
+			11.25
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_g",
+		"name": "Suburban House G",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-g.glb",
+		"footprint": [
+			11.6,
+			9.42
+		],
+		"height": 6.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_h",
+		"name": "Suburban House H",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-h.glb",
+		"footprint": [
+			10.4,
+			7.33
+		],
+		"height": 5.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_i",
+		"name": "Suburban House I",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-i.glb",
+		"footprint": [
+			10.29,
+			8.22
+		],
+		"height": 5.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_j",
+		"name": "Suburban House J",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-j.glb",
+		"footprint": [
+			10.96,
+			7.33
+		],
+		"height": 8.3,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_k",
+		"name": "Suburban House K",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-k.glb",
+		"footprint": [
+			7.37,
+			8.16
+		],
+		"height": 9.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_l",
+		"name": "Suburban House L",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-l.glb",
+		"footprint": [
+			8.27,
+			8.16
+		],
+		"height": 8.39,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_m",
+		"name": "Suburban House M",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-m.glb",
+		"footprint": [
+			11.42,
+			11.42
+		],
+		"height": 5.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_n",
+		"name": "Suburban House N",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-n.glb",
+		"footprint": [
+			14.27,
+			11.02
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_o",
+		"name": "Suburban House O",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-o.glb",
+		"footprint": [
+			10.16,
+			8.22
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_p",
+		"name": "Suburban House P",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-p.glb",
+		"footprint": [
+			9.92,
+			7.92
+		],
+		"height": 7.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_q",
+		"name": "Suburban House Q",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-q.glb",
+		"footprint": [
+			9.92,
+			7.08
+		],
+		"height": 7.34,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_r",
+		"name": "Suburban House R",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-r.glb",
+		"footprint": [
+			8.22,
+			8.16
+		],
+		"height": 9.13,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_s",
+		"name": "Suburban House S",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-s.glb",
+		"footprint": [
+			11.25,
+			8.69
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_t",
+		"name": "Suburban House T",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-t.glb",
+		"footprint": [
+			10.51,
+			11.25
+		],
+		"height": 9.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_type_u",
+		"name": "Suburban House U",
+		"category": "buildings/houses",
+		"themes": [
+			"suburban",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-type-u.glb",
+		"footprint": [
+			11.42,
+			8.7
+		],
+		"height": 9.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 1,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

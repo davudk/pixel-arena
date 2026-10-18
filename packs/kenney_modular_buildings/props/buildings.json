@@ -1,0 +1,2486 @@
+[
+	{
+		"id": "building_block",
+		"name": "Building Block",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-block.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner",
+		"name": "Building Corner",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_bottom",
+		"name": "Building Corner Bottom",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-bottom.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_top",
+		"name": "Building Corner Top",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-top.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window",
+		"name": "Building Corner Window",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window_middle",
+		"name": "Building Corner Window Middle",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window-middle.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window_narrow",
+		"name": "Building Corner Window Narrow",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window-narrow.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window_sill",
+		"name": "Building Corner Window Sill",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window-sill.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window_top_round",
+		"name": "Building Corner Window Top Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window-top-round.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_corner_window_top_square",
+		"name": "Building Corner Window Top Square",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-corner-window-top-square.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_door",
+		"name": "Building Door",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-door.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_door_window",
+		"name": "Building Door Window",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-door-window.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_door_window_narrow",
+		"name": "Building Door Window Narrow",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-door-window-narrow.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_edges_door",
+		"name": "Building Edges Door",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-edges-door.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_steps_narrow",
+		"name": "Building Steps Narrow",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-steps-narrow.glb",
+		"footprint": [
+			4,
+			4.8
+		],
+		"height": 3.35,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_steps_narrow_windows",
+		"name": "Building Steps Narrow Windows",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-steps-narrow-windows.glb",
+		"footprint": [
+			4,
+			4.8
+		],
+		"height": 3.35,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_steps_narrow_windows_round",
+		"name": "Building Steps Narrow Windows Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-steps-narrow-windows-round.glb",
+		"footprint": [
+			4,
+			4.8
+		],
+		"height": 3.35,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_steps_wide",
+		"name": "Building Steps Wide",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-steps-wide.glb",
+		"footprint": [
+			4,
+			4.8
+		],
+		"height": 3.35,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window",
+		"name": "Building Window",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_awnings",
+		"name": "Building Window Awnings",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-awnings.glb",
+		"footprint": [
+			4,
+			4.51
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_balcony",
+		"name": "Building Window Balcony",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-balcony.glb",
+		"footprint": [
+			4,
+			4.6
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_door_window",
+		"name": "Building Window Door Window",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-door-window.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_door_window_round",
+		"name": "Building Window Door Window Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-door-window-round.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_large",
+		"name": "Building Window Large",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-large.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_large_left",
+		"name": "Building Window Large Left",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-large-left.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_large_middle",
+		"name": "Building Window Large Middle",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-large-middle.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_large_right",
+		"name": "Building Window Large Right",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-large-right.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_left",
+		"name": "Building Window Left",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-left.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_left_sill",
+		"name": "Building Window Left Sill",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-left-sill.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_right",
+		"name": "Building Window Right",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-right.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_right_sill",
+		"name": "Building Window Right Sill",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-right-sill.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_sill",
+		"name": "Building Window Sill",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-sill.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_wide",
+		"name": "Building Window Wide",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-wide.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_window_wide_sill",
+		"name": "Building Window Wide Sill",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-window-wide-sill.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows",
+		"name": "Building Windows",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_high_middle",
+		"name": "Building Windows High Middle",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-high-middle.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_high_top_round",
+		"name": "Building Windows High Top Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-high-top-round.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_high_top_square",
+		"name": "Building Windows High Top Square",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-high-top-square.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_round",
+		"name": "Building Windows Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-round.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_sills",
+		"name": "Building Windows Sills",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-sills.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_windows_sills_round",
+		"name": "Building Windows Sills Round",
+		"category": "buildings/modular",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-windows-sills-round.glb",
+		"footprint": [
+			4,
+			4.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "detail_ac_a",
+		"name": "Detail Ac A",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/detail-ac-a.glb",
+		"footprint": [
+			0.96,
+			0.96
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "detail_ac_b",
+		"name": "Detail Ac B",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/detail-ac-b.glb",
+		"footprint": [
+			1.24,
+			0.5
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_brown",
+		"name": "Door Brown",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-brown.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_brown_glass",
+		"name": "Door Brown Glass",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-brown-glass.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_brown_window",
+		"name": "Door Brown Window",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-brown-window.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_white",
+		"name": "Door White",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-white.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_white_glass",
+		"name": "Door White Glass",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-white-glass.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "door_white_window",
+		"name": "Door White Window",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/door-white-window.glb",
+		"footprint": [
+			1,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown",
+		"name": "Window Brown",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_detailed",
+		"name": "Window Brown Detailed",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-detailed.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_large",
+		"name": "Window Brown Large",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-large.glb",
+		"footprint": [
+			1.5,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_narrow",
+		"name": "Window Brown Narrow",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-narrow.glb",
+		"footprint": [
+			0.75,
+			0.2
+		],
+		"height": 1.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_round_low",
+		"name": "Window Brown Round Low",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-round-low.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_round_middle",
+		"name": "Window Brown Round Middle",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-round-middle.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_round_narrow",
+		"name": "Window Brown Round Narrow",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-round-narrow.glb",
+		"footprint": [
+			0.75,
+			0.2
+		],
+		"height": 1.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_round_top",
+		"name": "Window Brown Round Top",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-round-top.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_round_wide",
+		"name": "Window Brown Round Wide",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-round-wide.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_tall",
+		"name": "Window Brown Tall",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-tall.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_brown_wide",
+		"name": "Window Brown Wide",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-brown-wide.glb",
+		"footprint": [
+			3,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white",
+		"name": "Window White",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_detailed",
+		"name": "Window White Detailed",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-detailed.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_large",
+		"name": "Window White Large",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-large.glb",
+		"footprint": [
+			1.5,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_narrow",
+		"name": "Window White Narrow",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-narrow.glb",
+		"footprint": [
+			0.75,
+			0.2
+		],
+		"height": 1.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_round_low",
+		"name": "Window White Round Low",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-round-low.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_round_middle",
+		"name": "Window White Round Middle",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-round-middle.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 2.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_round_narrow",
+		"name": "Window White Round Narrow",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-round-narrow.glb",
+		"footprint": [
+			0.75,
+			0.2
+		],
+		"height": 1.69,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_round_top",
+		"name": "Window White Round Top",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-round-top.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_round_wide",
+		"name": "Window White Round Wide",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-round-wide.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 1.86,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_tall",
+		"name": "Window White Tall",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-tall.glb",
+		"footprint": [
+			1.25,
+			0.2
+		],
+		"height": 2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "window_white_wide",
+		"name": "Window White Wide",
+		"category": "buildings/modular-details",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/window-white-wide.glb",
+		"footprint": [
+			3,
+			0.2
+		],
+		"height": 1.52,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.25,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_awning_a",
+		"name": "Roof Flat Awning A",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-awning-a.glb",
+		"footprint": [
+			4,
+			4.44
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_awning_b",
+		"name": "Roof Flat Awning B",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-awning-b.glb",
+		"footprint": [
+			4,
+			4.9
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_awning_c",
+		"name": "Roof Flat Awning C",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-awning-c.glb",
+		"footprint": [
+			4,
+			4.9
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_center",
+		"name": "Roof Flat Border Center",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-center.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_center_corner",
+		"name": "Roof Flat Border Center Corner",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-center-corner.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_corner",
+		"name": "Roof Flat Border Corner",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-corner.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_corner_slanted",
+		"name": "Roof Flat Border Corner Slanted",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-corner-slanted.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_corner_slanted_passage",
+		"name": "Roof Flat Border Corner Slanted Passage",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-corner-slanted-passage.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_end",
+		"name": "Roof Flat Border End",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-end.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_side",
+		"name": "Roof Flat Border Side",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-side.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_border_straight",
+		"name": "Roof Flat Border Straight",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-border-straight.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_center",
+		"name": "Roof Flat Center",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-center.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_corner",
+		"name": "Roof Flat Corner",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-corner.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_corner_high",
+		"name": "Roof Flat Corner High",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-corner-high.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_detail_a",
+		"name": "Roof Flat Detail A",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-detail-a.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_detail_b",
+		"name": "Roof Flat Detail B",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-detail-b.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_detail_c",
+		"name": "Roof Flat Detail C",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-detail-c.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_detail_d",
+		"name": "Roof Flat Detail D",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-detail-d.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_flat_top",
+		"name": "Roof Flat Top",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-flat-top.glb",
+		"footprint": [
+			4.4,
+			4.4
+		],
+		"height": 0.85,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable",
+		"name": "Roof Gable",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable.glb",
+		"footprint": [
+			4.37,
+			4
+		],
+		"height": 2.08,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable_corner",
+		"name": "Roof Gable Corner",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable-corner.glb",
+		"footprint": [
+			4.18,
+			4.18
+		],
+		"height": 2.08,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_gable_end",
+		"name": "Roof Gable End",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-gable-end.glb",
+		"footprint": [
+			4.37,
+			4
+		],
+		"height": 2.08,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted",
+		"name": "Roof Slanted",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted.glb",
+		"footprint": [
+			4,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_corner_a",
+		"name": "Roof Slanted Corner A",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-corner-a.glb",
+		"footprint": [
+			4.56,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_corner_b",
+		"name": "Roof Slanted Corner B",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-corner-b.glb",
+		"footprint": [
+			4.56,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_corner_c",
+		"name": "Roof Slanted Corner C",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-corner-c.glb",
+		"footprint": [
+			4.56,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_corner_inner",
+		"name": "Roof Slanted Corner Inner",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-corner-inner.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 2.9,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_detail",
+		"name": "Roof Slanted Detail",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-detail.glb",
+		"footprint": [
+			4,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_flat",
+		"name": "Roof Slanted Flat",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-flat.glb",
+		"footprint": [
+			4,
+			4
+		],
+		"height": 0.42,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "roof_slanted_window",
+		"name": "Roof Slanted Window",
+		"category": "buildings/modular-roofs",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/roof-slanted-window.glb",
+		"footprint": [
+			4,
+			4.56
+		],
+		"height": 3.13,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_a",
+		"name": "Building Sample House A",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-a.glb",
+		"footprint": [
+			4.38,
+			8
+		],
+		"height": 4.57,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_b",
+		"name": "Building Sample House B",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-b.glb",
+		"footprint": [
+			4.37,
+			8.8
+		],
+		"height": 7.93,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_c",
+		"name": "Building Sample House C",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-c.glb",
+		"footprint": [
+			8,
+			8.8
+		],
+		"height": 7.93,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_tower_a",
+		"name": "Building Sample Tower A",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-tower-a.glb",
+		"footprint": [
+			4.4,
+			5
+		],
+		"height": 10,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_tower_b",
+		"name": "Building Sample Tower B",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-tower-b.glb",
+		"footprint": [
+			4.4,
+			5
+		],
+		"height": 7.55,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_tower_c",
+		"name": "Building Sample Tower C",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-tower-c.glb",
+		"footprint": [
+			4.4,
+			5.1
+		],
+		"height": 12.55,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_tower_d",
+		"name": "Building Sample Tower D",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-tower-d.glb",
+		"footprint": [
+			4.4,
+			4.4
+		],
+		"height": 15.05,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

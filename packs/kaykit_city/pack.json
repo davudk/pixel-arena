@@ -1,0 +1,12 @@
+{
+	"id": "kaykit_city",
+	"name": "City Builder Bits",
+	"version": "1.0",
+	"scale": 4,
+	"attribution": {
+		"author": "Kay Lousberg (KayKit)",
+		"source_url": "https://kaylousberg.itch.io/city-builder-bits",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

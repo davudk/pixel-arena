@@ -1,0 +1,163 @@
+[
+	{
+		"id": "base",
+		"name": "Base",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/base.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_corner",
+		"name": "Road Corner",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-corner.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_corner_curved",
+		"name": "Road Corner Curved",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-corner-curved.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_junction",
+		"name": "Road Junction",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-junction.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight",
+		"name": "Road Straight",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-straight.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_straight_crossing",
+		"name": "Road Straight Crossing",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-straight-crossing.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "road_tsplit",
+		"name": "Road Tsplit",
+		"category": "terrain/roads",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/road-tsplit.gltf",
+		"footprint": [
+			8,
+			8
+		],
+		"height": 0.4,
+		"placement": {
+			"mode": "grid",
+			"step": 8,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	}
+]

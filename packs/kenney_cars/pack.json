@@ -1,0 +1,12 @@
+{
+	"id": "kenney_cars",
+	"name": "Car Kit",
+	"version": "3.0",
+	"scale": 1.2,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/car-kit",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

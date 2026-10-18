@@ -1,0 +1,12 @@
+{
+	"id": "kenney_commercial",
+	"name": "City Kit (Commercial)",
+	"version": "2.1",
+	"scale": 9,
+	"attribution": {
+		"author": "Kenney",
+		"source_url": "https://kenney.nl/assets/city-kit-commercial",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

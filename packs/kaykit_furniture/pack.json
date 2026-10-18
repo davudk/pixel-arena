@@ -1,0 +1,12 @@
+{
+	"id": "kaykit_furniture",
+	"name": "Furniture Bits",
+	"version": "1.0",
+	"scale": 0.65,
+	"attribution": {
+		"author": "Kay Lousberg (KayKit)",
+		"source_url": "https://kaylousberg.itch.io/furniture-bits",
+		"license": "CC0-1.0",
+		"license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+	}
+}

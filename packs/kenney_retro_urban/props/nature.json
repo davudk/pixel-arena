@@ -1,0 +1,163 @@
+[
+	{
+		"id": "tree_large",
+		"name": "Tree Large",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-large.glb",
+		"footprint": [
+			3.9,
+			3.9
+		],
+		"height": 5.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_park_large",
+		"name": "Tree Park Large",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-park-large.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 4.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_park_pine_large",
+		"name": "Tree Park Pine Large",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-park-pine-large.glb",
+		"footprint": [
+			3.12,
+			3.12
+		],
+		"height": 4.38,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_large",
+		"name": "Tree Pine Large",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-pine-large.glb",
+		"footprint": [
+			3.9,
+			3.9
+		],
+		"height": 5.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_pine_small",
+		"name": "Tree Pine Small",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-pine-small.glb",
+		"footprint": [
+			2.1,
+			2.1
+		],
+		"height": 1.2,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_shrub",
+		"name": "Tree Shrub",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-shrub.glb",
+		"footprint": [
+			2.34,
+			2.34
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "tree_small",
+		"name": "Tree Small",
+		"category": "nature/trees",
+		"themes": [
+			"city",
+			"retro",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/tree-small.glb",
+		"footprint": [
+			2.34,
+			2.34
+		],
+		"height": 0.9,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]

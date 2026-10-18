@@ -1,0 +1,376 @@
+[
+	{
+		"id": "chimney_basic",
+		"name": "Chimney Basic",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/chimney-basic.glb",
+		"footprint": [
+			2,
+			2
+		],
+		"height": 10,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chimney_large",
+		"name": "Chimney Large",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/chimney-large.glb",
+		"footprint": [
+			10.8,
+			10.8
+		],
+		"height": 17,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chimney_medium",
+		"name": "Chimney Medium",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/chimney-medium.glb",
+		"footprint": [
+			4.5,
+			4.5
+		],
+		"height": 19.25,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "chimney_small",
+		"name": "Chimney Small",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/chimney-small.glb",
+		"footprint": [
+			3,
+			3
+		],
+		"height": 7.5,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_tank",
+		"name": "Detail Tank",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-tank.glb",
+		"footprint": [
+			8.48,
+			5.15
+		],
+		"height": 4.15,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "detail_tank_large",
+		"name": "Detail Tank Large",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/detail-tank-large.glb",
+		"footprint": [
+			15.08,
+			16.48
+		],
+		"height": 9.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shipping_container_a",
+		"name": "Shipping Container A",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/shipping-container-a.glb",
+		"footprint": [
+			3.73,
+			8.23
+		],
+		"height": 3.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shipping_container_b",
+		"name": "Shipping Container B",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/shipping-container-b.glb",
+		"footprint": [
+			3.73,
+			8.23
+		],
+		"height": 3.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "shipping_container_c",
+		"name": "Shipping Container C",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/shipping-container-c.glb",
+		"footprint": [
+			3.73,
+			8.23
+		],
+		"height": 3.48,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "solar_panel_flat",
+		"name": "Solar Panel Flat",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/solar-panel-flat.glb",
+		"footprint": [
+			4.18,
+			7.13
+		],
+		"height": 0.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "solar_panel_landscape",
+		"name": "Solar Panel Landscape",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/solar-panel-landscape.glb",
+		"footprint": [
+			7.13,
+			3.95
+		],
+		"height": 2.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "solar_panel_landscape_group",
+		"name": "Solar Panel Landscape Group",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/solar-panel-landscape-group.glb",
+		"footprint": [
+			15.13,
+			8.95
+		],
+		"height": 2.62,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "solar_panel_portrait",
+		"name": "Solar Panel Portrait",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/solar-panel-portrait.glb",
+		"footprint": [
+			4.18,
+			6.49
+		],
+		"height": 4.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "solar_panel_portrait_group",
+		"name": "Solar Panel Portrait Group",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/solar-panel-portrait-group.glb",
+		"footprint": [
+			9.18,
+			12.49
+		],
+		"height": 4.1,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "water_tower",
+		"name": "Water Tower",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/water-tower.glb",
+		"footprint": [
+			8.52,
+			8.32
+		],
+		"height": 21.42,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "windmill",
+		"name": "Windmill",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/windmill.glb",
+		"footprint": [
+			6.05,
+			11.27
+		],
+		"height": 23.14,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	},
+	{
+		"id": "windmill_low",
+		"name": "Windmill Low",
+		"category": "city/industrial",
+		"themes": [
+			"city",
+			"industrial"
+		],
+		"tags": [],
+		"model": "models/windmill-low.glb",
+		"footprint": [
+			6.05,
+			11.27
+		],
+		"height": 17.94,
+		"placement": {
+			"mode": "subgrid",
+			"step": 0.5,
+			"align": "ground",
+			"rotate_snap_deg": 15
+		}
+	}
+]
