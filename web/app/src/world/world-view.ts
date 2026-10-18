@@ -30,8 +30,9 @@ const HIGHLIGHT = new THREE.ShaderMaterial({
     uniform vec3 color;
     varying vec3 vNormal;
     void main() {
+      // Edge light only (the ring or outline under it marks the selection; selection-marks.ts).
       float rim = pow(1.0 - clamp(abs(vNormal.z), 0.0, 1.0), 2.0);
-      gl_FragColor = vec4(color * (0.5 + rim * 0.8), 1.0);
+      gl_FragColor = vec4(color * (0.06 + rim * 0.7), 1.0);
     }`,
   blending: THREE.AdditiveBlending,
   transparent: true, // draw after the opaque objects it sits on
@@ -77,6 +78,7 @@ export class WorldView {
   readonly highlightRoot = new THREE.Group()
 
   constructor(private library: Library) {
+    this.highlightRoot.userData.overlay = true // not in exports
     this.root.add(this.highlightRoot)
   }
 

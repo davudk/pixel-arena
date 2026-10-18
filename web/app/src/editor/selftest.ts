@@ -688,14 +688,32 @@ async function liquidsTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(v && Math.abs(v.length() - 1.5) < 1e-6, `flowing at 1.5 m/s (${v?.length()})`)
   editor.selection.set([pond.id])
   await settle()
-  const right = document.querySelector<HTMLButtonElement>('.selection-box [aria-label="Flow toward right on screen"]')
-  check(right, 'direction arrows shown while flowing')
-  right?.click()
+  const dial = document.querySelector<SVGSVGElement>('.selection-box svg[aria-label="Flow direction"]')
+  check(dial, 'direction dial shown while flowing')
+  if (dial) {
+    // Click the dial's right edge: toward screen right, whichever way the view is turned.
+    const r = dial.getBoundingClientRect()
+    const at = { clientX: r.right - 2, clientY: r.top + r.height / 2, bubbles: true, pointerId: 1 }
+    dial.dispatchEvent(new PointerEvent('pointerdown', at))
+    dial.dispatchEvent(new PointerEvent('pointerup', at))
+  }
   await settle()
   const w = flowOf()
   // Screen right on the ground, for the view's yaw.
   const sr = new THREE.Vector2(Math.cos(rig.yaw), -Math.sin(rig.yaw))
-  check(w && w.clone().normalize().dot(sr) > 0.99, `"→" flows toward screen right (${w?.x.toFixed(2)}, ${w?.y.toFixed(2)})`)
+  check(w && w.clone().normalize().dot(sr) > 0.96, `the dial's right edge flows toward screen right (${w?.x.toFixed(2)}, ${w?.y.toFixed(2)})`)
+  // Facing: the dial sets the rotation (0 faces south, 180).
+  const facing = document.querySelector<HTMLInputElement>('.selection-box input[aria-label="Facing in degrees"]')
+  check(facing?.value === '180', `rotation 0 faces south (${facing?.value})`)
+  if (facing) {
+    facing.value = '90'
+    facing.dispatchEvent(new Event('change', { bubbles: true }))
+  }
+  await settle()
+  const yaw = Number(s.doc.getProp(pond.id, 'rotation') ?? 0)
+  check(Math.abs(((yaw * 180) / Math.PI + 360) % 360 - 90) < 0.5, `facing east turns the body to 90° (${((yaw * 180) / Math.PI).toFixed(1)})`)
+  // Flow is kept in the body's frame, so turning the body by 90° turns the current with it.
+  check(Math.abs(flowOf()!.clone().normalize().dot(w!.clone().normalize())) < 0.05, 'flow turns with the body')
   await desktop?.test?.capture('liquids-flow.png')
 }
 
@@ -833,7 +851,41 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
     editor.selection.set([building.id])
     await settle()
     check($('.selection-box .seg[aria-label="Roof"]'), 'selection: roof of the building')
+    ui.showStats = true
+    await settle()
+    const stats = $('.stats')?.getBoundingClientRect()
+    const box = $('.selection-box')?.getBoundingClientRect()
+    check(stats && box && stats.bottom <= box.top, `stats line clear of Selection (${stats?.bottom} / ${box?.top})`)
+    // A selected building is outlined on the ground; focusing X shows the axes, X bright.
+    check(editor.marks.root.children.length === 1, `building outlined (${editor.marks.root.children.length})`)
+    // (A background test window gets no focus events from .focus(): send them.)
+    $<HTMLInputElement>('input[aria-label="Position X"]')?.dispatchEvent(new FocusEvent('focus'))
+    await settle()
+    const axes = editor.scene.children.find((o) => o.renderOrder === 20 && o.userData.overlay)
+    check(axes && axes.children.length >= 8 && $$('.axis-letter').length === 3, `axes shown while editing X (${axes?.children.length}, ${$$('.axis-letter').length} letters)`)
     await shot('selection')
+    const bp = building.props.get('position') as Vec3
+    editor.rig.focus.set(bp.x, 0, bp.z)
+    editor.rig.zoom = 26
+    await settle()
+    await shot('axes')
+    $<HTMLInputElement>('input[aria-label="Position X"]')?.dispatchEvent(new FocusEvent('blur'))
+    // A prop gets a ring around its base.
+    const tree = [...editor.session.doc.objects.values()].find((o) => !o.deleted && o.type === 'prop' && String(o.props.get('prop')).includes('tree'))
+    if (tree) {
+      editor.selection.set([tree.id])
+      const tp = tree.props.get('position') as Vec3
+      editor.rig.focus.set(tp.x, 0, tp.z)
+      editor.rig.zoom = 14
+      await settle()
+      check(editor.marks.root.children.length === 1, 'prop ringed')
+      await shot('ring')
+      editor.selection.set([building.id])
+      await settle()
+    }
+    await settle()
+    check(axes?.children.length === 0 && $$('.axis-letter').length === 0, 'axes hidden after editing')
+    ui.showStats = false
     editor.selection.clear()
     await settle()
     check(!$('.selection-box'), 'selection container hidden with nothing selected')

@@ -8,7 +8,9 @@ import type { Library } from '../library/library'
 import type { Thumbnails } from '../library/thumbs'
 import type { CameraRig, PixelRenderer } from '../render/pixel'
 import type { WorldView } from '../world/world-view'
+import { AxesGizmo } from './axes-gizmo'
 import { Selection } from './selection'
+import { SelectionMarks } from './selection-marks'
 
 /** Pointer position in CSS pixels relative to the canvas, plus modifiers. */
 export interface Pointer {
@@ -62,6 +64,10 @@ export class Editor {
   /** Creates the tool to return to (the select tool; set by the app to avoid an import cycle). */
   defaultTool: () => Tool = () => idleTool
   cursor: Pointer = { x: 0, y: 0, shift: false, alt: false, cmd: false }
+  /** Rings / outlines under the selection (selection-marks.ts). */
+  readonly marks: SelectionMarks
+  /** X / Y / Z axes while a position field is being edited (axes-gizmo.ts). */
+  readonly axes: AxesGizmo
   private raycaster = new THREE.Raycaster()
 
   constructor(
@@ -75,6 +81,8 @@ export class Editor {
   ) {
     this.selection.changed.connect(() => world.setHighlights(this.selection.list()))
     this.selection.bind(session.doc)
+    this.marks = new SelectionMarks(this)
+    this.axes = new AxesGizmo(this)
   }
 
   setSession(s: MapSession) {

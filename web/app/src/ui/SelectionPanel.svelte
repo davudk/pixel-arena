@@ -1,7 +1,7 @@
 <script lang="ts">
   // The selected object's properties as rows (label column + one control): name, position
-  // (X / Y / Z in one row; descendants move with it), rotation, and what its type has: a
-  // building's kit and roof, a body of water's liquid. Several objects: their count. This is
+  // (X / Y / Z in one row; descendants move with it), the way it faces (a dial), and what its
+  // type has: a building's kit and roof, a body of water's liquid and flow (speed and a dial). Several objects: their count. This is
   // the one place existing objects are edited; the mode panels only hold tools.
   import { onDestroy } from 'svelte'
   import { Vec3, type MapSession } from '@pixel-arena/core'
@@ -10,14 +10,17 @@
   import { rename } from '../editor/grouping'
   import { objectName } from '../editor/labels'
   import { liquid, LIQUIDS } from '../world/liquids'
-  import Icon from './Icon.svelte'
+  import DirectionDial from './DirectionDial.svelte'
+  import { AXIS_COLORS } from '../editor/axes-gizmo'
 
   interface Props {
     editor: Editor
     /** The select tool (switching to it if needed) for running an action. */
     selectTool: () => SelectTool
+    /** The view's yaw (radians), so direction dials turn with it. */
+    viewYaw: number
   }
-  let { editor, selectTool }: Props = $props()
+  let { editor, selectTool, viewYaw }: Props = $props()
 
   let rev = $state(0)
   let offDoc = () => {}
@@ -31,6 +34,7 @@
   onDestroy(() => {
     offDoc()
     offs.forEach((f) => f())
+    editor.axes.hide()
   })
 
   const ROOFS: [string, string][] = [['gable', 'Gable'], ['hip', 'Hip'], ['flat', 'Flat'], ['none', 'None']]
@@ -74,34 +78,27 @@
     if (Math.abs(delta) > 1e-6) selectTool().rotateSelectionBy((delta * Math.PI) / 180)
   }
 
-  // Flow direction as eight arrows relative to the view ("↑" runs up the screen), stored in the
-  // body's own frame (degrees; see world/water.ts).
-  const ARROWS = [0, 1, 2, 3, 4, 5, 6, 7]
-  /** World x / z of screen arrow i (0 = up, clockwise in 45° steps) for the current view. */
-  function arrowWorld(i: number): [number, number] {
-    const yaw = editor.rig.yaw
-    const a = (i * Math.PI) / 4
-    const up = [-Math.sin(yaw), -Math.cos(yaw)]
-    const right = [Math.cos(yaw), -Math.sin(yaw)]
-    return [up[0] * Math.cos(a) + right[0] * Math.sin(a), up[1] * Math.cos(a) + right[1] * Math.sin(a)]
+  // Directions as compass bearings (degrees clockwise from north, which is -Z), shown on dials
+  // turned like the view (DirectionDial). A rotation is the way the object faces: at rotation 0
+  // its front (+Z) faces south. Flow is stored in the body's own frame (world/water.ts).
+  const rad = (d: number) => (d * Math.PI) / 180
+  const deg = (r: number) => (r * 180) / Math.PI
+  const norm = (d: number) => ((d % 360) + 360) % 360
+  const facing = (rotationDeg: number) => norm(180 - rotationDeg)
+  function setFacing(bearing: number) {
+    const s = info.single
+    if (s) setRotation(String(norm(180 - bearing)))
   }
-  /** The arrow nearest the body's flow, for the current view. */
-  function currentArrow(flowDir: number, objYaw: number): number {
-    const w = (flowDir * Math.PI) / 180 - objYaw
-    let best = 0, bestDot = -2
-    for (const i of ARROWS) {
-      const [x, z] = arrowWorld(i)
-      const d = x * Math.cos(w) + z * Math.sin(w)
-      if (d > bestDot) [best, bestDot] = [i, d]
-    }
-    return best
+  /** World bearing of a body's flow. */
+  const flowBearing = (flowDir: number, objYaw: number) => {
+    const w = rad(flowDir) - objYaw
+    return norm(deg(Math.atan2(Math.cos(w), -Math.sin(w))))
   }
-  function setFlowArrow(i: number) {
+  function setFlowBearing(bearing: number) {
     const s = info.single
     if (!s) return
-    const [x, z] = arrowWorld(i)
-    const deg = Math.round((((Math.atan2(z, x) + s.yaw) * 180) / Math.PI + 360) % 360)
-    setValue('Change flow direction', 'flow_dir', deg)
+    const w = Math.atan2(-Math.cos(rad(bearing)), Math.sin(rad(bearing)))
+    setValue('Change flow direction', 'flow_dir', Math.round(norm(deg(w + s.yaw)) * 100) / 100)
   }
   /** Speed shown while dragging; committed as one edit on release. */
   let flowDraft: number | null = $state(null)
@@ -137,13 +134,15 @@
     <div class="field stack"><span class="label">Position</span>
       <div class="vector">
         {#each ['x', 'y', 'z'] as const as a (a)}
-          <label>{a.toUpperCase()}<input class="input" type="number" step="0.25" value={fmt(s[a])} onchange={commit((v) => setAxis(a, v))} onkeydown={enter} /></label>
+          <label><span class="axis" style:color={AXIS_COLORS[a]}>{a.toUpperCase()}</span><input class="input" type="number" step="0.25" value={fmt(s[a])} aria-label="Position {a.toUpperCase()}"
+            onfocus={() => editor.axes.show(s.id, a)} onblur={() => editor.axes.hide()}
+            onchange={commit((v) => { setAxis(a, v); editor.axes.refresh() })} onkeydown={enter} /></label>
         {/each}
       </div>
     </div>
-    <label class="field"><span class="label">Rotation</span>
-      <input class="input num" type="number" step="15" value={fmt(s.deg)} onchange={commit(setRotation)} onkeydown={enter} />
-    </label>
+    <div class="field"><span class="label">Facing</span>
+      <DirectionDial label="Facing" value={facing(s.deg)} {viewYaw} onchange={setFacing} />
+    </div>
     {#if s.type === 'building'}
       <label class="field"><span class="label">Kit</span>
         <select value={s.kit} onchange={commit((v) => setProp('Change kit', 'kit', v))}>
@@ -173,14 +172,8 @@
         </div>
       </div>
       {#if speed > 0}
-        {@const on = currentArrow(s.flowDir, s.yaw)}
         <div class="field sub"><span class="label">Direction</span>
-          <div class="seg arrows" role="group" aria-label="Flow direction">
-            {#each ARROWS as i (i)}
-              <button class:on={on === i} aria-pressed={on === i} aria-label="Flow toward {['up', 'up right', 'right', 'down right', 'down', 'down left', 'left', 'up left'][i]} on screen"
-                onclick={() => setFlowArrow(i)}><span class="arrow" style:transform="rotate({i * 45}deg)"><Icon name="up" size={13} /></span></button>
-            {/each}
-          </div>
+          <DirectionDial label="Flow direction" value={flowBearing(s.flowDir, s.yaw)} {viewYaw} onchange={setFlowBearing} />
         </div>
       {/if}
     {/if}
@@ -191,8 +184,7 @@
 
 <style>
   .rows { display: flex; flex-direction: column; gap: 6px; }
-  .num { font-variant-numeric: tabular-nums; }
+  .axis { font-weight: 700; }
   .readout { flex: 1; text-align: right; font-variant-numeric: tabular-nums; }
-  .arrows button { padding: 4px 0; }
-  .arrow { display: inline-flex; }
+
 </style>

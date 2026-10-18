@@ -30,6 +30,10 @@ let clipboard: Snapshot[] = []
 export class SelectTool implements Tool {
   readonly name = 'select'
   private mode: Mode = 'none'
+  /** A drag is moving the selection (the app shows the grid meanwhile). */
+  get dragging(): boolean {
+    return this.mode === 'move'
+  }
   private pressAt: Pointer | null = null
   private pressHit: string | null = null
   // Move state

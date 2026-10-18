@@ -123,12 +123,16 @@
    *  else makes room for it. */
   const rightSpace = 0
   const BAR_H = 44
+  /** The performance stats line under the top bar (Selection goes below it while shown). */
+  const STATS_H = 28
   /** Width of the bottom row's left zone, and the bottom row's height (hotbar placement). */
   let leftZone = $state(0)
   let bottomRow = $state(0)
   /** Too little room left of the bottom bar for a couple of cards: the hotbar gets its own row. */
   const hotbarAbove = $derived(leftZone - leftSpace - GAP < 140)
 
+  /** The view's grid setting (the grid also shows while moving things). */
+  let gridSetting = true
   let pixel: PixelRenderer
   let rig: CameraRig
   let walk: WalkCamera
@@ -156,7 +160,7 @@
     pixel.pixelSize = Number(o.pixel_size)
     pixel.pass.applyFilter(o)
     resize()
-    showGrid.value = Boolean(settings.get('grid'))
+    gridSetting = Boolean(settings.get('grid'))
     day.mode = settings.get('time_mode') === 'cycle' ? 'cycle' : 'fixed'
     day.dayLength = Number(settings.get('day_length'))
     // Only jump the clock when the time setting itself changed, so a running cycle isn't reset.
@@ -878,6 +882,9 @@
       terrain.flush()
       world?.update(dt, walking ? walk.camera : rig.camera)
       if (!walking) editor?.tool.update?.(dt)
+      editor?.axes.update()
+      // The grid shows while dragging something to move it, even when it's switched off.
+      showGrid.value = gridSetting || (editor?.tool as { dragging?: boolean } | undefined)?.dragging === true
       // New buildings start on whole cells of the kit, so the grid shows them while building.
       gridUniforms.cellSize.value = !walking && activeTool === 'build' ? (editor?.library.kits.get(toolParams.build.kit)?.cellSize ?? 0) : 0
       editor?.thumbnails.tick()
@@ -1031,12 +1038,13 @@
     </Popover>
   {/if}
 
-  <!-- Right of the map, under the top bar: Selection, only while something is selected. -->
+  <!-- Right of the map, under the top bar (and the stats line when shown): Selection, only while
+       something is selected. -->
   {#if !ui.rightHidden && editorReady && editor && selected}
-    <div class="right-stack" style:top="{GAP + BAR_H + GAP}px" style:width="{ui.rightWidth}px">
+    <div class="right-stack" style:top="{GAP + BAR_H + GAP + (ui.showStats ? STATS_H + GAP : 0)}px" style:width="{ui.rightWidth}px">
       <div class="box selection-box">
         <Section title="Selection" bind:open={ui.sections.selection} badge={String(selected)}>
-          <SelectionPanel {editor} {selectTool} />
+          <SelectionPanel {editor} {selectTool} viewYaw={compassYaw} />
         </Section>
       </div>
       <Resizer side="right" bind:width={ui.rightWidth} min={240} max={520} initial={280} />

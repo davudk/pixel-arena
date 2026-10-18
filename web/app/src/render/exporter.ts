@@ -204,7 +204,14 @@ export class Exporter {
     this.day.follow(center, Math.max(halfW, halfH) * 1.2)
     if (this.output.width !== w || this.output.height !== h) this.output.setSize(w, h)
     this.pass.applyFilter(filter)
+    // Editor overlays (selection glow and marks, axes; userData.overlay) stay out of exports.
+    const hidden: THREE.Object3D[] = []
+    this.scene.traverse((o) => {
+      if (o.userData.overlay && o.visible) hidden.push(o)
+    })
+    hidden.forEach((o) => (o.visible = false))
     this.pass.render(this.scene, cam, low, new THREE.Vector2(w, h), px, new THREE.Vector2(0, 0), this.output)
+    hidden.forEach((o) => (o.visible = true))
     const pixels = new Uint8ClampedArray(w * h * 4)
     this.renderer.readRenderTargetPixels(this.output, 0, 0, w, h, pixels)
     // WebGL rows are bottom-up; images are top-down.

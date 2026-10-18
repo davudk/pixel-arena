@@ -31,6 +31,7 @@ styles live in `web/app/src/app.css`; tool settings are drawn from the registry 
 | …one of many, or from data | Select | `select` |
 | …a whole number with steps | − value + | `ParamDef kind: 'stepper'` |
 | …X / Y / Z | Vector field (label above: the control is a grid) | `.field.stack` + `.vector` |
+| …a direction on the map | Dial turned like the view (red N matches the corner compass) plus the bearing in degrees, absolute (0 = north) | `ui/DirectionDial.svelte` |
 | Things already in the map | List rows: picture, name, details on the right; actions on hover | `.list-row` |
 | An action | Icon button in a heading row, or up to three equal buttons; more go in a … menu | `.heading-row`, `.action-bar`, `.menu-list` |
 
