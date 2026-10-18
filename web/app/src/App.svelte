@@ -9,7 +9,7 @@
   // page load only and aren't saved), cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select|terrain|building|branches|filters|export|gestures|camera|desktop (drives the tools end to end, writes shots/selftest-<name>.json),
+  // selftest=place|select|terrain|building|branches|filters|export|gestures|camera|panels|materials|desktop (drives the tools end to end, writes shots/selftest-<name>.json),
   // tool=select|terrain|water|building (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
@@ -22,7 +22,7 @@
   import { DayCycle } from './render/day-cycle'
   import { Ground } from './render/ground'
   import { TerrainView } from './render/terrain-view'
-  import { showGrid } from './render/terrain-shading'
+  import { loadTerrainMaterials, showGrid } from './render/terrain-shading'
   import { ViewSettings } from './render/view-settings'
   import ViewPanel from './ui/ViewPanel.svelte'
   import Popover from './ui/Popover.svelte'
@@ -341,6 +341,12 @@
     else if (cmd === 'save') save()
     else if (cmd === 'saveAs') saveAs()
     else if (cmd === 'export') exportOpen = true
+    else if (cmd === 'grid') toggleGrid()
+  }
+
+  /** Grid on / off for this viewer (⌘' / Ctrl+', like Photoshop; ⌘G is Group). */
+  function toggleGrid() {
+    settings.setOverride('grid', !settings.get('grid'))
   }
 
   function undo() {
@@ -636,6 +642,12 @@
       e.preventDefault()
       return
     }
+    // Grid: in the desktop app its View menu item owns the shortcut (a toggle must not run twice).
+    if (cmd && e.key === "'" && !desktop) {
+      toggleGrid()
+      e.preventDefault()
+      return
+    }
     if (cmd && e.shiftKey && k === 'h') {
       historyOpen = !historyOpen
       e.preventDefault()
@@ -777,6 +789,7 @@
     ro.observe(canvas)
 
     Library.load().then(async (lib) => {
+      await loadTerrainMaterials(lib.terrain)
       world = new WorldView(lib)
       scene.add(world.root)
       world.setCutaway(cutaway)

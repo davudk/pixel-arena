@@ -10,7 +10,7 @@ styles live in `web/app/src/app.css`; tool settings are drawn from the registry 
 - **Rail** (left edge): the modes. Clicking the active mode collapses its catalogue.
 - **Tools container** (left, top): what you're holding and how. It is hidden in Select mode. With the
   catalogue collapsed, it is shown only while a tool is in hand.
-- **Catalogue** (left, below, 8 px apart): what you can apply, and what of it is already in the map.
+- **Catalogue** (left, below, 8 px apart): what you can apply.
 - **Selection** (right, under the top bar): the selected object's properties. It is shown only while
   something is selected, and it is the only place existing objects are edited.
 - **Top bar**: file, undo and redo, History (dialog), Walk, View (popover). There are no panel
@@ -42,8 +42,8 @@ numbers), radios, more than one grid style in a section.
 1. **Tools container:** tool switch, then the current-tool card (picture, name, kind; ≡ menu with
    saved-tool actions, × puts the tool down), then the settings, in registry order, then saved tools
    in one scrolling row.
-2. **Catalogue:** what you apply (headed by its noun: Effect, Material, Liquid, Piece, Kit), then
-   "In this map" lists.
+2. **Catalogue:** what you apply (headed by its noun: Effect, Material, Liquid, Piece, Kit).
+   What is already in the map is found in Select mode's outliner, not in the mode panels.
 3. **Object properties** (kit, roof, liquid, name, position) only in Selection.
 
 Settings show for the tool in hand, or the mode's last tool when nothing is in hand, so it can be set

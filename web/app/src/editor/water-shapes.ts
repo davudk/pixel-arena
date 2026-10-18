@@ -15,6 +15,14 @@ import * as clipping from 'polygon-clipping'
 import type { MultiPolygon, Ring } from 'polygon-clipping'
 import { PackedVec2Array, Rect2i, terrainEdit, Vec2, Vec3, type MapDocument, type MapObject, type MapSession, type Value } from '@pixel-arena/core'
 
+/** The bodies a water tool's last stroke or outline ended up in (the tools stay in hand rather
+ *  than selecting them). */
+export const lastWaterAdded = { ids: [] as string[] }
+
+export function noteWaterAdded(ids: string[]) {
+  lastWaterAdded.ids = ids
+}
+
 export type { MultiPolygon, Ring }
 type TerrainOp = ReturnType<typeof terrainEdit.heightOps>[number]
 

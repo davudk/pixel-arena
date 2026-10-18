@@ -14,6 +14,7 @@ import { drawLabel, opName, pieceName } from './labels'
 import { LIQUIDS } from '../world/liquids'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
+import { PaintPolygonTool } from './paint-polygon-tool'
 import { TerrainTool } from './terrain-tool'
 import { MAX_LEVEL, params, setParams, type ParamTool, type ToolParams } from './tool-params'
 import { WaterTool } from './water-tool'
@@ -122,11 +123,17 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     create: (editor) => new TerrainTool(editor, 'sculpt'),
     describe: (p) => `${opName(p.op as ToolParams['sculpt']['op'])} · ${meters(Number(p.radius))} · ${percent(Number(p.strength))}`,
   },
+  // Paint: a round brush, or a polygon outline filled when it closes (PaintPolygonTool).
   paint: {
-    id: 'paint', mode: 'terrain', label: 'Paint', icon: 'brush', saveable: true,
-    params: [{ key: 'material', label: 'Material', kind: 'material' }, RADIUS],
-    create: (editor) => new TerrainTool(editor, 'paint'),
-    describe: (p) => `Paint ${PALETTE[Number(p.material)]?.name ?? ''} · ${meters(Number(p.radius))}`,
+    id: 'paint', mode: 'terrain', label: 'Paint', icon: 'brush', saveable: true, recreateOn: ['shape'],
+    params: [
+      { key: 'material', label: 'Material', kind: 'material' },
+      { key: 'shape', label: 'Shape', kind: 'choice', options: [SHAPES[1], SHAPES[0]], detail: true },
+      { ...RADIUS, applies: (p) => p.shape !== 'polygon', hide: true },
+      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', applies: (p) => p.shape === 'polygon', hide: true },
+    ],
+    create: (editor) => (params.paint.shape === 'polygon' ? new PaintPolygonTool(editor) : new TerrainTool(editor, 'paint')),
+    describe: (p) => `Paint ${PALETTE[Number(p.material)]?.name ?? ''} · ${p.shape === 'polygon' ? 'polygon' : meters(Number(p.radius))}`,
   },
   // Water: Draw and Erase, each by polygon outline or round brush (the `shape` setting picks the
   // implementation: WaterTool or WaterBrushTool).

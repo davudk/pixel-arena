@@ -68,7 +68,8 @@ export class TerrainView {
       const mat = terrainMaterial(
         'uniform sampler2D uMaterials;\nuniform vec2 uChunkOrigin;',
         // Dithered transitions: pick one of the four surrounding cells with probability = its
-        // bilinear weight, in 25 cm blocks; steep slopes turn to the cliff material.
+        // bilinear weight, in 25 cm blocks (built surfaces keep crisp cell edges); steep slopes
+        // turn to the cliff material.
         `vec2 u = vWorld.xz - uChunkOrigin - 0.5;
 ivec2 c = ivec2(floor(u));
 vec2 f = fract(u);
@@ -77,9 +78,12 @@ float w00 = (1.0 - f.x) * (1.0 - f.y), w10 = f.x * (1.0 - f.y), w01 = (1.0 - f.x
 ivec2 pick = c + ivec2(1, 1);
 if (r < w00) pick = c; else if (r < w00 + w10) pick = c + ivec2(1, 0); else if (r < w00 + w10 + w01) pick = c + ivec2(0, 1);
 int m = int(texelFetch(uMaterials, pick + ivec2(1), 0).r * 255.0 + 0.5);
-base = paletteColor(m);
+// Built surfaces keep crisp cell edges: inside one, or where the dither would spill one out.
+int own = int(texelFetch(uMaterials, ivec2(floor(vWorld.xz - uChunkOrigin)) + ivec2(1), 0).r * 255.0 + 0.5);
+if (hardEdged(own) || hardEdged(m)) m = own;
+base = materialColor(m, vWorld.xz, dxz, dyz);
 float steep = 1.0 - smoothstep(0.55, 0.7, vWorldNormal.y);
-if (hash12(floor(vWorld.xz * 4.0) + 17.0) < steep) base = paletteColor(${CLIFF});`,
+if (hash12(floor(vWorld.xz * 4.0) + 17.0) < steep) base = materialColor(${CLIFF}, vWorld.xz, dxz, dyz);`,
         uniforms,
       )
       mat.userData.uniforms = uniforms

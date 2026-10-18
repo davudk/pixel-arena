@@ -42,3 +42,26 @@ export function paintOps(doc: MapDocument, center: Vec3, radius: number, materia
   const rect = new Rect2i(Math.floor(center.x - radius) - 1, Math.floor(center.z - radius) - 1, size, size)
   return materialOps(doc, rect, (cx, cz, old) => (Math.hypot(cx + 0.5 - center.x, cz + 0.5 - center.z) <= radius ? material : old))
 }
+
+/** Material ops painting every cell whose center lies inside the closed outline `ring`
+ *  (world x / z corners). */
+export function polygonPaintOps(doc: MapDocument, ring: [number, number][], material: number): TerrainOp[] {
+  if (ring.length < 3) return []
+  const xs = ring.map((p) => p[0])
+  const zs = ring.map((p) => p[1])
+  const x0 = Math.floor(Math.min(...xs))
+  const z0 = Math.floor(Math.min(...zs))
+  const rect = new Rect2i(x0, z0, Math.ceil(Math.max(...xs)) - x0 + 1, Math.ceil(Math.max(...zs)) - z0 + 1)
+  return materialOps(doc, rect, (cx, cz, old) => (insideRing(cx + 0.5, cz + 0.5, ring) ? material : old))
+}
+
+/** Even-odd point-in-polygon test. */
+export function insideRing(x: number, z: number, ring: [number, number][]): boolean {
+  let inside = false
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, zi] = ring[i]
+    const [xj, zj] = ring[j]
+    if (zi > z !== zj > z && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) inside = !inside
+  }
+  return inside
+}

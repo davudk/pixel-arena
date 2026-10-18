@@ -17,7 +17,7 @@ export interface SteamStatus {
   error?: string
 }
 
-export type MenuCommand = 'new' | 'open' | 'save' | 'saveAs' | 'export'
+export type MenuCommand = 'new' | 'open' | 'save' | 'saveAs' | 'export' | 'grid'
 
 export interface DesktopApi {
   platform: string

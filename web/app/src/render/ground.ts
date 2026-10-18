@@ -22,7 +22,7 @@ export class Ground {
       'uniform sampler2D uHoles;\nuniform vec2 uHoleOrigin;',
       `ivec2 chunk = ivec2(floor(vWorld.xz / ${CHUNK_SIZE}.0)) - ivec2(uHoleOrigin);
 if (all(greaterThanEqual(chunk, ivec2(0))) && all(lessThan(chunk, ivec2(${MASK}))) && texelFetch(uHoles, chunk, 0).r > 0.5) discard;
-base = paletteColor(0);`,
+base = materialColor(0, vWorld.xz, dxz, dyz);`,
       { uHoles: { value: this.mask }, uHoleOrigin: this.origin },
     )
     this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE).rotateX(-Math.PI / 2), mat)

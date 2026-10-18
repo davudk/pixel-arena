@@ -1,0 +1,236 @@
+[
+	{
+		"slot": 0,
+		"id": "grass",
+		"name": "Grass",
+		"group": "Ground",
+		"texture": "textures/grass.png",
+		"scale": 3,
+		"source": "Grass/Grass 18 - 128x128.png"
+	},
+	{
+		"slot": 1,
+		"id": "dirt",
+		"name": "Dirt",
+		"group": "Ground",
+		"texture": "textures/dirt.png",
+		"scale": 3,
+		"source": "Dirt/Dirt_01-128x128.png"
+	},
+	{
+		"slot": 2,
+		"id": "sand",
+		"name": "Sand",
+		"group": "Ground",
+		"texture": "textures/sand.png",
+		"scale": 3,
+		"source": "Dirt/Dirt_11-128x128.png"
+	},
+	{
+		"slot": 3,
+		"id": "rock",
+		"name": "Rock",
+		"group": "Ground",
+		"texture": "textures/rock.png",
+		"scale": 4,
+		"source": "Stone/Stone_05-128x128.png"
+	},
+	{
+		"slot": 4,
+		"id": "snow",
+		"name": "Snow",
+		"group": "Ground",
+		"texture": "textures/snow.png",
+		"scale": 4,
+		"source": "Dirt/Dirt_13-128x128.png"
+	},
+	{
+		"slot": 5,
+		"id": "dark_grass",
+		"name": "Dark grass",
+		"group": "Ground",
+		"texture": "textures/dark_grass.png",
+		"scale": 3,
+		"source": "Grass/Grass 16 - 128x128.png"
+	},
+	{
+		"slot": 6,
+		"id": "mud",
+		"name": "Mud",
+		"group": "Ground",
+		"texture": "textures/mud.png",
+		"scale": 3,
+		"source": "Dirt/Dirt_09-128x128.png"
+	},
+	{
+		"slot": 7,
+		"id": "gravel",
+		"name": "Gravel",
+		"group": "Ground",
+		"texture": "textures/gravel.png",
+		"scale": 3,
+		"source": "Dirt/Dirt_05-128x128.png"
+	},
+	{
+		"slot": 8,
+		"id": "meadow",
+		"name": "Meadow",
+		"group": "Ground",
+		"texture": "textures/meadow.png",
+		"scale": 3,
+		"source": "Grass/Grass 23 - 128x128.png"
+	},
+	{
+		"slot": 9,
+		"id": "dry_grass",
+		"name": "Dry grass",
+		"group": "Ground",
+		"texture": "textures/dry_grass.png",
+		"scale": 3,
+		"source": "Grass/Grass 19 - 128x128.png"
+	},
+	{
+		"slot": 10,
+		"id": "clover",
+		"name": "Clover",
+		"group": "Ground",
+		"texture": "textures/clover.png",
+		"scale": 3,
+		"source": "Grass/Grass 22 - 128x128.png"
+	},
+	{
+		"slot": 11,
+		"id": "cobblestone",
+		"name": "Cobblestone",
+		"group": "Paving",
+		"texture": "textures/cobblestone.png",
+		"scale": 4,
+		"source": "Tile/Tile 24 - 128x128.png"
+	},
+	{
+		"slot": 12,
+		"id": "flagstones",
+		"name": "Flagstones",
+		"group": "Paving",
+		"texture": "textures/flagstones.png",
+		"scale": 4,
+		"source": "Tile/Tile_19-128x128.png"
+	},
+	{
+		"slot": 13,
+		"id": "herringbone",
+		"name": "Herringbone",
+		"group": "Paving",
+		"texture": "textures/herringbone.png",
+		"scale": 4,
+		"source": "Tile/Tile_17-128x128.png"
+	},
+	{
+		"slot": 14,
+		"id": "hex_paving",
+		"name": "Hex paving",
+		"group": "Paving",
+		"texture": "textures/hex_paving.png",
+		"scale": 4,
+		"source": "Tile/Tile_01-128x128.png"
+	},
+	{
+		"slot": 15,
+		"id": "stone_slabs",
+		"name": "Stone slabs",
+		"group": "Paving",
+		"texture": "textures/stone_slabs.png",
+		"scale": 4,
+		"source": "Tile/Tile 10 - 128x128.png"
+	},
+	{
+		"slot": 16,
+		"id": "terracotta",
+		"name": "Terracotta",
+		"group": "Paving",
+		"texture": "textures/terracotta.png",
+		"scale": 4,
+		"source": "Tile/Tile_09-128x128.png"
+	},
+	{
+		"slot": 17,
+		"id": "checkered",
+		"name": "Checkered",
+		"group": "Tiles",
+		"texture": "textures/checkered.png",
+		"scale": 4,
+		"source": "Tile/Tile 19 - 128x128.png"
+	},
+	{
+		"slot": 18,
+		"id": "marble",
+		"name": "Marble",
+		"group": "Tiles",
+		"texture": "textures/marble.png",
+		"scale": 4,
+		"source": "Tile/Tile 13 - 128x128.png"
+	},
+	{
+		"slot": 19,
+		"id": "blue_tiles",
+		"name": "Blue tiles",
+		"group": "Tiles",
+		"texture": "textures/blue_tiles.png",
+		"scale": 4,
+		"source": "Tile/Tile 4 - 128x128.png"
+	},
+	{
+		"slot": 20,
+		"id": "red_brick",
+		"name": "Red brick",
+		"group": "Brick",
+		"texture": "textures/red_brick.png",
+		"scale": 4,
+		"source": "Bricks/Brick 6 - 128x128.png"
+	},
+	{
+		"slot": 21,
+		"id": "stone_brick",
+		"name": "Stone brick",
+		"group": "Brick",
+		"texture": "textures/stone_brick.png",
+		"scale": 4,
+		"source": "Bricks/Brick 24 - 128x128.png"
+	},
+	{
+		"slot": 22,
+		"id": "sandstone",
+		"name": "Sandstone",
+		"group": "Brick",
+		"texture": "textures/sandstone.png",
+		"scale": 4,
+		"source": "Brick/Brick_04-128x128.png"
+	},
+	{
+		"slot": 23,
+		"id": "mossy_stone",
+		"name": "Mossy stone",
+		"group": "Brick",
+		"texture": "textures/mossy_stone.png",
+		"scale": 4,
+		"source": "Bricks/Brick 4 - 128x128.png"
+	},
+	{
+		"slot": 24,
+		"id": "planks",
+		"name": "Planks",
+		"group": "Wood",
+		"texture": "textures/planks.png",
+		"scale": 4,
+		"source": "Wood/Wood 18 - 128x128.png"
+	},
+	{
+		"slot": 25,
+		"id": "boards",
+		"name": "Weathered boards",
+		"group": "Wood",
+		"texture": "textures/boards.png",
+		"scale": 4,
+		"source": "Wood/Wood 25 - 128x128.png"
+	}
+]

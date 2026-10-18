@@ -11,7 +11,7 @@ import { liquid } from '../world/liquids'
 import type { Editor, Pointer, Tool } from './editor'
 import { drawLabel } from './labels'
 import { params, setParams } from './tool-params'
-import { addWater, eraseWater, strokeShape } from './water-shapes'
+import { addWater, eraseWater, noteWaterAdded, strokeShape } from './water-shapes'
 
 export class WaterBrushTool implements Tool {
   private path: [number, number][] = []
@@ -81,9 +81,11 @@ export class WaterBrushTool implements Tool {
       return
     }
     const b = params.water
+    let ids: string[] = []
     s.edit(drawLabel(b.liquid), () => {
-      addWater(s, shape, { liquid: b.liquid, dig: b.dig, depth: b.depth, shore: b.shore, start })
+      ids = addWater(s, shape, { liquid: b.liquid, dig: b.dig, depth: b.depth, shore: b.shore, start })
     })
+    noteWaterAdded(ids)
   }
 
   key(e: KeyboardEvent): boolean {

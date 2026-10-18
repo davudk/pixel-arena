@@ -39,6 +39,18 @@ export interface KitDef {
   colors: { roof: string; gable: string; foundation: string }
 }
 
+/** A terrain material (packs/<pack>/terrain/*.json): a seamless texture repeated every `scale`
+ *  meters. `slot` is the number stored per terrain cell in maps, so it never changes. */
+export interface TerrainMaterialDef {
+  slot: number
+  id: string // "pack:local"
+  name: string
+  group: string
+  url: string
+  scale: number
+  packId: string
+}
+
 export interface Pack {
   id: string
   name: string
@@ -55,11 +67,13 @@ export class Library {
   packs = new Map<string, Pack>()
   props = new Map<string, PropDef>()
   kits = new Map<string, KitDef>()
+  /** Terrain materials by slot (the first pack to claim a slot keeps it). */
+  terrain = new Map<number, TerrainMaterialDef>()
   errors: string[] = []
 
   static async load(base = '/packs'): Promise<Library> {
     const lib = new Library()
-    const index: { dir: string; props: string[]; kits: string[] }[] = await (await fetch(`${base}/index.json`)).json()
+    const index: { dir: string; props: string[]; kits: string[]; terrain?: string[] }[] = await (await fetch(`${base}/index.json`)).json()
     for (const entry of index.sort((a, b) => a.dir.localeCompare(b.dir))) {
       const root = `${base}/${entry.dir}`
       const meta = await (await fetch(`${root}/pack.json`)).json()
@@ -94,6 +108,21 @@ export class Library {
           colors: { roof: k.colors?.roof ?? '#3f9e8f', gable: k.colors?.gable ?? '#9a5b3e', foundation: k.colors?.foundation ?? '#8f8a84' },
         }
         lib.kits.set(kit.id, kit)
+      }
+      if (entry.terrain?.length && !ALLOWED_LICENSES.includes(pack.attribution.license)) lib.errors.push(`${pack.id}: terrain license not allowed`)
+      else for (const file of entry.terrain ?? []) {
+        const data = await (await fetch(`${root}/terrain/${file}`)).json()
+        for (const t of Array.isArray(data) ? data : [data]) {
+          const where = `${pack.id}/terrain/${file}:${t?.id ?? '?'}`
+          const texture = String(t?.texture ?? '')
+          if (!ID.test(t?.id ?? '') || !Number.isInteger(t.slot) || t.slot < 0 || t.slot > 255) lib.errors.push(`${where}: invalid material`)
+          else if (!/^[a-z0-9_/-]+\.png$/.test(texture) || texture.includes('..')) lib.errors.push(`${where}: invalid texture path`)
+          else if (lib.terrain.has(t.slot)) lib.errors.push(`${where}: slot ${t.slot} already used`)
+          else lib.terrain.set(t.slot, {
+            slot: t.slot, id: `${pack.id}:${t.id}`, name: t.name ?? t.id, group: t.group ?? 'Ground', url: `${root}/${texture}`,
+            scale: Math.min(15, Math.max(0.5, Number(t.scale) || 2)), packId: pack.id,
+          })
+        }
       }
       lib.packs.set(pack.id, pack)
     }

@@ -65,7 +65,7 @@ protocol.registerSchemesAsPrivileged([
 function packIndex() {
   const list = (dir) => (fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.json')) : [])
   return fs.readdirSync(DIRS.packs, { withFileTypes: true }).filter((d) => d.isDirectory())
-    .map((d) => ({ dir: d.name, props: list(path.join(DIRS.packs, d.name, 'props')), kits: list(path.join(DIRS.packs, d.name, 'kits')) }))
+    .map((d) => ({ dir: d.name, props: list(path.join(DIRS.packs, d.name, 'props')), kits: list(path.join(DIRS.packs, d.name, 'kits')), terrain: list(path.join(DIRS.packs, d.name, 'terrain')) }))
 }
 
 /** `rel` inside `dir`, or null if it escapes it or doesn't exist. */
@@ -209,7 +209,12 @@ function buildMenu() {
     { label: 'Edit', submenu: [{ role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] },
     {
       label: 'View',
-      submenu: [{ role: 'togglefullscreen' }, ...(DEV || !app.isPackaged ? [{ role: 'reload' }, { role: 'toggleDevTools' }] : [])],
+      submenu: [
+        item('Show Grid', "CmdOrCtrl+'", 'grid'),
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+        ...(DEV || !app.isPackaged ? [{ role: 'reload' }, { role: 'toggleDevTools' }] : []),
+      ],
     },
     { role: 'windowMenu' },
   ]))

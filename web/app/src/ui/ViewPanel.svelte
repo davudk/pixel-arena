@@ -8,7 +8,7 @@
   import { onDestroy } from 'svelte'
   import { OPTIONS, PALETTE_NAMES, PRESET_ORDER, type OptionKey } from '../render/filters'
   import type { ViewKey, ViewSettings } from '../render/view-settings'
-  import { key } from './keys'
+  import { key, withKey } from './keys'
   import { ui } from './ui-state.svelte'
   import Icon from './Icon.svelte'
 
@@ -137,7 +137,7 @@
         {#each [0, 1, 2, 3] as l (l)}<option value={l}>Up to level {l}</option>{/each}
       </select>
     </label>
-    <div class="field" class:ov={v.overridden.has('grid')}><span class="label">Grid</span>
+    <div class="field" class:ov={v.overridden.has('grid')} title={withKey('Grid', "Mod+'")}><span class="label">Grid</span>
       <button class="switch" class:on={v.grid} role="switch" aria-checked={v.grid} aria-label="Grid" onclick={() => set('grid', !v.grid)}></button>
       {@render reset('grid')}
     </div>

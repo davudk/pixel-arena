@@ -6,14 +6,18 @@
 import { Signal } from '@pixel-arena/core'
 
 export type SculptOp = 'raise' | 'lower' | 'smooth' | 'flatten'
-export type WaterShape = 'polygon' | 'brush'
+/** How a drawing tool applies: a polygon outline or a round brush. */
+export type Shape = 'polygon' | 'brush'
+export type WaterShape = Shape
 export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window'
 export const MAX_LEVEL = 9
 
 export interface ToolParams {
   place: { prop: string; randomRotation: boolean; snap: boolean }
   sculpt: { op: SculptOp; radius: number; strength: number }
-  paint: { material: number; radius: number }
+  /** Painting a terrain material with a round brush `radius` wide, or filling a polygon outline
+   *  (corners snapped when `snap`). */
+  paint: { material: number; shape: Shape; radius: number; snap: boolean }
   /** Drawing water. Liquid id (world/liquids.ts); shape: a polygon outline (corners snapped when
    *  `snap`) or a round brush `radius` wide; dig lowers the ground inside into a basin `depth`
    *  deep with a `shore` wide slope at the edge. */
@@ -28,7 +32,7 @@ export type ParamTool = keyof ToolParams
 export const DEFAULT_PARAMS: ToolParams = {
   place: { prop: '', randomRotation: false, snap: true },
   sculpt: { op: 'raise', radius: 4, strength: 0.5 },
-  paint: { material: 1, radius: 4 },
+  paint: { material: 1, shape: 'brush', radius: 4, snap: true },
   water: { liquid: 'water', shape: 'polygon', radius: 2, snap: true, dig: true, depth: 1.5, shore: 3 },
   waterErase: { shape: 'brush', radius: 2, snap: true },
   build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0 },

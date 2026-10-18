@@ -3,7 +3,9 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { PALETTE } from '../render/terrain-shading'
+import { PaintPolygonTool } from './paint-polygon-tool'
 import { buildReview, resolutions } from '../ui/merge-review'
 import type { ViewSettings } from '../render/view-settings'
 import type { Exporter } from '../render/exporter'
@@ -23,7 +25,7 @@ import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
 import * as grouping from './grouping'
 import { WaterBrushTool } from './water-brush'
-import { addWater, containsPoint, eraseWater, overlapArea, shapeArea, strokeShape, worldShape } from './water-shapes'
+import { addWater, containsPoint, eraseWater, lastWaterAdded, overlapArea, shapeArea, strokeShape, worldShape } from './water-shapes'
 import { outline } from '../ui/objects'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
@@ -69,6 +71,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
     else if (name === 'camera') await cameraTest(editor, check, settle, extras)
     else if (name === 'panels') await panelsTest(editor, check, settle, extras)
+    else if (name === 'materials') await materialsTest(editor, check, settle, extras)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -312,7 +315,7 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(toolParams.paint.radius < r0 && notified, '[ shrinks the brush')
   check(toolParams.sculpt.radius === sculptR, 'the sculpt brush keeps its size')
 
-  // Water: three corners + Enter -> created, selected, back to the select tool; PageUp raises it.
+  // Water: three corners + Enter -> created, the tool stays in hand; selected, PageUp raises it.
   const water = new WaterTool(editor)
   editor.setTool(water)
   for (const c of [new THREE.Vector3(-8, 0, -4), new THREE.Vector3(-2, 0, -4), new THREE.Vector3(-5, 0, 1)]) {
@@ -321,10 +324,12 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
     water.pointerDown(p)
   }
   water.key(new KeyboardEvent('keydown', { key: 'Enter' }))
-  const ids = editor.selection.list()
+  const ids = lastWaterAdded.ids
   const obj = ids.length === 1 ? doc.getObject(ids[0]) : undefined
-  check(obj?.type === 'water', 'water created and selected')
-  check(editor.tool.name === 'select', 'back to the select tool')
+  check(obj?.type === 'water', 'water created')
+  check(editor.tool === water, 'the water tool stays in hand')
+  editor.setTool(editor.defaultTool())
+  editor.selection.set(ids)
   const y0 = (obj?.props.get('position') as Vec3 | undefined)?.y ?? NaN
   editor.tool.key?.(new KeyboardEvent('keydown', { key: 'PageUp' }))
   check(Math.abs((doc.getProp(ids[0], 'position') as Vec3).y - y0 - 0.25) < 1e-9, 'PageUp raises the water by 0.25 m')
@@ -640,6 +645,50 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** Terrain materials: every slot of the texture pack loads with its texture; the paint tool's
+ *  polygon shape fills the cells inside the clicked outline (one undo step) and stays in hand.
+ *  Leaves a swatch of every material by the camera (selftest-materials.png). */
+async function materialsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  const { rig } = editor
+  const s = editor.session
+  check(PALETTE.length >= 26 && PALETTE.slice(0, 26).every((m) => m.texture), `26 textured materials (${PALETTE.filter((m) => m.texture).length})`)
+  check(PALETTE[0].name === 'Grass' && PALETTE[3].name === 'Rock' && PALETTE[7].name === 'Gravel', 'slots 0-7 keep their meaning')
+
+  rig.focus.set(0, 0, 0)
+  rig.zoom = 30
+  rig.update(0)
+  await settle()
+  check(pickUp(editor, 'paint', { shape: 'polygon', material: 11, snap: true }), 'paint picks up as a polygon')
+  check(editor.tool instanceof PaintPolygonTool, 'polygon shape uses the polygon tool')
+  const click = (wx: number, wz: number) => {
+    const p = editor.pixel.toScreen(new THREE.Vector3(wx, 0, wz), rig)!
+    const pt = { x: p.x, y: p.y, shift: false, alt: false, cmd: false }
+    editor.tool.pointerMove?.(pt)
+    editor.tool.pointerDown?.(pt)
+    editor.tool.pointerUp?.(pt)
+  }
+  const before = s.history(s.currentBranch).length
+  for (const [wx, wz] of [[-3, -3], [3, -3], [3, 3], [-3, 3], [-3, -3]]) click(wx, wz)
+  await settle()
+  check(terrainEdit.materialAt(s.doc, 0, 0) === 11 && terrainEdit.materialAt(s.doc, -3, -3) === 11, 'outline filled with cobblestone')
+  check(terrainEdit.materialAt(s.doc, 3, 0) !== 11, 'cells outside the outline untouched')
+  check(s.history(s.currentBranch).length === before + 1, 'one undo step')
+  check(editor.tool instanceof PaintPolygonTool, 'the tool stays in hand')
+  putDown(editor)
+
+  // A 4 m swatch of every material, in rows of seven.
+  s.edit('Swatches', () => {
+    PALETTE.forEach((_, i) => {
+      const x0 = -14 + (i % 7) * 4
+      const z0 = -10 + Math.floor(i / 7) * 4
+      for (const op of terrainBrush.polygonPaintOps(s.doc, [[x0, z0], [x0 + 4, z0], [x0 + 4, z0 + 4], [x0, z0 + 4]], i)) s.apply(op)
+    })
+  })
+  await settle()
+  await frame()
+  await fetch('/__save?name=selftest-materials.png', { method: 'POST', body: x.canvas.toDataURL('image/png') }).catch(() => {})
+}
+
 /** The panels follow the UI rules (docs/UI.md) in every mode: one label column, tile rows on
  *  one line, two-column choices, settings under their switch, the tools container hidden with
  *  nothing in hand and the catalogue collapsed; History and View open; Selection shows a
@@ -690,6 +739,7 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
   button('.tools-box .verbs', 'Paint')?.click()
   await settle()
   check(!$('.catalog .tiles') && columns($('.catalog .choices')) === 2, 'paint shows materials only')
+  await shot('paint')
 
   // Build: four pieces on one row, Erase in the switch; Level as a row.
   press('b')
@@ -921,11 +971,12 @@ async function waterTest(editor: Editor, check: (ok: unknown, what: string) => v
   const square = (x0: number, z0: number, size: number) => {
     pickUp(editor, 'water')
     const tool = editor.tool as WaterTool
+    lastWaterAdded.ids = []
     for (const [cx, cz] of [[x0, z0], [x0 + size, z0], [x0 + size, z0 + size], [x0, z0 + size], [x0, z0]]) {
       tool.pointerMove(at(cx, cz))
       tool.pointerDown(at(cx, cz))
     }
-    const id = editor.selection.list()[0]
+    const id = lastWaterAdded.ids[0]
     return id ? doc.getObject(id) : undefined
   }
   const h = (sx: number, sz: number) => terrainEdit.heightAt(doc, sx, sz)
@@ -955,7 +1006,7 @@ async function waterTest(editor: Editor, check: (ok: unknown, what: string) => v
   const txns = s.branch().txns.length
   const pond = square(0, 0, 8)
   check(pond?.type === 'water', 'closing on the first corner creates the water')
-  check(inHand(editor) === null, 'the tool is put down afterwards')
+  check(inHand(editor) === 'water', 'the tool stays in hand afterwards')
   const level = (pond?.props.get('position') as Vec3 | undefined)?.y ?? NaN
   check(Math.abs(level) < 1e-6, `surface at the ground (${level})`)
   check(Math.abs(h(4, 4) - -1.5) < 0.01, `basin dug to the depth (${h(4, 4)})`)
@@ -978,6 +1029,7 @@ async function waterTest(editor: Editor, check: (ok: unknown, what: string) => v
   check(lava?.props.get('liquid') === 'lava', 'lava keeps its liquid')
   check(s.branch().txns.at(-1)?.label === 'Draw lava', 'history says "Draw lava"')
   check(Math.abs(h(4, 4) - -1.5) < 0.01, `an existing hollow is filled, not dug deeper (${h(4, 4)})`)
+  editor.selection.set(lava ? [lava.id] : [])
   await settle()
   check(editor.world.highlightRoot.children.length === 1, 'lava rendered and highlighted')
   await saveShot('selftest-water.png', x.canvas)

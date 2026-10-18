@@ -155,4 +155,17 @@ describe('terrain tools', () => {
     expect(materialAt(doc, -2, -1)).toBe(3)
     expect(materialAt(doc, 2, 2)).toBe(0)
   })
+
+  it('paint polygon fills the cells whose centers are inside', () => {
+    const { doc, apply } = setup()
+    // An L shape: 4 x 2 m along x, plus 2 x 2 m up at the left (crossing a chunk border at 0).
+    const ring: [number, number][] = [[-2, -2], [2, -2], [2, 0], [0, 0], [0, 2], [-2, 2]]
+    apply(terrainBrush.polygonPaintOps(doc, ring, 9))
+    expect(materialAt(doc, -2, -2)).toBe(9)
+    expect(materialAt(doc, 1, -1)).toBe(9)
+    expect(materialAt(doc, -1, 1)).toBe(9)
+    expect(materialAt(doc, 1, 1)).toBe(0) // the L's notch
+    expect(materialAt(doc, 2, -1)).toBe(0) // outside
+    expect(materialAt(doc, -3, 0)).toBe(0)
+  })
 })
