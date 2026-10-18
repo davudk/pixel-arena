@@ -1,0 +1,21 @@
+{
+  "name": "@pixel-arena/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pixel Arena desktop shell (Electron + Steam)",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "npm run build -w app && electron .",
+    "dev": "electron . --dev",
+    "package": "npm run build -w app && node package.mjs",
+    "check": "echo 'desktop: no type check'",
+    "test": "echo 'desktop: no unit tests'"
+  },
+  "dependencies": {
+    "steamworks.js": "0.4.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.9.0"
+  }
+}

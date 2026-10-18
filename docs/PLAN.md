@@ -479,8 +479,18 @@ docs/
   whole map top-down at 4–32 px/m (tiled, seamless, capped at 16384 px), five angle views (zip).
   Verified by `?selftest=filters` and `?selftest=export`.
   The paused Godot M7 work was dropped in favour of the web version.
-- Next: Electron shell + Steam spike (desktop file access, packaging for Windows/macOS,
-  steamworks.js and the overlay), then v1 polish (M8).
+- Electron + Steam spike done (`web/desktop`): Electron 44 serves the built app over `app://`
+  (packs and the pack index served from disk); native Open / Save / Save As with the file path
+  remembered, title-bar edited state and a quit guard; the page can only touch files the user
+  picked. steamworks.js starts with app id 480 (Spacewar) when Steam runs, shows the player in
+  the toolbar and enables the overlay; without Steam the editor works the same.
+  `@electron/packager` makes unsigned folders for macOS arm64/x64 and Windows x64 (~320–380 MB
+  unpacked). `--selftest=desktop` (save → reread → reopen → undo → save) passes in dev and in
+  the packaged arm64 app. Not yet verified: the x64 Mac and Windows builds (no Rosetta /
+  Windows here), Steam with the client running, the overlay drawing over WebGL.
+  Before release: our own Steam app id, `restartAppIfNecessary`, Developer ID signing and
+  notarization, app icons, a Content-Security-Policy.
+- Next: v1 polish (M8).
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

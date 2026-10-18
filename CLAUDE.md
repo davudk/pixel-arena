@@ -17,6 +17,11 @@ Godot 4.7 (standard, GDScript) map editor. Plan and architecture: `docs/PLAN.md`
 - Tests: `npm test --prefix web` (Vitest). Type-check: `npm run check --prefix web`.
 - Run the web app: `npm run dev --prefix web` → http://localhost:5200 (`?map=/fixtures/demo.pxmap`;
   more URL params for automated shots/perf are documented at the top of `web/app/src/App.svelte`).
+- Desktop (Electron + Steam, `web/desktop`): `npm run desktop --prefix web` (builds the app, opens it);
+  `npm run package --prefix web` → unsigned folders in `web/desktop/out/` (macOS arm64/x64, Windows x64).
+  Self-test: `web/node_modules/.bin/electron web/desktop --selftest=desktop` (exits 0/1).
+  npm here skips install scripts, so after a fresh install run `node web/node_modules/electron/install.js`
+  if `web/node_modules/electron/dist` is missing.
 - three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
   unless they set `customProgramCacheKey` — always set it when injecting different shader code.
 - `.pxmap` compatibility with the Godot build is a requirement: keep `test/fixtures/godot-sample.pxmap`

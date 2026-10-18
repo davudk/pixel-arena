@@ -8,7 +8,7 @@
   // page load only and aren't saved), cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select|terrain|building|branches (drives the tools end to end, writes shots/selftest-<name>.json),
+  // selftest=place|select|terrain|building|branches|filters|export|desktop (drives the tools end to end, writes shots/selftest-<name>.json),
   // tool=select|terrain|water|building (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
@@ -38,6 +38,7 @@
   import { buildReview, resolutions } from './ui/merge-review'
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
+  import { desktop, type MenuCommand, type SteamStatus } from './platform'
 
   const params = new URLSearchParams(location.search)
   const num = (k: string, d: number) => (params.has(k) ? Number(params.get(k)) : d)
@@ -46,6 +47,8 @@
   let fileInput: HTMLInputElement
   let status = $state('Loading library…')
   let mapName = $state('Untitled')
+  let filePath: string | null = $state(null) // desktop: where the map is saved
+  let steam: SteamStatus | null = $state(null)
   let dirty = $state(false)
   let timeOfDay = $state(10)
   // URL view params are one-off: they don't touch the viewer's saved settings.
@@ -141,14 +144,16 @@
   })
   $effect(() => {
     document.title = `Pixel Arena — ${mapName}${dirty ? ' •' : ''}`
+    desktop?.setDocument({ name: mapName, path: filePath, dirty })
   })
 
   function resize() {
     pixel.resize(canvas.clientWidth, canvas.clientHeight)
   }
 
-  function setSession(s: MapSession, name: string) {
+  function setSession(s: MapSession, name: string, path: string | null = null) {
     mapName = name
+    filePath = path
     dirty = false
     world.bind(s.doc)
     terrain.bind(s.doc)
@@ -183,17 +188,54 @@
 
   async function openFile(file: File) {
     if (dirty && !confirm('Discard unsaved changes?')) return
+    openBytes(new Uint8Array(await file.arrayBuffer()), file.name, null)
+  }
+
+  function openBytes(bytes: Uint8Array, name: string, path: string | null) {
     try {
-      setSession(openProject(new Uint8Array(await file.arrayBuffer())), file.name)
+      setSession(openProject(bytes), name, path)
       status = ''
     } catch (e) {
-      status = `Couldn't open ${file.name}: ${(e as Error).message}`
+      status = `Couldn't open ${name}: ${(e as Error).message}`
     }
   }
 
-  /** Browser build: downloads the project. (The desktop build will write files directly.) */
+  // One native dialog or write at a time (a menu accelerator and the page's own shortcut may
+  // both fire for the same key press).
+  let fileBusy = false
+  async function fileOp(fn: () => Promise<void>) {
+    if (fileBusy) return
+    fileBusy = true
+    try {
+      await fn()
+    } catch (e) {
+      status = `File error: ${(e as Error).message}`
+    } finally {
+      fileBusy = false
+    }
+  }
+
+  /** Desktop: native open dialog. Browser: the hidden file input. */
+  function openDialog() {
+    if (!desktop) return fileInput.click()
+    const d = desktop
+    fileOp(async () => {
+      if (dirty && !confirm('Discard unsaved changes?')) return
+      const f = await d.openFile()
+      if (f) openBytes(f.bytes, f.name, f.path)
+    })
+  }
+
+  /** Desktop only: opens a file the main process already allowed (self-tests, recent files). */
+  async function openPath(path: string) {
+    const f = await desktop!.readFile(path)
+    openBytes(f.bytes, f.name, f.path)
+  }
+
+  /** Desktop: writes to the map's file (asking where the first time). Browser: downloads it. */
   function save() {
     if (!editor) return
+    if (desktop) return fileOp(() => (filePath ? writeTo(filePath) : saveAsDesktop()))
     const name = mapName.endsWith('.pxmap') ? mapName : `${mapName}.pxmap`
     const url = URL.createObjectURL(new Blob([saveProject(editor.session)], { type: 'application/zip' }))
     const a = document.createElement('a')
@@ -203,6 +245,39 @@
     URL.revokeObjectURL(url)
     mapName = name
     dirty = false
+  }
+
+  function saveAs() {
+    if (!desktop) return save()
+    return fileOp(saveAsDesktop)
+  }
+
+  async function saveAsDesktop() {
+    if (!editor) return
+    const ref = await desktop!.saveFileAs(mapName.replace(/\.pxmap$/, ''), saveProject(editor.session))
+    if (ref) saved(ref.name, ref.path)
+  }
+
+  async function writeTo(path: string) {
+    if (!editor) return
+    const ref = await desktop!.saveFile(path, saveProject(editor.session))
+    saved(ref.name, ref.path)
+  }
+
+  function saved(name: string, path: string) {
+    mapName = name
+    filePath = path
+    dirty = false
+    status = ''
+  }
+
+  function menuCommand(cmd: MenuCommand) {
+    if (dialog) return
+    if (cmd === 'new') newMap()
+    else if (cmd === 'open') openDialog()
+    else if (cmd === 'save') save()
+    else if (cmd === 'saveAs') saveAs()
+    else if (cmd === 'export') exportOpen = true
   }
 
   function undo() {
@@ -331,9 +406,9 @@
     if (cmd && ['z', 'y', 's', 'o', 'e'].includes(k)) {
       if (k === 'z') e.shiftKey ? redo() : undo()
       else if (k === 'y') redo()
-      else if (k === 's') save()
+      else if (k === 's') e.shiftKey ? saveAs() : save()
       else if (k === 'e') exportOpen = true
-      else fileInput.click()
+      else openDialog()
       e.preventDefault()
       return
     }
@@ -434,9 +509,12 @@
         runSelfTest(params.get('selftest')!, editor, () => world.busy, {
           settings, exporter: exporter!, canvas,
           open: (bytes, name) => setSession(openProject(bytes), name),
+          files: { save: async () => { await save() }, path: () => filePath, setPath: (p) => (filePath = p), openPath, dirty: () => dirty, name: () => mapName },
         })
     })
     ;(window as any).pixelArena = { get editor() { return editor }, rig, scene, pixel }
+    const offMenu = desktop?.onCommand(menuCommand)
+    desktop?.steam.status().then((st) => (steam = st))
 
     let last = performance.now()
     let frames = 0
@@ -473,6 +551,7 @@
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
+      offMenu?.()
     }
   })
 
@@ -497,8 +576,9 @@
 
     <header class="bar">
       <button onclick={newMap} title="New map">New</button>
-      <button onclick={() => fileInput.click()} title="Open (Cmd+O)">Open…</button>
+      <button onclick={openDialog} title="Open (Cmd+O)">Open…</button>
       <button onclick={save} title="Save (Cmd+S)">Save</button>
+      {#if desktop}<button onclick={saveAs} title="Save As (Cmd+Shift+S)">Save As…</button>{/if}
       <button onclick={() => (exportOpen = true)} title="Export image (Cmd+E)">Export…</button>
       <span class="sep"></span>
       <button onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)">Undo</button>
@@ -509,7 +589,13 @@
           <button class:on={activeTool === t.name} title="{t.label} ({t.key})" onclick={() => setToolByName(t.name)}>{t.label}</button>
         {/each}
       </div>
-      <span class="name">{mapName}{dirty ? ' •' : ''}</span>
+      <span class="name" title={filePath ?? ''}>{mapName}{dirty ? ' •' : ''}</span>
+      {#if steam}
+        <button class="steam" class:off={!steam.ok} disabled={!steam.ok} onclick={() => desktop?.steam.overlay('friends')}
+          title={steam.ok ? `Steam (app ${steam.appId}) · Shift+Tab opens the overlay` : `Steam not available: ${steam.error}`}>
+          {steam.ok ? `Steam · ${steam.name}` : 'Steam offline'}
+        </button>
+      {/if}
       <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
         const f = (e.currentTarget as HTMLInputElement).files?.[0]
         if (f) openFile(f)

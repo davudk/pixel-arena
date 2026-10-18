@@ -4,11 +4,14 @@
   "type": "module",
   "workspaces": [
     "core",
-    "app"
+    "app",
+    "desktop"
   ],
   "scripts": {
     "test": "npm run test --workspaces",
     "check": "npm run check --workspaces",
-    "dev": "npm run dev -w app"
+    "dev": "npm run dev -w app",
+    "desktop": "npm start -w desktop",
+    "package": "npm run package -w desktop"
   }
 }

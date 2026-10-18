@@ -23,6 +23,8 @@ canvas { display: block; width: 100%; height: 100%; }
 }
 .bar { top: 12px; left: 12px; display: flex; gap: 8px; align-items: center; padding: 6px; }
 .bar .name { color: var(--muted); padding: 0 8px; }
+.bar .steam { font-size: 12px; padding: 4px 9px; color: var(--accent); }
+.bar .steam.off { color: var(--muted); }
 button, select {
   padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: #262a33;
   color: var(--text); font: inherit; cursor: pointer;

@@ -3,7 +3,7 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, MAIN, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, MAIN, MapSession, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { buildReview, resolutions } from '../ui/merge-review'
 import type { ViewSettings } from '../render/view-settings'
 import type { Exporter } from '../render/exporter'
@@ -14,6 +14,7 @@ import { SelectTool } from './select-tool'
 import { TerrainTool, terrainSettings } from './terrain-tool'
 import { WaterTool } from './water-tool'
 import { BuildingTool, buildSettings } from './building-tool'
+import { desktop } from '../platform'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -24,10 +25,20 @@ export interface SelfTestExtras {
   canvas: HTMLCanvasElement
   /** Opens .pxmap bytes the way the app does (binds every view). */
   open: (bytes: Uint8Array, name: string) => void
+  /** The app's own file handling (desktop build). */
+  files: {
+    save: () => Promise<void>
+    path: () => string | null
+    setPath: (path: string | null) => void
+    openPath: (path: string) => Promise<void>
+    dirty: () => boolean
+    name: () => string
+  }
 }
 
 export async function runSelfTest(name: string, editor: Editor, busy: () => boolean, extras: SelfTestExtras) {
   const failures: string[] = []
+  const report: Record<string, unknown> = {}
   const check = (ok: unknown, what: string) => {
     if (!ok) failures.push(what)
   }
@@ -45,16 +56,18 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'branches-ui') await branchesUi(editor, check, settle)
     else if (name === 'filters') await filtersTest(editor, check, settle, extras)
     else if (name === 'export') await exportTest(editor, check, settle, extras)
+    else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
   }
-  const result = { test: name, pass: failures.length === 0, failures }
+  const result = { test: name, pass: failures.length === 0, failures, ...report }
   console.log('selftest', result)
   await fetch(`/__save?name=selftest-${name}.json`, {
     method: 'POST', body: 'data:application/json;base64,' + btoa(JSON.stringify(result, null, 2)),
   }).catch(() => {})
   document.title = result.pass ? 'SELFTEST PASS' : 'SELFTEST FAIL'
+  desktop?.test?.done(result.pass)
 }
 
 async function placeTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
@@ -545,4 +558,53 @@ async function exportTest(editor: Editor, check: (ok: unknown, what: string) => 
   // The screen keeps rendering normally afterwards.
   await frame()
   check(colorsIn(x.canvas) > 24, 'screen still renders after export')
+}
+
+/** Desktop build only: library over app://, the app's save/open against a real file, and Steam. */
+async function desktopTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>,
+  x: SelfTestExtras, report: Record<string, unknown>) {
+  check(desktop, 'running in the desktop shell')
+  if (!desktop?.test) return void check(false, 'test bridge available')
+  report.platform = desktop.platform
+  check(editor.library.props.size > 500, `library loaded over app:// (${editor.library.props.size} props)`)
+  await openDemo(x, settle)
+  const s = editor.session
+  const count = () => [...editor.session.doc.objects.values()].filter((o) => !o.deleted).length
+
+  // Save through the app (as the Save button does, with the path a dialog would have given).
+  const file = await desktop.test.tempFile('desktop-test.pxmap')
+  const prop = [...editor.library.props.values()][0]
+  s.edit('Desktop test prop', () => s.createObject('prop', { prop: prop.id, position: new Vec3(3, 0, 3), rotation: 0 }))
+  check(x.files.dirty(), 'edit marks the map dirty')
+  x.files.setPath(file)
+  await x.files.save()
+  check(!x.files.dirty(), 'save clears dirty')
+  check(x.files.name() === 'desktop-test.pxmap', `name follows the file (${x.files.name()})`)
+  const objects = count()
+  const txns = s.branch().txns.length
+
+  // The bytes on disk are a valid project with the same content.
+  const disk = await desktop.readFile(file)
+  const fromDisk = openProject(disk.bytes)
+  check([...fromDisk.doc.objects.values()].filter((o) => !o.deleted).length === objects, 'saved file has every object')
+  check(fromDisk.branch().txns.length === txns, 'saved file has the full history')
+
+  // Reopen through the app, edit, save again (to the same path, no dialog), reopen.
+  x.open(saveProject(new MapSession()), 'blank')
+  await x.files.openPath(file)
+  await settle()
+  check(editor.session.doc.objects.size > 0 && count() === objects, 'reopened map matches')
+  check(x.files.path() === file, 'reopened map remembers its path')
+  editor.session.undo()
+  check(count() === objects - 1, 'undo after reopen removes the test prop')
+  await x.files.save()
+  const again = openProject((await desktop.readFile(file)).bytes)
+  check([...again.doc.objects.values()].filter((o) => !o.deleted).length === objects - 1, 'second save wrote the undo')
+
+  // Steam is optional: record what happened, but only fail on a malformed status.
+  const st = await desktop.steam.status()
+  report.steam = st
+  check(typeof st.ok === 'boolean' && st.appId > 0, 'steam status shape')
+  if (st.ok) check(st.name && st.steamId, 'steam user known')
+  await saveShot('selftest-desktop.png', x.canvas)
 }
