@@ -1,9 +1,11 @@
 // Water bodies: a flat polygon (relative to the object's position, surface at position.y) with a
-// stylized shader: shallow-to-deep color, shoreline foam, drifting sparkles. Depth comes from the
-// terrain heightfield under the polygon (sampled into a small texture), so it's independent of
-// the view and needs no depth-buffer read.
+// stylized shader: shallow-to-deep color, shoreline foam, drifting sparkles. The look comes from
+// the object's liquid (liquids.ts: water, lava, acid, ...) as uniforms, so every liquid shares one
+// shader program. Depth comes from the terrain heightfield under the polygon (sampled into a small
+// texture), so it's independent of the view and needs no depth-buffer read.
 
 import * as THREE from 'three'
+import { liquid } from './liquids'
 import { terrainEdit, type MapDocument, type MapObject, type PackedVec2Array, type Vec3 } from '@pixel-arena/core'
 
 export const waterTime = { value: 0 }
@@ -13,6 +15,15 @@ uniform sampler2D uHeights;
 uniform vec4 uHeightRect; // world x0, z0, size x, size z (texels at integer meters)
 uniform float uLevel;
 uniform float uTime;
+uniform vec3 uShallow;
+uniform vec3 uDeep;
+uniform vec3 uFoam;
+uniform vec2 uOpacity;
+uniform float uDepthScale;
+uniform float uGlow;
+uniform float uFlow;
+uniform float uSparkle;
+uniform float uEdge;
 varying vec3 vWorld;
 float hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * 0.1031);
@@ -50,11 +61,21 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
   const heights = new THREE.DataTexture(data, w, h, THREE.RedFormat, THREE.FloatType)
   heights.needsUpdate = true
 
-  const mat = new THREE.MeshLambertMaterial({ color: '#ffffff', transparent: true, side: THREE.DoubleSide, depthWrite: false })
+  const l = liquid(obj.props.get('liquid'))
+  const opaque = l.opacity[0] >= 1
+  // Polygon offset: a surface flush with the ground (no basin) would otherwise z-fight with it.
+  const mat = new THREE.MeshLambertMaterial({
+    color: '#ffffff', transparent: !opaque, side: THREE.DoubleSide, depthWrite: opaque,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4,
+  })
+  const color = (hex: string) => new THREE.Color(hex) // linear working space, like the scene
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, {
       uHeights: { value: heights }, uHeightRect: { value: new THREE.Vector4(x0, z0, w, h) },
       uLevel: { value: pos.y }, uTime: waterTime,
+      uShallow: { value: color(l.shallow) }, uDeep: { value: color(l.deep) }, uFoam: { value: color(l.foam) },
+      uOpacity: { value: new THREE.Vector2(...l.opacity) }, uDepthScale: { value: l.depthScale },
+      uGlow: { value: l.glow }, uFlow: { value: l.flow }, uSparkle: { value: l.sparkle }, uEdge: { value: l.edge },
     })
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vWorld;')
@@ -63,13 +84,16 @@ export function buildWater(obj: MapObject, doc: MapDocument): THREE.Mesh | null 
       .replace('#include <common>', `#include <common>\n${FRAG}`)
       .replace('#include <color_fragment>', `#include <color_fragment>
 float depth = max(uLevel - groundAt(vWorld.xz), 0.0);
-float dd = clamp(depth / 2.5, 0.0, 1.0);
-vec3 col = mix(vec3(0.17, 0.57, 0.71), vec3(0.015, 0.09, 0.26), dd);
-float band = sin(vWorld.x * 0.7 + vWorld.z * 0.4 + uTime * 0.8) * sin(vWorld.z * 0.9 - uTime * 0.5);
-col = mix(col, vec3(0.85, 0.95, 1.0), step(0.93, band) * step(0.5, hash12(floor(vWorld.xz * 3.0))) * 0.5);
-float edge = 1.0 - smoothstep(0.0, 0.35, depth);
-col = mix(col, vec3(0.85, 0.95, 1.0), step(0.55, edge + hash12(floor(vWorld.xz * 4.0)) * 0.3) * 0.85);
-diffuseColor = vec4(col, mix(0.55, 0.92, dd));`)
+float dd = clamp(depth / uDepthScale, 0.0, 1.0);
+vec3 col = mix(uShallow, uDeep, dd);
+float t = uTime * uFlow;
+float band = sin(vWorld.x * 0.7 + vWorld.z * 0.4 + t * 0.8) * sin(vWorld.z * 0.9 - t * 0.5);
+col = mix(col, uFoam, step(0.93, band) * step(0.5, hash12(floor(vWorld.xz * 3.0))) * uSparkle);
+float edge = 1.0 - smoothstep(0.0, uEdge, depth);
+col = mix(col, uFoam, step(0.55, edge + hash12(floor(vWorld.xz * 4.0)) * 0.3) * 0.85);
+diffuseColor = vec4(col, mix(uOpacity.x, uOpacity.y, dd));`)
+      // Lava and acid light themselves.
+      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += col * uGlow;')
   }
   const mesh = new THREE.Mesh(geometry, mat)
   mesh.renderOrder = 1

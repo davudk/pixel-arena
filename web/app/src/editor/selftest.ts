@@ -17,6 +17,7 @@ import { inHand, pickUp, putDown } from './tools'
 import { activeId, describe, saveTool, useSaved } from '../ui/saved-tools'
 import { ui } from '../ui/ui-state.svelte'
 import { WaterTool } from './water-tool'
+import { LIQUIDS } from '../world/liquids'
 import { BuildingTool } from './building-tool'
 import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
@@ -63,6 +64,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'export') await exportTest(editor, check, settle, extras)
     else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
     else if (name === 'tools') await toolsTest(editor, check, settle)
+    else if (name === 'water') await waterTest(editor, check, settle, extras)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
@@ -727,4 +729,100 @@ async function toolsTest(editor: Editor, check: (ok: unknown, what: string) => v
   check(useSaved(editor, placed!.id) && inHand(editor) === 'place' && toolParams.place.randomRotation === true, 'recall a prop')
   putDown(editor)
   ui.tools = []
+}
+
+/** Drawing water: closing on the first corner, the basin dug on flat ground (one undo step with
+ *  the water), no digging when it's off, and liquids. */
+async function waterTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
+  const { session: s, rig, pixel } = editor
+  const doc = s.doc
+  rig.focus.set(12, 0, 4)
+  rig.zoom = 50
+  rig.update(0)
+  await settle()
+  // Project from the ground's actual height, so clicks over a dug basin land where intended.
+  const at = (px: number, pz: number): Pointer => {
+    const p = pixel.toScreen(new THREE.Vector3(px, terrainEdit.heightAtWorld(doc, px, pz), pz), rig)!
+    return { x: p.x, y: p.y, shift: false, alt: false, cmd: false }
+  }
+  /** Draws a square by clicking its corners, then the first corner again to close it. */
+  const square = (x0: number, z0: number, size: number) => {
+    pickUp(editor, 'water')
+    const tool = editor.tool as WaterTool
+    for (const [cx, cz] of [[x0, z0], [x0 + size, z0], [x0 + size, z0 + size], [x0, z0 + size], [x0, z0]]) {
+      tool.pointerMove(at(cx, cz))
+      tool.pointerDown(at(cx, cz))
+    }
+    const id = editor.selection.list()[0]
+    return id ? doc.getObject(id) : undefined
+  }
+  const h = (sx: number, sz: number) => terrainEdit.heightAt(doc, sx, sz)
+
+  // Indicators while drawing (screenshots only): three corners and the cursor away, then on the
+  // first corner (closing). Esc drops the outline.
+  {
+    pickUp(editor, 'water')
+    const tool = editor.tool as WaterTool
+    for (const [cx, cz] of [[22, 0], [28, 0], [28, 6]]) {
+      tool.pointerMove(at(cx, cz))
+      tool.pointerDown(at(cx, cz))
+    }
+    tool.pointerMove(at(24, 7))
+    await frame()
+    await saveShot('selftest-water-drawing.png', x.canvas)
+    tool.pointerMove(at(22.2, 0.2))
+    await frame()
+    await saveShot('selftest-water-closing.png', x.canvas)
+    tool.key(new KeyboardEvent('keydown', { key: 'Escape' }))
+    check(inHand(editor) === 'water', 'Esc drops the outline but keeps the tool')
+    putDown(editor)
+  }
+
+  // Dig on (default): the surface stays at ground level, the ground inside goes down.
+  setParams('water', { liquid: 'water', dig: true, depth: 1.5, shore: 3, snap: true })
+  const txns = s.branch().txns.length
+  const pond = square(0, 0, 8)
+  check(pond?.type === 'water', 'closing on the first corner creates the water')
+  check(inHand(editor) === null, 'the tool is put down afterwards')
+  const level = (pond?.props.get('position') as Vec3 | undefined)?.y ?? NaN
+  check(Math.abs(level) < 1e-6, `surface at the ground (${level})`)
+  check(Math.abs(h(4, 4) - -1.5) < 0.01, `basin dug to the depth (${h(4, 4)})`)
+  check(h(1, 4) < 0 && h(1, 4) > -1.5, `shore slopes down (${h(1, 4).toFixed(2)})`)
+  check(h(-1, 4) === 0 && h(10, 4) === 0, 'ground outside untouched')
+  check(s.branch().txns.length === txns + 1 && s.branch().txns.at(-1)?.label === 'Draw water', 'one edit: "Draw water"')
+  s.undo()
+  check(!doc.getObject(pond!.id) || doc.getObject(pond!.id)!.deleted, 'undo removes the water')
+  check(h(4, 4) === 0, 'and the basin')
+  s.redo()
+
+  // Dig off: the ground stays flat.
+  setParams('water', { dig: false })
+  square(12, 0, 6)
+  check(h(15, 3) === 0, 'no basin when digging is off')
+
+  // Another liquid; digging into an existing hollow doesn't go deeper.
+  setParams('water', { liquid: 'lava', dig: true, depth: 2 })
+  const lava = square(1, 1, 6)
+  check(lava?.props.get('liquid') === 'lava', 'lava keeps its liquid')
+  check(s.branch().txns.at(-1)?.label === 'Draw lava', 'history says "Draw lava"')
+  check(Math.abs(h(4, 4) - -1.5) < 0.01, `an existing hollow is filled, not dug deeper (${h(4, 4)})`)
+  await settle()
+  check(editor.world.highlightRoot.children.length === 1, 'lava rendered and highlighted')
+  await saveShot('selftest-water.png', x.canvas)
+
+  // One basin of every liquid in a row, unselected, for a look at each.
+  rig.focus.set(20, 0, 34)
+  rig.zoom = 34
+  rig.update(0)
+  await settle()
+  LIQUIDS.forEach((l, i) => {
+    setParams('water', { liquid: l.id, dig: true, depth: 1.5 })
+    square(i * 7 - 8, 30, 5)
+  })
+  editor.selection.clear()
+  await settle()
+  await new Promise((r) => setTimeout(r, 600))
+  check(LIQUIDS.every((l) => [...doc.objects.values()].some((o) => !o.deleted && o.props.get('liquid') === l.id)), 'every liquid drawn')
+  await saveShot('selftest-water-liquids.png', x.canvas)
+  setParams('water', { liquid: 'water', dig: true, depth: 1.5 })
 }

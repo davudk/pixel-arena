@@ -41,6 +41,7 @@
     shuffle: 'M3 7h4l10 10h4 M3 17h4l3-3 M14 10l3-3h4 M18 4l3 3l-3 3 M18 14l3 3l-3 3',
     magnet: 'M6 4v8a6 6 0 0 0 12 0V4 M6 8h4 M14 8h4 M10 4v8a2 2 0 0 0 4 0V4',
     plus: 'M12 5v14 M5 12h14',
+    shovel: 'M14 4l6 6 M17 7l-6.5 6.5 M10.5 13.5l-2-2L4 16l4 4l4.5-4.5z',
   }
 </script>
 

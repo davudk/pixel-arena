@@ -509,6 +509,13 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   or disabled). Saved tools are `{tool, params}` with an optional number key 1-9 (Cmd/Ctrl+digit
   saves, digit recalls); they show in each mode's panel and the bottom-left hotbar. Edit-history
   labels come from `labels.ts` ("Move Tent", "Delete 3 objects", "Paint Sand", "Build wall").
+- Water (web): liquids per body (`liquid` property; water, ocean, muddy water, swamp, acid,
+  lava, ice, tar; `world/liquids.ts`, absent = water). Drawing digs a basin by default (surface at
+  the lowest ground along the outline, ground inside eased down to Depth over Shore meters, never
+  raised, existing hollows just filled; one undo step with the water). Drawing shows a cursor dot,
+  corner dots, a dashed segment to the cursor, a first-corner ring that snaps and fills when
+  closing, and a fill preview. Water panel: liquid picker, basin settings, change a body's liquid.
+  `?selftest=water`.
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

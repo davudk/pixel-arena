@@ -10,7 +10,8 @@ import type { Library } from '../library/library'
 import { PALETTE } from '../render/terrain-shading'
 import { BuildingTool } from './building-tool'
 import type { Editor, Tool } from './editor'
-import { opName, pieceName } from './labels'
+import { drawLabel, opName, pieceName } from './labels'
+import { LIQUIDS } from '../world/liquids'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
 import { TerrainTool } from './terrain-tool'
@@ -112,9 +113,24 @@ export const TOOLS: Record<ToolId, ToolDef> = {
   },
   water: {
     id: 'water', mode: 'water', label: 'Draw water', icon: 'droplet', saveable: true,
-    params: [{ key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', quick: true }],
+    params: [
+      { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
+      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel', quick: true },
+      {
+        key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
+        applies: (p) => p.dig === true, why: 'Only when digging a basin',
+      },
+      {
+        key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
+        applies: (p) => p.dig === true, why: 'Only when digging a basin',
+      },
+      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', quick: true },
+    ],
     create: (editor) => new WaterTool(editor),
-    describe: (p) => `Draw water${p.snap === false ? ' · no snap' : ''}`,
+    describe: (p) => {
+      const extras = [p.dig === false ? 'no basin' : `${meters(Number(p.depth))} deep`, p.snap === false ? 'no snap' : ''].filter(Boolean)
+      return `${drawLabel(String(p.liquid))} · ${extras.join(', ')}`
+    },
   },
   build: {
     id: 'build', mode: 'build', label: 'Build', icon: 'building', saveable: true,

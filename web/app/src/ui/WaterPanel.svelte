@@ -1,15 +1,21 @@
 <script lang="ts">
-  // Water mode's left panel: "Draw water" (picks up the water tool; again puts it down), then
-  // the map's water bodies with their size and surface height. Click one to move the camera to it.
+  // Water mode's left panel: saved water tools; "Draw water" (picks up the water tool; again puts
+  // it down) and Save; the liquid to draw (water, ocean, lava, acid, ...: picking one picks up the
+  // tool); the basin settings (depth and shore, used while "Dig basin" is on in the bottom bar);
+  // and the map's bodies with their liquid, size and surface height. Click a body to move the
+  // camera to it; its swatch changes its liquid.
   import { onDestroy } from 'svelte'
   import { PackedVec2Array, type MapSession } from '@pixel-arena/core'
   import type { Editor } from '../editor/editor'
-  import { objectPosition } from './objects'
-  import { WaterTool } from '../editor/water-tool'
-  import { pickUp, putDown } from '../editor/tools'
-  import { saveTool } from './saved-tools'
+  import { params, paramsChanged } from '../editor/tool-params'
+  import { inHand, pickUp, putDown, TOOLS } from '../editor/tools'
+  import { liquid, LIQUIDS, type LiquidDef } from '../world/liquids'
   import Icon from './Icon.svelte'
+  import ParamControl from './ParamControl.svelte'
+  import Popover from './Popover.svelte'
   import SavedTools from './SavedTools.svelte'
+  import { objectPosition } from './objects'
+  import { saveTool } from './saved-tools'
 
   interface Props {
     editor: Editor
@@ -19,23 +25,29 @@
   let { editor, active, onuse }: Props = $props()
 
   let rev = $state(0)
+  const bump = () => rev++
   let offDoc = () => {}
   const watch = (s: MapSession) => {
     offDoc()
-    const offs = [s.doc.changed.connect(() => rev++), s.doc.reset.connect(() => rev++)]
+    const offs = [s.doc.changed.connect(bump), s.doc.reset.connect(bump)]
     offDoc = () => offs.forEach((f) => f())
-    rev++
+    bump()
   }
   watch(editor.session)
-  let armed = $state(editor.tool instanceof WaterTool)
-  const offs = [editor.sessionChanged.connect(watch), editor.toolChanged.connect((t) => (armed = t instanceof WaterTool))]
+  const offs = [editor.sessionChanged.connect(watch), editor.toolChanged.connect(bump), paramsChanged.connect(bump)]
   onDestroy(() => {
     offDoc()
     offs.forEach((f) => f())
   })
 
+  const now = $derived.by(() => {
+    rev
+    return { armed: inHand(editor) === 'water', liquid: params.water.liquid }
+  })
+  const basinParams = TOOLS.water.params.filter((p) => p.key === 'depth' || p.key === 'shore')
+
   function toggleDraw() {
-    if (armed) putDown(editor)
+    if (now.armed) putDown(editor)
     else pickUp(editor, 'water')
   }
 
@@ -53,11 +65,15 @@
 
   const bodies = $derived.by(() => {
     rev
+    const count = new Map<string, number>()
     return [...editor.session.doc.objects.values()]
       .filter((o) => !o.deleted && o.type === 'water')
-      .map((o, i) => {
+      .map((o) => {
+        const l = liquid(o.props.get('liquid'))
+        const n = (count.get(l.id) ?? 0) + 1
+        count.set(l.id, n)
         const poly = o.props.get('polygon')
-        return { id: o.id, name: `Water ${i + 1}`, area: poly instanceof PackedVec2Array ? area(poly) : 0, level: objectPosition(o).y }
+        return { id: o.id, liquid: l, name: `${l.name} ${n}`, area: poly instanceof PackedVec2Array ? area(poly) : 0, level: objectPosition(o).y }
       })
   })
 
@@ -65,37 +81,103 @@
     const obj = editor.session.doc.getObject(id)
     if (obj) editor.rig.focus.set(objectPosition(obj).x, 0, objectPosition(obj).z)
   }
+
+  // Changing an existing body's liquid.
+  let change: { id: string; name: string; anchor: HTMLElement } | null = $state(null)
+  function setLiquid(id: string, name: string, to: LiquidDef) {
+    const s = editor.session
+    if (liquid(s.doc.getProp(id, 'liquid')).id !== to.id) s.edit(`Change ${name} to ${to.name.toLowerCase()}`, () => s.setProp(id, 'liquid', to.id))
+    change = null
+  }
+
+  const swatch = (l: LiquidDef) => `linear-gradient(135deg, ${l.shallow} 0%, ${l.shallow} 45%, ${l.deep} 100%)`
 </script>
 
 <div class="panel-body">
   <SavedTools mode="water" {active} library={editor.library} {onuse} />
+
   <div class="row">
-    <button class="draw" class:on={armed} aria-pressed={armed} onclick={toggleDraw}><Icon name="droplet" size={20} /> Draw water</button>
-    <button class="save" disabled={!armed} title={armed ? 'Save this tool (Cmd/Ctrl+1–9 saves it on a number key)' : 'Pick the tool first'}
+    <button class="draw" class:on={now.armed} aria-pressed={now.armed} onclick={toggleDraw}
+      title="Click to add corners · click the first corner or Enter to finish · Backspace removes the last corner · Esc cancels">
+      <Icon name="droplet" size={20} /> Draw {liquid(now.liquid).name.toLowerCase()}
+    </button>
+    <button class="save" disabled={!now.armed} title={now.armed ? 'Save this tool (Cmd/Ctrl+1–9 saves it on a number key)' : 'Pick the tool first'}
       aria-label="Save tool" onclick={() => saveTool(editor)}><Icon name="plus" size={14} /></button>
   </div>
-  <h3>Water bodies</h3>
-  {#each bodies as b (b.id)}
-    <button class="body" onclick={() => focus(b.id)}>
-      <span class="swatch"></span>
-      <span class="name">{b.name}</span>
-      <span class="meta">{Math.round(b.area)} m² · {b.level.toFixed(1)} m</span>
-    </button>
-  {:else}
-    <p class="empty">No water yet</p>
-  {/each}
+
+  <section>
+    <h3>Liquid</h3>
+    <div class="liquids">
+      {#each LIQUIDS as l (l.id)}
+        {@const on = now.liquid === l.id}
+        <button class="liquid" class:on aria-pressed={on} onclick={() => pickUp(editor, 'water', { liquid: l.id })}>
+          <span class="swatch big" style:background={swatch(l)} class:glow={l.glow > 0} style:--glow={l.shallow}></span>
+          <span>{l.name}</span>
+        </button>
+      {/each}
+    </div>
+  </section>
+
+  <section>
+    <h3>Basin</h3>
+    {#each basinParams as def (def.key)}
+      <ParamControl tool="water" {def} library={editor.library} />
+    {/each}
+  </section>
+
+  <section>
+    <h3>Bodies</h3>
+    {#each bodies as b (b.id)}
+      <div class="body">
+        <button class="swatch-btn" title="Change liquid" aria-label="Change liquid of {b.name}"
+          onclick={(e) => (change = { id: b.id, name: b.name, anchor: e.currentTarget as HTMLElement })}>
+          <span class="swatch" style:background={swatch(b.liquid)}></span>
+        </button>
+        <button class="focus" onclick={() => focus(b.id)} title="Show on the map">
+          <span class="name">{b.name}</span>
+          <span class="meta">{Math.round(b.area)} m² · {b.level.toFixed(1)} m</span>
+        </button>
+      </div>
+    {:else}
+      <p class="empty">No water yet</p>
+    {/each}
+  </section>
 </div>
 
+{#if change}
+  {@const target = change}
+  <Popover anchor={target.anchor} width={200} onclose={() => (change = null)}>
+    <div class="menu">
+      {#each LIQUIDS as l (l.id)}
+        <button class:on={liquid(editor.session.doc.getProp(target.id, 'liquid')).id === l.id} onclick={() => setLiquid(target.id, target.name, l)}>
+          <span class="swatch" style:background={swatch(l)}></span>{l.name}
+        </button>
+      {/each}
+    </div>
+  </Popover>
+{/if}
+
 <style>
-  .panel-body { padding: 10px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; min-height: 0; }
-  h3 { margin: 4px 2px 4px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-  .body { display: flex; align-items: center; gap: 8px; padding: 6px 8px; text-align: left; border-color: transparent; background: rgba(255, 255, 255, 0.03); }
-  .swatch { width: 18px; height: 18px; border-radius: 5px; background: #4aa3d8; flex: none; }
-  .name { flex: 1; }
-  .meta { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
-  .empty { color: var(--muted); margin: 0; padding: 12px 2px; }
-  .row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .panel-body { padding: 10px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; min-height: 0; flex: 1; }
+  section { display: flex; flex-direction: column; gap: 4px; }
+  h3 { margin: 0 2px 2px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .row { display: flex; gap: 6px; }
   .draw { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; }
   .save { display: flex; align-items: center; padding: 0 12px; }
-  .draw.on { background: rgba(242, 193, 78, 0.16); color: var(--accent); border-color: rgba(242, 193, 78, 0.45); }
+  .on { background: rgba(242, 193, 78, 0.16) !important; color: var(--accent) !important; border-color: rgba(242, 193, 78, 0.45) !important; }
+  .liquids { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 4px; }
+  .liquid { display: flex; align-items: center; gap: 8px; padding: 5px 6px; text-align: left; font-size: 12px; }
+  .swatch { display: block; width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3); }
+  .swatch.big { width: 24px; height: 24px; border-radius: 6px; }
+  .swatch.glow { box-shadow: 0 0 8px var(--glow), inset 0 0 0 1px rgba(0, 0, 0, 0.3); }
+  .body { display: flex; align-items: center; gap: 4px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); }
+  .swatch-btn { padding: 6px; border: 0; background: transparent; }
+  .focus { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 6px 8px 6px 2px; border: 0; background: transparent; text-align: left; }
+  .focus:hover:not(:disabled) { background: transparent; color: var(--accent); }
+  .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .meta { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+  .empty { color: var(--muted); margin: 0; padding: 6px 2px; }
+  .menu { padding: 6px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+  .menu button { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border: 0; background: transparent; text-align: left; }
+  .menu button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.06); }
 </style>

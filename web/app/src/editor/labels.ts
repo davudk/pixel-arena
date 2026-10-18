@@ -5,6 +5,7 @@ import type { MapDocument, MapObject } from '@pixel-arena/core'
 import type { Library } from '../library/library'
 import { PALETTE } from '../render/terrain-shading'
 import type { BuildPiece, SculptOp } from './tool-params'
+import { liquid } from '../world/liquids'
 
 export function objectName(obj: MapObject, library: Library): string {
   return nameOf(obj.type, (k) => obj.props.get(k), library)
@@ -17,7 +18,7 @@ export function nameOf(type: string, get: (key: string) => unknown, library: Lib
     return library.props.get(id)?.name ?? id
   }
   if (type === 'building') return library.kits.get(String(get('kit')))?.name ?? 'Building'
-  if (type === 'water') return 'Water'
+  if (type === 'water') return liquid(get('liquid')).name
   return type
 }
 
@@ -34,7 +35,8 @@ const OPS: Record<SculptOp, string> = { raise: 'Raise', lower: 'Lower', smooth: 
 export const sculptLabel = (op: SculptOp) => `${OPS[op]} terrain`
 export const paintLabel = (material: number) => `Paint ${PALETTE[material]?.name ?? 'terrain'}`
 export const placeLabel = (name: string) => `Place ${name}`
-export const WATER_LABEL = 'Draw water'
+/** "Draw water", "Draw lava", "Draw muddy water". */
+export const drawLabel = (liquidId: string) => `Draw ${liquid(liquidId).name.toLowerCase()}`
 
 const PIECES: Record<BuildPiece, string> = {
   foundation: 'Build foundation', erase: 'Remove floor', wall: 'Build wall', door: 'Place door', window: 'Place window',
