@@ -175,6 +175,10 @@ function paletteTexture(name: string): THREE.DataTexture | null {
 }
 
 /** Low-res scene render + post pass, reusable for the screen and for offscreen exports. */
+/** Objects only on this layer skip the low-res pass and filters; drawn after, at full
+ *  resolution (renderOverlay). */
+export const OVERLAY_LAYER = 2
+
 export class PixelPass {
   readonly target = new THREE.WebGLRenderTarget(1, 1, {
     magFilter: THREE.NearestFilter, minFilter: THREE.NearestFilter,
@@ -189,6 +193,7 @@ export class PixelPass {
   private postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
   private clock = new THREE.Clock()
   private gridCamera = new THREE.OrthographicCamera()
+  private overlayCamera = new THREE.OrthographicCamera()
   /** Grid line width in output pixels (the screen uses one CSS pixel). */
   gridLineWidth = 1
 
@@ -271,16 +276,16 @@ export class PixelPass {
     }
     r.setRenderTarget(output)
     r.render(this.postScene, this.postCamera)
-    if (showGrid.value && camera instanceof THREE.OrthographicCamera) this.renderGrid(scene, camera, low, out, pixelSize, offset)
+    if (camera instanceof THREE.OrthographicCamera) {
+      if (showGrid.value) this.renderGrid(scene, camera, low, out, pixelSize, offset)
+      this.renderOverlay(scene, camera, low, out, pixelSize, offset)
+    }
     r.setRenderTarget(null)
   }
 
-  /** Draws the grid layer over the finished image at output resolution (see grid.ts). */
-  private renderGrid(scene: THREE.Scene, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2) {
-    const r = this.renderer
-    // The part of the low-res frame the output shows: from the margin, shifted by the sub-texel
-    // offset, out / pixelSize texels across (same mapping as the post shader).
-    const cam = this.gridCamera
+  /** `cam` set to the part of the low-res frame the output shows: from the margin, shifted by the
+   *  sub-texel offset, out / pixelSize texels across (same mapping as the post shader). */
+  private outputCamera(cam: THREE.OrthographicCamera, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2) {
     cam.copy(camera)
     const tx = (camera.right - camera.left) / low.x
     const ty = (camera.top - camera.bottom) / low.y
@@ -288,8 +293,33 @@ export class PixelPass {
     cam.right = cam.left + (out.x / pixelSize) * tx
     cam.bottom = camera.bottom + (MARGIN + offset.y) * ty
     cam.top = cam.bottom + (out.y / pixelSize) * ty
-    cam.layers.set(GRID_LAYER)
     cam.updateProjectionMatrix()
+    return cam
+  }
+
+  /** Draws OVERLAY_LAYER (editor gizmos, e.g. the position axes) over the finished image at
+   *  output resolution: crisp, never filtered, over everything. */
+  private renderOverlay(scene: THREE.Scene, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2) {
+    const r = this.renderer
+    const cam = this.outputCamera(this.overlayCamera, camera, low, out, pixelSize, offset)
+    cam.layers.set(OVERLAY_LAYER)
+    const bg = scene.background
+    const autoClear = r.autoClear
+    const shadows = r.shadowMap.autoUpdate
+    scene.background = null
+    r.autoClear = false
+    r.shadowMap.autoUpdate = false
+    r.render(scene, cam)
+    r.shadowMap.autoUpdate = shadows
+    r.autoClear = autoClear
+    scene.background = bg
+  }
+
+  /** Draws the grid layer over the finished image at output resolution (see grid.ts). */
+  private renderGrid(scene: THREE.Scene, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2) {
+    const r = this.renderer
+    const cam = this.outputCamera(this.gridCamera, camera, low, out, pixelSize, offset)
+    cam.layers.set(GRID_LAYER)
     gridUniforms.tDepth.value = this.target.depthTexture
     gridUniforms.pixelSize.value = pixelSize
     gridUniforms.offset.value.copy(offset)

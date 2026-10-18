@@ -1,12 +1,16 @@
 // Axes through an object's origin while one of Selection's X / Y / Z fields has focus: X red,
 // Y green, Z blue (the colors of the field letters), solid toward + with an arrow tip, dashed
-// toward -. The focused axis is bright; the other two faint. Drawn over everything, at a
-// constant on-screen size for tips and dashes. The letters are page text over the canvas (crisp,
+// toward -. The focused axis is bright; the other two faint. Drawn over everything after the
+// pixel filters, at full resolution (OVERLAY_LAYER), at a constant on-screen size. The letters are page text over the canvas (crisp,
 // not pixelated): X and Z lie flat on the ground (skewed like the ground is in this view), Y
 // stands upright; they follow the view every frame.
 
 import * as THREE from 'three'
 import { BuildingLayout, PackedVec2Array, Vec3 } from '@pixel-arena/core'
+import { Line2 } from 'three/examples/jsm/lines/Line2.js'
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js'
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
+import { OVERLAY_LAYER } from '../render/pixel'
 import type { Editor } from './editor'
 
 export type Axis = 'x' | 'y' | 'z'
@@ -86,10 +90,25 @@ export class AxesGizmo {
     const px = this.editor.rig.zoom / Math.max(1, this.editor.pixel.canvas.clientHeight) // m per CSS px
     const len = Math.max(2, this.extent(obj.id) / 2 + 1.2)
     const origin = new THREE.Vector3(pos.x, pos.y, pos.z)
+    // Drawn after the pixel filters at full resolution (OVERLAY_LAYER): crisp lines a fixed
+    // number of screen pixels wide.
+    const dpr = window.devicePixelRatio
     const add = (o: THREE.Object3D) => {
       o.renderOrder = 20
       o.raycast = () => {}
+      o.layers.set(OVERLAY_LAYER)
       this.root.add(o)
+    }
+    const wide = (a: THREE.Vector3, b: THREE.Vector3, color: THREE.Color, width: number, opacity: number, dashed = false) => {
+      const geo = new LineGeometry().setPositions([a.x, a.y, a.z, b.x, b.y, b.z])
+      const mat = new LineMaterial({
+        color, linewidth: width * dpr, transparent: true, opacity, depthTest: false, depthWrite: false,
+        dashed, dashSize: 7 * px, gapSize: 5 * px,
+      })
+      mat.resolution.copy(this.editor.pixel.out)
+      const line = new Line2(geo, mat)
+      if (dashed) line.computeLineDistances()
+      add(line)
     }
     for (const axis of ['x', 'y', 'z'] as Axis[]) {
       const on = axis === this.shown.axis
@@ -97,14 +116,8 @@ export class AxesGizmo {
       const opacity = on ? 1 : 0.35
       const dir = new THREE.Vector3(axis === 'x' ? 1 : 0, axis === 'y' ? 1 : 0, axis === 'z' ? 1 : 0)
       const tip = origin.clone().addScaledVector(dir, len)
-      const mat = () => new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthTest: false, depthWrite: false })
-      add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([origin, tip]), mat()))
-      if (axis !== 'y') {
-        const back = new THREE.Line(new THREE.BufferGeometry().setFromPoints([origin, origin.clone().addScaledVector(dir, -len)]),
-          new THREE.LineDashedMaterial({ color, transparent: true, opacity: opacity * 0.8, depthTest: false, depthWrite: false, dashSize: 6 * px, gapSize: 5 * px }))
-        back.computeLineDistances()
-        add(back)
-      }
+      wide(origin, tip, color, on ? 3 : 2, opacity)
+      if (axis !== 'y') wide(origin, origin.clone().addScaledVector(dir, -len), color, on ? 2 : 1.5, opacity * 0.8, true)
       // Arrow tip.
       const cone = new THREE.Mesh(new THREE.ConeGeometry(7 * px, 18 * px, 12),
         new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthTest: false, depthWrite: false }))

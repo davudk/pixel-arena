@@ -1,5 +1,6 @@
 // Selection marks on the ground, like units in a strategy game: a thin ring around the base of
-// each selected prop (sized to its footprint), the footprint outline of a building, and the
+// each selected prop (centered on and sized to its model's footprint, which needn't be around
+// the prop's origin), the footprint outline of a building, and the
 // shoreline of a body of water (with its islands). A selected group marks its members. Locked
 // objects are marked in grey. Lines are one low-res texel wide, so they stay crisp in the pixel
 // pass; they're depth-tested, so the object itself hides the part of the ring behind it.
@@ -7,6 +8,7 @@
 import * as THREE from 'three'
 import { BuildingLayout, PackedVec2Array, Vec3, type MapObject, type MapSession } from '@pixel-arena/core'
 import type { Editor } from './editor'
+import { loadModel } from '../library/models'
 import { GROUP, isLocked, members } from './grouping'
 
 const ACCENT = '#f2c14e'
@@ -41,6 +43,8 @@ export class SelectionMarks {
 
   /** Ids with a mark (selected objects and the members of selected groups). */
   private marked = new Set<string>()
+  /** Models' bounds by prop id, once loaded (the ring waits for them, see markFor). */
+  private boxes = new Map<string, THREE.Box3 | null>()
 
   rebuild() {
     for (const child of [...this.root.children]) {
@@ -82,10 +86,26 @@ export class SelectionMarks {
     group.rotation.y = Number(obj.props.get('rotation') ?? 0)
     if (obj.type === 'prop') {
       const prop = this.editor.library.props.get(String(obj.props.get('prop')))
-      const [w, d] = prop?.footprint ?? [1, 1]
       const scale = Number(obj.props.get('scale') ?? 1)
-      const r = Math.max(0.35, Math.hypot(w, d) * 0.45 + 0.15) * scale
-      group.add(loop(Array.from({ length: 48 }, (_, i) => [Math.cos((i / 48) * Math.PI * 2) * r, Math.sin((i / 48) * Math.PI * 2) * r])))
+      // Around the model's own footprint (its bounds in the prop's frame), else the manifest's
+      // footprint at the origin until the model has loaded.
+      let [cx, cz, w, d] = [0, 0, ...(prop?.footprint ?? [1, 1])]
+      const box = prop ? this.boxes.get(prop.id) : null
+      if (box) {
+        const c = box.getCenter(new THREE.Vector3())
+        const size = box.getSize(new THREE.Vector3())
+        ;[cx, cz, w, d] = [c.x, c.z, size.x, size.z]
+      } else if (prop && !this.boxes.has(prop.id)) {
+        this.boxes.set(prop.id, null)
+        loadModel(prop).then((m) => {
+          this.boxes.set(prop.id, m.box.clone())
+          this.rebuild()
+        }).catch(() => {})
+      }
+      const r = Math.max(0.35, Math.hypot(w, d) * 0.45 + 0.15)
+      const ring = loop(Array.from({ length: 48 }, (_, i) => [cx + Math.cos((i / 48) * Math.PI * 2) * r, cz + Math.sin((i / 48) * Math.PI * 2) * r]))
+      ring.scale.setScalar(scale)
+      group.add(ring)
     } else if (obj.type === 'building') {
       const kit = this.editor.library.kits.get(String(obj.props.get('kit')))
       const cs = kit?.cellSize ?? 3

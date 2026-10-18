@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { PALETTE } from '../render/terrain-shading'
 import { PaintPolygonTool } from './paint-polygon-tool'
+import { loadModel } from '../library/models'
 import { buildReview, resolutions } from '../ui/merge-review'
 import type { ViewSettings } from '../render/view-settings'
 import type { Exporter } from '../render/exporter'
@@ -880,6 +881,20 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
       await settle()
       check(editor.marks.root.children.length === 1, 'prop ringed')
       await shot('ring')
+      // A model that isn't centered on its origin (Chimney): the ring goes around the model.
+      const s = editor.session
+      let chimney = ''
+      s.edit('Chimney', () => (chimney = s.createObject('prop', { prop: 'kenney_town:chimney', position: new Vec3(tp.x + 3, 0, tp.z), rotation: 0 })))
+      editor.selection.set([chimney])
+      editor.rig.focus.set(tp.x + 3, 0, tp.z)
+      editor.rig.zoom = 8
+      await settle()
+      await sleep(500) // the model's bounds load once
+      const model = await loadModel(editor.library.props.get('kenney_town:chimney')!)
+      const c = model.box.getCenter(new THREE.Vector3())
+      const ring = new THREE.Box3().setFromObject(editor.marks.root).getCenter(new THREE.Vector3())
+      check(Math.hypot(ring.x - (tp.x + 3 + c.x), ring.z - (tp.z + c.z)) < 0.05, `ring centered on the model (off by ${Math.hypot(ring.x - (tp.x + 3 + c.x), ring.z - (tp.z + c.z)).toFixed(2)} m; model center ${c.x.toFixed(2)}, ${c.z.toFixed(2)})`)
+      await shot('ring-chimney')
       editor.selection.set([building.id])
       await settle()
     }
