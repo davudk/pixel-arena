@@ -7,8 +7,8 @@
   // time=<hours>, pixel=<n>, outline=0|1, grid=0|1, cutaway=<level>, scatter=<n> (adds n random
   // props; chars=0 leaves out animated characters), shot=<file.png> (saves the canvas into
   // web/app/shots/ once everything has loaded, plus <file>.json with fps and draw stats),
-  // selftest=place|select|terrain (drives the tools end to end, writes shots/selftest-<name>.json),
-  // tool=select|terrain|water (start with that tool).
+  // selftest=place|select|terrain|building (drives the tools end to end, writes shots/selftest-<name>.json),
+  // tool=select|terrain|water|building (start with that tool).
   import { onMount } from 'svelte'
   import * as THREE from 'three'
   import { MapSession, openProject, saveProject, Vec3 } from '@pixel-arena/core'
@@ -26,6 +26,8 @@
   import { TerrainTool } from './editor/terrain-tool'
   import { WaterTool } from './editor/water-tool'
   import TerrainOptions from './ui/TerrainOptions.svelte'
+  import { BuildingTool } from './editor/building-tool'
+  import BuildingOptions from './ui/BuildingOptions.svelte'
   import PropBrowser from './ui/PropBrowser.svelte'
   import { runSelfTest } from './editor/selftest'
 
@@ -85,7 +87,8 @@
     day.apply()
   })
   $effect(() => {
-    world?.setCutaway(cutaway)
+    if (editor) editor.viewCutaway = cutaway
+    if (activeTool !== 'building') world?.setCutaway(cutaway)
   })
   $effect(() => {
     if (editor?.tool instanceof PlaceTool) editor.tool.randomRotation = randomRotation
@@ -169,12 +172,18 @@
     { name: 'select', label: 'Select', key: 'V' },
     { name: 'terrain', label: 'Terrain', key: 'T' },
     { name: 'water', label: 'Water', key: 'O' },
+    { name: 'building', label: 'Build', key: 'B' },
   ]
 
   function setToolByName(name: string) {
     if (!editor) return
     if (name !== 'select') editor.selection.clear()
-    editor.setTool(name === 'terrain' ? new TerrainTool(editor) : name === 'water' ? new WaterTool(editor) : new SelectTool(editor))
+    editor.setTool(
+      name === 'terrain' ? new TerrainTool(editor)
+        : name === 'water' ? new WaterTool(editor)
+          : name === 'building' ? new BuildingTool(editor)
+            : new SelectTool(editor),
+    )
   }
 
   function choose(prop: PropDef) {
@@ -254,6 +263,7 @@
     if (k === 'v') setToolByName('select')
     else if (k === 't') setToolByName('terrain')
     else if (k === 'o') setToolByName('water')
+    else if (k === 'b') setToolByName('building')
     else if (k === 'q') rig.rotateBy(Math.PI / 4)
     else if (k === 'e') rig.rotateBy(-Math.PI / 4)
   }
@@ -321,7 +331,7 @@
           ? `Placing ${t.prop.name}: click to place · R rotate · Cmd = no snap · Esc stop`
           : t instanceof WaterTool
             ? 'Water: click corners · click the first corner or Enter to finish · Backspace undo corner · Esc'
-            : t instanceof TerrainTool
+            : t instanceof TerrainTool || t instanceof BuildingTool
               ? ''
               : 'Click / drag-box to select · drag to move · R rotate · PgUp/PgDn raise · Del · Cmd+D · Cmd+C/V · I pick prop · F focus'
       })
@@ -418,6 +428,7 @@
     </header>
 
     {#if activeTool === 'terrain'}<TerrainOptions />{/if}
+    {#if activeTool === 'building' && editor}<BuildingOptions {editor} />{/if}
 
     <aside class="panel">
       <h2>View</h2>

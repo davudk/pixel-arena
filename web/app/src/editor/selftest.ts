@@ -3,12 +3,13 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, merge, openProject, saveProject, terrainEdit, Vec3 } from '@pixel-arena/core'
 import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
 import { TerrainTool, terrainSettings } from './terrain-tool'
 import { WaterTool } from './water-tool'
+import { BuildingTool, buildSettings } from './building-tool'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -26,6 +27,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     if (name === 'place') await placeTest(editor, check, settle)
     else if (name === 'select') await selectTest(editor, check, settle)
     else if (name === 'terrain') await terrainTest(editor, check, settle)
+    else if (name === 'building') await buildingTest(editor, check, settle)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -276,4 +278,81 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(Math.abs((doc.getProp(ids[0], 'position') as Vec3).y - y0 - 0.25) < 1e-9, 'PageUp raises the water by 0.25 m')
   await settle()
   check(world.highlightRoot.children.length === 1, 'water rendered and highlighted')
+}
+
+async function buildingTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const { session: s, rig, pixel, world, selection } = editor
+  rig.focus.set(-8, 0, -8)
+  rig.zoom = 34
+  await settle()
+  const at = (v: THREE.Vector3): Pointer => {
+    const p = pixel.toScreen(v, rig)!
+    return { x: p.x, y: p.y, shift: false, alt: false, cmd: false }
+  }
+  const doc = s.doc
+  const tool = new BuildingTool(editor)
+  editor.setTool(tool)
+  buildSettings.mode = 'foundation'
+  tool.setLevel(0)
+  check(world.cutawayLevel === 0, 'cutaway follows the level')
+
+  // Paint three cells in a row -> a new building with 8 exterior walls, selected.
+  const origin = new THREE.Vector3(-15, 0, -15)
+  const a = at(origin.clone().add(new THREE.Vector3(1.5, 0, 1.5)))
+  tool.pointerDown(a)
+  tool.pointerMove(at(origin.clone().add(new THREE.Vector3(4.5, 0, 1.5))))
+  tool.pointerMove(at(origin.clone().add(new THREE.Vector3(7.5, 0, 1.5))))
+  tool.pointerUp()
+  const id = tool.target
+  check(id && doc.getObject(id)?.type === 'building', 'building created')
+  let layout = BuildingLayout.fromObject(doc.getObject(id)!)
+  check(layout.cells(0).size === 3, `3 cells painted (got ${layout.cells(0).size})`)
+  check(layout.walls(0).size === 8, `8 exterior walls (got ${layout.walls(0).size})`)
+  check(selection.list().join() === id, 'building selected')
+  const bpos = doc.getProp(id, 'position') as Vec3
+  const b = (x: number, y: number, z: number) => new THREE.Vector3(bpos.x + x, bpos.y + y, bpos.z + z)
+
+  // Door on the south edge of the middle cell.
+  buildSettings.mode = 'door'
+  tool.pointerDown(at(b(4.5, 1, 3)))
+  layout = BuildingLayout.fromObject(doc.getObject(id)!)
+  check([...layout.walls(0).values()].some((w) => w.kind === 'door'), 'door placed')
+
+  // Level 1: one cell; the roof over level 1 is cut away while editing it.
+  buildSettings.mode = 'foundation'
+  tool.setLevel(1)
+  const up = at(b(1.5, 3, 1.5))
+  tool.pointerDown(up)
+  tool.pointerUp()
+  layout = BuildingLayout.fromObject(doc.getObject(id)!)
+  check(layout.cells(1).size === 1, `level 1 cell (got ${layout.cells(1).size})`)
+  await settle()
+  const root = world.objectRoot(id)
+  const roof1 = root?.children.find((c) => c.userData.roofLevel === 1)
+  check(roof1 && !roof1.visible, 'roof over level 1 hidden while editing level 1')
+  const level1 = root?.children.find((c) => c.userData.level === 1)
+  check(level1?.visible, 'level 1 visible')
+
+  // Roof style is one undoable edit.
+  tool.setRoof('hip')
+  check(doc.getProp(id, 'roof/style') === 'hip', 'roof style set')
+  s.undo()
+  check(doc.getProp(id, 'roof/style') === 'gable', 'undo roof style')
+
+  // Erasing every cell deletes the building; undo brings it back.
+  buildSettings.mode = 'erase'
+  tool.pointerDown(up)
+  tool.pointerUp()
+  tool.setLevel(0)
+  tool.pointerDown(a)
+  tool.pointerMove(at(b(4.5, 0, 1.5)))
+  tool.pointerMove(at(b(7.5, 0, 1.5)))
+  tool.pointerUp()
+  check(!doc.hasObject(id), 'erasing every cell deletes the building')
+  s.undo()
+  check(doc.hasObject(id), 'undo brings it back')
+
+  // Leaving the tool restores the view's cutaway setting.
+  editor.setTool(editor.defaultTool())
+  check(world.cutawayLevel === editor.viewCutaway, 'cutaway restored on leaving the tool')
 }

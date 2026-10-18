@@ -56,6 +56,9 @@ export class Editor {
   readonly box = new Signal<BoxRect | null>()
   readonly selection = new Selection()
   tool: Tool = idleTool
+  /** Building level the view panel cuts away to (-1 = none); tools that change the cutaway
+   *  restore it when they finish. */
+  viewCutaway = -1
   /** Creates the tool to return to (the select tool; set by the app to avoid an import cycle). */
   defaultTool: () => Tool = () => idleTool
   cursor: Pointer = { x: 0, y: 0, shift: false, alt: false, cmd: false }

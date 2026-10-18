@@ -459,7 +459,11 @@ docs/
   options panel synced with `[` / `]` keys, water polygons (snapped corners, close on the first
   corner or Enter, self-intersection check), tool switcher (V / T / O). Verified by
   `?selftest=terrain`.
-  Next: building tool, branches & history UI; then M7 (filters & export) and Electron/Steam.
+  Building tool done: foundation / erase drag-painting (new building when painting away from the
+  current one; erasing every cell deletes it), wall / door / window edge clicks, levels with
+  cutaway (restores the view panel's cutaway on exit), roof style and kit switching, hover
+  preview; options panel; Build (B) in the tool switcher. Verified by `?selftest=building`.
+  Next: branches & history UI; then M7 (filters & export) and Electron/Steam.
 
 Future: underground layers → co-op server (headless Godot reusing `src/core`) → share links →
 web viewer (Godot web export of a viewer mode) → video/timelapse → Workshop.

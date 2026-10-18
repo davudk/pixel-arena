@@ -141,6 +141,15 @@ export class WorldView {
     for (const id of this.doc!.objects.keys()) this.dirty.add(id)
   }
 
+  get cutawayLevel(): number {
+    return this.cutaway
+  }
+
+  /** The scene node of a non-instanced object (building, water, animated prop), if loaded. */
+  objectRoot(id: string): THREE.Object3D | undefined {
+    return this.singles.get(id)?.root
+  }
+
   /** Building level being edited (-1 = everything visible). */
   setCutaway(level: number) {
     this.cutaway = level
