@@ -6,8 +6,11 @@ export type ViewMode = 'cards' | 'list'
 export type GroupBy = 'none' | 'category' | 'subcategory' | 'pack'
 export type SortBy = 'name' | 'size' | 'height' | 'recent' | 'used'
 export type CardSize = 's' | 'm' | 'l'
+/** What the left panel shows; each mode has its tool (see App.svelte). */
+export type Mode = 'select' | 'props' | 'terrain' | 'water' | 'build'
 
 const DEFAULTS = {
+  mode: 'props' as Mode,
   leftWidth: 300,
   rightWidth: 280,
   leftHidden: false,
@@ -24,6 +27,9 @@ const DEFAULTS = {
   /** Collapsed prop groups (group keys); recently placed starts collapsed. */
   collapsedGroups: [':recent'] as string[],
   showStats: false,
+  // Placing props.
+  randomRotation: false,
+  snap: true,
 }
 export type UiPrefs = typeof DEFAULTS
 

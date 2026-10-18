@@ -495,6 +495,12 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   tool options pop up above it. Right panel: collapsible View / Selection (position and
   rotation fields) / Branches and history. UI text isn't selectable. Preferences per player in
   localStorage (`web/app/src/ui/ui-state.svelte.ts`).
+- Modes (web): a rail on the window's left edge picks Select (V), Props (P), Terrain (T),
+  Water (O) or Build (B); clicking the active mode collapses its panel. The left panel is the
+  mode's "what" (outliner of all objects, prop browser, terrain brushes and materials, water
+  bodies, building kits / pieces / roof); the bottom bar is its "how" (random rotation and
+  snap, brush size and strength, building level) plus selection actions. Right panel stays
+  View / Selection / History.
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

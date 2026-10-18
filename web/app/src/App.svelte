@@ -31,9 +31,13 @@
   import { SelectTool } from './editor/select-tool'
   import { TerrainTool } from './editor/terrain-tool'
   import { WaterTool } from './editor/water-tool'
-  import TerrainOptions from './ui/TerrainOptions.svelte'
+  import BrushSettings from './ui/BrushSettings.svelte'
+  import TerrainPanel from './ui/TerrainPanel.svelte'
+  import WaterPanel from './ui/WaterPanel.svelte'
+  import Outliner from './ui/Outliner.svelte'
   import { BuildingTool } from './editor/building-tool'
-  import BuildingOptions from './ui/BuildingOptions.svelte'
+  import BuildPanel from './ui/BuildPanel.svelte'
+  import { buildSettings, MAX_LEVEL } from './editor/building-tool'
   import HistoryPanel from './ui/HistoryPanel.svelte'
   import Dialogs, { type DialogState } from './ui/Dialogs.svelte'
   import { buildReview, resolutions } from './ui/merge-review'
@@ -45,7 +49,7 @@
   import Resizer from './ui/Resizer.svelte'
   import Section from './ui/Section.svelte'
   import SelectionPanel from './ui/SelectionPanel.svelte'
-  import { noteRecent, persistUi, thumbUrls, ui } from './ui/ui-state.svelte'
+  import { noteRecent, persistUi, thumbUrls, ui, type Mode } from './ui/ui-state.svelte'
   import { usageCounts } from './ui/prop-list'
 
   const params = new URLSearchParams(location.search)
@@ -75,7 +79,6 @@
   let selected = $state(0)
   let boxRect: BoxRect | null = $state(null)
   let placing: string | null = $state(null)
-  let randomRotation = $state(false)
   let canUndo = $state(false)
   let canRedo = $state(false)
   let library: Library | null = $state(null)
@@ -87,8 +90,9 @@
   let usage: Map<string, number> = $state(new Map())
   persistUi()
   const GAP = 10
-  // Room the side panels take from the window edges (panel plus gaps); bars stay clear of it.
-  const leftSpace = $derived(ui.leftHidden ? 0 : ui.leftWidth + GAP * 2)
+  const RAIL = 48
+  // Room the rail and side panels take from the window edges (plus gaps); bars stay clear of it.
+  const leftSpace = $derived(GAP + RAIL + GAP + (ui.leftHidden ? 0 : ui.leftWidth + GAP))
   const rightSpace = $derived(ui.rightHidden ? 0 : ui.rightWidth + GAP * 2)
 
   let pixel: PixelRenderer
@@ -153,7 +157,11 @@
     if (activeTool !== 'building') world?.setCutaway(cutaway)
   })
   $effect(() => {
-    if (editor?.tool instanceof PlaceTool) editor.tool.randomRotation = randomRotation
+    const t = editor?.tool
+    if (t instanceof PlaceTool) {
+      t.randomRotation = ui.randomRotation
+      t.snap = ui.snap
+    }
   })
   $effect(() => {
     document.title = `Pixel Arena — ${mapName}${dirty ? ' •' : ''}`
@@ -310,12 +318,6 @@
 
   // --- Tools --------------------------------------------------------------------------
 
-  const TOOLS = [
-    { name: 'select', label: 'Select', key: 'V', icon: 'pointer' },
-    { name: 'terrain', label: 'Terrain', key: 'T', icon: 'mountain' },
-    { name: 'water', label: 'Water', key: 'O', icon: 'droplet' },
-    { name: 'building', label: 'Build', key: 'B', icon: 'building' },
-  ]
 
   // --- Branches ------------------------------------------------------------------------
 
@@ -364,10 +366,51 @@
   function choose(prop: PropDef) {
     if (!editor) return
     const tool = new PlaceTool(editor, prop)
-    tool.randomRotation = randomRotation
+    tool.randomRotation = ui.randomRotation
+    tool.snap = ui.snap
     editor.setTool(tool)
     noteRecent(prop.id)
   }
+
+  // --- Modes ---------------------------------------------------------------------------
+  // The rail picks a mode; the mode decides the left panel and the tool. Props mode keeps the
+  // select tool until a prop is chosen (placing), and stays in Props after Esc.
+
+  const MODES: { mode: Mode; label: string; key: string; icon: string }[] = [
+    { mode: 'select', label: 'Select', key: 'V', icon: 'pointer' },
+    { mode: 'props', label: 'Props', key: 'P', icon: 'cube' },
+    { mode: 'terrain', label: 'Terrain', key: 'T', icon: 'mountain' },
+    { mode: 'water', label: 'Water', key: 'O', icon: 'droplet' },
+    { mode: 'build', label: 'Build', key: 'B', icon: 'building' },
+  ]
+  const MODE_TOOL: Record<Mode, string> = { select: 'select', props: 'select', terrain: 'terrain', water: 'water', build: 'building' }
+
+  function setMode(m: Mode) {
+    ui.mode = m
+    ui.leftHidden = false
+    if (!editor) return
+    if (m === 'props' && editor.tool instanceof PlaceTool) return
+    if (editor.tool.name !== MODE_TOOL[m]) setToolByName(MODE_TOOL[m])
+  }
+
+  /** Rail click: the active mode's icon collapses or reopens the panel. */
+  function railClick(m: Mode) {
+    if (m === ui.mode) ui.leftHidden = !ui.leftHidden
+    else setMode(m)
+  }
+
+  /** Keeps the mode in step when the tool changes some other way (keys, Esc, self-tests). */
+  function syncMode(toolName: string) {
+    if (toolName === 'place') ui.mode = 'props'
+    else if (toolName === 'terrain') ui.mode = 'terrain'
+    else if (toolName === 'water') ui.mode = 'water'
+    else if (toolName === 'building') ui.mode = 'build'
+    else if (ui.mode !== 'props') ui.mode = 'select'
+  }
+
+  let level = $state(buildSettings.level)
+  buildSettings.changed.connect(() => (level = buildSettings.level))
+  const setLevel = (l: number) => editor?.tool instanceof BuildingTool && editor.tool.setLevel(l)
 
   // Dragging a prop from the panel onto the map places it where it's dropped.
   const PROP_MIME = 'application/x-pixel-arena-prop'
@@ -503,10 +546,8 @@
       e.preventDefault()
       return
     }
-    if (k === 'v') setToolByName('select')
-    else if (k === 't') setToolByName('terrain')
-    else if (k === 'o') setToolByName('water')
-    else if (k === 'b') setToolByName('building')
+    const byKey = MODES.find((m) => m.key.toLowerCase() === k)
+    if (byKey) setMode(byKey.mode)
     else if (k === 'q') rig.rotateBy(Math.PI / 4)
     else if (k === 'e') rig.rotateBy(-Math.PI / 4)
   }
@@ -572,6 +613,7 @@
       ed.toolChanged.connect((t) => {
         placing = t instanceof PlaceTool ? t.prop.id : null
         activeTool = t.name
+        syncMode(t.name)
       })
       ed.selection.changed.connect(() => (selected = ed.selection.size))
       ed.box.connect((r) => (boxRect = r))
@@ -581,6 +623,7 @@
       editorReady = true
       setSession(editor.session, 'Untitled')
       status = ''
+      setMode(ui.mode)
       if (params.get('map')) await openUrl(params.get('map')!)
       if (params.get('scatter')) scatter(lib, editor.session, Number(params.get('scatter')))
       if (params.get('tool')) setToolByName(params.get('tool')!)
@@ -653,17 +696,31 @@
     <div class="boxsel" style:left="{boxRect.x}px" style:top="{boxRect.y}px" style:width="{boxRect.w}px" style:height="{boxRect.h}px"></div>
   {/if}
 
-  <div class="side left" class:hidden={ui.leftHidden} style:width="{ui.leftWidth}px">
-    <!-- As tall as the top bar, so the theme button (and its popover) start just below it. -->
-    <div class="mapname" title={filePath ?? 'Not saved yet'}>
-      <span class="mark" aria-hidden="true"></span>
-      <span class="title">{mapName.replace(/\.pxmap$/, '')}</span>
-      {#if dirty}<span class="dirty" title="Unsaved changes">●</span>{/if}
-    </div>
-    {#if library && thumbnails}
-      <PropBrowser {library} {thumbnails} {usage} selected={placing} bind:randomRotation onchoose={choose} />
+  <nav class="rail" aria-label="Modes" style:width="{RAIL}px">
+    <span class="mark" aria-hidden="true"></span>
+    {#each MODES as m (m.mode)}
+      <button class:on={ui.mode === m.mode} class:collapsed={ui.mode === m.mode && ui.leftHidden}
+        title="{m.label} ({m.key})" aria-label={m.label} aria-pressed={ui.mode === m.mode} onclick={() => railClick(m.mode)}>
+        <Icon name={m.icon} size={20} />
+      </button>
+    {/each}
+  </nav>
+
+  <div class="side left" class:hidden={ui.leftHidden} style:left="{GAP + RAIL + GAP}px" style:width="{ui.leftWidth}px">
+    <!-- As tall as the top bar, so popovers opened from the panel start just below it. -->
+    <div class="panelhead">{MODES.find((m) => m.mode === ui.mode)?.label}</div>
+    {#if !library || !thumbnails || !editorReady || !editor}
+      <p class="loading">Loading…</p>
+    {:else if ui.mode === 'props'}
+      <PropBrowser {library} {thumbnails} {usage} selected={placing} onchoose={choose} />
+    {:else if ui.mode === 'terrain'}
+      <TerrainPanel />
+    {:else if ui.mode === 'water'}
+      <WaterPanel {editor} />
+    {:else if ui.mode === 'build'}
+      <BuildPanel {editor} />
     {:else}
-      <p class="loading">Loading props…</p>
+      <Outliner {editor} />
     {/if}
     <Resizer side="left" bind:width={ui.leftWidth} min={220} max={560} initial={300} />
   </div>
@@ -680,6 +737,7 @@
       <button class="icon" onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)" aria-label="Undo"><Icon name="undo" /></button>
       <button class="icon" onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)" aria-label="Redo"><Icon name="redo" /></button>
     </div>
+    <span class="mapname" title={filePath ?? 'Not saved yet'}>{mapName.replace(/\.pxmap$/, '')}{#if dirty}<span class="dirty" title="Unsaved changes"> ●</span>{/if}</span>
     <span class="spacer"></span>
     {#if steam}
       <button class="steam" class:off={!steam.ok} disabled={!steam.ok} onclick={() => desktop?.steam.overlay('friends')}
@@ -720,30 +778,37 @@
   <div class="bottom">
     <div class="keepout" style:min-width="{leftSpace}px"></div>
     <div class="center" data-avoid style:max-width="calc(100% - {leftSpace + rightSpace}px)">
-      {#if activeTool === 'terrain'}<TerrainOptions />{/if}
-      {#if activeTool === 'building' && editor}<BuildingOptions {editor} />{/if}
-      <footer class="bottombar">
-        <div class="tools" role="group" aria-label="Tools">
-          {#each TOOLS as t (t.name)}
-            <button class:on={activeTool === t.name} title="{t.label} ({t.key})" onclick={() => setToolByName(t.name)}>
-              <Icon name={t.icon} /><span>{t.label}</span>
-            </button>
-          {/each}
-        </div>
-        {#if status}<span class="hint" title={status}>{status}</span>{/if}
-        {#if selected && activeTool === 'select'}
-          <span class="sep"></span>
-          <span class="count">{selected} selected</span>
-          <div class="actions">
-            <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
-            <button class="icon" title="Rotate (R, Shift+R back)" aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
-            <button class="icon" title="Raise (PgUp)" aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
-            <button class="icon" title="Lower (PgDn)" aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
-            <button class="icon" title="Focus (F)" aria-label="Focus" onclick={() => selectTool().focusSelection()}><Icon name="focus" /></button>
-            <button class="icon danger" title="Delete (Del)" aria-label="Delete" onclick={() => selectTool().deleteSelection()}><Icon name="trash" /></button>
-          </div>
-        {/if}
-      </footer>
+      {#if (ui.mode === 'props' || ui.mode === 'terrain' || ui.mode === 'build' || (selected && activeTool === 'select') || status) && editorReady}
+        <footer class="bottombar">
+          {#if ui.mode === 'props'}
+            <button class="toggle" class:on={ui.randomRotation} aria-pressed={ui.randomRotation} onclick={() => (ui.randomRotation = !ui.randomRotation)}
+              title="Give each placed prop a random rotation"><Icon name="shuffle" /> Random rotation</button>
+            <button class="toggle" class:on={ui.snap} aria-pressed={ui.snap} onclick={() => (ui.snap = !ui.snap)}
+              title="Snap placed props to the grid (hold Cmd to place freely)"><Icon name="magnet" /> Snap</button>
+          {:else if ui.mode === 'terrain'}
+            <BrushSettings />
+          {:else if ui.mode === 'build'}
+            <div class="level">
+              <button class="icon" onclick={() => setLevel(level - 1)} disabled={level <= 0} title="Level down (PageDown)" aria-label="Level down"><Icon name="down" /></button>
+              <span>Level {level}</span>
+              <button class="icon" onclick={() => setLevel(level + 1)} disabled={level >= MAX_LEVEL} title="Level up (PageUp)" aria-label="Level up"><Icon name="up" /></button>
+            </div>
+          {/if}
+          {#if selected && activeTool === 'select'}
+            {#if ui.mode === 'props' || ui.mode === 'terrain' || ui.mode === 'build'}<span class="sep"></span>{/if}
+            <span class="count">{selected} selected</span>
+            <div class="actions">
+              <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
+              <button class="icon" title="Rotate (R, Shift+R back)" aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
+              <button class="icon" title="Raise (PgUp)" aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
+              <button class="icon" title="Lower (PgDn)" aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
+              <button class="icon" title="Focus (F)" aria-label="Focus" onclick={() => selectTool().focusSelection()}><Icon name="focus" /></button>
+              <button class="icon danger" title="Delete (Del)" aria-label="Delete" onclick={() => selectTool().deleteSelection()}><Icon name="trash" /></button>
+            </div>
+          {/if}
+          {#if status}<span class="hint" title={status}>{status}</span>{/if}
+        </footer>
+      {/if}
     </div>
     <div class="keepout" style:min-width="{rightSpace}px"></div>
   </div>

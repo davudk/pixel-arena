@@ -20,7 +20,7 @@ input, textarea, .selectable { user-select: text; -webkit-user-select: text; }
 .app { position: relative; height: 100%; overflow: hidden; }
 canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 
-.panel, .side, .topbar, .bottombar, .stats {
+.panel, .side, .rail, .topbar, .bottombar, .stats {
   border-radius: 12px; background: var(--panel); border: 1px solid var(--line);
   backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
@@ -36,20 +36,25 @@ input[type='checkbox'] { accent-color: var(--accent); }
 
 /* Side panels float over the map; their inner edge is a resize handle. */
 .side { position: absolute; top: 10px; bottom: 10px; z-index: 5; display: flex; flex-direction: column; min-height: 0; }
-.side.left { left: 10px; }
 .side.right { right: 10px; bottom: auto; max-height: calc(100% - 20px); }
 .side.hidden { display: none; }
 .side .loading { padding: 16px; margin: 0; color: var(--muted); }
-/* Top of the props panel: same height as the top bar (panel border included). */
-.mapname { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; gap: 8px; padding: 0 14px; border-bottom: 1px solid var(--line); min-width: 0; }
-.mapname .mark { width: 12px; height: 12px; border-radius: 3px; background: var(--accent); box-shadow: 4px 4px 0 rgba(242, 193, 78, 0.35); flex: none; }
-.mapname .title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.mapname .dirty { color: var(--accent); font-size: 10px; }
+/* Mode rail on the window's left edge; it switches the left panel. */
+.rail { position: absolute; left: 10px; top: 10px; bottom: 10px; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0; }
+.rail .mark { width: 14px; height: 14px; margin: 7px 0 13px; border-radius: 3px; background: var(--accent); box-shadow: 4px 4px 0 rgba(242, 193, 78, 0.35); }
+.rail button { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-color: transparent; background: transparent; color: var(--muted); }
+.rail button:hover:not(:disabled) { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.rail button.on { color: var(--accent); background: rgba(242, 193, 78, 0.14); }
+.rail button.on.collapsed { background: transparent; box-shadow: inset 2px 0 0 var(--accent); }
+/* Top of the left panel: the mode's name, as tall as the top bar (panel border included). */
+.panelhead { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; padding: 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
 .inspector { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow-y: auto; }
 
 .topbar { position: absolute; top: 10px; height: var(--bar-h); z-index: 4; display: flex; gap: 8px; align-items: center; padding: 0 6px; min-width: 0; }
 .topbar .group { display: flex; gap: 4px; }
 .topbar .spacer { flex: 1; }
+.topbar .mapname { color: var(--muted); padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.topbar .mapname .dirty { color: var(--accent); font-size: 10px; }
 .topbar .steam { font-size: 12px; padding: 4px 9px; color: var(--accent); white-space: nowrap; }
 .topbar .steam.off { color: var(--muted); }
 
@@ -64,6 +69,10 @@ input[type='checkbox'] { accent-color: var(--accent); }
 .bottombar .sep { width: 1px; align-self: stretch; background: var(--line); }
 .bottombar .count { white-space: nowrap; color: var(--accent); font-size: 12px; }
 .bottombar .actions { display: flex; gap: 3px; }
+.bottombar .toggle { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--muted); }
+.bottombar .toggle.on { color: var(--accent); border-color: rgba(242, 193, 78, 0.4); background: rgba(242, 193, 78, 0.1); }
+.bottombar .level { display: flex; align-items: center; gap: 6px; }
+.bottombar .level span { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
 .bottombar .actions .danger:hover:not(:disabled) { color: #ff7a6b; }
 
 .stats { position: absolute; top: 60px; z-index: 3; padding: 5px 10px; color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; pointer-events: none; }

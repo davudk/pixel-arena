@@ -1,7 +1,8 @@
 // Places the chosen prop (port of PlaceTool): a see-through ghost follows the cursor with the
 // prop's snapping; click to place (repeatedly). Props that allow surface placement sit on
 // whatever upward-facing surface is under the cursor and become its children. R / Shift+R
-// rotate by the prop's snap angle, Cmd/Ctrl held disables snapping, Esc stops placing.
+// rotate by the prop's snap angle, Cmd/Ctrl held (or snap turned off) disables snapping, Esc
+// stops placing.
 
 import * as THREE from 'three'
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js'
@@ -14,6 +15,8 @@ export class PlaceTool implements Tool {
   readonly name = 'place'
   yaw = 0
   randomRotation = false
+  /** Off: place freely, as if Cmd/Ctrl were held. */
+  snap = true
   private ghost: THREE.Object3D | null = null
   private target: { position: THREE.Vector3; parent: string | null } | null = null
   private alive = true
@@ -97,13 +100,13 @@ export class PlaceTool implements Tool {
       const hit = this.editor.pick(p)
       if (hit?.id && hit.normal.y > 0.7) {
         // Grid props don't grid-snap on top of other objects.
-        const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || this.prop.mode === 'grid')
+        const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || !this.snap || this.prop.mode === 'grid')
         return { position: new THREE.Vector3(x, hit.point.y, z), parent: hit.id }
       }
     }
     const ground = this.editor.groundAt(p)
     if (!ground) return null
-    const [x, z] = snapProp(this.prop, ground.x, ground.z, this.yaw, p.cmd)
+    const [x, z] = snapProp(this.prop, ground.x, ground.z, this.yaw, p.cmd || !this.snap)
     return { position: new THREE.Vector3(x, terrainEdit.heightAtWorld(this.editor.session.doc, x, z), z), parent: null }
   }
 }

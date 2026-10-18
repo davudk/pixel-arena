@@ -14,11 +14,10 @@
     library: Library
     thumbnails: Thumbnails
     selected: string | null
-    randomRotation: boolean
     usage: Map<string, number>
     onchoose: (prop: PropDef) => void
   }
-  let { library, thumbnails, selected, randomRotation = $bindable(), usage, onchoose }: Props = $props()
+  let { library, thumbnails, selected, usage, onchoose }: Props = $props()
 
   let panel: HTMLElement = $state()!
   let themeButton: HTMLButtonElement = $state()!
@@ -173,14 +172,12 @@
     {/each}
   </div>
 
-  <footer>
-    {#if chosen}
+  {#if chosen}
+    <footer>
       <strong>{chosen.name}</strong> · {round1(chosen.footprint[0])} × {round1(chosen.footprint[1])} m<br />
       <span class="muted">{library.packs.get(chosen.packId)?.name} · {chosen.attribution.author} ({chosen.attribution.license})</span>
-    {/if}
-    <label class="random" title="Each prop you place gets a random rotation, so repeated props look natural">
-      <input type="checkbox" bind:checked={randomRotation} /> Random rotation when placing</label>
-  </footer>
+    </footer>
+  {/if}
 </aside>
 
 {#if open === 'theme'}
@@ -318,8 +315,6 @@
   .link { border: 0; background: transparent; padding: 0; color: var(--accent); }
   .link:hover:not(:disabled) { background: transparent; text-decoration: underline; }
   footer { color: var(--text); font-size: 11.5px; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 8px; }
-  .random { display: flex; gap: 6px; align-items: center; }
-  footer strong + br + .muted { display: block; margin-bottom: 6px; }
 
   /* Popovers */
   .pop-head { padding: 10px; border-bottom: 1px solid var(--line); }
