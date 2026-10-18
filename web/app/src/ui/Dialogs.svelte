@@ -46,15 +46,15 @@
     {/snippet}
   </Modal>
 {:else if dialog?.kind === 'confirm'}
-  <Modal title={dialog.title} oncancel={close}>
-    <p>{dialog.message}</p>
+  {@const c = dialog}
+  <Modal title={c.title} oncancel={close}>
+    <p>{c.message}</p>
     {#snippet actions()}
       <button onclick={close}>Cancel</button>
       <button class="danger" onclick={() => {
-        const d = dialog as Extract<DialogState, { kind: 'confirm' }>
         close()
-        d.confirm()
-      }}>{dialog.confirmLabel}</button>
+        c.confirm()
+      }}>{c.confirmLabel}</button>
     {/snippet}
   </Modal>
 {:else if dialog?.kind === 'merge'}

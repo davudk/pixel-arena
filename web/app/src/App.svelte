@@ -257,7 +257,7 @@
     if (!editor) return
     if (desktop) return fileOp(() => (filePath ? writeTo(filePath) : saveAsDesktop()))
     const name = mapName.endsWith('.pxmap') ? mapName : `${mapName}.pxmap`
-    const url = URL.createObjectURL(new Blob([saveProject(editor.session)], { type: 'application/zip' }))
+    const url = URL.createObjectURL(new Blob([saveProject(editor.session) as Uint8Array<ArrayBuffer>], { type: 'application/zip' }))
     const a = document.createElement('a')
     a.href = url
     a.download = name
