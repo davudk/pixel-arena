@@ -33,8 +33,8 @@
   .backdrop { position: fixed; inset: 0; background: rgba(5, 7, 12, 0.55); display: grid; place-items: center; z-index: 50; }
   .card {
     max-width: calc(100vw - 32px); max-height: calc(100vh - 64px); display: flex; flex-direction: column; gap: 12px;
-    padding: 16px 18px; border-radius: 14px; background: #1d2028; border: 1px solid var(--line);
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    padding: 16px 18px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line);
+    box-shadow: var(--shadow-pop);
   }
   h2 { margin: 0; font-size: 15px; }
   .body { min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }

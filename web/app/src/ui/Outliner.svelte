@@ -1,6 +1,7 @@
 <script lang="ts">
-  // Select mode's left panel: every object on the map. Settings (popover): sections by object
-  // type, by prop category or none; order by name, custom (drag to reorder), newest or oldest.
+  // Select mode's left panel: every object on the map. View options (popover, same wording as the
+  // props panel): group by object type, prop category or none; sort by name, custom order (drag to
+  // reorder), newest or oldest.
   // User groups are expandable rows; things sitting on others are indented under them.
   // Click selects (a group row selects its members), Cmd/Ctrl adds, Shift selects a range,
   // double-click focuses the camera. Drag a row onto another to reorder (switches to custom
@@ -14,6 +15,8 @@
   import { objectName } from '../editor/labels'
   import Icon from './Icon.svelte'
   import Popover from './Popover.svelte'
+  import SearchField from './SearchField.svelte'
+  import { key } from './keys'
   import { canGroup, canUngroup, groupSelected, toggleLockSelected, ungroupSelected } from './object-actions'
   import { objectPosition, outline, siblings, type OutlineRow } from './objects'
   import { ui, type OutlineGroupBy, type OutlineSort } from './ui-state.svelte'
@@ -196,26 +199,20 @@
   let settingsOpen = $state(false)
   const GROUP_BY: [OutlineGroupBy, string][] = [['type', 'Type'], ['category', 'Category'], ['none', 'None']]
   const SORTS: [OutlineSort, string][] = [['name', 'Name'], ['custom', 'Custom order'], ['newest', 'Newest first'], ['oldest', 'Oldest first']]
-  const MAC = navigator.platform.startsWith('Mac')
-  const keys = (k: string, shift = false) => (MAC ? `${shift ? '⇧' : ''}⌘${k}` : `Ctrl+${shift ? 'Shift+' : ''}${k}`)
   const ICONS: Record<string, string> = { group: 'layers', building: 'building', water: 'droplet', prop: 'cube' }
 </script>
 
 <div class="outliner">
   <div class="toolbar">
-    <label class="search">
-      <Icon name="search" size={14} />
-      <input placeholder="Search objects" bind:value={query} />
-      {#if query}<button class="clear" aria-label="Clear search" onclick={() => (query = '')}><Icon name="x" size={12} /></button>{/if}
-    </label>
-    <button class="icon" bind:this={settingsButton} title="Outliner settings" aria-label="Outliner settings"
+    <SearchField bind:value={query} placeholder="Search objects" />
+    <button class="icon" bind:this={settingsButton} title="View options" aria-label="View options"
       onclick={() => (settingsOpen = !settingsOpen)}><Icon name="sliders" /></button>
   </div>
   <div class="list" role="tree" aria-multiselectable="true">
     {#each sections as s (s.key)}
       {@const open = sectionOpen(s.key)}
       {#if s.label}
-        <button class="section" onclick={() => toggleCollapsed(`os:${s.key}`)}>
+        <button class="group-head" onclick={() => toggleCollapsed(`os:${s.key}`)}>
           <Icon name={open ? 'chevronDown' : 'chevronRight'} size={13} /><span>{s.label}</span><span class="count">{s.rows.filter((r) => r.depth === 0).length}</span>
         </button>
       {/if}
@@ -232,20 +229,20 @@
             onclick={(e) => pick(e, r)} ondblclick={() => (r.isGroup ? startRename(r) : focus(r))} oncontextmenu={(e) => openMenu(e, r)}
             onkeydown={(e) => e.key === 'Enter' && pick(e as unknown as MouseEvent, r)}>
             {#if r.count > 0}
-              <button class="twist" aria-label={collapsed.has(r.id) ? 'Expand' : 'Collapse'} onclick={(e) => { e.stopPropagation(); toggleCollapsed(COLLAPSE + r.id) }}>
+              <button class="twist bare" aria-label={collapsed.has(r.id) ? 'Expand' : 'Collapse'} onclick={(e) => { e.stopPropagation(); toggleCollapsed(COLLAPSE + r.id) }}>
                 <Icon name={collapsed.has(r.id) ? 'chevronRight' : 'chevronDown'} size={12} />
               </button>
             {:else}<span class="twist"></span>{/if}
             <Icon name={ICONS[r.type] ?? 'cube'} size={13} />
             {#if renaming === r.id}
-              <input class="rename" bind:value={draft} onclick={(e) => e.stopPropagation()}
+              <input class="input rename" bind:value={draft} onclick={(e) => e.stopPropagation()}
                 onkeydown={(e) => { e.stopPropagation(); if (e.key === 'Enter') finishRename(true); else if (e.key === 'Escape') finishRename(false) }}
                 onblur={() => finishRename(true)} />
             {:else}
               <span class="name">{r.name}</span>
               {#if r.isGroup && collapsed.has(r.id)}<span class="count">{r.count}</span>{/if}
             {/if}
-            <button class="lock" class:shown={r.locked || r.lockedBy} disabled={r.lockedBy}
+            <button class="lock bare" class:shown={r.locked || r.lockedBy} disabled={r.lockedBy}
               title={r.lockedBy ? 'Locked by its group' : r.locked ? 'Unlock' : 'Lock'} aria-label={r.locked ? 'Unlock' : 'Lock'}
               onclick={(e) => { e.stopPropagation(); toggleLock(r) }}><Icon name={r.locked || r.lockedBy ? 'lock' : 'unlock'} size={12} /></button>
           </div>
@@ -259,13 +256,11 @@
 
 {#if settingsOpen}
   <Popover anchor={settingsButton} width={240} onclose={() => (settingsOpen = false)}>
-    <div class="options">
-      <div class="field">Sections
-        <div class="seg" role="group" aria-label="Sections">
-          {#each GROUP_BY as [k, l] (k)}<button class:on={ui.outliner.groupBy === k} onclick={() => (ui.outliner.groupBy = k)}>{l}</button>{/each}
-        </div>
-      </div>
-      <label class="field">Order
+    <div class="pop">
+      <label class="field stack"><span class="label">Group by</span>
+        <select bind:value={ui.outliner.groupBy}>{#each GROUP_BY as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
+      </label>
+      <label class="field stack"><span class="label">Sort by</span>
         <select bind:value={ui.outliner.sort}>{#each SORTS as [k, l] (k)}<option value={k}>{l}</option>{/each}</select>
       </label>
     </div>
@@ -275,13 +270,14 @@
 {#if menu}
   {@const r = menu.row}
   <Popover anchor={menu.anchor} width={200} onclose={() => (menu = null)}>
-    <div class="menu" role="menu">
+    <div class="menu-list" role="menu">
       <button role="menuitem" onclick={() => act(() => startRename(r))}>Rename</button>
-      <button role="menuitem" disabled={!canGroup(editor)} onclick={() => act(() => groupSelected(editor))}>Group selection<span>{keys('G')}</span></button>
-      <button role="menuitem" disabled={!canUngroup(editor)} onclick={() => act(() => ungroupSelected(editor))}>Ungroup<span>{keys('G', true)}</span></button>
-      <button role="menuitem" onclick={() => act(() => toggleLockSelected(editor))}>{r.locked || r.lockedBy ? 'Unlock' : 'Lock'}<span>{keys('L', true)}</span></button>
-      <button role="menuitem" onclick={() => act(() => focus(r))}>Focus</button>
-      <button role="menuitem" class="danger" disabled={r.locked || r.lockedBy} onclick={() => act(() => selectTool().deleteSelection())}>Delete</button>
+      <button role="menuitem" disabled={!canGroup(editor)} onclick={() => act(() => groupSelected(editor))}>Group<span class="shortcut">{key('Mod+G')}</span></button>
+      <button role="menuitem" disabled={!canUngroup(editor)} onclick={() => act(() => ungroupSelected(editor))}>Ungroup<span class="shortcut">{key('Mod+Shift+G')}</span></button>
+      <button role="menuitem" onclick={() => act(() => toggleLockSelected(editor))}>{r.locked || r.lockedBy ? 'Unlock' : 'Lock'}<span class="shortcut">{key('Mod+Shift+L')}</span></button>
+      <button role="menuitem" onclick={() => act(() => focus(r))}>Focus<span class="shortcut">{key('F')}</span></button>
+      <div class="sep"></div>
+      <button role="menuitem" class="danger-text" disabled={r.locked || r.lockedBy} onclick={() => act(() => selectTool().deleteSelection())}>Delete<span class="shortcut">{key('Del')}</span></button>
     </div>
   </Popover>
 {/if}
@@ -289,47 +285,24 @@
 <style>
   .outliner { display: flex; flex-direction: column; gap: 8px; padding: 10px; min-height: 0; flex: 1; }
   .toolbar { display: flex; gap: 6px; }
-  .search {
-    flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: 8px;
-    border: 1px solid var(--line); background: #0f1115; color: var(--muted);
-  }
-  .search:focus-within { border-color: var(--accent); }
-  .search input { flex: 1; min-width: 0; padding: 7px 0; border: 0; outline: none; background: transparent; color: var(--text); font: inherit; }
-  .clear { padding: 2px; border: 0; background: transparent; color: var(--muted); }
   .list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; }
-  .section {
-    display: flex; align-items: center; gap: 6px; padding: 6px 2px 4px; border: 0; background: #1b1e25;
-    font-size: 12px; font-weight: 500; text-align: left; position: sticky; top: 0; z-index: 1; flex: none;
-  }
-  .section:hover:not(:disabled) { background: #1b1e25; color: var(--accent); }
-  .count { margin-left: auto; color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; font-size: 11px; }
+  /* Tree rows: the shared list-row look, with drag-and-drop indicators. */
   .row {
-    position: relative; display: flex; align-items: center; gap: 5px; padding: 2px 4px 2px 6px; border-radius: 6px;
-    font-size: 12.5px; flex: none; cursor: default; min-height: 25px;
+    position: relative; display: flex; align-items: center; gap: 5px; padding: 2px 4px 2px 6px; border-radius: var(--radius-sm);
+    font-size: 12.5px; flex: none; cursor: default; min-height: 26px;
   }
-  .row:hover { background: rgba(255, 255, 255, 0.05); }
-  .row.on { background: rgba(242, 193, 78, 0.16); color: var(--accent); }
+  .row:hover { background: var(--hover); }
+  .row.on { background: var(--accent-bg); color: var(--accent); }
   .row.group { font-weight: 500; }
   .row.locked .name { opacity: 0.55; }
   .row.drop-before { box-shadow: inset 0 2px 0 var(--accent); }
   .row.drop-after { box-shadow: inset 0 -2px 0 var(--accent); }
   .row.drop-into { outline: 1px solid var(--accent); }
-  .twist { width: 14px; height: 14px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: var(--muted); flex: none; }
+  .twist { width: 14px; height: 14px; padding: 0; display: flex; align-items: center; justify-content: center; flex: none; }
   .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rename { flex: 1; min-width: 0; padding: 2px 5px; border-radius: 5px; border: 1px solid var(--accent); background: #0f1115; color: var(--text); font: inherit; outline: none; }
-  .lock { padding: 3px; border: 0; background: transparent; color: var(--muted); visibility: hidden; flex: none; }
+  .rename { flex: 1; padding: 2px 5px; border-radius: 5px; }
+  .lock { padding: 3px; visibility: hidden; flex: none; }
   .row:hover .lock, .lock.shown { visibility: visible; }
   .lock.shown { color: var(--accent); }
   .lock:disabled { opacity: 0.6; }
-  .empty { color: var(--muted); text-align: center; padding: 20px 8px; margin: 0; }
-  .options { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
-  .field { display: flex; flex-direction: column; gap: 5px; color: var(--muted); font-size: 11.5px; }
-  .seg { display: flex; gap: 2px; padding: 2px; border-radius: 9px; background: #15171c; }
-  .seg button { flex: 1; border-color: transparent; background: transparent; padding: 4px 6px; color: var(--muted); font-size: 12px; }
-  .seg button.on { background: #30353f; color: var(--accent); }
-  .menu { padding: 4px; display: flex; flex-direction: column; }
-  .menu button { display: flex; justify-content: space-between; border: 0; background: transparent; text-align: left; padding: 6px 8px; font-size: 12.5px; }
-  .menu button span { color: var(--muted); font-size: 11px; }
-  .menu button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.06); }
-  .menu .danger { color: #ff8a7a; }
 </style>

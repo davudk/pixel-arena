@@ -33,8 +33,8 @@
 
 {#if def.kind === 'range'}
   <div class="range" class:off={!on} title={on ? '' : (def.why ?? '')}>
-    <div class="slider">
-      <span class="name">{def.label}</span>
+    <div class="field">
+      <span class="label">{def.label}</span>
       <input type="range" min={def.min} max={def.max} step={def.step} value={Number(value)} disabled={!on} aria-label={def.label}
         oninput={(e) => set(Number((e.currentTarget as HTMLInputElement).value))} />
       <span class="val">{fmt(Number(value))}</span>
@@ -62,15 +62,11 @@
 
 <style>
   .range.off { opacity: 0.4; }
-  .slider { display: flex; align-items: center; gap: 8px; }
-  .slider .name { width: 58px; color: var(--muted); font-size: 12px; }
-  .slider input { flex: 1; min-width: 0; accent-color: var(--accent); }
-  .slider .val { width: 40px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; }
-  .presets { display: flex; gap: 3px; margin: 4px 0 4px 66px; }
+  /* Slider row uses the shared .field (64px label column); value readout at the end. */
+  .field input { flex: 1; }
+  .field .val { flex: none; width: 44px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; color: var(--muted); }
+  .presets { display: flex; gap: 3px; margin: 4px 0 0 72px; }
   .presets button { flex: 1; padding: 3px 0; font-size: 11px; font-variant-numeric: tabular-nums; min-width: 0; }
-  .presets button.on { background: rgba(242, 193, 78, 0.16); color: var(--accent); border-color: rgba(242, 193, 78, 0.45); }
-  .toggle { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--muted); }
-  .toggle.on { color: var(--accent); border-color: rgba(242, 193, 78, 0.4); background: rgba(242, 193, 78, 0.1); }
   .stepper { display: flex; align-items: center; gap: 6px; }
   .stepper span { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
 </style>

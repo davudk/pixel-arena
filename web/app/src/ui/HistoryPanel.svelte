@@ -71,11 +71,11 @@
 </script>
 
 <div class="history">
-  <h3>Branches</h3>
+  <h3 class="heading">Branches</h3>
     <ul class="branches">
       {#each view.rows as r (r.id)}
         <li>
-          <button class:sel={selected === r.id} class:current={r.current} style:padding-left="{8 + r.depth * 14}px"
+          <button class="list-row" class:on={selected === r.id} class:current={r.current} style:padding-left="{6 + r.depth * 14}px"
             onclick={() => (picked = r.id)} ondblclick={() => editor.switchBranch(r.id)}>
             <span class="dot">{r.current ? '●' : ''}</span>{r.name}<span class="count">{r.count}</span>
           </button>
@@ -86,15 +86,15 @@
       <button onclick={() => onnew(view.current, -1)} title="Branch from the current state">New</button>
       <button disabled={selected === view.current} onclick={() => editor.switchBranch(selected)} title="Show this branch (or double-click)">Switch</button>
       <button disabled={isMain || hasChildren} onclick={() => onmerge(selected)}
-        title={hasChildren ? 'Merge or discard its sub-branches first' : 'Fold this branch into its parent'}>Merge ↑</button>
+        title={hasChildren ? 'Merge or discard its sub-branches first' : 'Fold this branch into its parent'}>Merge</button>
       <button onclick={() => onrename(selected)}>Rename</button>
-      <button disabled={isMain} onclick={() => ondiscard(selected)} title="Delete this branch and its sub-branches">Discard</button>
+      <button disabled={isMain} onclick={() => ondiscard(selected)} title="Discard this branch and its sub-branches">Discard</button>
     </div>
-    <h3>History</h3>
+    <h3 class="heading">Edits</h3>
     <ol class="list">
       {#each view.history as h, i (i)}
         <li>
-          <button class:sel={entry === i} class:inherited={h.inherited} title={h.tip} onclick={() => (entry = i)}>
+          <button class="list-row" class:on={entry === i} class:inherited={h.inherited} title={h.tip} onclick={() => (entry = i)}>
             <span>{h.label}</span><time>{h.time}</time>
           </button>
         </li>
@@ -114,22 +114,15 @@
 
 <style>
   .history { flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
-  h3 { margin: 0; font-size: 11px; color: var(--muted); font-weight: 500; }
   ul, ol { list-style: none; margin: 0; padding: 0; }
   .branches { max-height: 120px; overflow-y: auto; }
-  .branches button, .list button {
-    width: 100%; display: flex; align-items: center; gap: 6px; border: 0; border-radius: 6px;
-    background: transparent; padding: 4px 8px; text-align: left; color: var(--text);
-  }
-  .branches button:hover, .list button:hover { background: rgba(255, 255, 255, 0.05); }
-  .branches button.sel, .list button.sel { background: rgba(242, 193, 78, 0.16); }
+  .list-row { width: 100%; }
   .branches .dot { width: 10px; color: var(--accent); font-size: 10px; }
-  .branches .count { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
   .actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
   .actions button { padding: 5px 4px; font-size: 12px; white-space: nowrap; }
-  .list { flex: 1; min-height: 60px; overflow-y: auto; font-size: 12px; }
-  .list button span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .list button time { color: var(--muted); font-variant-numeric: tabular-nums; }
-  .list button.inherited { opacity: 0.45; }
-  .empty { color: var(--muted); padding: 4px 8px; }
+  .list { flex: 1; min-height: 60px; overflow-y: auto; }
+  .list .list-row span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list time { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+  .list .inherited { opacity: 0.45; }
+  .empty { padding: 8px; }
 </style>

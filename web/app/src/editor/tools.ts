@@ -44,8 +44,6 @@ export interface ParamDef {
   icon?: string
   /** Kept by saved tools (default true). */
   saved?: boolean
-  /** Shown in the bottom bar (quick settings) rather than the panel. */
-  quick?: boolean
   /** When the parameter matters for the current values; otherwise it's shown disabled. */
   applies?: (p: Record<string, unknown>, library: Library) => boolean
   /** Why it doesn't apply (tooltip). */
@@ -64,7 +62,7 @@ export interface ToolDef {
   describe: (p: Record<string, unknown>, library: Library | null) => string
 }
 
-const meters = (v: number) => `${Number.isInteger(v) ? v : v.toFixed(1)} m`
+const meters = (v: number) => `${Number(v.toFixed(2))} m`
 const percent = (v: number) => `${Math.round(v * 100)}%`
 const RADIUS: ParamDef = { key: 'radius', label: 'Size', kind: 'range', min: 1, max: 32, step: 0.5, presets: [1, 2, 4, 8, 16, 32], format: meters }
 
@@ -78,9 +76,9 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     id: 'place', mode: 'props', label: 'Place prop', icon: 'cube', saveable: true,
     params: [
       { key: 'prop', label: 'Prop', kind: 'prop' },
-      { key: 'randomRotation', label: 'Random rotation', kind: 'toggle', icon: 'shuffle', quick: true },
+      { key: 'randomRotation', label: 'Random rotation', kind: 'toggle', icon: 'shuffle' },
       {
-        key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', quick: true,
+        key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet',
         applies: (p, library) => library.props.get(String(p.prop))?.mode !== 'free', why: 'This prop always places freely',
       },
     ],
@@ -116,7 +114,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     id: 'water', mode: 'water', label: 'Draw water', icon: 'droplet', saveable: true,
     params: [
       { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
-      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel', quick: true },
+      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel' },
       {
         key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
         applies: (p) => p.dig === true, why: 'Only when digging a basin',
@@ -125,7 +123,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
         key: 'shore', label: 'Shore', kind: 'range', min: 1, max: 8, step: 0.5, presets: [1, 2, 3, 5, 8], format: meters,
         applies: (p) => p.dig === true, why: 'Only when digging a basin',
       },
-      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet', quick: true },
+      { key: 'snap', label: 'Snap', kind: 'toggle', icon: 'magnet' },
     ],
     create: (editor) => new WaterTool(editor),
     describe: (p) => {
@@ -138,7 +136,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     params: [
       { key: 'liquid', label: 'Liquid', kind: 'choice', options: LIQUIDS.map((l) => ({ value: l.id, label: l.name })) },
       { key: 'radius', label: 'Size', kind: 'range', min: 0.5, max: 16, step: 0.5, presets: [1, 2, 4, 8, 16], format: meters },
-      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel', quick: true },
+      { key: 'dig', label: 'Dig basin', kind: 'toggle', icon: 'shovel' },
       {
         key: 'depth', label: 'Depth', kind: 'range', min: 0.5, max: 4, step: 0.25, presets: [0.5, 1, 1.5, 2, 3], format: meters,
         applies: (p) => p.dig === true, why: 'Only when digging a basin',
@@ -165,7 +163,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
         key: 'piece', label: 'Piece', kind: 'choice',
         options: (['foundation', 'wall', 'door', 'window', 'erase'] as const).map((v) => ({ value: v, label: pieceName(v), icon: v === 'erase' ? 'eraser' : v })),
       },
-      { key: 'level', label: 'Level', kind: 'stepper', min: 0, max: MAX_LEVEL, step: 1, quick: true, saved: false },
+      { key: 'level', label: 'Level', kind: 'stepper', min: 0, max: MAX_LEVEL, step: 1, saved: false },
     ],
     create: (editor) => new BuildingTool(editor),
     describe: (p, library) => `${library?.kits.get(String(p.kit))?.name ?? 'Building'} · ${pieceName(p.piece as ToolParams['build']['piece'])}`,

@@ -1,14 +1,40 @@
+/* Design tokens, then the shared component styles every panel and popover uses (one look for
+   headings, inputs, selects, segmented controls, tiles, swatches, toggles, rows, menus, empty
+   states), then the app layout. Components keep only their own layout in <style>. */
+
 :root {
-  --panel: rgba(24, 27, 34, 0.92);
+  /* Surfaces */
+  --bg: #15171c; /* page, segmented-control tracks */
+  --panel: rgba(24, 27, 34, 0.92); /* floating panels and bars */
+  --panel-solid: #1b1e25; /* sticky headers inside panels */
+  --surface: #1d2028; /* popovers, modals */
+  --input: #0f1115; /* text, number and search fields */
+  --control: #262a33; /* buttons, selects */
+  --control-hover: #30353f; /* button hover, segmented "on" */
+  --card: rgba(255, 255, 255, 0.03); /* resting cards and tiles on a panel */
+  --hover: rgba(255, 255, 255, 0.05); /* hover on transparent rows and menu items */
   --line: rgba(255, 255, 255, 0.08);
+  /* Text */
   --text: #e6e8ee;
   --muted: #8c93a3;
+  /* Accent: one selected / active treatment everywhere */
   --accent: #f2c14e;
+  --accent-bg: rgba(242, 193, 78, 0.16);
+  --accent-border: rgba(242, 193, 78, 0.45);
+  --danger: #ff8a7a; /* destructive text */
+  --danger-fill: #c2453a; /* destructive buttons */
+  /* Shape */
+  --radius-sm: 6px; /* rows, small inputs, swatches */
+  --radius: 8px; /* controls */
+  --radius-card: 10px; /* cards, tiles */
+  --radius-lg: 12px; /* panels, popovers, modals */
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 14px 40px rgba(0, 0, 0, 0.5);
   --bar-h: 44px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 13px;
   color: var(--text);
-  background: #15171c;
+  background: var(--bg);
 }
 
 * { box-sizing: border-box; }
@@ -17,22 +43,124 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; }
 body { user-select: none; -webkit-user-select: none; cursor: default; }
 input, textarea, .selectable { user-select: text; -webkit-user-select: text; }
 
+/* --- Controls ------------------------------------------------------------------------------ */
+
+button, select {
+  padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--control);
+  color: var(--text); font: inherit; cursor: pointer;
+}
+button:hover:not(:disabled), select:hover:not(:disabled) { background: var(--control-hover); }
+button:disabled, select:disabled { opacity: 0.4; cursor: default; }
+/* Selected / active (tiles, presets, toggles, cards, kits...). */
+button.on { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+button.on:hover:not(:disabled) { background: var(--accent-bg); }
+button.icon { display: inline-flex; align-items: center; justify-content: center; padding: 6px 7px; }
+button.icon.on { background: var(--control); border-color: var(--line); }
+button.primary { background: var(--accent); color: #1a1408; border-color: transparent; font-weight: 600; }
+button.primary:hover:not(:disabled) { background: #f5cd6a; }
+button.danger { background: var(--danger-fill); color: #fff; border-color: transparent; }
+button.danger:hover:not(:disabled) { background: #d14f43; }
+button.link { border: 0; background: transparent; padding: 0; color: var(--accent); }
+button.link:hover:not(:disabled) { background: transparent; text-decoration: underline; }
+/* Borderless buttons inside rows and toolbars. */
+button.bare { border: 0; background: transparent; padding: 2px; color: var(--muted); }
+button.bare:hover:not(:disabled) { background: transparent; color: var(--text); }
+.danger-text { color: var(--danger); }
+
+/* Native selects get a drawn chevron with room to the right. */
+select {
+  appearance: none; -webkit-appearance: none; padding-right: 28px; min-width: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238c93a3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+
+/* Text and number fields. */
+.input {
+  padding: 6px 8px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--input);
+  color: var(--text); font: inherit; outline: none; min-width: 0;
+}
+.input:focus { border-color: var(--accent); }
+input[type='checkbox'] { accent-color: var(--accent); margin: 0; }
+input[type='range'] { accent-color: var(--accent); }
+
+/* Segmented control: one choice of a few, on a dark track. */
+.seg { display: flex; gap: 2px; padding: 2px; border-radius: var(--radius); background: var(--bg); }
+.seg button {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 4px 8px;
+  border-color: transparent; background: transparent; color: var(--muted); font-size: 12px; white-space: nowrap;
+}
+.seg button:hover:not(:disabled) { background: transparent; color: var(--text); }
+.seg button.on, .seg button.on:hover:not(:disabled) { background: var(--control-hover); color: var(--accent); border-color: transparent; }
+
+/* On/off setting as a button (tool settings). */
+.toggle { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--muted); }
+
+/* --- Panel content ------------------------------------------------------------------------- */
+
+/* Scrolling body of a left-panel view: sections 14px apart. */
+.panel-body { padding: 10px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; min-height: 0; flex: 1; }
+.section { display: flex; flex-direction: column; gap: 6px; }
+.heading { margin: 0 2px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+/* Sticky, collapsible group header inside a scrolling list. */
+.group-head {
+  display: flex; align-items: center; gap: 6px; padding: 6px 2px 4px; border: 0; border-radius: 0; background: var(--panel-solid);
+  font-size: 12px; font-weight: 500; text-align: left; position: sticky; top: 0; z-index: 1; flex: none; color: var(--text);
+}
+.group-head:hover:not(:disabled) { background: var(--panel-solid); color: var(--accent); }
+.count { margin-left: auto; color: var(--muted); font-weight: 400; font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.empty { margin: 0; padding: 20px 8px; color: var(--muted); text-align: center; line-height: 1.6; }
+.muted { color: var(--muted); }
+
+/* Label + control. Panels: label in a fixed column beside the control; popovers: label above. */
+.field { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.field > .label { flex: none; width: var(--label-w, 64px); color: var(--muted); font-size: 12px; }
+.field > :not(.label) { flex: 1; min-width: 0; }
+.field.stack { flex-direction: column; align-items: stretch; gap: 5px; }
+.field.stack > .label { width: auto; font-size: 11.5px; }
+.check { display: flex; align-items: center; gap: 8px; }
+
+/* Icon + label tiles in a grid. */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 4px; }
+.tiles.four { grid-template-columns: repeat(4, 1fr); }
+.tile { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 4px; font-size: 11.5px; min-width: 0; }
+
+/* Color swatches, and swatch + name choices (materials, liquids). */
+.swatch { display: block; flex: none; width: 18px; height: 18px; border-radius: 5px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3); }
+.swatch.lg { width: 24px; height: 24px; border-radius: var(--radius-sm); }
+.choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 4px; }
+.choice { display: flex; align-items: center; gap: 8px; padding: 5px 6px; text-align: left; font-size: 12px; min-width: 0; }
+.choice > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Rows in lists and trees. */
+.list-row {
+  display: flex; align-items: center; gap: 6px; padding: 3px 6px; border: 0; border-radius: var(--radius-sm); background: transparent;
+  font-size: 12.5px; text-align: left; min-height: 26px; color: var(--text); flex: none;
+}
+.list-row:hover:not(:disabled) { background: var(--hover); }
+.list-row.on, .list-row.on:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); }
+
+/* Popover contents and context menus. */
+.pop { padding: 10px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.pop-head { padding: 10px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.menu-list { padding: 4px; display: flex; flex-direction: column; overflow-y: auto; }
+.menu-list button {
+  display: flex; align-items: center; gap: 8px; border: 0; background: transparent; text-align: left;
+  padding: 6px 8px; font-size: 12.5px; border-radius: var(--radius-sm);
+}
+.menu-list button:hover:not(:disabled) { background: var(--hover); }
+.menu-list button.on { background: var(--accent-bg); color: var(--accent); }
+.menu-list .shortcut { margin-left: auto; color: var(--muted); font-size: 11px; }
+.menu-list .sep { height: 1px; background: var(--line); margin: 4px 2px; }
+
+/* --- Layout -------------------------------------------------------------------------------- */
+
 .app { position: relative; height: 100%; overflow: hidden; }
 canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 
-.panel, .side, .rail, .topbar, .bottombar, .stats {
-  border-radius: 12px; background: var(--panel); border: 1px solid var(--line);
-  backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+.side, .rail, .topbar, .bottombar, .stats {
+  border-radius: var(--radius-lg); background: var(--panel); border: 1px solid var(--line);
+  backdrop-filter: blur(8px); box-shadow: var(--shadow);
 }
-button, select {
-  padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: #262a33;
-  color: var(--text); font: inherit; cursor: pointer;
-}
-button:hover:not(:disabled) { background: #30353f; }
-button:disabled { opacity: 0.4; cursor: default; }
-button.icon { display: inline-flex; align-items: center; justify-content: center; padding: 6px 7px; }
-button.icon.on { color: var(--accent); }
-input[type='checkbox'] { accent-color: var(--accent); }
 
 /* Side panels float over the map; their inner edge is a resize handle. */
 .side { position: absolute; top: 10px; bottom: 10px; z-index: 5; display: flex; flex-direction: column; min-height: 0; }
@@ -43,12 +171,13 @@ input[type='checkbox'] { accent-color: var(--accent); }
 .rail { position: absolute; left: 10px; top: 10px; bottom: 10px; z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0; }
 .rail .mark { width: 14px; height: 14px; margin: 7px 0 13px; border-radius: 3px; background: var(--accent); box-shadow: 4px 4px 0 rgba(242, 193, 78, 0.35); }
 .rail button { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-color: transparent; background: transparent; color: var(--muted); }
-.rail button:hover:not(:disabled) { color: var(--text); background: rgba(255, 255, 255, 0.06); }
-.rail button.on { color: var(--accent); background: rgba(242, 193, 78, 0.14); }
+.rail button:hover:not(:disabled) { color: var(--text); background: var(--hover); }
+.rail button.on, .rail button.on:hover:not(:disabled) { color: var(--accent); background: var(--accent-bg); border-color: transparent; }
 .rail button.on.collapsed { background: transparent; box-shadow: inset 2px 0 0 var(--accent); }
 /* Top of the left panel: the mode's name, as tall as the top bar (panel border included). */
-.panelhead { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
-.panelhead .none { display: flex; align-items: center; gap: 5px; padding: 4px 8px; font-size: 12px; font-weight: 400; color: var(--muted); }
+.panelhead { flex: none; height: calc(var(--bar-h) - 2px); display: flex; align-items: center; padding: 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
+/* The tool in hand, under the panel title (CurrentTool.svelte). */
+.current-slot { flex: none; padding: 10px 10px 0; }
 .inspector { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow-y: auto; }
 
 .topbar { position: absolute; top: 10px; height: var(--bar-h); z-index: 4; display: flex; gap: 8px; align-items: center; padding: 0 6px; min-width: 0; }
@@ -61,25 +190,18 @@ input[type='checkbox'] { accent-color: var(--accent); }
 
 .bottom { position: absolute; left: 0; right: 0; bottom: 10px; z-index: 4; display: flex; align-items: flex-end; pointer-events: none; }
 .bottom .keepout { flex: 1 1 0; }
-/* Saved-brush hotbar sits at the left of the bottom row, after the panels, and scrolls. */
+/* Saved-tool hotbar sits at the left of the bottom row, after the panels, and scrolls. */
 .bottom .keepout.left { position: relative; align-self: stretch; }
 .hotbar-slot { position: absolute; bottom: 0; right: 10px; display: flex; pointer-events: none; }
 .hotbar-row { position: absolute; z-index: 4; display: flex; pointer-events: none; }
-.brushtip { position: absolute; z-index: 7; padding: 3px 8px; border-radius: 6px; background: rgba(20, 22, 28, 0.9); color: var(--text); font-size: 12px; font-variant-numeric: tabular-nums; pointer-events: none; white-space: nowrap; }
+.brushtip { position: absolute; z-index: 7; padding: 3px 8px; border-radius: var(--radius-sm); background: rgba(20, 22, 28, 0.9); color: var(--text); font-size: 12px; font-variant-numeric: tabular-nums; pointer-events: none; white-space: nowrap; }
 .bottom .center { flex: none; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
 .bottombar { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px; max-width: 100%; }
-.bottombar .tools { display: flex; gap: 2px; padding: 2px; border-radius: 9px; background: #15171c; flex: none; }
-.bottombar .tools button { display: flex; align-items: center; gap: 6px; border-color: transparent; background: transparent; padding: 5px 10px; }
-.bottombar .tools button.on { background: #30353f; color: var(--accent); }
 .bottombar .hint { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 420px; padding: 0 4px; }
 .bottombar .sep { width: 1px; align-self: stretch; background: var(--line); }
-.bottombar .count { white-space: nowrap; color: var(--accent); font-size: 12px; }
+.bottombar .count { margin-left: 0; white-space: nowrap; color: var(--accent); font-size: 12px; }
 .bottombar .actions { display: flex; gap: 3px; }
-.bottombar .toggle { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--muted); }
-.bottombar .toggle.on { color: var(--accent); border-color: rgba(242, 193, 78, 0.4); background: rgba(242, 193, 78, 0.1); }
-.bottombar .level { display: flex; align-items: center; gap: 6px; }
-.bottombar .level span { min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
-.bottombar .actions .danger:hover:not(:disabled) { color: #ff7a6b; }
+.bottombar .actions .danger-hover:hover:not(:disabled) { color: var(--danger); }
 
 .stats { position: absolute; top: 60px; z-index: 3; padding: 5px 10px; color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; pointer-events: none; }
 .boxsel { position: absolute; z-index: 2; pointer-events: none; border: 1px solid rgba(242, 193, 78, 0.9); background: rgba(242, 193, 78, 0.12); border-radius: 2px; }

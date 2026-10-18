@@ -63,27 +63,23 @@
 </script>
 
 {#if info.count === 0}
-  <p class="muted">Nothing selected</p>
+  <p class="empty">Nothing selected</p>
 {:else if info.single}
   <p class="name">{info.single.name}</p>
   <div class="grid">
     {#each ['x', 'y', 'z'] as const as a (a)}
-      <label>{a.toUpperCase()}<input class="num" type="number" step="0.25" value={fmt(info.single[a])} onchange={commit((v) => setAxis(a, v))} onkeydown={enter} /></label>
+      <label class="field"><span class="label">{a.toUpperCase()}</span><input class="input num" type="number" step="0.25" value={fmt(info.single[a])} onchange={commit((v) => setAxis(a, v))} onkeydown={enter} /></label>
     {/each}
-    <label>Rot<input class="num" type="number" step="15" value={fmt(info.single.deg)} onchange={commit(setRotation)} onkeydown={enter} /></label>
+    <label class="field"><span class="label">Rotation</span><input class="input num" type="number" step="15" value={fmt(info.single.deg)} onchange={commit(setRotation)} onkeydown={enter} /></label>
   </div>
 {:else}
   <p class="name">{info.count} objects</p>
 {/if}
 
 <style>
-  .muted { margin: 0; color: var(--muted); font-size: 12px; }
+  .empty { padding: 4px 0; text-align: left; }
   .name { margin: 0 0 8px; font-weight: 500; }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 10px; }
-  label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11.5px; }
-  .num {
-    flex: 1; min-width: 0; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--line); background: #0f1115;
-    color: var(--text); font: inherit; font-variant-numeric: tabular-nums;
-  }
-  .num:focus { outline: none; border-color: var(--accent); }
+  /* Same field layout as the other panels; the label column is narrow for X / Y / Z. */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 10px; --label-w: 54px; }
+  .num { padding: 4px 6px; font-variant-numeric: tabular-nums; }
 </style>

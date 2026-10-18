@@ -80,7 +80,7 @@
 <style>
   .popover {
     position: fixed; z-index: 20; display: flex; flex-direction: column; min-height: 0; overflow: hidden;
-    border-radius: 12px; background: #1d2028; border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line);
+    box-shadow: var(--shadow-pop);
   }
 </style>

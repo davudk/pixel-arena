@@ -31,9 +31,8 @@
 <style>
   .card {
     position: relative; flex: none; width: 62px; height: 62px; padding: 4px 3px 3px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 4px; border-radius: 9px; min-width: 0;
+    align-items: center; justify-content: center; gap: 4px; border-radius: var(--radius-card); min-width: 0;
   }
-  .card.on { border-color: var(--accent); background: rgba(242, 193, 78, 0.14); color: var(--accent); }
   .key { position: absolute; top: 3px; left: 5px; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .card.on .key { color: var(--accent); }
   .name { font-size: 10px; color: var(--muted); width: 100%; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

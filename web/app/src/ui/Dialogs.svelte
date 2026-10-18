@@ -3,7 +3,7 @@
 
   /** What dialog is open (null = none). */
   export type DialogState =
-    | { kind: 'name'; title: string; initial: string; submit: (name: string) => void }
+    | { kind: 'name'; title: string; initial: string; submitLabel: string; submit: (name: string) => void }
     | { kind: 'confirm'; title: string; message: string; confirmLabel: string; confirm: () => void }
     | { kind: 'merge'; review: Review; merge: (take: boolean[]) => void }
     | null
@@ -38,11 +38,12 @@
 </script>
 
 {#if dialog?.kind === 'name'}
-  <Modal title={dialog.title} oncancel={close}>
-    <input bind:this={input} class="field" bind:value={name} onkeydown={(e) => e.key === 'Enter' && submitName()} />
+  {@const d = dialog}
+  <Modal title={d.title} oncancel={close}>
+    <input bind:this={input} class="input name" bind:value={name} onkeydown={(e) => e.key === 'Enter' && submitName()} />
     {#snippet actions()}
       <button onclick={close}>Cancel</button>
-      <button class="primary" disabled={!name.trim()} onclick={submitName}>OK</button>
+      <button class="primary" disabled={!name.trim()} onclick={submitName}>{d.submitLabel}</button>
     {/snippet}
   </Modal>
 {:else if dialog?.kind === 'confirm'}
@@ -101,21 +102,12 @@
 {/if}
 
 <style>
-  .field {
-    width: 100%; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
-    background: #0f1115; color: var(--text); font: inherit; outline: none;
-  }
-  .field:focus { border-color: var(--accent); }
+  .name { width: 100%; padding: 8px 10px; }
   p { margin: 0; line-height: 1.5; }
   .muted { color: var(--muted); }
   table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--line); }
   td { padding: 6px 8px; border-bottom: 1px solid var(--line); }
-  .seg { display: inline-flex; padding: 2px; gap: 2px; border-radius: 8px; background: #15171c; }
-  .seg button { border: 0; background: transparent; padding: 3px 10px; }
-  .seg button.on { background: #30353f; color: var(--accent); }
+  .seg { display: inline-flex; }
   .spacer { flex: 1; }
-  :global(button.primary) { background: var(--accent); color: #1a1408; border-color: transparent; font-weight: 600; }
-  :global(button.primary:hover:not(:disabled)) { background: #f5cd6a; }
-  :global(button.danger) { background: #c2453a; border-color: transparent; color: white; }
 </style>

@@ -529,6 +529,11 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   and stays apart from the same liquid at a clearly different height (a step). Water brush
   (solid round brush: liquid, size, dig basin) and Erase water tools join Draw in Water mode;
   each stroke is one undo step. `?selftest=waterrules`.
+- UI consistency pass (web): design tokens and one set of shared component styles in `app.css`;
+  a current-tool card at the top of every mode panel (picture, name, settings from the registry,
+  Save and Clear; dashed "No tool selected" when empty) replaces the per-panel save buttons, the
+  panel header's "None" and the bottom bar's quick settings. Platform-aware shortcut hints
+  everywhere (`ui/keys.ts`), one wording for the same concepts.
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

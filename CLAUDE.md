@@ -24,5 +24,11 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
   the old Godot build) and the codec in Godot's `JSON.from_native` format.
 - Prop packs (`packs/`) are data + assets only; manifests are validated and only CC0 / CC-BY
   licenses load. Keep attribution in the manifest.
+- UI consistency: use the tokens and shared styles in `web/app/src/app.css` (`.heading`, `.section`,
+  `.field` / `.field.stack`, `.check`, `.seg`, `.tiles` / `.tile`, `.choices` / `.choice`, `.swatch`,
+  `.list-row`, `.group-head`, `.count`, `.empty`, `.pop`, `.menu-list`, `button.on` / `.primary` /
+  `.danger` / `.bare` / `.icon`, `.input`) instead of new per-component CSS; `ui/SearchField.svelte`
+  for search; `ui/keys.ts` (`key`, `withKey`, `saveSlotKey`) for every shortcut shown in the UI.
+  Wording: sentence case, "Group by" / "Sort by", American spelling, no full stop on empty states.
 - three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
   unless they set `customProgramCacheKey` — always set it when injecting different shader code.

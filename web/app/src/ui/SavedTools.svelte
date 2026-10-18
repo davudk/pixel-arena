@@ -24,8 +24,8 @@
 </script>
 
 {#if tools.length}
-  <section class="saved">
-    <h3>Saved</h3>
+  <section class="section">
+    <h3 class="heading">Saved</h3>
     <div class="cards">
       {#each tools as t (t.id)}
         <ToolCard tool={t} active={active === t.id} {library} {thumbnails} onuse={() => onuse(t.id)}
@@ -40,7 +40,5 @@
 {/if}
 
 <style>
-  .saved { display: flex; flex-direction: column; gap: 6px; }
-  h3 { margin: 0 2px; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
   .cards { display: flex; flex-wrap: wrap; gap: 6px; }
 </style>

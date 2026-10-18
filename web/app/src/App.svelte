@@ -33,10 +33,11 @@
   import { activeId, saveTool, useSaved } from './ui/saved-tools'
   import { params as toolParams, paramsChanged, restoreParams } from './editor/tool-params'
   import { idOf, inHand, MODE_TOOLS, pickUp, putDown, TOOLS, type ToolId } from './editor/tools'
-  import ParamControl from './ui/ParamControl.svelte'
   import TerrainPanel from './ui/TerrainPanel.svelte'
   import WaterPanel from './ui/WaterPanel.svelte'
   import Outliner from './ui/Outliner.svelte'
+  import CurrentTool from './ui/CurrentTool.svelte'
+  import { key, withKey } from './ui/keys'
   import { canGroup, canUngroup, groupSelected, toggleLockSelected, ungroupSelected } from './ui/object-actions'
   import BuildPanel from './ui/BuildPanel.svelte'
   import HistoryPanel from './ui/HistoryPanel.svelte'
@@ -330,13 +331,13 @@
   function askNewBranch(from: string, seq: number) {
     if (!editor) return
     const ed = editor
-    dialog = { kind: 'name', title: 'New branch', initial: `Branch ${ed.session.branches.size}`, submit: (n) => ed.newBranch(from, seq, n) }
+    dialog = { kind: 'name', title: 'New branch', initial: `Branch ${ed.session.branches.size}`, submitLabel: 'Create', submit: (n) => ed.newBranch(from, seq, n) }
   }
 
   function askRename(id: string) {
     if (!editor) return
     const ed = editor
-    dialog = { kind: 'name', title: 'Rename branch', initial: ed.session.branches.get(id)!.name, submit: (n) => ed.session.renameBranch(id, n) }
+    dialog = { kind: 'name', title: 'Rename branch', initial: ed.session.branches.get(id)!.name, submitLabel: 'Rename', submit: (n) => ed.session.renameBranch(id, n) }
   }
 
   function askMerge(id: string) {
@@ -423,15 +424,6 @@
     activeTool
     return activeId(editor)
   })
-  /** The tool whose quick settings the bottom bar shows: the one in hand, else the mode's. */
-  const quickTool = $derived.by(() => {
-    activeTool
-    const hand = editor ? inHand(editor) : null
-    if (hand) return hand
-    const owned = MODE_TOOLS[ui.mode].filter((t) => t !== 'select')
-    return ui.mode === 'terrain' ? ui.terrainTool : (owned[0] ?? null)
-  })
-  const quickParams = $derived(quickTool ? TOOLS[quickTool].params.filter((p) => p.quick) : [])
 
   function useTool(id: string) {
     if (editor) useSaved(editor, id)
@@ -782,7 +774,7 @@
     <span class="mark" aria-hidden="true"></span>
     {#each MODES as m (m.mode)}
       <button class:on={ui.mode === m.mode} class:collapsed={ui.mode === m.mode && ui.leftHidden}
-        title="{m.label} ({m.key})" aria-label={m.label} aria-pressed={ui.mode === m.mode} onclick={() => railClick(m.mode)}>
+        title={withKey(m.label, m.key)} aria-label={m.label} aria-pressed={ui.mode === m.mode} onclick={() => railClick(m.mode)}>
         <Icon name={m.icon} size={20} />
       </button>
     {/each}
@@ -790,16 +782,16 @@
 
   <div class="side left" class:hidden={ui.leftHidden} style:left="{GAP + RAIL + GAP}px" style:width="{ui.leftWidth}px">
     <!-- As tall as the top bar, so popovers opened from the panel start just below it. -->
-    <div class="panelhead">
-      <span>{MODES.find((m) => m.mode === ui.mode)?.label}</span>
-      {#if ui.mode !== 'select' && activeTool !== 'select'}
-        <button class="none" onclick={noTool} title="Put the tool down (Esc)"><Icon name="pointer" size={14} /> None</button>
-      {/if}
-    </div>
+    <div class="panelhead">{MODES.find((m) => m.mode === ui.mode)?.label}</div>
+    {#if editorReady && editor && ui.mode !== 'select'}
+      <div class="current-slot">
+        <CurrentTool {editor} {thumbnails} active={activeSaved} onsave={() => saveInHand()} onclear={noTool} />
+      </div>
+    {/if}
     {#if !library || !thumbnails || !editorReady || !editor}
       <p class="loading">Loading…</p>
     {:else if ui.mode === 'props'}
-      <PropBrowser {library} {thumbnails} {usage} selected={placing} onchoose={choose} {activeSaved} onuse={useTool} onsave={() => saveInHand()} />
+      <PropBrowser {library} {thumbnails} {usage} selected={placing} onchoose={choose} {activeSaved} onuse={useTool} />
     {:else if ui.mode === 'terrain'}
       <TerrainPanel {editor} active={activeSaved} onuse={useTool} />
     {:else if ui.mode === 'water'}
@@ -815,14 +807,14 @@
   <header class="topbar" data-avoid style:left="{leftSpace || GAP}px" style:right="{rightSpace || GAP}px">
     <div class="group">
       <button onclick={newMap} title="New map">New</button>
-      <button onclick={openDialog} title="Open (Cmd+O)">Open…</button>
-      <button onclick={save} title="Save (Cmd+S)">Save</button>
-      {#if desktop}<button onclick={saveAs} title="Save As (Cmd+Shift+S)">Save As…</button>{/if}
-      <button onclick={() => (exportOpen = true)} title="Export image (Cmd+E)">Export…</button>
+      <button onclick={openDialog} title={withKey('Open map', 'Mod+O')}>Open…</button>
+      <button onclick={save} title={withKey('Save map', 'Mod+S')}>Save</button>
+      {#if desktop}<button onclick={saveAs} title={withKey('Save map as', 'Mod+Shift+S')}>Save as…</button>{/if}
+      <button onclick={() => (exportOpen = true)} title={withKey('Export image', 'Mod+E')}>Export…</button>
     </div>
     <div class="group">
-      <button class="icon" onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)" aria-label="Undo"><Icon name="undo" /></button>
-      <button class="icon" onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)" aria-label="Redo"><Icon name="redo" /></button>
+      <button class="icon" onclick={undo} disabled={!canUndo} title={withKey('Undo', 'Mod+Z')} aria-label="Undo"><Icon name="undo" /></button>
+      <button class="icon" onclick={redo} disabled={!canRedo} title={withKey('Redo', 'Mod+Shift+Z')} aria-label="Redo"><Icon name="redo" /></button>
     </div>
     <span class="mapname" title={filePath ?? 'Not saved yet'}>{mapName.replace(/\.pxmap$/, '')}{#if dirty}<span class="dirty" title="Unsaved changes"> ●</span>{/if}</span>
     <span class="spacer"></span>
@@ -833,8 +825,8 @@
       </button>
     {/if}
     <div class="group">
-      <button class="icon" class:on={!ui.leftHidden} onclick={() => (ui.leftHidden = !ui.leftHidden)} title="Props panel (Tab hides both)" aria-label="Toggle props panel"><Icon name="panelLeft" /></button>
-      <button class="icon" class:on={!ui.rightHidden} onclick={() => (ui.rightHidden = !ui.rightHidden)} title="Inspector panel (Tab hides both)" aria-label="Toggle inspector panel"><Icon name="panelRight" /></button>
+      <button class="icon" class:on={!ui.leftHidden} onclick={() => (ui.leftHidden = !ui.leftHidden)} title="Tool panel (Tab hides both panels)" aria-label="Toggle tool panel"><Icon name="panelLeft" /></button>
+      <button class="icon" class:on={!ui.rightHidden} onclick={() => (ui.rightHidden = !ui.rightHidden)} title="Inspector panel (Tab hides both panels)" aria-label="Toggle inspector panel"><Icon name="panelRight" /></button>
     </div>
     <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
       const f = (e.currentTarget as HTMLInputElement).files?.[0]
@@ -853,7 +845,7 @@
         <Section title="Selection" bind:open={ui.sections.selection} badge={selected ? String(selected) : ''}>
           <SelectionPanel {editor} {selectTool} />
         </Section>
-        <Section title="Branches and history" bind:open={ui.sections.history} grow>
+        <Section title="History" bind:open={ui.sections.history} grow>
           <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
         </Section>
       {/if}
@@ -871,27 +863,23 @@
       {/if}
     </div>
     <div class="center" data-avoid bind:clientHeight={bottomRow} style:max-width="calc(100% - {leftSpace + rightSpace}px)">
-      {#if (quickParams.length || (selected && activeTool === 'select') || status) && editorReady && library}
+      {#if ((selected && activeTool === 'select') || status) && editorReady && library}
         <footer class="bottombar">
-          {#each quickParams as def (`${quickTool}:${def.key}`)}
-            <ParamControl tool={quickTool!} {def} {library} />
-          {/each}
           {#if selected && activeTool === 'select'}
-            {#if quickParams.length}<span class="sep"></span>{/if}
             <span class="count">{selected} selected</span>
             <div class="actions">
-              <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
+              <button class="icon" title={withKey('Duplicate', 'Mod+D')} aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
               {#if grouping.ungroup}
-                <button class="icon" title="Ungroup (Cmd+Shift+G)" aria-label="Ungroup" onclick={() => ungroupSelected(editor!)}><Icon name="ungroup" /></button>
+                <button class="icon" title={withKey('Ungroup', 'Mod+Shift+G')} aria-label="Ungroup" onclick={() => ungroupSelected(editor!)}><Icon name="ungroup" /></button>
               {:else}
-                <button class="icon" title="Group (Cmd+G)" aria-label="Group" disabled={!grouping.group} onclick={() => groupSelected(editor!)}><Icon name="group" /></button>
+                <button class="icon" title={withKey('Group', 'Mod+G')} aria-label="Group" disabled={!grouping.group} onclick={() => groupSelected(editor!)}><Icon name="group" /></button>
               {/if}
-              <button class="icon" title="Lock (Cmd+Shift+L)" aria-label="Lock" onclick={() => toggleLockSelected(editor!)}><Icon name="lock" /></button>
-              <button class="icon" title="Rotate (R, Shift+R back)" aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
-              <button class="icon" title="Raise (PgUp)" aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
-              <button class="icon" title="Lower (PgDn)" aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
-              <button class="icon" title="Focus (F)" aria-label="Focus" onclick={() => selectTool().focusSelection()}><Icon name="focus" /></button>
-              <button class="icon danger" title="Delete (Del)" aria-label="Delete" onclick={() => selectTool().deleteSelection()}><Icon name="trash" /></button>
+              <button class="icon" title={withKey('Lock', 'Mod+Shift+L')} aria-label="Lock" onclick={() => toggleLockSelected(editor!)}><Icon name="lock" /></button>
+              <button class="icon" title={`Rotate (${key('R')}, ${key('Shift+R')} back)`} aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
+              <button class="icon" title={withKey('Raise', 'PgUp')} aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
+              <button class="icon" title={withKey('Lower', 'PgDn')} aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
+              <button class="icon" title={withKey('Focus', 'F')} aria-label="Focus" onclick={() => selectTool().focusSelection()}><Icon name="focus" /></button>
+              <button class="icon danger-hover" title={withKey('Delete', 'Del')} aria-label="Delete" onclick={() => selectTool().deleteSelection()}><Icon name="trash" /></button>
             </div>
           {/if}
           {#if status}<span class="hint" title={status}>{status}</span>{/if}
