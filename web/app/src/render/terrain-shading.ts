@@ -1,5 +1,5 @@
-// Shared terrain look (port of terrain_common.gdshaderinc): palette colors, 4 m checker, 1 m
-// grid lines that fade when dense, 32 m chunk lines. Injected into MeshLambertMaterial so the
+// Shared terrain look: palette colors and a 4 m checker. (The 1 m / 32 m grid is a separate
+// overlay drawn after the filters, see grid.ts.) Injected into MeshLambertMaterial so the
 // ground and terrain chunks keep standard lighting and shadows.
 
 import * as THREE from 'three'
@@ -34,25 +34,14 @@ export function paletteTex(): THREE.DataTexture {
   return paletteTexture
 }
 
+/** Whether the grid overlay is drawn (render/grid.ts); read by PixelPass. */
 export const showGrid = { value: true }
 
 const COMMON = /* glsl */ `
 varying vec3 vWorld;
 uniform sampler2D uPalette;
-uniform bool uShowGrid;
 vec3 paletteColor(int i) { return texelFetch(uPalette, ivec2(i, 0), 0).rgb; }
 vec3 applyChecker(vec3 c, vec2 xz) { vec2 c4 = floor(xz / 4.0); return c * mix(1.0, 0.92, mod(c4.x + c4.y, 2.0)); }
-float gridLine(vec2 p, float s) {
-  vec2 q = p / s;
-  vec2 d = abs(fract(q - 0.5) - 0.5) / max(fwidth(q), vec2(1e-5));
-  return 1.0 - clamp(min(d.x, d.y), 0.0, 1.0);
-}
-vec3 applyGrid(vec3 c, vec3 w) {
-  if (!uShowGrid) return c;
-  float pxPerM = 1.0 / max(max(fwidth(w.x), fwidth(w.z)), 1e-5);
-  c = mix(c, vec3(1.0), gridLine(w.xz, 1.0) * 0.12 * smoothstep(3.0, 6.0, pxPerM));
-  return mix(c, vec3(1.0), gridLine(w.xz, 32.0) * 0.5);
-}
 float hash12(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * 0.1031);
   p3 += dot(p3, p3.yzx + 33.33);
@@ -68,7 +57,7 @@ export function terrainMaterial(extraDecls: string, colorGlsl: string, extraUnif
   const variant = extraDecls + colorGlsl
   mat.customProgramCacheKey = () => `terrain:${variant}`
   mat.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, { uPalette: { value: paletteTex() }, uShowGrid: showGrid, ...extraUniforms })
+    Object.assign(shader.uniforms, { uPalette: { value: paletteTex() }, ...extraUniforms })
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vWorld;\nvarying vec3 vWorldNormal;')
       .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>
@@ -79,7 +68,7 @@ vWorldNormal = normalize(mat3(modelMatrix) * objectNormal);`)
       .replace('#include <color_fragment>', `#include <color_fragment>
 vec3 base;
 ${colorGlsl}
-diffuseColor.rgb = applyGrid(applyChecker(base, vWorld.xz), vWorld);`)
+diffuseColor.rgb = applyChecker(base, vWorld.xz);`)
   }
   return mat
 }

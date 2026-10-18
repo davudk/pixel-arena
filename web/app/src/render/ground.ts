@@ -4,6 +4,7 @@
 import * as THREE from 'three'
 import { CHUNK_SIZE, Vec2i } from '@pixel-arena/core'
 import { terrainMaterial } from './terrain-shading'
+import { addGroundGrid } from './grid'
 
 const SIZE = 4096
 const MASK = 160 // chunks per side covered by the hole mask
@@ -26,6 +27,7 @@ base = paletteColor(0);`,
     )
     this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE).rotateX(-Math.PI / 2), mat)
     this.mesh.receiveShadow = true
+    addGroundGrid(this.mesh, CHUNK_SIZE, MASK, { uHoles: { value: this.mask }, uHoleOrigin: this.origin })
   }
 
   /** Re-center under `focus`, snapped to whole chunks. */

@@ -504,6 +504,9 @@ async function openDemo(x: SelfTestExtras, settle: () => Promise<void>) {
 
 async function filtersTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras) {
   await openDemo(x, settle)
+  // The grid is drawn over the filtered image on purpose (white, any palette); leave it out of
+  // the palette color counts.
+  x.settings.setOverride('grid', false)
   editor.rig.focus.set(-4, 0, 2)
   editor.rig.zoom = 48
   const counts: Record<string, number> = {}
@@ -531,6 +534,7 @@ async function filtersTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(x.settings.get('pixel_size') === 5 && editor.pixel.pixelSize === 5, 'option override applies')
   x.settings.chooseFilter('gameboy')
   check(x.settings.get('pixel_size') === 4, 'choosing a preset resets option overrides')
+  delete x.settings.overrides.grid
   x.settings.chooseFilter('pixel')
 }
 

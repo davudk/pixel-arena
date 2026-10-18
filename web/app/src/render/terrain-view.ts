@@ -5,6 +5,7 @@
 import * as THREE from 'three'
 import { terrainChunk, terrainEdit, Vec2i, type MapDocument, type TerrainChunk } from '@pixel-arena/core'
 import { CLIFF, terrainMaterial } from './terrain-shading'
+import { addTerrainGrid, syncGrid } from './grid'
 
 const N = terrainChunk.SIZE
 const S = terrainChunk.SAMPLES
@@ -86,6 +87,7 @@ if (hash12(floor(vWorld.xz * 4.0) + 17.0) < steep) base = paletteColor(${CLIFF})
       mesh.position.set(chunk.coord.x * N, 0, chunk.coord.y * N)
       mesh.receiveShadow = true
       mesh.castShadow = true
+      addTerrainGrid(mesh)
       this.meshes.set(chunk.coord.key, mesh)
       this.root.add(mesh)
     } else {
@@ -95,6 +97,7 @@ if (hash12(floor(vWorld.xz * 4.0) + 17.0) < steep) base = paletteColor(${CLIFF})
       mesh.geometry.dispose()
     }
     mesh.geometry = buildGeometry(this.doc!, chunk)
+    syncGrid(mesh)
   }
 
   /** (N+2)^2 material indices: the chunk's cells plus a one-cell border from its neighbours. */

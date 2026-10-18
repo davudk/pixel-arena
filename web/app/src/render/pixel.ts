@@ -10,6 +10,8 @@
 
 import * as THREE from 'three'
 import { OPTIONS, PALETTES, type FilterOptions } from './filters'
+import { GRID_LAYER, gridUniforms } from './grid'
+import { showGrid } from './terrain-shading'
 
 export const MARGIN = 2
 const MAX_OIL = 6
@@ -183,6 +185,9 @@ export class PixelPass {
   private postScene = new THREE.Scene()
   private postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
   private clock = new THREE.Clock()
+  private gridCamera = new THREE.OrthographicCamera()
+  /** Grid line width in output pixels (the screen uses one CSS pixel). */
+  gridLineWidth = 1
 
   constructor(private renderer: THREE.WebGLRenderer) {
     const u = (value: unknown) => ({ value })
@@ -262,7 +267,42 @@ export class PixelPass {
     }
     r.setRenderTarget(output)
     r.render(this.postScene, this.postCamera)
+    if (showGrid.value) this.renderGrid(scene, camera, low, out, pixelSize, offset)
     r.setRenderTarget(null)
+  }
+
+  /** Draws the grid layer over the finished image at output resolution (see grid.ts). */
+  private renderGrid(scene: THREE.Scene, camera: THREE.OrthographicCamera, low: THREE.Vector2, out: THREE.Vector2, pixelSize: number, offset: THREE.Vector2) {
+    const r = this.renderer
+    // The part of the low-res frame the output shows: from the margin, shifted by the sub-texel
+    // offset, out / pixelSize texels across (same mapping as the post shader).
+    const cam = this.gridCamera
+    cam.copy(camera)
+    const tx = (camera.right - camera.left) / low.x
+    const ty = (camera.top - camera.bottom) / low.y
+    cam.left = camera.left + (MARGIN - offset.x) * tx
+    cam.right = cam.left + (out.x / pixelSize) * tx
+    cam.bottom = camera.bottom + (MARGIN + offset.y) * ty
+    cam.top = cam.bottom + (out.y / pixelSize) * ty
+    cam.layers.set(GRID_LAYER)
+    cam.updateProjectionMatrix()
+    gridUniforms.tDepth.value = this.target.depthTexture
+    gridUniforms.pixelSize.value = pixelSize
+    gridUniforms.offset.value.copy(offset)
+    gridUniforms.margin.value = MARGIN
+    gridUniforms.near.value = camera.near
+    gridUniforms.far.value = camera.far
+    gridUniforms.lineWidth.value = this.gridLineWidth
+    const bg = scene.background
+    const autoClear = r.autoClear
+    const shadows = r.shadowMap.autoUpdate
+    scene.background = null
+    r.autoClear = false
+    r.shadowMap.autoUpdate = false
+    r.render(scene, cam)
+    r.shadowMap.autoUpdate = shadows
+    r.autoClear = autoClear
+    scene.background = bg
   }
 }
 
@@ -303,6 +343,7 @@ export class PixelRenderer {
     const dpr = window.devicePixelRatio
     this.renderer.setPixelRatio(dpr)
     this.renderer.setSize(cssWidth, cssHeight, false)
+    this.pass.gridLineWidth = Math.max(1, Math.round(dpr))
     this.out.set(Math.round(cssWidth * dpr), Math.round(cssHeight * dpr))
     const px = this.devicePixelSize
     this.low.set(Math.ceil(this.out.x / px) + MARGIN * 2, Math.ceil(this.out.y / px) + MARGIN * 2)
