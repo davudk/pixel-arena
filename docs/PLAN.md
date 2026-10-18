@@ -486,6 +486,15 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
 - Godot build and `web-spike/` removed (2026-10-18). `Run Pixel Arena.command` now opens the
   desktop app. `tools/import_kenney.gd` went with it: re-importing or adding Kenney packs needs a
   TS port of the importer.
+- UI redesign (web): full-window map with floating, resizable side panels (Tab hides both).
+  Props panel: theme picker popover (cards with a collage of the theme's props), search, category
+  filter tree, cards / list view, card size, group by (category / subcategory / pack), sort
+  (name / footprint / height / recently placed / most used in map), favourites, recently placed,
+  drag a prop onto the map. Top bar: file actions, undo / redo, panel toggles. Bottom bar
+  (centred on the window, pushed aside only by the panels): tools, hints, selection actions;
+  tool options pop up above it. Right panel: collapsible View / Selection (position and
+  rotation fields) / Branches and history. UI text isn't selectable. Preferences per player in
+  localStorage (`web/app/src/ui/ui-state.svelte.ts`).
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

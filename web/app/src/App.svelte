@@ -41,6 +41,12 @@
   import { runSelfTest } from './editor/selftest'
   import { desktop, type MenuCommand, type SteamStatus } from './platform'
   import { pinchFactor, WheelClassifier, wheelFactor } from './editor/gestures'
+  import Icon from './ui/Icon.svelte'
+  import Resizer from './ui/Resizer.svelte'
+  import Section from './ui/Section.svelte'
+  import SelectionPanel from './ui/SelectionPanel.svelte'
+  import { noteRecent, persistUi, thumbUrls, ui } from './ui/ui-state.svelte'
+  import { usageCounts } from './ui/prop-list'
 
   const params = new URLSearchParams(location.search)
   const num = (k: string, d: number) => (params.has(k) ? Number(params.get(k)) : d)
@@ -79,6 +85,12 @@
   let exportOpen = $state(false)
   let exporter: Exporter | null = null
   let thumbnails: Thumbnails | null = $state(null)
+  let usage: Map<string, number> = $state(new Map())
+  persistUi()
+  const GAP = 10
+  // Room the side panels take from the window edges (panel plus gaps); bars stay clear of it.
+  const leftSpace = $derived(ui.leftHidden ? 0 : ui.leftWidth + GAP * 2)
+  const rightSpace = $derived(ui.rightHidden ? 0 : ui.rightWidth + GAP * 2)
 
   let pixel: PixelRenderer
   let rig: CameraRig
@@ -172,6 +184,13 @@
   function refreshHistory() {
     canUndo = editor?.session.canUndo() ?? false
     canRedo = editor?.session.canRedo() ?? false
+    if (editor) usage = usageCounts(editor.session.doc.objects.values())
+  }
+
+  /** The select tool, switching to it first if another tool is active. */
+  function selectTool(): SelectTool {
+    if (!(editor!.tool instanceof SelectTool)) setToolByName('select')
+    return editor!.tool as SelectTool
   }
 
   // --- Files --------------------------------------------------------------------------
@@ -293,10 +312,10 @@
   // --- Tools --------------------------------------------------------------------------
 
   const TOOLS = [
-    { name: 'select', label: 'Select', key: 'V' },
-    { name: 'terrain', label: 'Terrain', key: 'T' },
-    { name: 'water', label: 'Water', key: 'O' },
-    { name: 'building', label: 'Build', key: 'B' },
+    { name: 'select', label: 'Select', key: 'V', icon: 'pointer' },
+    { name: 'terrain', label: 'Terrain', key: 'T', icon: 'mountain' },
+    { name: 'water', label: 'Water', key: 'O', icon: 'droplet' },
+    { name: 'building', label: 'Build', key: 'B', icon: 'building' },
   ]
 
   // --- Branches ------------------------------------------------------------------------
@@ -348,6 +367,32 @@
     const tool = new PlaceTool(editor, prop)
     tool.randomRotation = randomRotation
     editor.setTool(tool)
+    noteRecent(prop.id)
+  }
+
+  // Dragging a prop from the panel onto the map places it where it's dropped.
+  const PROP_MIME = 'application/x-pixel-arena-prop'
+  function onDragOver(e: DragEvent) {
+    if (!editor || !e.dataTransfer?.types.includes(PROP_MIME)) return
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+    editor.tool.pointerMove?.(pointer(e))
+  }
+  function onDragEnter(e: DragEvent) {
+    // The prop id is only readable on drop, so the ghost appears once the drop happens; still
+    // accept the drag here.
+    if (e.dataTransfer?.types.includes(PROP_MIME)) e.preventDefault()
+  }
+  function onDrop(e: DragEvent) {
+    const id = e.dataTransfer?.getData(PROP_MIME)
+    const prop = id ? library?.props.get(id) : undefined
+    if (!editor || !prop) return
+    e.preventDefault()
+    if (!(editor.tool instanceof PlaceTool) || editor.tool.prop.id !== prop.id) choose(prop)
+    const p = pointer(e)
+    editor.tool.pointerMove?.(p)
+    editor.tool.pointerDown?.(p)
+    editor.tool.pointerUp?.(p)
   }
 
   function pointer(e: MouseEvent): Pointer {
@@ -453,6 +498,12 @@
       return
     }
     if (cmd) return
+    if (k === 'tab') {
+      const show = ui.leftHidden && ui.rightHidden
+      ui.leftHidden = ui.rightHidden = !show
+      e.preventDefault()
+      return
+    }
     if (k === 'v') setToolByName('select')
     else if (k === 't') setToolByName('terrain')
     else if (k === 'o') setToolByName('water')
@@ -515,6 +566,7 @@
       scene.add(world.root)
       world.setCutaway(cutaway)
       const thumbs = new Thumbnails(pixel.renderer)
+      thumbs.onReady = (id, url) => (thumbUrls[id] = url)
       editor = new Editor(new MapSession(), lib, thumbs, world, rig, pixel, scene)
       const ed = editor
       ed.defaultTool = () => new SelectTool(ed)
@@ -527,7 +579,7 @@
             ? 'Water: click corners · click the first corner or Enter to finish · Backspace undo corner · Esc'
             : t instanceof TerrainTool || t instanceof BuildingTool
               ? ''
-              : 'Click / drag-box to select · drag to move · R rotate · PgUp/PgDn raise · Del · Cmd+D · Cmd+C/V · I pick prop · F focus'
+              : 'Click or drag a box to select · drag to move · R rotate · Tab hides panels'
       })
       ed.selection.changed.connect(() => (selected = ed.selection.size))
       ed.box.connect((r) => (boxRect = r))
@@ -602,64 +654,111 @@
 <svelte:window onkeydown={(e) => onKey(e, true)} onkeyup={(e) => onKey(e, false)} />
 
 <div class="app">
-  {#if library && thumbnails}
-    <PropBrowser {library} {thumbnails} selected={placing} bind:randomRotation onchoose={choose} />
-  {:else}
-    <aside class="browser-loading">Loading props…</aside>
+  <canvas bind:this={canvas} onpointerdown={onPointerDown} onpointermove={onPointerMove}
+    onpointerup={onPointerUp} onwheel={onWheel} oncontextmenu={(e) => e.preventDefault()}
+    ondragenter={onDragEnter} ondragover={onDragOver} ondrop={onDrop}></canvas>
+  {#if boxRect}
+    <div class="boxsel" style:left="{boxRect.x}px" style:top="{boxRect.y}px" style:width="{boxRect.w}px" style:height="{boxRect.h}px"></div>
   {/if}
 
-  <main>
-    <canvas bind:this={canvas} onpointerdown={onPointerDown} onpointermove={onPointerMove}
-      onpointerup={onPointerUp} onwheel={onWheel} oncontextmenu={(e) => e.preventDefault()}></canvas>
-    {#if boxRect}
-      <div class="boxsel" style:left="{boxRect.x}px" style:top="{boxRect.y}px" style:width="{boxRect.w}px" style:height="{boxRect.h}px"></div>
+  <div class="side left" class:hidden={ui.leftHidden} style:width="{ui.leftWidth}px">
+    <!-- As tall as the top bar, so the theme button (and its popover) start just below it. -->
+    <div class="mapname" title={filePath ?? 'Not saved yet'}>
+      <span class="mark" aria-hidden="true"></span>
+      <span class="title">{mapName.replace(/\.pxmap$/, '')}</span>
+      {#if dirty}<span class="dirty" title="Unsaved changes">●</span>{/if}
+    </div>
+    {#if library && thumbnails}
+      <PropBrowser {library} {thumbnails} {usage} selected={placing} bind:randomRotation onchoose={choose} />
+    {:else}
+      <p class="loading">Loading props…</p>
     {/if}
+    <Resizer side="left" bind:width={ui.leftWidth} min={220} max={560} initial={300} />
+  </div>
 
-    <header class="bar">
+  <header class="topbar" data-avoid style:left="{leftSpace || GAP}px" style:right="{rightSpace || GAP}px">
+    <div class="group">
       <button onclick={newMap} title="New map">New</button>
       <button onclick={openDialog} title="Open (Cmd+O)">Open…</button>
       <button onclick={save} title="Save (Cmd+S)">Save</button>
       {#if desktop}<button onclick={saveAs} title="Save As (Cmd+Shift+S)">Save As…</button>{/if}
       <button onclick={() => (exportOpen = true)} title="Export image (Cmd+E)">Export…</button>
-      <span class="sep"></span>
-      <button onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)">Undo</button>
-      <button onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)">Redo</button>
-      <span class="sep"></span>
-      <div class="tools" role="group" aria-label="Tools">
-        {#each TOOLS as t (t.name)}
-          <button class:on={activeTool === t.name} title="{t.label} ({t.key})" onclick={() => setToolByName(t.name)}>{t.label}</button>
-        {/each}
-      </div>
-      <span class="name" title={filePath ?? ''}>{mapName}{dirty ? ' •' : ''}</span>
-      {#if steam}
-        <button class="steam" class:off={!steam.ok} disabled={!steam.ok} onclick={() => desktop?.steam.overlay('friends')}
-          title={steam.ok ? `Steam (app ${steam.appId}) · Shift+Tab opens the overlay` : `Steam not available: ${steam.error}`}>
-          {steam.ok ? `Steam · ${steam.name}` : 'Steam offline'}
-        </button>
-      {/if}
-      <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
-        const f = (e.currentTarget as HTMLInputElement).files?.[0]
-        if (f) openFile(f)
-        ;(e.currentTarget as HTMLInputElement).value = ''
-      }} />
-    </header>
+    </div>
+    <div class="group">
+      <button class="icon" onclick={undo} disabled={!canUndo} title="Undo (Cmd+Z)" aria-label="Undo"><Icon name="undo" /></button>
+      <button class="icon" onclick={redo} disabled={!canRedo} title="Redo (Cmd+Shift+Z)" aria-label="Redo"><Icon name="redo" /></button>
+    </div>
+    <span class="spacer"></span>
+    {#if steam}
+      <button class="steam" class:off={!steam.ok} disabled={!steam.ok} onclick={() => desktop?.steam.overlay('friends')}
+        title={steam.ok ? `Steam (app ${steam.appId}) · Shift+Tab opens the overlay` : `Steam not available: ${steam.error}`}>
+        {steam.ok ? `Steam · ${steam.name}` : 'Steam offline'}
+      </button>
+    {/if}
+    <div class="group">
+      <button class="icon" class:on={!ui.leftHidden} onclick={() => (ui.leftHidden = !ui.leftHidden)} title="Props panel (Tab hides both)" aria-label="Toggle props panel"><Icon name="panelLeft" /></button>
+      <button class="icon" class:on={!ui.rightHidden} onclick={() => (ui.rightHidden = !ui.rightHidden)} title="Inspector panel (Tab hides both)" aria-label="Toggle inspector panel"><Icon name="panelRight" /></button>
+    </div>
+    <input bind:this={fileInput} type="file" accept=".pxmap" hidden onchange={(e) => {
+      const f = (e.currentTarget as HTMLInputElement).files?.[0]
+      if (f) openFile(f)
+      ;(e.currentTarget as HTMLInputElement).value = ''
+    }} />
+  </header>
 
-    {#if activeTool === 'terrain'}<TerrainOptions />{/if}
-    {#if activeTool === 'building' && editor}<BuildingOptions {editor} />{/if}
-
-
-
-    <div class="right">
-      <ViewPanel {settings} bind:cutaway {clock} onmapdefaults={makeMapDefaults} />
+  <div class="side right" class:hidden={ui.rightHidden} style:width="{ui.rightWidth}px">
+    <Resizer side="right" bind:width={ui.rightWidth} min={240} max={520} initial={280} />
+    <div class="inspector">
+      <Section title="View" bind:open={ui.sections.view}>
+        <ViewPanel {settings} bind:cutaway {clock} onmapdefaults={makeMapDefaults} />
+      </Section>
       {#if editorReady && editor}
-        <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
+        <Section title="Selection" bind:open={ui.sections.selection} badge={selected ? String(selected) : ''}>
+          <SelectionPanel {editor} {selectTool} />
+        </Section>
+        <Section title="Branches and history" bind:open={ui.sections.history} grow>
+          <HistoryPanel {editor} onnew={askNewBranch} onmerge={askMerge} onrename={askRename} ondiscard={askDiscard} />
+        </Section>
       {/if}
     </div>
+  </div>
 
-    <footer class="status">
-      {#if status}{status}{:else}{#if toolInfo}{toolInfo}<br />{/if}{selected ? `${selected} selected · ` : ''}{fps} fps · {stats}{/if}
-    </footer>
-  </main>
+  <!-- Centered on the whole window; the side spacers keep it clear of the panels, so it only
+       shifts when it would otherwise run into one. -->
+  <div class="bottom">
+    <div class="keepout" style:min-width="{leftSpace}px"></div>
+    <div class="center" data-avoid style:max-width="calc(100% - {leftSpace + rightSpace}px)">
+      {#if activeTool === 'terrain'}<TerrainOptions />{/if}
+      {#if activeTool === 'building' && editor}<BuildingOptions {editor} />{/if}
+      <footer class="bottombar">
+        <div class="tools" role="group" aria-label="Tools">
+          {#each TOOLS as t (t.name)}
+            <button class:on={activeTool === t.name} title="{t.label} ({t.key})" onclick={() => setToolByName(t.name)}>
+              <Icon name={t.icon} /><span>{t.label}</span>
+            </button>
+          {/each}
+        </div>
+        {#if status || toolInfo}<span class="hint" title={status || toolInfo}>{status || toolInfo}</span>{/if}
+        {#if selected && activeTool === 'select'}
+          <span class="sep"></span>
+          <span class="count">{selected} selected</span>
+          <div class="actions">
+            <button class="icon" title="Duplicate (Cmd+D)" aria-label="Duplicate" onclick={() => selectTool().duplicateSelection()}><Icon name="copy" /></button>
+            <button class="icon" title="Rotate (R, Shift+R back)" aria-label="Rotate" onclick={() => selectTool().rotateSelection(1)}><Icon name="rotate" /></button>
+            <button class="icon" title="Raise (PgUp)" aria-label="Raise" onclick={() => selectTool().raiseSelection(0.25)}><Icon name="up" /></button>
+            <button class="icon" title="Lower (PgDn)" aria-label="Lower" onclick={() => selectTool().raiseSelection(-0.25)}><Icon name="down" /></button>
+            <button class="icon" title="Focus (F)" aria-label="Focus" onclick={() => selectTool().focusSelection()}><Icon name="focus" /></button>
+            <button class="icon danger" title="Delete (Del)" aria-label="Delete" onclick={() => selectTool().deleteSelection()}><Icon name="trash" /></button>
+          </div>
+        {/if}
+      </footer>
+    </div>
+    <div class="keepout" style:min-width="{rightSpace}px"></div>
+  </div>
+
+  {#if ui.showStats}
+    <div class="stats" style:right="{rightSpace || GAP}px">{fps} fps · {stats}</div>
+  {/if}
 </div>
 
 <Dialogs bind:dialog />

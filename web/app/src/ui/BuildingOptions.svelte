@@ -53,7 +53,7 @@
 
 <style>
   .options {
-    position: absolute; top: 64px; left: 12px; width: 440px; padding: 10px 12px; border-radius: 12px;
+    width: 440px; max-width: 100%; padding: 10px 12px; border-radius: 12px; pointer-events: auto;
     background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; gap: 8px;
   }

@@ -192,7 +192,9 @@ export class SelectTool implements Tool {
     this.editor.selection.set(picked)
   }
 
-  private deleteSelection() {
+  // --- Selection actions (also used by the bottom bar and the Selection panel) ------------
+
+  deleteSelection() {
     const sel = this.editor.selection
     if (sel.size === 0) return
     const s = this.editor.session
@@ -201,13 +203,19 @@ export class SelectTool implements Tool {
   }
 
   /** Rotates the selection about its centroid by one snap step of the first selected prop. */
-  private rotateSelection(direction: number) {
+  rotateSelection(direction: number) {
     const roots = this.editor.selection.list()
     if (roots.length === 0) return
-    const s = this.editor.session
-    const first = s.doc.getObject(roots[0])!
+    const first = this.editor.session.doc.getObject(roots[0])!
     const prop = first.type === 'prop' ? this.editor.library.props.get(String(first.props.get('prop'))) : undefined
-    const angle = (((prop?.rotateSnapDeg ?? 90) * Math.PI) / 180) * direction
+    this.rotateSelectionBy((((prop?.rotateSnapDeg ?? 90) * Math.PI) / 180) * direction)
+  }
+
+  /** Rotates the selection (with descendants) about its centroid by `angle` radians. */
+  rotateSelectionBy(angle: number) {
+    const roots = this.editor.selection.list()
+    if (roots.length === 0 || angle === 0) return
+    const s = this.editor.session
     const pivot = this.centroid(roots)
     const ids = withDescendants(s.doc, roots)
     const cos = Math.cos(angle)
@@ -224,7 +232,7 @@ export class SelectTool implements Tool {
     })
   }
 
-  private raiseSelection(dy: number) {
+  raiseSelection(dy: number) {
     const sel = this.editor.selection
     if (sel.size === 0) return
     const s = this.editor.session
@@ -234,7 +242,18 @@ export class SelectTool implements Tool {
     })
   }
 
-  private duplicateSelection() {
+  /** Moves the selection (with descendants) by `delta`. */
+  translateSelection(delta: Vec3, label = 'Move') {
+    const sel = this.editor.selection
+    if (sel.size === 0) return
+    const s = this.editor.session
+    const ids = withDescendants(s.doc, sel.list())
+    s.edit(label, () => {
+      for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(delta))
+    })
+  }
+
+  duplicateSelection() {
     const roots = this.editor.selection.list()
     if (roots.length === 0) return
     const first = this.editor.session.doc.getObject(roots[0])!
@@ -270,7 +289,7 @@ export class SelectTool implements Tool {
     this.editor.setTool(tool)
   }
 
-  private focusSelection() {
+  focusSelection() {
     const ids = this.editor.selection.list()
     if (ids.length === 0) return
     const c = this.centroid(ids)

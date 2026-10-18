@@ -18,7 +18,6 @@
 
   const PREFIX: Record<string, string> = { undo: '↶ Undo: ', redo: '↷ Redo: ', merge: '⇄ ', edit: '' }
   let rev = $state(0)
-  let open = $state(true)
   let picked: string | null = $state(null)
   let entry: number | null = $state(null)
 
@@ -71,12 +70,8 @@
   })
 </script>
 
-<section class="history" class:closed={!open}>
-  <header>
-    <h2>Branches & history</h2>
-    <button class="toggle" onclick={() => (open = !open)} aria-label={open ? 'Collapse' : 'Expand'}>{open ? '▾' : '▸'}</button>
-  </header>
-  {#if open}
+<div class="history">
+  <h3>Branches</h3>
     <ul class="branches">
       {#each view.rows as r (r.id)}
         <li>
@@ -115,19 +110,11 @@
         onnew(h.branchId, h.seq)
       }} title="Start a branch at the selected entry">Branch here</button>
     </div>
-  {/if}
-</section>
+</div>
 
 <style>
-  .history {
-    flex: 1; padding: 10px 12px;
-    border-radius: 12px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; gap: 8px; min-height: 0;
-  }
-  .history.closed { flex: none; }
-  header { display: flex; align-items: center; justify-content: space-between; }
-  h2, h3 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-  .toggle { border: 0; background: transparent; padding: 0 4px; color: var(--muted); }
+  .history { flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  h3 { margin: 0; font-size: 11px; color: var(--muted); font-weight: 500; }
   ul, ol { list-style: none; margin: 0; padding: 0; }
   .branches { max-height: 120px; overflow-y: auto; }
   .branches button, .list button {

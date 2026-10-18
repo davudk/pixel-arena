@@ -6,6 +6,7 @@
   import { onDestroy } from 'svelte'
   import { OPTIONS, PALETTE_NAMES, PRESET_ORDER, type OptionKey } from '../render/filters'
   import type { ViewKey, ViewSettings } from '../render/view-settings'
+  import { ui } from './ui-state.svelte'
 
   interface Props {
     settings: ViewSettings
@@ -48,8 +49,7 @@
   const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2))
 </script>
 
-<aside class="view">
-  <h2>View</h2>
+<div class="view">
   <label class:ov={v.overridden.has('filter')}>Filter
     <select value={v.filter} onchange={(e) => settings.chooseFilter((e.currentTarget as HTMLSelectElement).value)}>
       {#each PRESET_ORDER as p (p)}<option value={p}>{p}</option>{/each}
@@ -96,15 +96,11 @@
     <button onclick={onmapdefaults} title="Save the current look into this map">Make map defaults</button>
     <button onclick={() => settings.clearOverrides()} disabled={v.overridden.size === 0} title="Drop your own overrides">Use map defaults</button>
   </div>
-</aside>
+  <label><input type="checkbox" bind:checked={ui.showStats} /> Performance stats</label>
+</div>
 
 <style>
-  .view {
-    flex: none; padding: 12px 14px; max-height: 60%; overflow-y: auto;
-    border-radius: 12px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; gap: 8px;
-  }
-  h2 { margin: 0 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .view { display: flex; flex-direction: column; gap: 8px; }
   label { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   label:has(input[type='checkbox']) { justify-content: flex-start; }
   label.ov { color: var(--accent); }
