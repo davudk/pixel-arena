@@ -1,39 +1,44 @@
 <script lang="ts">
-  // Saved brushes along the bottom-left of the screen as square cards with their number key;
-  // scrolls sideways when there are more than fit. Click (or press the number) to use one,
-  // right-click to rename, re-key or delete it.
-  import BrushIcon from './BrushIcon.svelte'
-  import BrushMenu from './BrushMenu.svelte'
-  import { brushLabel } from './brushes'
+  // Every saved tool along the bottom-left of the screen as square cards (keyed ones first,
+  // with their number); scrolls sideways when there are more than fit. Click (or press the
+  // number) to pick one up, right-click to rename, re-key or delete it.
+  import type { Library } from '../library/library'
+  import type { Thumbnails } from '../library/thumbs'
+  import ToolIcon from './ToolIcon.svelte'
+  import ToolMenu from './ToolMenu.svelte'
+  import { describe, ordered } from './saved-tools'
   import { ui } from './ui-state.svelte'
 
   interface Props {
-    /** Slot of the brush currently in use (highlighted), if any. */
-    active: number | null
-    onuse: (slot: number) => void
+    active: string | null
+    library: Library | null
+    thumbnails: Thumbnails | null
+    onuse: (id: string) => void
   }
-  let { active, onuse }: Props = $props()
+  let { active, library, thumbnails, onuse }: Props = $props()
 
-  let menu: { slot: number; anchor: HTMLElement } | null = $state(null)
-  const short = (r: number) => `${Number.isInteger(r) ? r : r.toFixed(1)} m`
+  const tools = $derived(ordered(ui.tools))
+  let menu: { id: string; anchor: HTMLElement } | null = $state(null)
+  /** A few characters for the card: its name, else the first part of its description. */
+  const short = (t: (typeof tools)[number]) => t.name || describe(t, library).split(' · ')[0]
 </script>
 
-{#if ui.brushes.length}
-  <div class="hotbar" role="toolbar" aria-label="Saved brushes">
-    {#each ui.brushes as b (b.slot)}
-      <button class="card" class:on={active === b.slot} title="{brushLabel(b)} ({b.slot}) · right-click to edit"
-        onclick={() => onuse(b.slot)}
-        oncontextmenu={(e) => { e.preventDefault(); menu = { slot: b.slot, anchor: e.currentTarget as HTMLElement } }}>
-        <span class="key">{b.slot}</span>
-        <BrushIcon brush={b} size={22} />
-        <span class="size">{b.name || short(b.radius)}</span>
+{#if tools.length}
+  <div class="hotbar" role="toolbar" aria-label="Saved tools">
+    {#each tools as t (t.id)}
+      <button class="card" class:on={active === t.id} title="{describe(t, library)}{t.slot ? ` (${t.slot})` : ''}"
+        onclick={() => onuse(t.id)}
+        oncontextmenu={(e) => { e.preventDefault(); menu = { id: t.id, anchor: e.currentTarget as HTMLElement } }}>
+        {#if t.slot}<span class="key">{t.slot}</span>{/if}
+        <ToolIcon tool={t} size={22} {library} {thumbnails} />
+        <span class="size">{short(t)}</span>
       </button>
     {/each}
   </div>
 {/if}
 
 {#if menu}
-  <BrushMenu slot={menu.slot} anchor={menu.anchor} placement="above" onclose={() => (menu = null)} />
+  <ToolMenu id={menu.id} anchor={menu.anchor} {library} placement="above" onclose={() => (menu = null)} />
 {/if}
 
 <style>
@@ -48,5 +53,5 @@
   }
   .card.on { border-color: var(--accent); background: rgba(242, 193, 78, 0.14); color: var(--accent); }
   .key { position: absolute; top: 3px; left: 5px; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .size { font-size: 10px; color: var(--muted); max-width: 52px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .size { font-size: 10px; color: var(--muted); max-width: 52px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-transform: capitalize; }
 </style>

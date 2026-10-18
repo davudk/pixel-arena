@@ -10,6 +10,7 @@ import * as THREE from 'three'
 import { copy, terrainEdit, Vec3, withDescendants, type Value } from '@pixel-arena/core'
 import { snapProp } from '../library/library'
 import type { Editor, Pointer, Tool } from './editor'
+import { nameOf, objectsLabel } from './labels'
 import { PlaceTool } from './place-tool'
 
 type Mode = 'none' | 'pending' | 'move' | 'box'
@@ -163,7 +164,7 @@ export class SelectTool implements Tool {
     const s = this.editor.session
     const { moving, delta, primary, newParent, starts } = this
     this.moving = []
-    s.edit('Move', () => {
+    s.edit(this.label('Move', this.editor.selection.list()), () => {
       if (delta.x || delta.y || delta.z) for (const id of moving) s.setProp(id, 'position', starts.get(id)!.add(delta))
       if (newParent !== null) {
         const value = newParent === '' ? null : newParent
@@ -199,7 +200,7 @@ export class SelectTool implements Tool {
     if (sel.size === 0) return
     const s = this.editor.session
     const ids = withDescendants(s.doc, sel.list())
-    s.edit('Delete', () => ids.forEach((id) => s.deleteObject(id)))
+    s.edit(this.label('Delete', sel.list()), () => ids.forEach((id) => s.deleteObject(id)))
   }
 
   /** Rotates the selection about its centroid by one snap step of the first selected prop. */
@@ -220,7 +221,7 @@ export class SelectTool implements Tool {
     const ids = withDescendants(s.doc, roots)
     const cos = Math.cos(angle)
     const sin = Math.sin(angle)
-    s.edit('Rotate', () => {
+    s.edit(this.label('Rotate', roots), () => {
       for (const id of ids) {
         const p = (s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO
         const ox = p.x - pivot.x
@@ -237,7 +238,7 @@ export class SelectTool implements Tool {
     if (sel.size === 0) return
     const s = this.editor.session
     const ids = withDescendants(s.doc, sel.list())
-    s.edit(dy > 0 ? 'Raise' : 'Lower', () => {
+    s.edit(this.label(dy > 0 ? 'Raise' : 'Lower', sel.list()), () => {
       for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(new Vec3(0, dy, 0)))
     })
   }
@@ -248,7 +249,7 @@ export class SelectTool implements Tool {
     if (sel.size === 0) return
     const s = this.editor.session
     const ids = withDescendants(s.doc, sel.list())
-    s.edit(label, () => {
+    s.edit(this.label(label, sel.list()), () => {
       for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(delta))
     })
   }
@@ -310,10 +311,12 @@ export class SelectTool implements Tool {
 
   /** Creates copies offset by `offset`, remapping parents inside the copied set. Returns the new
    *  root ids. */
-  private instantiate(items: Snapshot[], offset: Vec3, label: string): string[] {
+  private instantiate(items: Snapshot[], offset: Vec3, verb: string): string[] {
     const s = this.editor.session
     const remap = new Map<string, string>()
     const roots: string[] = []
+    const top = items.filter((i) => i.root)
+    const label = top.length === 1 ? `${verb} ${nameOf(top[0].type, (k) => top[0].props[k], this.editor.library)}` : `${verb} ${top.length} objects`
     s.edit(label, () => {
       for (const item of items) {
         const { parent: _parent, ...props } = item.props
@@ -328,6 +331,11 @@ export class SelectTool implements Tool {
       }
     })
     return roots
+  }
+
+  /** History label naming what an action applies to ("Move Tent", "Delete 3 objects"). */
+  private label(verb: string, ids: string[]): string {
+    return objectsLabel(verb, ids, this.editor.session.doc, this.editor.library)
   }
 
   private centroid(ids: string[]): Vec3 {

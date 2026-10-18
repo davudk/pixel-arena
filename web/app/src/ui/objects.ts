@@ -1,17 +1,9 @@
-// Display names and grouping for map objects (outliner, water list, selection panel).
+// Grouping and positions of map objects for the outliner and water list (names come from
+// editor/labels.ts, shared with the edit history).
 
 import { SETTINGS_ID, Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
 import type { Library } from '../library/library'
-
-export function objectName(obj: MapObject, library: Library): string {
-  if (obj.type === 'prop') {
-    const id = String(obj.props.get('prop'))
-    return library.props.get(id)?.name ?? id
-  }
-  if (obj.type === 'building') return library.kits.get(String(obj.props.get('kit')))?.name ?? 'Building'
-  if (obj.type === 'water') return 'Water'
-  return obj.type
-}
+import { objectName } from '../editor/labels'
 
 export function objectPosition(obj: MapObject): Vec3 {
   const p = obj.props.get('position')

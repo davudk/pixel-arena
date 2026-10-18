@@ -1,30 +1,33 @@
 <script lang="ts">
-  // Build mode's left panel: the kit (cards drawn in the kit's colors), the piece to draw
-  // (foundation, wall, door, window, erase) and the roof of the building being edited. Picking a
-  // piece picks up the build tool; picking the active piece again puts it down. The level lives
-  // in the bottom bar.
+  // Build mode's left panel, from the registry's build tool: saved build tools, the kit (cards
+  // drawn in the kit's colors), the piece (picking it picks up the tool; the piece in hand again
+  // puts it down), the roof of the building being edited, and "Save tool". The level is a quick
+  // setting in the bottom bar.
   import { onDestroy } from 'svelte'
-  import { buildSettings, BuildingTool, type BuildMode } from '../editor/building-tool'
+  import { BuildingTool } from '../editor/building-tool'
   import type { Editor } from '../editor/editor'
+  import { params, paramsChanged, setParams } from '../editor/tool-params'
+  import { inHand, pickUp, putDown, TOOLS } from '../editor/tools'
   import Icon from './Icon.svelte'
+  import SavedTools from './SavedTools.svelte'
+  import { saveTool } from './saved-tools'
 
-  let { editor }: { editor: Editor } = $props()
+  interface Props {
+    editor: Editor
+    active: string | null
+    onuse: (id: string) => void
+  }
+  let { editor, active, onuse }: Props = $props()
 
-  const PIECES: { mode: BuildMode; label: string; icon: string }[] = [
-    { mode: 'foundation', label: 'Foundation', icon: 'foundation' },
-    { mode: 'wall', label: 'Wall', icon: 'wall' },
-    { mode: 'door', label: 'Door', icon: 'door' },
-    { mode: 'window', label: 'Window', icon: 'window' },
-    { mode: 'erase', label: 'Erase', icon: 'eraser' },
-  ]
   const ROOFS = ['gable', 'hip', 'flat', 'none']
   const kits = [...editor.library.kits.values()].sort((a, b) => a.name.localeCompare(b.name))
+  const pieces = TOOLS.build.params.find((p) => p.key === 'piece')!.options!
 
   let rev = $state(0)
   const bump = () => rev++
   let offDoc = editor.session.doc.changed.connect(bump)
   const offs = [
-    buildSettings.changed.connect(bump),
+    paramsChanged.connect(bump),
     editor.toolChanged.connect(bump),
     editor.selection.changed.connect(bump),
     editor.sessionChanged.connect((s) => {
@@ -41,36 +44,30 @@
   const tool = () => (editor.tool instanceof BuildingTool ? editor.tool : null)
   const view = $derived.by(() => {
     rev
-    const target = tool()?.target ?? ''
+    const target = tool()?.hasTarget() ? tool()!.target : ''
     const roof = target ? String(editor.session.doc.getProp(target, 'roof/style') ?? 'gable') : null
-    return { mode: buildSettings.mode, kitId: buildSettings.kitId, roof, armed: !!tool() }
+    return { piece: params.build.piece, kit: params.build.kit, roof, armed: inHand(editor) === 'build' }
   })
 
-  function setMode(m: BuildMode) {
-    if (tool() && buildSettings.mode === m) {
-      editor.setTool(editor.defaultTool())
-      return
-    }
-    buildSettings.mode = m
-    buildSettings.changed.emit()
-    if (!tool()) editor.setTool(new BuildingTool(editor))
+  function choosePiece(piece: string) {
+    if (view.armed && view.piece === piece) putDown(editor)
+    else pickUp(editor, 'build', { piece: piece as never })
   }
 
-  function setKit(id: string) {
+  /** Picks the kit for new buildings; with a building being edited, changes its kit too. */
+  function chooseKit(id: string) {
     const t = tool()
     if (t) t.setKit(id)
-    else {
-      buildSettings.kitId = id
-      buildSettings.changed.emit()
-    }
+    else setParams('build', { kit: id })
   }
 </script>
 
 <div class="panel-body">
+  <SavedTools mode="build" {active} library={editor.library} {onuse} />
   <h3>Kit</h3>
   <div class="kits">
     {#each kits as k (k.id)}
-      <button class="kit" class:on={view.kitId === k.id} onclick={() => setKit(k.id)}>
+      <button class="kit" class:on={view.kit === k.id} onclick={() => chooseKit(k.id)}>
         <svg viewBox="0 0 48 40" aria-hidden="true">
           <path d="M4 20 L24 6 L44 20 Z" fill={k.colors.roof} />
           <rect x="9" y="20" width="30" height="13" fill={k.colors.gable} />
@@ -83,8 +80,9 @@
   </div>
   <h3>Piece</h3>
   <div class="tiles">
-    {#each PIECES as p (p.mode)}
-      <button class="tile" class:on={view.armed && view.mode === p.mode} aria-pressed={view.armed && view.mode === p.mode} onclick={() => setMode(p.mode)}><Icon name={p.icon} size={22} /><span>{p.label}</span></button>
+    {#each pieces as p (p.value)}
+      {@const on = view.armed && view.piece === p.value}
+      <button class="tile" class:on aria-pressed={on} onclick={() => choosePiece(String(p.value))}><Icon name={p.icon ?? ''} size={22} /><span>{p.label}</span></button>
     {/each}
   </div>
   <h3>Roof</h3>
@@ -93,6 +91,8 @@
       <button class:on={view.roof === r} disabled={view.roof === null} onclick={() => tool()?.setRoof(r)}>{r}</button>
     {/each}
   </div>
+  <button class="save" disabled={!view.armed} title={view.armed ? 'Save this kit and piece (Cmd/Ctrl+1–9 saves it on a number key)' : 'Pick a piece first'}
+    onclick={() => saveTool(editor)}><Icon name="plus" size={14} /> Save tool</button>
 </div>
 
 <style>
@@ -106,4 +106,5 @@
   .tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; font-size: 12px; }
   .roofs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
   .roofs button { padding: 6px 0; text-transform: capitalize; }
+  .save { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; }
 </style>

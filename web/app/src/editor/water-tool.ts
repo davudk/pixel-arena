@@ -1,5 +1,5 @@
-// Draws a water body (port of WaterTool): click to add corners (snapped to 0.5 m; hold Cmd/Ctrl
-// for free), click the first corner or press Enter to finish, Backspace removes the last corner,
+// Draws a water body (port of WaterTool): click to add corners (snapped to 0.5 m unless
+// params.water.snap is off or Cmd/Ctrl is held), click the first corner or press Enter to finish, Backspace removes the last corner,
 // Esc cancels. The surface sits at the terrain height of the first corner; raise or lower it
 // afterwards with PageUp / PageDown in the select tool. The polygon is stored relative to the
 // object's position, so moving / rotating water works like any other object.
@@ -7,6 +7,8 @@
 import * as THREE from 'three'
 import { PackedVec2Array, terrainEdit, Vec2, Vec3 } from '@pixel-arena/core'
 import type { Editor, Pointer, Tool } from './editor'
+import { WATER_LABEL } from './labels'
+import { params } from './tool-params'
 
 const CLOSE_DISTANCE = 12 // CSS px
 
@@ -77,7 +79,7 @@ export class WaterTool implements Tool {
     this.points = []
     const s = this.editor.session
     let id = ''
-    s.edit('Add water', () => {
+    s.edit(WATER_LABEL, () => {
       id = s.createObject('water', { position: new Vec3(cx, level, cz), rotation: 0, polygon: new PackedVec2Array(polygon) })
     })
     this.editor.setTool(this.editor.defaultTool())
@@ -88,8 +90,9 @@ export class WaterTool implements Tool {
   private snapped(p: Pointer): THREE.Vector3 | null {
     const hit = this.editor.groundAt(p)
     if (!hit) return null
-    const x = p.cmd ? hit.x : Math.round(hit.x * 2) / 2
-    const z = p.cmd ? hit.z : Math.round(hit.z * 2) / 2
+    const free = p.cmd || !params.water.snap
+    const x = free ? hit.x : Math.round(hit.x * 2) / 2
+    const z = free ? hit.z : Math.round(hit.z * 2) / 2
     return new THREE.Vector3(x, terrainEdit.heightAtWorld(this.editor.session.doc, x, z), z)
   }
 

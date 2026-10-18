@@ -11,9 +11,13 @@ import { PRESET_ORDER } from '../render/filters'
 import type { Editor, Pointer } from './editor'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
-import { TerrainTool, terrainSettings } from './terrain-tool'
+import { TerrainTool } from './terrain-tool'
+import { params as toolParams, paramsChanged, setParams } from './tool-params'
+import { inHand, pickUp, putDown } from './tools'
+import { activeId, describe, saveTool, useSaved } from '../ui/saved-tools'
+import { ui } from '../ui/ui-state.svelte'
 import { WaterTool } from './water-tool'
-import { BuildingTool, buildSettings } from './building-tool'
+import { BuildingTool } from './building-tool'
 import { desktop } from '../platform'
 import { WheelClassifier } from './gestures'
 
@@ -58,6 +62,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'filters') await filtersTest(editor, check, settle, extras)
     else if (name === 'export') await exportTest(editor, check, settle, extras)
     else if (name === 'gestures') await gesturesTest(editor, check, settle, extras)
+    else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
@@ -259,9 +264,9 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   const tree = [...doc.objects.values()].find((o) => o.props.get('prop') === 'kenney_nature:tree_oak')!
   const treeY = (tree.props.get('position') as Vec3).y
 
-  const terrain = new TerrainTool(editor)
+  const terrain = new TerrainTool(editor, 'sculpt')
   editor.setTool(terrain)
-  Object.assign(terrainSettings, { mode: 'raise', radius: 5, strength: 1 })
+  setParams('sculpt', { op: 'raise', radius: 5, strength: 1 })
   editor.cursor = spot
   terrain.pointerDown(spot)
   for (let i = 0; i < 20; i++) terrain.update(1 / 60)
@@ -269,6 +274,7 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   const tp = doc.getProp(tree.id, 'position') as Vec3
   const groundY = terrainEdit.heightAtWorld(doc, tp.x, tp.z)
   check(groundY > 1, `terrain raised (${groundY.toFixed(2)})`)
+  check(s.branch().txns.at(-1)?.label === 'Raise terrain', `history label (${s.branch().txns.at(-1)?.label})`)
   check(Math.abs(tp.y - groundY) < 0.01, `tree rides the terrain (${tp.y.toFixed(2)} vs ${groundY.toFixed(2)})`)
   await settle()
   check(doc.terrain.size > 0, 'terrain chunk stored')
@@ -276,21 +282,25 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(Math.abs((doc.getProp(tree.id, 'position') as Vec3).y - treeY) < 1e-9, 'undo lowers the tree')
   check(doc.terrain.size === 0, 'undo removes the terrain chunk')
 
-  // Paint sand.
-  terrainSettings.mode = 'paint'
-  terrainSettings.material = 2
-  terrain.pointerDown(spot)
-  terrain.pointerUp()
+  // Paint sand (its own tool, with its own size).
+  const painter = new TerrainTool(editor, 'paint')
+  editor.setTool(painter)
+  setParams('paint', { material: 2, radius: 5 })
+  painter.pointerDown(spot)
+  painter.pointerUp()
   const g = editor.groundAt(spot)!
   check(terrainEdit.materialAt(doc, Math.floor(g.x), Math.floor(g.z)) === 2, 'painted sand')
+  check(s.branch().txns.at(-1)?.label === 'Paint Sand', `paint history label (${s.branch().txns.at(-1)?.label})`)
 
-  // [ shrinks the brush and notifies the options panel.
+  // [ shrinks the paint brush (only) and notifies the panels.
   let notified = false
-  const off = terrainSettings.changed.connect(() => (notified = true))
-  const r0 = terrainSettings.radius
-  terrain.key(new KeyboardEvent('keydown', { key: '[' }))
+  const off = paramsChanged.connect((t) => (notified = t === 'paint'))
+  const r0 = toolParams.paint.radius
+  const sculptR = toolParams.sculpt.radius
+  painter.key(new KeyboardEvent('keydown', { key: '[' }))
   off()
-  check(terrainSettings.radius < r0 && notified, '[ shrinks the brush')
+  check(toolParams.paint.radius < r0 && notified, '[ shrinks the brush')
+  check(toolParams.sculpt.radius === sculptR, 'the sculpt brush keeps its size')
 
   // Water: three corners + Enter -> created, selected, back to the select tool; PageUp raises it.
   const water = new WaterTool(editor)
@@ -324,7 +334,7 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   const doc = s.doc
   const tool = new BuildingTool(editor)
   editor.setTool(tool)
-  buildSettings.mode = 'foundation'
+  setParams('build', { piece: 'foundation' })
   tool.setLevel(0)
   check(world.cutawayLevel === 0, 'cutaway follows the level')
 
@@ -345,13 +355,13 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   const b = (x: number, y: number, z: number) => new THREE.Vector3(bpos.x + x, bpos.y + y, bpos.z + z)
 
   // Door on the south edge of the middle cell.
-  buildSettings.mode = 'door'
+  setParams('build', { piece: 'door' })
   tool.pointerDown(at(b(4.5, 1, 3)))
   layout = BuildingLayout.fromObject(doc.getObject(id)!)
   check([...layout.walls(0).values()].some((w) => w.kind === 'door'), 'door placed')
 
   // Level 1: one cell; the roof over level 1 is cut away while editing it.
-  buildSettings.mode = 'foundation'
+  setParams('build', { piece: 'foundation' })
   tool.setLevel(1)
   const up = at(b(1.5, 3, 1.5))
   tool.pointerDown(up)
@@ -372,7 +382,7 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   check(doc.getProp(id, 'roof/style') === 'gable', 'undo roof style')
 
   // Erasing every cell deletes the building; undo brings it back.
-  buildSettings.mode = 'erase'
+  setParams('build', { piece: 'erase' })
   tool.pointerDown(up)
   tool.pointerUp()
   tool.setLevel(0)
@@ -682,4 +692,39 @@ async function gesturesTest(editor: Editor, check: (ok: unknown, what: string) =
   const y0 = rig.focus.y
   for (let i = 0; i < 5; i++) await wheel({ deltaX: 40, deltaY: -30 })
   check(Math.abs(rig.focus.y - y0) < 1e-9, 'panning over terrain keeps the focus height')
+}
+
+/** The tool registry: picking up with parameters, saved tools with and without number keys,
+ *  matching the tool in hand, and the parameters a saved tool keeps. */
+async function toolsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  await settle()
+  ui.tools = []
+  check(pickUp(editor, 'sculpt', { op: 'smooth', radius: 8, strength: 0.25 }) && inHand(editor) === 'sculpt', 'pick up sculpt')
+  const smooth = saveTool(editor, 2)
+  check(smooth?.slot === 2 && describe(smooth, editor.library) === 'Smooth · 8 m · 25%', `saved on 2 (${smooth && describe(smooth, editor.library)})`)
+  check(activeId(editor) === smooth?.id, 'the tool in hand matches its saved entry')
+  setParams('sculpt', { radius: 16 })
+  check(activeId(editor) === null, 'changing a kept parameter no longer matches')
+  check(saveTool(editor)?.slot === null && ui.tools.length === 2, 'saving without a key')
+
+  pickUp(editor, 'paint', { material: 3, radius: 2 })
+  const rock = saveTool(editor, 2)
+  check(rock && ui.tools.find((t) => t.id === smooth!.id)?.slot === null, 'a new tool on a used key takes the key')
+  check(rock && !('strength' in rock.params), 'paint keeps no strength')
+
+  const prop = [...editor.library.props.values()][0]
+  pickUp(editor, 'place', { prop: prop.id, randomRotation: true })
+  const placed = saveTool(editor)
+  check(placed?.tool === 'place' && placed.params.prop === prop.id && placed.params.randomRotation === true, 'prop saved with its settings')
+
+  pickUp(editor, 'build', { piece: 'door', level: 2 })
+  const door = saveTool(editor, 5)
+  check(door && !('level' in door.params), 'build level is not kept')
+
+  putDown(editor)
+  check(inHand(editor) === null, 'put down')
+  check(useSaved(editor, smooth!.id) && inHand(editor) === 'sculpt' && toolParams.sculpt.op === 'smooth' && toolParams.sculpt.radius === 8, 'recall restores tool and parameters')
+  check(useSaved(editor, placed!.id) && inHand(editor) === 'place' && toolParams.place.randomRotation === true, 'recall a prop')
+  putDown(editor)
+  ui.tools = []
 }

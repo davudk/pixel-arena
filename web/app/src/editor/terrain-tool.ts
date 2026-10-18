@@ -1,34 +1,26 @@
-// Sculpts (raise, lower, smooth, flatten) and paints terrain with a round brush (port of
-// TerrainTool). Hold the left button to apply continuously; one stroke is one undo step. Props
-// standing on the ground (no parent) ride the surface, together with anything sitting on them.
-// [ / ] brush size, Shift+[ / ] strength, Esc returns to selection.
+// Terrain brushes (port of TerrainTool): two registry tools on one implementation. "sculpt"
+// raises, lowers, smooths or flattens (params.sculpt: op, radius, strength); "paint" sets the
+// material (params.paint: material, radius). Hold the left button to apply continuously; one
+// stroke is one undo step. Props standing on the ground (no parent) ride the surface, together
+// with anything sitting on them. [ / ] brush size, Shift+[ / ] strength (sculpt), Esc puts the
+// tool down.
 
 import * as THREE from 'three'
-import { MapDocument, Signal, terrainBrush, terrainEdit, Vec2i, Vec3, withDescendants } from '@pixel-arena/core'
+import { MapDocument, terrainBrush, terrainEdit, Vec2i, Vec3, withDescendants } from '@pixel-arena/core'
 import type { Editor, Pointer, Tool } from './editor'
-
-export type TerrainMode = 'raise' | 'lower' | 'smooth' | 'flatten' | 'paint'
-
-/** Brush settings shared by the tool and the options panel; persist across activations. */
-export const terrainSettings = {
-  mode: 'raise' as TerrainMode,
-  radius: 4,
-  strength: 0.5,
-  material: 1,
-  changed: new Signal<void>(),
-}
+import { paintLabel, sculptLabel } from './labels'
+import { params, setParams } from './tool-params'
 
 const RAISE_SPEED = 6 // meters per second at full strength, brush center
 const BLEND_SPEED = 8 // smooth / flatten blend per second at full strength
 const GROUNDED_EPSILON = 0.05
 
 export class TerrainTool implements Tool {
-  readonly name = 'terrain'
   private stroking = false
   private flattenTarget = 0
   private ring: THREE.Line
 
-  constructor(private editor: Editor) {
+  constructor(private editor: Editor, readonly name: 'sculpt' | 'paint' = 'sculpt') {
     const mat = new THREE.LineBasicMaterial({ color: '#ffd84d', depthTest: false, transparent: true })
     this.ring = new THREE.Line(new THREE.BufferGeometry(), mat)
     this.ring.renderOrder = 10
@@ -50,8 +42,7 @@ export class TerrainTool implements Tool {
     if (!hit) return
     this.stroking = true
     this.flattenTarget = hit.y
-    const m = terrainSettings.mode
-    this.editor.session.begin(`${m[0].toUpperCase()}${m.slice(1)} terrain`)
+    this.editor.session.begin(this.name === 'paint' ? paintLabel(params.paint.material) : sculptLabel(params.sculpt.op))
     this.apply(hit, 1 / 60)
   }
 
@@ -77,9 +68,12 @@ export class TerrainTool implements Tool {
   key(e: KeyboardEvent): boolean {
     if (e.key === '[' || e.key === ']' || e.key === '{' || e.key === '}') {
       const up = e.key === ']' || e.key === '}'
-      if (e.shiftKey) terrainSettings.strength = Math.min(1, Math.max(0.05, terrainSettings.strength + (up ? 0.1 : -0.1)))
-      else terrainSettings.radius = Math.min(32, Math.max(1, terrainSettings.radius * (up ? 1.25 : 0.8)))
-      terrainSettings.changed.emit()
+      if (e.shiftKey) {
+        if (this.name === 'sculpt') setParams('sculpt', { strength: Math.min(1, Math.max(0.05, params.sculpt.strength + (up ? 0.1 : -0.1))) })
+      } else {
+        const radius = Math.min(32, Math.max(1, Math.round(params[this.name].radius * (up ? 1.25 : 0.8) * 2) / 2))
+        setParams(this.name, { radius })
+      }
       this.pointerMove(this.editor.cursor)
       return true
     }
@@ -99,11 +93,11 @@ export class TerrainTool implements Tool {
     const s = this.editor.session
     const doc = s.doc
     const c = new Vec3(center.x, center.y, center.z)
-    const { mode, radius, strength, material } = terrainSettings
-    if (mode === 'paint') {
-      for (const op of terrainBrush.paintOps(doc, c, radius, material)) s.apply(op)
+    if (this.name === 'paint') {
+      for (const op of terrainBrush.paintOps(doc, c, params.paint.radius, params.paint.material)) s.apply(op)
       return
     }
+    const { op: mode, radius, strength } = params.sculpt
     const amount = strength * (mode === 'raise' || mode === 'lower' ? RAISE_SPEED : BLEND_SPEED) * dt
     const grounded = this.groundedObjects(c, radius)
     for (const op of terrainBrush.sculptOps(doc, mode, c, radius, amount, this.flattenTarget)) s.apply(op)
@@ -136,7 +130,7 @@ export class TerrainTool implements Tool {
 
   private drawRing(center: THREE.Vector3) {
     const doc = this.editor.session.doc
-    const r = terrainSettings.radius
+    const r = params[this.name].radius
     const pts: number[] = []
     for (let i = 0; i <= 48; i++) {
       const a = (Math.PI * 2 * i) / 48

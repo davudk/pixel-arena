@@ -5,29 +5,22 @@
 //   wall        click an edge: toggles wall / open (exterior edges get walls automatically).
 //   door/window click an edge to make it a door / window; click again for a plain wall.
 // PageUp / PageDown (or . / ,) change the level; everything above it is cut away.
-// Roof style and kit (from the options panel) apply to the target building. Esc: select tool.
+// params.build holds the kit, piece and level. Roof style and kit apply to the target building.
+// Esc puts the tool down.
 
 import * as THREE from 'three'
-import { BuildingLayout, Signal, Vec2i, Vec3, type Value } from '@pixel-arena/core'
+import { BuildingLayout, Vec2i, Vec3, type Value } from '@pixel-arena/core'
 import type { KitDef } from '../library/library'
 import type { Editor, Pointer, Tool } from './editor'
-
-export type BuildMode = 'foundation' | 'erase' | 'wall' | 'door' | 'window'
-export const MAX_LEVEL = 9
-
-/** Shared with the options panel; persists across activations. */
-export const buildSettings = {
-  mode: 'foundation' as BuildMode,
-  kitId: 'kenney_town:timber',
-  level: 0,
-  changed: new Signal<void>(),
-}
+import { buildLabel } from './labels'
+import { MAX_LEVEL, params, paramsChanged, setParams } from './tool-params'
 
 export class BuildingTool implements Tool {
-  readonly name = 'building'
+  readonly name = 'build'
   /** The building being edited ("" until one is picked or started). */
   target = ''
   private painting = false
+  private offParams = () => {}
   private hover: THREE.Mesh
 
   constructor(private editor: Editor) {
@@ -43,11 +36,18 @@ export class BuildingTool implements Tool {
     const doc = this.editor.session.doc
     this.target = this.editor.selection.list().find((id) => doc.getObject(id)?.type === 'building') ?? ''
     this.editor.scene.add(this.hover)
-    this.editor.world.setCutaway(buildSettings.level)
+    this.editor.world.setCutaway(params.build.level)
     this.pointerMove(this.editor.cursor)
+    // The level can change from the bottom bar or a saved tool, not just the keys.
+    this.offParams = paramsChanged.connect((tool) => {
+      if (tool !== 'build') return
+      this.editor.world.setCutaway(params.build.level)
+      this.pointerMove(this.editor.cursor)
+    })
   }
 
   deactivate() {
+    this.offParams()
     if (this.painting) this.endStroke()
     this.editor.scene.remove(this.hover)
     this.editor.world.setCutaway(this.editor.viewCutaway)
@@ -55,29 +55,25 @@ export class BuildingTool implements Tool {
 
   kit(): KitDef | undefined {
     const kits = this.editor.library.kits
-    const id = this.hasTarget() ? String(this.editor.session.doc.getProp(this.target, 'kit', buildSettings.kitId)) : buildSettings.kitId
+    const id = this.hasTarget() ? String(this.editor.session.doc.getProp(this.target, 'kit', params.build.kit)) : params.build.kit
     return kits.get(id) ?? kits.values().next().value
   }
 
   setLevel(level: number) {
-    buildSettings.level = Math.max(0, Math.min(MAX_LEVEL, level))
-    this.editor.world.setCutaway(buildSettings.level)
-    buildSettings.changed.emit()
-    this.pointerMove(this.editor.cursor)
+    setParams('build', { level: Math.max(0, Math.min(MAX_LEVEL, level)) })
   }
 
   setRoof(style: string) {
     if (!this.hasTarget()) return
     const s = this.editor.session
-    s.edit(`Roof: ${style}`, () => s.setProp(this.target, 'roof/style', style))
+    s.edit(`Set roof to ${style}`, () => s.setProp(this.target, 'roof/style', style))
   }
 
   setKit(id: string) {
-    buildSettings.kitId = id
-    buildSettings.changed.emit()
+    setParams('build', { kit: id })
     if (!this.hasTarget()) return
     const s = this.editor.session
-    s.edit('Change kit', () => s.setProp(this.target, 'kit', id))
+    s.edit(`Change kit to ${this.editor.library.kits.get(id)?.name ?? id}`, () => s.setProp(this.target, 'kit', id))
   }
 
   // --- Input -----------------------------------------------------------------------------
@@ -85,9 +81,9 @@ export class BuildingTool implements Tool {
   pointerDown(p: Pointer) {
     const hit = this.editor.pick(p)
     if (hit?.id && this.editor.session.doc.getObject(hit.id)?.type === 'building') this.target = hit.id
-    if (buildSettings.mode === 'foundation' || buildSettings.mode === 'erase') {
+    if (params.build.piece === 'foundation' || params.build.piece === 'erase') {
       this.painting = true
-      this.editor.session.begin(buildSettings.mode === 'foundation' ? 'Build foundation' : 'Remove floor')
+      this.editor.session.begin(buildLabel(params.build.piece))
       this.paint(p, true)
     } else this.clickEdge(p)
   }
@@ -102,8 +98,8 @@ export class BuildingTool implements Tool {
   }
 
   key(e: KeyboardEvent): boolean {
-    if (e.key === 'PageUp' || e.key === '.') this.setLevel(buildSettings.level + 1)
-    else if (e.key === 'PageDown' || e.key === ',') this.setLevel(buildSettings.level - 1)
+    if (e.key === 'PageUp' || e.key === '.') this.setLevel(params.build.level + 1)
+    else if (e.key === 'PageDown' || e.key === ',') this.setLevel(params.build.level - 1)
     else if (e.key === 'Escape') this.editor.setTool(this.editor.defaultTool())
     else return false
     return true
@@ -115,17 +111,17 @@ export class BuildingTool implements Tool {
     const k = this.kit()
     if (!k) return
     const s = this.editor.session
-    if (buildSettings.mode === 'foundation' && buildSettings.level === 0 && strokeStart) {
+    if (params.build.piece === 'foundation' && params.build.level === 0 && strokeStart) {
       const ground = this.editor.groundAt(p)
       if (ground && (!this.hasTarget() || !this.touchesFootprint(ground))) this.startBuilding(ground, k)
     }
     if (!this.hasTarget()) return
     const local = this.localHit(p)
     if (!local) return
-    const path = BuildingLayout.cellPath(buildSettings.level, new Vec2i(Math.floor(local.x / k.cellSize), Math.floor(local.z / k.cellSize)))
+    const path = BuildingLayout.cellPath(params.build.level, new Vec2i(Math.floor(local.x / k.cellSize), Math.floor(local.z / k.cellSize)))
     const present = s.doc.getProp(this.target, path) !== null
-    if (buildSettings.mode === 'foundation' && !present) s.setProp(this.target, path, true)
-    else if (buildSettings.mode === 'erase' && present) s.setProp(this.target, path, null)
+    if (params.build.piece === 'foundation' && !present) s.setProp(this.target, path, true)
+    else if (params.build.piece === 'erase' && present) s.setProp(this.target, path, null)
   }
 
   private endStroke() {
@@ -150,7 +146,7 @@ export class BuildingTool implements Tool {
     if (!edge) return
     const s = this.editor.session
     const layout = BuildingLayout.fromObject(s.doc.getObject(this.target)!)
-    const level = buildSettings.level
+    const level = params.build.level
     const [ca, cb] = BuildingLayout.edgeCells(edge)
     const a = layout.cells(level).has(ca.key)
     const b = layout.cells(level).has(cb.key)
@@ -158,12 +154,12 @@ export class BuildingTool implements Tool {
     const auto = a !== b ? 'wall' : ''
     const current = layout.effectiveKind(level, edge)
     let value: Value
-    if (buildSettings.mode === 'wall') value = current !== '' ? (auto === 'wall' ? 'open' : null) : auto === 'wall' ? null : 'wall'
+    if (params.build.piece === 'wall') value = current !== '' ? (auto === 'wall' ? 'open' : null) : auto === 'wall' ? null : 'wall'
     else {
-      const kind = buildSettings.mode
+      const kind = params.build.piece
       value = current === kind ? (auto === 'wall' ? null : 'wall') : kind
     }
-    s.edit('Edit wall', () => s.setProp(this.target, BuildingLayout.wallPath(level, edge), value))
+    s.edit(buildLabel(params.build.piece), () => s.setProp(this.target, BuildingLayout.wallPath(level, edge), value))
   }
 
   // --- Geometry --------------------------------------------------------------------------
@@ -184,7 +180,7 @@ export class BuildingTool implements Tool {
     const k = this.kit()!
     const m = this.xform()
     const origin = new THREE.Vector3().setFromMatrixPosition(m)
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -(origin.y + buildSettings.level * k.wallHeight))
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -(origin.y + params.build.level * k.wallHeight))
     const hit = this.editor.ray(p).intersectPlane(plane, new THREE.Vector3())
     return hit ? hit.applyMatrix4(m.clone().invert()) : null
   }
@@ -227,10 +223,10 @@ export class BuildingTool implements Tool {
       local = new THREE.Vector3(ground.x, 0, ground.z)
     }
     if (!local) return
-    const y = buildSettings.level * h
+    const y = params.build.level * h
     let size: THREE.Vector3
     let center: THREE.Vector3
-    if (buildSettings.mode === 'foundation' || buildSettings.mode === 'erase') {
+    if (params.build.piece === 'foundation' || params.build.piece === 'erase') {
       const cx = Math.floor(local.x / cs)
       const cz = Math.floor(local.z / cs)
       size = new THREE.Vector3(cs, 0.25, cs)

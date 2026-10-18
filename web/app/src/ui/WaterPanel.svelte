@@ -6,9 +6,17 @@
   import type { Editor } from '../editor/editor'
   import { objectPosition } from './objects'
   import { WaterTool } from '../editor/water-tool'
+  import { pickUp, putDown } from '../editor/tools'
+  import { saveTool } from './saved-tools'
   import Icon from './Icon.svelte'
+  import SavedTools from './SavedTools.svelte'
 
-  let { editor }: { editor: Editor } = $props()
+  interface Props {
+    editor: Editor
+    active: string | null
+    onuse: (id: string) => void
+  }
+  let { editor, active, onuse }: Props = $props()
 
   let rev = $state(0)
   let offDoc = () => {}
@@ -27,7 +35,8 @@
   })
 
   function toggleDraw() {
-    editor.setTool(armed ? editor.defaultTool() : new WaterTool(editor))
+    if (armed) putDown(editor)
+    else pickUp(editor, 'water')
   }
 
   /** Polygon area (shoelace). */
@@ -59,7 +68,12 @@
 </script>
 
 <div class="panel-body">
-  <button class="draw" class:on={armed} aria-pressed={armed} onclick={toggleDraw}><Icon name="droplet" size={20} /> Draw water</button>
+  <SavedTools mode="water" {active} library={editor.library} {onuse} />
+  <div class="row">
+    <button class="draw" class:on={armed} aria-pressed={armed} onclick={toggleDraw}><Icon name="droplet" size={20} /> Draw water</button>
+    <button class="save" disabled={!armed} title={armed ? 'Save this tool (Cmd/Ctrl+1–9 saves it on a number key)' : 'Pick the tool first'}
+      aria-label="Save tool" onclick={() => saveTool(editor)}><Icon name="plus" size={14} /></button>
+  </div>
   <h3>Water bodies</h3>
   {#each bodies as b (b.id)}
     <button class="body" onclick={() => focus(b.id)}>
@@ -80,6 +94,8 @@
   .name { flex: 1; }
   .meta { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
   .empty { color: var(--muted); margin: 0; padding: 12px 2px; }
-  .draw { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; margin-bottom: 8px; }
+  .row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .draw { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; }
+  .save { display: flex; align-items: center; padding: 0 12px; }
   .draw.on { background: rgba(242, 193, 78, 0.16); color: var(--accent); border-color: rgba(242, 193, 78, 0.45); }
 </style>

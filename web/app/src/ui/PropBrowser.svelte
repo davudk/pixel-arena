@@ -6,6 +6,7 @@
   import type { Library, PropDef } from '../library/library'
   import type { Thumbnails } from '../library/thumbs'
   import Icon from './Icon.svelte'
+  import SavedTools from './SavedTools.svelte'
   import Popover from './Popover.svelte'
   import { RECENT_MAX, thumbUrls, toggleFavourite, ui, type CardSize, type GroupBy, type SortBy } from './ui-state.svelte'
   import { categoryTree, filterProps, groupProps, propTooltip, sortProps, themeCover, type CategoryNode, type Group } from './prop-list'
@@ -16,8 +17,12 @@
     selected: string | null
     usage: Map<string, number>
     onchoose: (prop: PropDef) => void
+    /** Saved prop tools: the one in hand, pick one up, save the one in hand. */
+    activeSaved: string | null
+    onuse: (id: string) => void
+    onsave: () => void
   }
-  let { library, thumbnails, selected, usage, onchoose }: Props = $props()
+  let { library, thumbnails, selected, usage, onchoose, activeSaved, onuse, onsave }: Props = $props()
 
   let panel: HTMLElement = $state()!
   let themeButton: HTMLButtonElement = $state()!
@@ -128,6 +133,7 @@
 {/snippet}
 
 <aside class="browser" bind:this={panel}>
+  <SavedTools mode="props" active={activeSaved} {library} {thumbnails} {onuse} />
   <button class="theme" class:open={open === 'theme'} bind:this={themeButton} onclick={() => (open = open === 'theme' ? null : 'theme')}>
     <Icon name="palette" />
     <span class:cap={!!ui.theme}>{ui.theme ? pretty(ui.theme) : 'All themes'}</span>
@@ -174,8 +180,13 @@
 
   {#if chosen}
     <footer>
-      <strong>{chosen.name}</strong> · {round1(chosen.footprint[0])} × {round1(chosen.footprint[1])} m<br />
-      <span class="muted">{library.packs.get(chosen.packId)?.name} · {chosen.attribution.author} ({chosen.attribution.license})</span>
+      <div class="chosen">
+        <div>
+          <strong>{chosen.name}</strong> · {round1(chosen.footprint[0])} × {round1(chosen.footprint[1])} m<br />
+          <span class="muted">{library.packs.get(chosen.packId)?.name} · {chosen.attribution.author} ({chosen.attribution.license})</span>
+        </div>
+        <button class="save" onclick={onsave} title="Save this prop with its rotation and snap settings (Cmd/Ctrl+1–9 saves it on a number key)"><Icon name="plus" size={13} /> Save</button>
+      </div>
     </footer>
   {/if}
 </aside>
@@ -314,6 +325,9 @@
   .empty { color: var(--muted); text-align: center; padding: 20px 8px; margin: 0; line-height: 1.6; }
   .link { border: 0; background: transparent; padding: 0; color: var(--accent); }
   .link:hover:not(:disabled) { background: transparent; text-decoration: underline; }
+  .chosen { display: flex; align-items: center; gap: 8px; }
+  .chosen > div { flex: 1; min-width: 0; }
+  .chosen .save { display: flex; align-items: center; gap: 4px; padding: 5px 9px; flex: none; }
   footer { color: var(--text); font-size: 11.5px; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 8px; }
 
   /* Popovers */

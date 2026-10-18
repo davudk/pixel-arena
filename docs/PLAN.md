@@ -501,6 +501,14 @@ Run Pixel Arena.command   # double-click launcher for the desktop app
   bodies, building kits / pieces / roof); the bottom bar is its "how" (random rotation and
   snap, brush size and strength, building level) plus selection actions. Right panel stays
   View / Selection / History.
+- Tool registry (web, `web/app/src/editor/tools.ts`): every tool (select, place, sculpt, paint,
+  water, build) with its mode, icon, typed parameters (ranges and presets, which ones a saved
+  tool keeps, when they apply), description and constructor. Parameter values live in one store
+  (`tool-params.ts`, persisted per player); `pickUp` / `putDown` are the only way to arm a tool.
+  Panels and the bottom bar draw parameters from their definitions (irrelevant ones are hidden
+  or disabled). Saved tools are `{tool, params}` with an optional number key 1-9 (Cmd/Ctrl+digit
+  saves, digit recalls); they show in each mode's panel and the bottom-left hotbar. Edit-history
+  labels come from `labels.ts` ("Move Tent", "Delete 3 objects", "Paint Sand", "Build wall").
 - Next: v1 polish (M8).
 
 Future: underground layers → co-op server (Node, reusing `web/core`) → share links →

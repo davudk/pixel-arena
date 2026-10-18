@@ -1,8 +1,8 @@
 // Places the chosen prop (port of PlaceTool): a see-through ghost follows the cursor with the
 // prop's snapping; click to place (repeatedly). Props that allow surface placement sit on
 // whatever upward-facing surface is under the cursor and become its children. R / Shift+R
-// rotate by the prop's snap angle, Cmd/Ctrl held (or snap turned off) disables snapping, Esc
-// stops placing.
+// rotate by the prop's snap angle, Cmd/Ctrl held (or params.place.snap off) disables snapping,
+// params.place.randomRotation turns each placed copy randomly. Esc puts the tool down.
 
 import * as THREE from 'three'
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js'
@@ -10,13 +10,12 @@ import { snapping, terrainEdit, Vec3 } from '@pixel-arena/core'
 import { snapProp, type PropDef } from '../library/library'
 import { loadModel } from '../library/models'
 import type { Editor, Pointer, Tool } from './editor'
+import { placeLabel } from './labels'
+import { params } from './tool-params'
 
 export class PlaceTool implements Tool {
   readonly name = 'place'
   yaw = 0
-  randomRotation = false
-  /** Off: place freely, as if Cmd/Ctrl were held. */
-  snap = true
   private ghost: THREE.Object3D | null = null
   private target: { position: THREE.Vector3; parent: string | null } | null = null
   private alive = true
@@ -66,7 +65,7 @@ export class PlaceTool implements Tool {
     const t = this.target
     if (!t) return
     const s = this.editor.session
-    s.edit(`Place ${this.prop.name}`, () => {
+    s.edit(placeLabel(this.prop.name), () => {
       s.createObject('prop', {
         prop: this.prop.id,
         position: new Vec3(t.position.x, t.position.y, t.position.z),
@@ -75,7 +74,7 @@ export class PlaceTool implements Tool {
         ...(t.parent ? { parent: t.parent } : {}),
       })
     })
-    if (this.randomRotation) {
+    if (params.place.randomRotation) {
       this.yaw = snapping.snapYaw(Math.random() * Math.PI * 2, this.prop.rotateSnapDeg)
       this.pointerMove(p)
     }
@@ -100,13 +99,13 @@ export class PlaceTool implements Tool {
       const hit = this.editor.pick(p)
       if (hit?.id && hit.normal.y > 0.7) {
         // Grid props don't grid-snap on top of other objects.
-        const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || !this.snap || this.prop.mode === 'grid')
+        const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || !params.place.snap || this.prop.mode === 'grid')
         return { position: new THREE.Vector3(x, hit.point.y, z), parent: hit.id }
       }
     }
     const ground = this.editor.groundAt(p)
     if (!ground) return null
-    const [x, z] = snapProp(this.prop, ground.x, ground.z, this.yaw, p.cmd || !this.snap)
+    const [x, z] = snapProp(this.prop, ground.x, ground.z, this.yaw, p.cmd || !params.place.snap)
     return { position: new THREE.Vector3(x, terrainEdit.heightAtWorld(this.editor.session.doc, x, z), z), parent: null }
   }
 }

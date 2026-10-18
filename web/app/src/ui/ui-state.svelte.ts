@@ -1,22 +1,24 @@
 // Interface preferences for this player: panel widths and visibility, open sections, how the
-// prop panel lists things, favourites and recently placed props. Saved in localStorage (not in
-// the map). Self-test runs start from the defaults and don't save.
+// prop panel lists things, favourites and recently placed props, tool parameters and saved
+// tools. Saved in localStorage (not in the map). Self-test runs start from the defaults and
+// don't save.
+
+import type { ParamTool } from '../editor/tool-params'
+import type { Mode } from '../editor/tools'
 
 export type ViewMode = 'cards' | 'list'
 export type GroupBy = 'none' | 'category' | 'subcategory' | 'pack'
 export type SortBy = 'name' | 'size' | 'height' | 'recent' | 'used'
 export type CardSize = 's' | 'm' | 'l'
-/** What the left panel shows; each mode has its tool (see App.svelte). */
-export type Mode = 'select' | 'props' | 'terrain' | 'water' | 'build'
-
-/** A terrain brush saved to a number slot (1-9): the tool and its settings. */
-export interface SavedBrush {
-  slot: number
-  name: string // empty: described from its settings
-  mode: 'raise' | 'lower' | 'smooth' | 'flatten' | 'paint'
-  material: number
-  radius: number
-  strength: number
+export type { Mode }
+/** A registry tool saved with the parameters it keeps, optionally on a number key (1-9).
+ *  See saved-tools.ts. */
+export interface SavedTool {
+  id: string
+  slot: number | null
+  name: string // empty: described from its parameters
+  tool: ParamTool
+  params: Record<string, unknown>
 }
 
 const DEFAULTS = {
@@ -37,10 +39,11 @@ const DEFAULTS = {
   /** Collapsed prop groups (group keys); recently placed starts collapsed. */
   collapsedGroups: [':recent'] as string[],
   showStats: false,
-  brushes: [] as SavedBrush[],
-  // Placing props.
-  randomRotation: false,
-  snap: true,
+  tools: [] as SavedTool[],
+  /** Tool parameters (tool-params.ts), restored at start. */
+  toolParams: null as unknown,
+  /** The terrain tool last in hand, picked up again when Terrain mode opens. */
+  terrainTool: 'sculpt' as 'sculpt' | 'paint',
 }
 export type UiPrefs = typeof DEFAULTS
 
@@ -52,6 +55,18 @@ function load(): UiPrefs {
   if (!persist) return base
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) ?? '{}')
+    // Earlier builds saved only terrain brushes, as `brushes`.
+    if (Array.isArray(saved.brushes) && !saved.tools) {
+      saved.tools = saved.brushes.map((b: Record<string, unknown>, i: number): SavedTool => ({
+        id: `migrated-${i}`, slot: (b.slot as number) ?? null, name: String(b.name ?? ''),
+        ...(b.mode === 'paint'
+          ? { tool: 'paint', params: { material: b.material, radius: b.radius } }
+          : { tool: 'sculpt', params: { op: b.mode, radius: b.radius, strength: b.strength } }),
+      }))
+    }
+    delete saved.brushes
+    delete saved.randomRotation
+    delete saved.snap
     return { ...base, ...saved, sections: { ...base.sections, ...(saved.sections ?? {}) } }
   } catch {
     return base
