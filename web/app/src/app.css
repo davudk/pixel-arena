@@ -62,7 +62,9 @@ input[type='checkbox'] { accent-color: var(--accent); }
 .bottom { position: absolute; left: 0; right: 0; bottom: 10px; z-index: 4; display: flex; align-items: flex-end; pointer-events: none; }
 .bottom .keepout { flex: 1 1 0; }
 /* Saved-brush hotbar sits at the left of the bottom row, after the panels, and scrolls. */
-.bottom .keepout.left { display: flex; min-width: 0; overflow: hidden; padding-right: 10px; }
+.bottom .keepout.left { position: relative; align-self: stretch; }
+.hotbar-slot { position: absolute; bottom: 0; right: 10px; display: flex; pointer-events: none; }
+.hotbar-row { position: absolute; z-index: 4; display: flex; pointer-events: none; }
 .brushtip { position: absolute; z-index: 7; padding: 3px 8px; border-radius: 6px; background: rgba(20, 22, 28, 0.9); color: var(--text); font-size: 12px; font-variant-numeric: tabular-nums; pointer-events: none; white-space: nowrap; }
 .bottom .center { flex: none; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
 .bottombar { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px; max-width: 100%; }

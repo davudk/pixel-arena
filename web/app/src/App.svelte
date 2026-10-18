@@ -94,6 +94,11 @@
   // Room the rail and side panels take from the window edges (plus gaps); bars stay clear of it.
   const leftSpace = $derived(GAP + RAIL + GAP + (ui.leftHidden ? 0 : ui.leftWidth + GAP))
   const rightSpace = $derived(ui.rightHidden ? 0 : ui.rightWidth + GAP * 2)
+  /** Width of the bottom row's left zone, and the bottom row's height (hotbar placement). */
+  let leftZone = $state(0)
+  let bottomRow = $state(0)
+  /** Too little room left of the bottom bar for a couple of cards: the hotbar gets its own row. */
+  const hotbarAbove = $derived(leftZone - leftSpace - GAP < 140)
 
   let pixel: PixelRenderer
   let rig: CameraRig
@@ -834,13 +839,17 @@
     </div>
   </div>
 
-  <!-- Centered on the whole window; the side spacers keep it clear of the panels, so it only
-       shifts when it would otherwise run into one. -->
+  <!-- The bar is centered on the whole window; the side spacers keep it clear of the panels,
+       so it only shifts when it would otherwise run into one. The hotbar takes the space left of
+       the bar without affecting its position (absolutely placed), scrolling when full; when that
+       space is too narrow it moves to its own row above. -->
   <div class="bottom">
-    <div class="keepout left" style:min-width="{leftSpace}px" style:padding-left="{leftSpace}px">
-      <Hotbar active={activeSaved} {library} {thumbnails} onuse={useTool} />
+    <div class="keepout left" style:min-width="{leftSpace}px" bind:clientWidth={leftZone}>
+      {#if !hotbarAbove}
+        <div class="hotbar-slot" style:left="{leftSpace}px"><Hotbar active={activeSaved} {library} {thumbnails} onuse={useTool} /></div>
+      {/if}
     </div>
-    <div class="center" data-avoid style:max-width="calc(100% - {leftSpace + rightSpace}px)">
+    <div class="center" data-avoid bind:clientHeight={bottomRow} style:max-width="calc(100% - {leftSpace + rightSpace}px)">
       {#if (quickParams.length || (selected && activeTool === 'select') || status) && editorReady && library}
         <footer class="bottombar">
           {#each quickParams as def (`${quickTool}:${def.key}`)}
@@ -864,6 +873,11 @@
     </div>
     <div class="keepout" style:min-width="{rightSpace}px"></div>
   </div>
+  {#if hotbarAbove}
+    <div class="hotbar-row" style:left="{leftSpace}px" style:right="{rightSpace || GAP}px" style:bottom="{bottomRow + GAP * 2}px">
+      <Hotbar active={activeSaved} {library} {thumbnails} onuse={useTool} />
+    </div>
+  {/if}
 
   {#if brushTip}
     <div class="brushtip" style:left="{brushTip.x + 18}px" style:top="{brushTip.y + 14}px">{brushTip.text}</div>
