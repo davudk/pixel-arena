@@ -115,6 +115,36 @@ export class Editor {
     return this.session.discardBranch(id)
   }
 
+  // --- Live edits ------------------------------------------------------------------------
+
+  private previewing = false
+
+  /** A change shown while it's being made (dragging a dial or slider): reverts the previous
+   *  preview, then runs `fn` (which applies ops directly) from the starting state inside one
+   *  open transaction. endPreview() commits it as one undo step, or cancels it. Skipped while
+   *  some other transaction is open. */
+  preview(label: string, fn: () => void) {
+    const s = this.session
+    if (this.previewing) s.cancel()
+    else if (s.isEditing()) return
+    this.previewing = true
+    s.begin(label)
+    try {
+      fn()
+    } catch (e) {
+      s.cancel()
+      this.previewing = false
+      throw e
+    }
+  }
+
+  endPreview(keep = true) {
+    if (!this.previewing) return
+    this.previewing = false
+    if (keep) this.session.commit()
+    else this.session.cancel()
+  }
+
   setTool(tool: Tool) {
     this.tool.deactivate?.()
     this.tool = tool

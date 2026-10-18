@@ -35,6 +35,7 @@
     offDoc()
     offs.forEach((f) => f())
     editor.axes.hide()
+    editor.endPreview(false)
   })
 
   const ROOFS: [string, string][] = [['gable', 'Gable'], ['hip', 'Hip'], ['flat', 'Flat'], ['none', 'None']]
@@ -74,7 +75,9 @@
     const v = Number(value)
     const s = info.single
     if (!s || !Number.isFinite(v)) return
-    const delta = ((((v - s.deg) % 360) + 540) % 360) - 180
+    // From the stored rotation (during a live preview it has just been reverted to the start).
+    const now = ((((Number(editor.session.doc.getProp(s.id, 'rotation') ?? 0) * 180) / Math.PI) % 360) + 360) % 360
+    const delta = ((((v - now) % 360) + 540) % 360) - 180
     if (Math.abs(delta) > 1e-6) selectTool().rotateSelectionBy((delta * Math.PI) / 180)
   }
 
@@ -85,30 +88,32 @@
   const deg = (r: number) => (r * 180) / Math.PI
   const norm = (d: number) => ((d % 360) + 360) % 360
   const facing = (rotationDeg: number) => norm(180 - rotationDeg)
-  function setFacing(bearing: number) {
+  /** A change of the selected object: shown live while a dial or slider is dragged
+   *  (`done` false; see Editor.preview), or made for good as one undo step. */
+  function live(label: string, fn: () => void, done: boolean) {
     const s = info.single
-    if (s) setRotation(String(norm(180 - bearing)))
+    if (!s) return
+    editor.preview(`${label} of ${s.fallback}`, fn)
+    if (done) editor.endPreview(true)
+  }
+  function setFacing(bearing: number, done = true) {
+    live('Rotate', () => setRotation(String(norm(180 - bearing))), done)
   }
   /** World bearing of a body's flow. */
   const flowBearing = (flowDir: number, objYaw: number) => {
     const w = rad(flowDir) - objYaw
     return norm(deg(Math.atan2(Math.cos(w), -Math.sin(w))))
   }
-  function setFlowBearing(bearing: number) {
+  function setFlowBearing(bearing: number, done = true) {
     const s = info.single
     if (!s) return
     const w = Math.atan2(-Math.cos(rad(bearing)), Math.sin(rad(bearing)))
-    setValue('Change flow direction', 'flow_dir', Math.round(norm(deg(w + s.yaw)) * 100) / 100)
+    const value = Math.round(norm(deg(w + s.yaw)) * 100) / 100
+    live('Change flow direction', () => editor.session.setProp(s.id, 'flow_dir', value), done)
   }
-  /** Speed shown while dragging; committed as one edit on release. */
-  let flowDraft: number | null = $state(null)
-
-  /** One undoable edit of one property of the selected object. */
-  function setValue(label: string, key: string, value: number) {
+  function setFlowSpeed(speed: number, done: boolean) {
     const s = info.single
-    if (!s) return
-    const session = editor.session
-    if (session.doc.getProp(s.id, key) !== value) session.edit(`${label} of ${s.fallback}`, () => session.setProp(s.id, key, value))
+    if (s) live('Change flow', () => editor.session.setProp(s.id, 'flow_speed', speed), done)
   }
 
   /** One undoable edit of one property of the selected object. */
@@ -141,7 +146,8 @@
       </div>
     </div>
     <div class="field"><span class="label">Facing</span>
-      <DirectionDial label="Facing" value={facing(s.deg)} {viewYaw} onchange={setFacing} />
+      <DirectionDial label="Facing" value={facing(s.deg)} {viewYaw} onchange={(b) => setFacing(b)}
+        onpreview={(b) => setFacing(b, false)} oncancel={() => editor.endPreview(false)} />
     </div>
     {#if s.type === 'building'}
       <label class="field"><span class="label">Kit</span>
@@ -162,18 +168,19 @@
           {#each LIQUIDS as l (l.id)}<option value={l.id}>{l.name}</option>{/each}
         </select>
       </label>
-      {@const speed = flowDraft ?? s.flowSpeed}
+      {@const speed = s.flowSpeed}
       <div class="field"><span class="label">Flow</span>
         <div class="slider">
           <input type="range" min="0" max="3" step="0.1" value={speed} aria-label="Flow speed"
-            oninput={(e) => (flowDraft = Number((e.currentTarget as HTMLInputElement).value))}
-            onchange={(e) => { setValue('Change flow', 'flow_speed', Number((e.currentTarget as HTMLInputElement).value)); flowDraft = null }} />
+            oninput={(e) => setFlowSpeed(Number((e.currentTarget as HTMLInputElement).value), false)}
+            onchange={(e) => setFlowSpeed(Number((e.currentTarget as HTMLInputElement).value), true)} />
           <span class="val"><span class="readout">{speed > 0 ? `${speed.toFixed(1)} m/s` : 'Still'}</span></span>
         </div>
       </div>
       {#if speed > 0}
         <div class="field sub"><span class="label">Direction</span>
-          <DirectionDial label="Flow direction" value={flowBearing(s.flowDir, s.yaw)} {viewYaw} onchange={setFlowBearing} />
+          <DirectionDial label="Flow direction" value={flowBearing(s.flowDir, s.yaw)} {viewYaw} onchange={(b) => setFlowBearing(b)}
+            onpreview={(b) => setFlowBearing(b, false)} oncancel={() => editor.endPreview(false)} />
         </div>
       {/if}
     {/if}

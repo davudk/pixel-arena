@@ -3,7 +3,8 @@
   // on a small dial that is turned like the view: its red N matches the corner compass, so the
   // handle points the way the direction runs on screen. Click or drag anywhere on the dial to
   // point it (15° steps; Shift for any angle); arrow keys nudge it; the number beside it can be
-  // typed. Dragging previews and commits once on release (one undo step).
+  // typed. While dragging, `onpreview` reports the angle (every 50 ms at most) so the map can
+  // follow; `onchange` on release commits it (one undo step); `oncancel` if the drag is lost.
   interface Props {
     /** Bearing in degrees (0 = north, 90 = east). */
     value: number
@@ -11,8 +12,33 @@
     viewYaw: number
     label: string
     onchange: (bearing: number) => void
+    onpreview?: (bearing: number) => void
+    oncancel?: () => void
   }
-  let { value, viewYaw, label, onchange }: Props = $props()
+  let { value, viewYaw, label, onchange, onpreview, oncancel }: Props = $props()
+
+  /** Reports the drag's angle at most every PREVIEW_MS (and once more on release). */
+  const PREVIEW_MS = 50
+  let lastPreview = 0
+  let previewTimer = 0
+  let previewed: number | null = null
+  function schedulePreview() {
+    if (!onpreview || draft === null || previewTimer) return
+    const wait = Math.max(0, lastPreview + PREVIEW_MS - performance.now())
+    previewTimer = window.setTimeout(() => {
+      previewTimer = 0
+      lastPreview = performance.now()
+      if (draft !== null && draft !== previewed) {
+        previewed = draft
+        onpreview?.(draft)
+      }
+    }, wait)
+  }
+  function stopPreview() {
+    clearTimeout(previewTimer)
+    previewTimer = 0
+    previewed = null
+  }
 
   const STEP = 15
   const norm = (d: number) => ((d % 360) + 360) % 360
@@ -34,15 +60,27 @@
       // Not a live pointer (synthetic events): fine without capture.
     }
     draft = bearingAt(e)
+    schedulePreview()
   }
   function move(e: PointerEvent) {
-    if (draft !== null) draft = bearingAt(e)
+    if (draft === null) return
+    draft = bearingAt(e)
+    schedulePreview()
   }
   function up() {
     if (draft === null) return
     const b = draft
+    const wasPreviewing = previewed !== null
     draft = null
-    if (norm(b) !== norm(value)) onchange(b)
+    stopPreview()
+    // With a preview showing, always end it (onchange commits it, even at the same angle).
+    if (wasPreviewing || norm(b) !== norm(value)) onchange(b)
+  }
+  function lost() {
+    if (draft === null) return
+    draft = null
+    stopPreview()
+    oncancel?.()
   }
   function key(e: KeyboardEvent) {
     const step = e.shiftKey ? 1 : STEP
@@ -61,7 +99,7 @@
 
 <div class="dial">
   <svg bind:this={svg} viewBox="-30 -30 60 60" role="slider" tabindex="0" aria-label={label} aria-valuemin={0} aria-valuemax={359}
-    aria-valuenow={Math.round(shown)} aria-valuetext="{Math.round(shown)}°" onpointerdown={down} onpointermove={move} onpointerup={up} onkeydown={key}>
+    aria-valuenow={Math.round(shown)} aria-valuetext="{Math.round(shown)}°" onpointerdown={down} onpointermove={move} onpointerup={up} onpointercancel={lost} onkeydown={key}>
     <circle r="27" class="face" />
     <g transform="rotate({yawDeg})">
       {#each [0, 45, 90, 135, 180, 225, 270, 315] as a (a)}

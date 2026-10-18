@@ -715,6 +715,28 @@ async function liquidsTest(editor: Editor, check: (ok: unknown, what: string) =>
   check(Math.abs(((yaw * 180) / Math.PI + 360) % 360 - 90) < 0.5, `facing east turns the body to 90° (${((yaw * 180) / Math.PI).toFixed(1)})`)
   // Flow is kept in the body's frame, so turning the body by 90° turns the current with it.
   check(Math.abs(flowOf()!.clone().normalize().dot(w!.clone().normalize())) < 0.05, 'flow turns with the body')
+
+  // Dragging the Facing dial turns the body while dragging; release makes one undo step.
+  const facingDial = document.querySelector<SVGSVGElement>('.selection-box svg[aria-label="Facing"]')
+  if (facingDial) {
+    const r = facingDial.getBoundingClientRect()
+    const at = (x: number, y: number) => ({ clientX: x, clientY: y, bubbles: true, pointerId: 1 })
+    const yaw0 = Number(s.doc.getProp(pond.id, 'rotation') ?? 0)
+    const steps = s.history(s.currentBranch).length
+    facingDial.dispatchEvent(new PointerEvent('pointerdown', at(r.left + r.width / 2, r.top + 2)))
+    await sleep(120)
+    const yaw1 = Number(s.doc.getProp(pond.id, 'rotation') ?? 0)
+    facingDial.dispatchEvent(new PointerEvent('pointermove', at(r.left + 2, r.top + r.height / 2)))
+    await sleep(120)
+    const yaw2 = Number(s.doc.getProp(pond.id, 'rotation') ?? 0)
+    check(Math.abs(yaw1 - yaw0) > 0.01 && Math.abs(yaw2 - yaw1) > 0.01, `the body turns while dragging (${yaw0.toFixed(2)} → ${yaw1.toFixed(2)} → ${yaw2.toFixed(2)})`)
+    check(s.history(s.currentBranch).length === steps, 'no undo steps while dragging')
+    facingDial.dispatchEvent(new PointerEvent('pointerup', at(r.left + 2, r.top + r.height / 2)))
+    await settle()
+    check(s.history(s.currentBranch).length === steps + 1, `one undo step on release (${s.history(s.currentBranch).length - steps})`)
+    s.undo()
+    check(Math.abs(Number(s.doc.getProp(pond.id, 'rotation') ?? 0) - yaw0) < 1e-6, 'undo puts it back')
+  }
   await desktop?.test?.capture('liquids-flow.png')
 }
 

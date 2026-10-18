@@ -7,7 +7,7 @@
 // rotate, copy and delete with it.
 
 import * as THREE from 'three'
-import { copy, terrainEdit, Vec3, withDescendants, type Value } from '@pixel-arena/core'
+import { copy, terrainEdit, Vec3, withDescendants, type MapSession, type Value } from '@pixel-arena/core'
 import { snapProp } from '../library/library'
 import type { Editor, Pointer, Tool } from './editor'
 import { editable, GROUP, isLocked, members, pickTargets, pruneEmptyGroups, selectedGroups } from './grouping'
@@ -229,7 +229,8 @@ export class SelectTool implements Tool {
     this.rotateSelectionBy((((prop?.rotateSnapDeg ?? 90) * Math.PI) / 180) * direction)
   }
 
-  /** Rotates the selection (with descendants) about its centroid by `angle` radians. */
+  /** Rotates the selection (with descendants) about its centroid by `angle` radians: one edit,
+   *  or part of the transaction already open (a live preview, see Editor.preview). */
   rotateSelectionBy(angle: number) {
     const roots = this.selected()
     if (roots.length === 0 || angle === 0) return
@@ -238,7 +239,7 @@ export class SelectTool implements Tool {
     const ids = withDescendants(s.doc, roots)
     const cos = Math.cos(angle)
     const sin = Math.sin(angle)
-    s.edit(this.label('Rotate', roots), () => {
+    inEdit(s, this.label('Rotate', roots), () => {
       for (const id of ids) {
         const p = (s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO
         const ox = p.x - pivot.x
@@ -266,7 +267,7 @@ export class SelectTool implements Tool {
     if (roots.length === 0) return
     const s = this.editor.session
     const ids = withDescendants(s.doc, roots)
-    s.edit(this.label(label, roots), () => {
+    inEdit(s, this.label(label, roots), () => {
       for (const id of ids) s.setProp(id, 'position', ((s.doc.getProp(id, 'position') as Vec3) ?? Vec3.ZERO).add(delta))
     })
   }
@@ -395,4 +396,10 @@ export class SelectTool implements Tool {
 
 function rect(a: Pointer, b: Pointer) {
   return { x: Math.min(a.x, b.x), y: Math.min(a.y, b.y), w: Math.abs(a.x - b.x), h: Math.abs(a.y - b.y) }
+}
+
+/** Runs `fn` as its own edit, or inside the transaction already open (a live preview). */
+function inEdit(s: MapSession, label: string, fn: () => void) {
+  if (s.isEditing()) fn()
+  else s.edit(label, fn)
 }
