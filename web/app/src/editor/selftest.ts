@@ -3,7 +3,7 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec2i, Vec3 } from '@pixel-arena/core'
+import { APARTMENT, BuildingLayout, generateBuilding, HOUSE, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec2i, Vec3 } from '@pixel-arena/core'
 import { PALETTE } from '../render/terrain-shading'
 import { PaintPolygonTool } from './paint-polygon-tool'
 import { loadModel } from '../library/models'
@@ -76,6 +76,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'liquids') await liquidsTest(editor, check, settle, extras)
     else if (name === 'library') await libraryTest(editor, check, report)
     else if (name === 'kits') await kitsTest(editor, check, settle, report)
+    else if (name === 'generator') await generatorTest(editor, check, settle, report)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -460,6 +461,17 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   s.undo()
   check(BuildingLayout.fromObject(doc.getObject(room)!).stairs(0).get('0,1')?.dir === 'E', 'undo puts them back')
 
+  // A new building painted away from the current one uses the kit chosen in the catalogue.
+  setParams('build', { kit: 'kenney_retro_urban:brick', piece: 'foundation' })
+  tool.setLevel(0)
+  const away = at(new THREE.Vector3(rpos.x + 20, 0, rpos.z + 20))
+  tool.pointerDown(away)
+  tool.pointerUp()
+  check(tool.target !== room && doc.getProp(tool.target, 'kit') === 'kenney_retro_urban:brick', `new building uses the chosen kit (${doc.getProp(tool.target, 'kit')})`)
+  s.undo()
+  tool.target = room
+  setParams('build', { kit: 'kenney_building_kit:interior' })
+
   // Rooms: drag the Room piece over the left column -> kitchen; the rest stays without a room.
   setParams('build', { piece: 'room', room: 'kitchen' })
   tool.pointerDown(r(1, 1))
@@ -525,6 +537,15 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   const low = walls.filter((w) => w.scale.y < 0.5)
   check(walls.length > 0 && low.length > 0 && low.length < walls.length, `front and interior walls cut low (${low.length} of ${walls.length})`)
   check(low.every((w) => w.userData.wall.interior || w.userData.wall.side === 'S' || w.userData.wall.side === 'E' || w.userData.wall.side === 'N' || w.userData.wall.side === 'W'), 'cut walls are tagged')
+  // Hovering a cut-down outside wall with the Door piece stands it up, so the edit shows.
+  const front = low.find((w) => !w.userData.wall.interior)!
+  const [fx, fz, fside] = String(front.userData.wall.edge).split(',')
+  const mid = fside === 'W' ? [Number(fx) * 2, (Number(fz) + 0.5) * 2] : [(Number(fx) + 0.5) * 2, Number(fz) * 2]
+  setParams('build', { piece: 'door' })
+  tool.pointerMove(r(mid[0], mid[1]))
+  world.update(0, rig.camera)
+  check(front.scale.y === 1, `the hovered wall stands full height (${front.scale.y})`)
+  check(walls.filter((w) => w !== front && w.scale.y < 0.5).length === low.length - 1, 'the other cut walls stay low')
   // A few more furnishings for the shot: a bed and table in the main room.
   s.edit('Furnish', () => {
     s.createObject('prop', { prop: 'kenney_furniture:table', position: new Vec3(rpos.x + 3.6, rpos.y + 0.1, rpos.z + 1.2), rotation: 0, parent: room })
@@ -779,6 +800,58 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** Generated buildings on the map: three houses and three apartment blocks, from fixed seeds, in
+ *  a row (selftest-generator*.png); each is a valid building of its kit. */
+async function generatorTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, report: Record<string, unknown>) {
+  const s = editor.session
+  let x = -40
+  const made: { id: string; at: Vec3; size: number }[] = []
+  s.edit('Generated buildings', () => {
+    for (const [recipe, seeds] of [[HOUSE, [1, 2, 3]], [APARTMENT, [4, 5, 6]]] as const) {
+      for (const seed of seeds) {
+        const g = generateBuilding(recipe, seed)
+        const cs = editor.library.kits.get(recipe.kit)?.cellSize ?? 2
+        const at = new Vec3(x, 0, 0)
+        const id = s.createObject('building', { position: at, rotation: 0, ...g.props })
+        made.push({ id, at, size: Math.max(g.summary.width, g.summary.depth) * cs })
+        x += g.summary.width * cs + 4
+      }
+    }
+  })
+  check(made.length === 6, 'six generated buildings')
+  await settle()
+  await sleep(2500)
+  const rig = editor.rig
+  const shot = async (name: string) => {
+    rig.update(0)
+    await sleep(600)
+    await frame()
+    await fetch(`/__save?name=selftest-generator-${name}.png`, { method: 'POST', body: editor.pixel.canvas.toDataURL('image/png') }).catch(() => {})
+  }
+  rig.focus.set(x / 2 - 20, 0, 6)
+  rig.zoom = 60
+  await shot('row')
+  // A house and an apartment cut to the ground floor (the dollhouse view).
+  for (const [i, m] of [[0, made[0]], [1, made[3]]] as const) {
+    rig.focus.set(m.at.x + m.size / 2, 0, m.at.z + m.size / 2)
+    rig.zoom = m.size * 1.8
+    editor.world.setCutaway(0)
+    await shot(`inside-${i}`)
+    editor.world.setCutaway(1)
+    await shot(`inside-${i}-upper`)
+  }
+  // Cut to level 1, the house's upper interior walls stand on level 1 (not squashed into level 0).
+  editor.world.setCutaway(1)
+  editor.world.update(0, rig.camera)
+  const up = editor.world.objectRoot(made[0].id)?.children.find((c) => c.userData.level === 1)
+  const inner = up?.children.filter((c) => c.userData.wall?.interior) ?? []
+  const box = new THREE.Box3()
+  for (const w of inner) box.expandByObject(w)
+  check(inner.length > 0 && box.min.y >= made[0].at.y + 2.3, `upper interior walls on their floor (${inner.length}, bottom ${box.min.y.toFixed(2)})`)
+  editor.world.setCutaway(-1)
+  report.generated = made.length
+}
+
 /** One sample building per kit, side by side: an L-shaped two-storey plan with a door and
  *  windows on the street side (south), an interior wall with a doorway, and stairs. Shots of
  *  the row and of each kit's building (selftest-kits-*.png); checks every kit's pieces load. */

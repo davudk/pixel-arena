@@ -52,6 +52,7 @@ export class BuildingTool implements Tool {
   }
 
   deactivate() {
+    this.editor.world.setWallFocus(null)
     this.offParams()
     if (this.painting) this.endStroke()
     this.editor.scene.remove(this.hover)
@@ -114,12 +115,16 @@ export class BuildingTool implements Tool {
   // --- Editing ---------------------------------------------------------------------------
 
   private paint(p: Pointer, strokeStart: boolean) {
-    const k = this.kit()
+    let k = this.kit()
     if (!k) return
     const s = this.editor.session
     if (params.build.piece === 'foundation' && params.build.level === 0 && strokeStart) {
       const ground = this.editor.groundAt(p)
-      if (ground && (!this.hasTarget() || !this.touchesFootprint(ground))) this.startBuilding(ground, k)
+      if (ground && (!this.hasTarget() || !this.touchesFootprint(ground))) {
+        // A new building uses the kit chosen in the catalogue (not the last building's).
+        k = this.editor.library.kits.get(params.build.kit) ?? k
+        this.startBuilding(ground, k)
+      }
     }
     if (!this.hasTarget()) return
     const local = this.localHit(p)
@@ -248,6 +253,10 @@ export class BuildingTool implements Tool {
   private updateHover(p: Pointer) {
     const k = this.kit()
     this.hover.visible = false
+    // Placing walls, doors and windows: the wall under the cursor stands full height even when
+    // the dollhouse view cuts it down, so the edit can be seen.
+    const edgePiece = ['wall', 'door', 'window', 'doorway'].includes(params.build.piece)
+    this.editor.world.setWallFocus(edgePiece && this.hasTarget() ? { id: this.target, edge: this.edgeAt(p) } : null)
     if (!k) return
     const cs = k.cellSize
     const h = k.wallHeight

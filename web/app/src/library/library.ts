@@ -49,8 +49,8 @@ export interface KitDef {
    *  +X edge (the Fantasy Town pieces). center: at the panel's own center (re-centered imports);
    *  the panel is moved onto the edge and turned to lie along it. */
   pivot: 'cell' | 'center'
-  /** Block kits: the side of a piece that is its front (door, windows), and for corner pieces the
-   *  second outside face, clockwise from the front seen from above. */
+  /** Block kits: the side of a piece that is its front (door, windows); a corner piece's second
+   *  outside face is the side before the front going clockwise (front S: east). */
   front: 'N' | 'E' | 'S' | 'W'
   /** Stairs run this many cells (the floor above them is open over the whole run). */
   stairsCells: number

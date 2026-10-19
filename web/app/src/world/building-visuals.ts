@@ -24,7 +24,9 @@ const FOUNDATION_DEPTH = 2
 const SIDE_YAW: Record<string, number> = { E: 0, N: Math.PI / 2, W: Math.PI, S: -Math.PI / 2 }
 /** Yaw that turns something pointing north (-Z) to point toward each side. */
 const DIR_YAW: Record<StairDir, number> = { N: 0, E: -Math.PI / 2, S: Math.PI, W: Math.PI / 2 }
-const CLOCKWISE: Record<StairDir, StairDir> = { N: 'E', E: 'S', S: 'W', W: 'N' }
+/** The side before each one going clockwise (N E S W): a corner piece's second outside face,
+ *  counted from its front (Kenney's corner blocks: front S, cut corner toward E). */
+const COUNTERCLOCKWISE: Record<StairDir, StairDir> = { N: 'W', E: 'N', S: 'E', W: 'S' }
 const DEFAULT_COLORS = { roof: '#3f9e8f', gable: '#9a5b3e', foundation: '#8f8a84' }
 
 /** Each room type's floor: a terrain material (packs/sbs_textures) by name, with a flat color
@@ -118,10 +120,13 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
         const models = get(w.kind as KitRole) ?? (w.kind === 'doorway' ? get('door')?.slice(0, 1) : null) ?? get('wall')
         const [ea, eb] = BuildingLayout.edgeCells(edgeOf(w.host, w.side as StairDir))
         const interior = layout.cells(level).has(ea.key) && layout.cells(level).has(eb.key)
+        // The wall's group sits at its floor, so cutting it down (scale y) keeps it on that floor.
         const wall = new THREE.Group()
-        wall.userData.wall = { side: w.side, interior }
-        if (models) for (const m of models) wall.add(kit?.pivot === 'center' ? onEdge(m, center(w.host), w.side, cs) : place(m.scene, center(w.host), SIDE_YAW[w.side]))
-        else wall.add(fallbackWall(center(w.host), w.side, cs, h, colors.gable))
+        wall.position.y = y
+        wall.userData.wall = { side: w.side, interior, edge: edgeOf(w.host, w.side as StairDir) }
+        const at = center(w.host).setY(0)
+        if (models) for (const m of models) wall.add(kit?.pivot === 'center' ? onEdge(m, at, w.side, cs) : place(m.scene, at, SIDE_YAW[w.side]))
+        else wall.add(fallbackWall(at, w.side, cs, h, colors.gable))
         group.add(wall)
       }
       const stairs = get('stairs')
@@ -165,7 +170,7 @@ function buildBlocks(group: THREE.Group, layout: BuildingLayout, level: number, 
     let role: KitRole = 'block'
     let face: StairDir = kit.front
     const door = outside.find((d) => kinds[d] === 'door' || kinds[d] === 'doorway')
-    const corner = get('corner') && outside.find((d) => kinds[CLOCKWISE[d]] !== '' && outside.includes(CLOCKWISE[d]))
+    const corner = get('corner') && outside.find((d) => outside.includes(COUNTERCLOCKWISE[d]))
     if (door) [role, face] = ['door', door]
     else if (corner) [role, face] = ['corner', corner]
     else if (outside.length) {
@@ -235,18 +240,19 @@ const SIDE_NORMAL: Record<string, THREE.Vector3> = { E: new THREE.Vector3(1, 0, 
 
 /** Like a dollhouse: on the level being viewed (`level`, -1 = none), interior walls and the
  *  exterior walls whose outside faces the camera (`viewDir`, world) are cut down low, so the
- *  rooms can be seen; everything else stands. */
-export function cutWalls(root: THREE.Object3D, level: number, viewDir: THREE.Vector3) {
+ *  rooms can be seen; everything else stands. `keepEdge` stays full height (the wall being
+ *  edited under the cursor). */
+export function cutWalls(root: THREE.Object3D, level: number, viewDir: THREE.Vector3, keepEdge = '') {
   const toCamera = viewDir.clone().negate().setY(0).normalize()
   const turn = new THREE.Quaternion().setFromEuler(root.rotation)
   for (const child of root.children) {
     if (child.userData.level === undefined) continue
     const cut = level >= 0 && child.userData.level === level
     for (const wall of child.children) {
-      const info = wall.userData.wall as { side: string; interior: boolean } | undefined
+      const info = wall.userData.wall as { side: string; interior: boolean; edge: string } | undefined
       if (!info) continue
       const facing = SIDE_NORMAL[info.side].clone().applyQuaternion(turn).dot(toCamera) > 0.1
-      wall.scale.y = cut && (info.interior || facing) ? CUT_HEIGHT : 1
+      wall.scale.y = cut && (info.interior || facing) && info.edge !== keepEdge ? CUT_HEIGHT : 1
     }
   }
 }

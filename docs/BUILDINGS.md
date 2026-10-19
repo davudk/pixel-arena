@@ -291,6 +291,42 @@ that have them.
   its size.
 - Choosing another prop while one is in hand now places the new one.
 
+## Generator (phase 5, done)
+
+`web/core/src/building-gen.ts` turns a recipe and a seed into a building's properties. The same
+seed always gives the same building. The steps:
+
+1. **Footprint**: a rectangle, or an L with the north-east corner cut off.
+2. **Core**: the stairs and the hall around them, on the same cells on every level.
+   - A house has a column from the street (south) entrance: the entry, the stairs run, then the
+     landing.
+   - An apartment block has a corridor along its middle row, with the stairs at its west end
+     and the entrance at its east end.
+3. **Zones**: the cells left over are split into zones, one per flat or house side.
+4. **Rooms**: binary space partitioning splits each zone into the recipe's rooms; the largest
+   part becomes the first, main room.
+5. **Walls and doors**:
+   - Walls go between different rooms.
+   - Each zone is entered from the hall. Flats get a door; inside a house it's a doorway.
+   - Inside a zone, rooms connect along a spanning tree: doors for bedrooms, bathrooms, offices
+     and storage, open doorways for the rest.
+6. **Windows** go on every other outside cell of rooms that want light; bathrooms get one.
+7. **Validation**: every floor cell must be reachable from the entrance, or from the landing on
+   upper levels. If not, it retries with the next seed.
+
+Recipes (`building-recipes.ts`), both using the Plaster walls kit on 2 m cells:
+- **House**: 5–7 × 5–6 cells, 1–2 storeys, sometimes L-shaped, gable roof.
+- **Apartment**: 7–10 × 5–7 cells, 3–5 storeys, two or four flats per floor, flat roof.
+
+Unit tests check determinism and that 30 seeds of each recipe validate, with rooms, outside door,
+windows and stairs. The `generator` self-test lays out three houses and three apartment blocks
+and shoots them, including a dollhouse view of each floor.
+
+Fixed alongside:
+- A new building uses the kit chosen in the catalogue.
+- Block kits' corner pieces face out: the cut corner is between front and east.
+- Cut-down walls stay on their own floor on upper levels.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney

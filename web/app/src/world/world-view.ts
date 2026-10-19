@@ -124,15 +124,23 @@ export class WorldView {
   private cutKey = ''
   private viewDir = new THREE.Vector3(-1, -1, -1)
 
-  /** Re-cuts walls when the level or the view's heading changes (in 45° steps). */
+  /** A wall kept standing while cut away: the one being edited (building id, edge). */
+  private wallFocus: { id: string; edge: string } | null = null
+  setWallFocus(focus: { id: string; edge: string } | null) {
+    if (focus?.id === this.wallFocus?.id && focus?.edge === this.wallFocus?.edge) return
+    this.wallFocus = focus
+    this.cutKey = ''
+  }
+
+  /** Re-cuts walls when the level, the view's heading (in 45° steps) or the focused wall changes. */
   private updateWallCuts(camera?: THREE.Camera) {
     if (camera) camera.getWorldDirection(this.viewDir)
-    const key = `${this.cutaway}:${Math.round(Math.atan2(this.viewDir.x, this.viewDir.z) / (Math.PI / 4))}`
+    const key = `${this.cutaway}:${Math.round(Math.atan2(this.viewDir.x, this.viewDir.z) / (Math.PI / 4))}:${this.wallFocus?.id}:${this.wallFocus?.edge}`
     if (key === this.cutKey) return
     this.cutKey = key
     for (const [id, s] of this.singles) {
       if (s.root.userData.kind !== 'building') continue
-      cutWalls(s.root, this.cutaway, this.viewDir)
+      cutWalls(s.root, this.cutaway, this.viewDir, this.wallFocus?.id === id ? this.wallFocus.edge : '')
     }
   }
 
