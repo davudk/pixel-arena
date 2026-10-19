@@ -4,9 +4,12 @@
 //     document chunks because every (cell, prop) pair costs draw calls in each pass.
 //   - Skinned props (characters): individual animated clones. Animations advance at
 //     ANIMATION_HZ (a stop-motion look that suits pixel art) and only while on screen.
-//   - Props with a light, water bodies, buildings: individual objects.
-//   - Furniture indoors (on a building's cells) is grouped apart and casts shadows only while the
-//     cutaway opens the buildings up; under a roof its shadows can't be seen.
+//   - Props with a light, water bodies: individual objects.
+//   - Buildings: individual objects as handles (levels, walls), drawn all together by a
+//     BuildingBatch (building-batch.ts), so their draw calls don't grow with their number.
+//   - Furniture indoors (on the cells of a building with a roof) is grouped apart and drawn only
+//     while the cutaway opens the buildings up: under a roof it can't be seen, and it is most of
+//     a furnished town's triangles.
 // Changes arrive per op (`changed`) or wholesale (`reset`); affected objects are refreshed on
 // the next update(). Model loads are async, so each object carries a version and stale loads
 // are dropped.
@@ -16,6 +19,7 @@ import * as THREE from 'three'
 import { BuildingLayout, Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
 import type { Library, PropDef } from '../library/library'
 import { cloneAnimated, loadModel, placeholderParts, type Part } from '../library/models'
+import { BuildingBatch } from './building-batch'
 import { buildBuilding, cutWalls, setCutaway } from './building-visuals'
 import { buildWater, waterTime } from './water'
 
@@ -52,7 +56,10 @@ export class WorldView {
   private animationClock = 0
   private frustum = new THREE.Frustum()
   private sphere = new THREE.Sphere()
-  constructor(private library: Library) {}
+  private batch = new BuildingBatch()
+  constructor(private library: Library) {
+    this.root.add(this.batch.root)
+  }
 
   /** Shows an object at a temporary transform without touching the document (drag preview). */
   preview(id: string, position: THREE.Vector3, yaw: number) {
@@ -72,6 +79,7 @@ export class WorldView {
     if (single) {
       single.root.position.copy(position)
       single.root.rotation.y = yaw
+      if (this.batch.has(id)) this.batch.invalidate()
     }
   }
 
@@ -120,8 +128,9 @@ export class WorldView {
     if (level !== this.cutaway && this.doc)
       for (const o of this.doc.objects.values()) if (!o.deleted && o.type === 'prop' && this.buildingOf(o)) this.dirty.add(o.id)
     this.cutaway = level
-    for (const g of this.groups.values()) if (g.indoor) g.meshes.forEach((m) => (m.castShadow = level >= 0))
+    for (const g of this.groups.values()) if (g.indoor) g.meshes.forEach((m) => (m.visible = m.castShadow = level >= 0))
     for (const s of this.singles.values()) if (s.root.userData.kind === 'building') setCutaway(s.root, level)
+    this.batch.setCutaway(level)
     this.cutKey = ''
   }
 
@@ -147,6 +156,7 @@ export class WorldView {
       if (s.root.userData.kind !== 'building') continue
       cutWalls(s.root, this.cutaway, this.viewDir, this.wallFocus?.id === id ? this.wallFocus.edge : '')
     }
+    this.batch.invalidate()
   }
 
   update(dt: number, camera?: THREE.Camera) {
@@ -162,6 +172,7 @@ export class WorldView {
       g.dirtyBounds = false
       for (const m of g.meshes) m.computeBoundingSphere()
     }
+    this.batch.update()
     this.animationClock += dt
     if (this.animationClock >= 1 / ANIMATION_HZ) {
       const step = this.animationClock
@@ -180,11 +191,20 @@ export class WorldView {
     const targets: THREE.Object3D[] = []
     for (const g of this.groups.values()) targets.push(...g.meshes)
     for (const s of this.singles.values()) targets.push(s.root)
+    targets.push(...this.batch.meshes)
     const normalMatrix = new THREE.Matrix3()
     for (const hit of raycaster.intersectObjects(targets, true)) {
       let id: string | undefined
       const world = new THREE.Matrix4()
       const mesh = hit.object as THREE.InstancedMesh
+      const building = this.batch.root === mesh.parent ? this.batch.hitOf(hit) : null
+      if (building) {
+        if (exclude.has(building.id)) continue
+        if (mesh.isInstancedMesh) mesh.getMatrixAt(hit.instanceId!, world)
+        world.premultiply(mesh.matrixWorld)
+        const normal = (hit.face?.normal ?? new THREE.Vector3(0, 1, 0)).clone().applyMatrix3(normalMatrix.getNormalMatrix(world)).normalize()
+        return { id: building.id, point: hit.point.clone(), normal, distance: hit.distance, floor: building.floor }
+      }
       if (mesh.isInstancedMesh && hit.instanceId !== undefined) {
         // Props: the group knows each instance's object; building pieces: the building's.
         const group = mesh.userData.group as Group | undefined
@@ -240,6 +260,7 @@ export class WorldView {
         next.root.userData.objectId = id
         this.root.add(next.root)
         this.singles.set(id, next)
+        if (next.root.userData.kind === 'building') this.batch.add(id, next.root)
       }
     } finally {
       this.loading--
@@ -254,6 +275,11 @@ export class WorldView {
       return { root: mesh }
     }
     if (obj.type === 'building') {
+      // Its furniture counts as indoor only under a roof: re-sort it when the roof comes or goes.
+      const roofed = obj.props.get('roof/style') !== 'none'
+      if (this.roofed.has(obj.id) && this.roofed.get(obj.id) !== roofed)
+        for (const o of this.doc!.objects.values()) if (o.type === 'prop' && !o.deleted && this.buildingOf(o)?.id === obj.id) this.dirty.add(o.id)
+      this.roofed.set(obj.id, roofed)
       const root = await buildBuilding(obj, this.library)
       root.userData.kind = 'building'
       root.traverse((o) => ((o as THREE.Mesh).isMesh ? ((o.castShadow = !o.userData.noShadow), (o.receiveShadow = true)) : null))
@@ -321,14 +347,14 @@ export class WorldView {
     return new THREE.Matrix4().compose(new THREE.Vector3(p.x, p.y, p.z), q, new THREE.Vector3(s, s, s))
   }
 
-  /** Whether a prop stands on one of its building's cells. */
+  /** Whether a prop stands on one of its building's cells, under a roof. */
   private indoor(obj: MapObject): boolean {
     const b = this.buildingOf(obj)
     if (!b) return false
     let cells = this.buildingCells.get(b.id)
     if (!cells) {
       const layout = BuildingLayout.fromObject(b)
-      cells = new Set(layout.levelIndices().flatMap((l) => [...layout.cells(l).keys()].map((k) => `${l}:${k}`)))
+      cells = new Set(layout.roofStyle === 'none' ? [] : layout.levelIndices().flatMap((l) => [...layout.cells(l).keys()].map((k) => `${l}:${k}`)))
       this.buildingCells.set(b.id, cells)
     }
     const kit = this.library.kits.get(String(b.props.get('kit') ?? ''))
@@ -346,6 +372,8 @@ export class WorldView {
   }
   /** Building id -> "level:i,j" of its cells (indoor()); dropped when the building changes. */
   private buildingCells = new Map<string, Set<string>>()
+  /** Building id -> whether it had a roof when last built. */
+  private roofed = new Map<string, boolean>()
 
   private addInstance(id: string, obj: MapObject, parts: Part[], propId: string) {
     const p = obj.props.get('position') as Vec3
@@ -377,6 +405,7 @@ export class WorldView {
       this.root.remove(single.root)
       single.root.userData.dispose?.()
       this.singles.delete(id)
+      this.batch.remove(id)
     }
     const slot = this.slots.get(id)
     if (!slot) return
@@ -410,6 +439,7 @@ export class WorldView {
       const next = new THREE.InstancedMesh(part.geometry, part.material, capacity)
       next.userData.group = g
       next.castShadow = !g.indoor || this.cutaway >= 0
+      next.visible = !g.indoor || this.cutaway >= 0
       next.receiveShadow = true
       next.count = g.ids.length
       const old = g.meshes[i]

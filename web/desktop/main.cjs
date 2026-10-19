@@ -161,6 +161,9 @@ ipcMain.handle('steam:overlay', (_e, dialogName) => {
 })
 
 if (SELFTEST) {
+  // Covered windows would otherwise stop their frames (macOS occlusion) and slow their timers.
+  app.commandLine.appendSwitch('disable-renderer-backgrounding')
+  app.commandLine.appendSwitch('disable-backgrounding-occluded-windows')
   ipcMain.handle('test:tempFile', (_e, name) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'pixel-arena-'))
     const file = path.join(dir, path.basename(name))
@@ -232,6 +235,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, sandbox: true,
       additionalArguments: SELFTEST ? ['--pixel-arena-selftest'] : [],
+      // Self-tests keep rendering while hidden or covered (frame timing, the perf test).
+      backgroundThrottling: !SELFTEST,
     },
   })
   // Links open in the system browser, never inside the editor.

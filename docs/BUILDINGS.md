@@ -414,23 +414,34 @@ resizes a building.
 
 Measured with the `perf` self-test (`--selftest=perf --show`), which loads
 `web/app/fixtures/perf-buildings.pxmap` (31 furnished buildings, about 3,000 furniture props),
-frames every building and reports frame times, draw calls and where the time goes.
+frames every building and reports frame times, draw calls and where the time goes (without
+shadows, furniture or buildings, and with the cutaway on).
 
-| | Before | After |
-|---|---|---|
-| Draw calls | 24,942 | 1,107 |
-| Render CPU per frame | 80 ms | 6.5 ms |
-| Frame rate (Electron, 2880 × 1648) | 11 fps | about 70–80 fps |
-| Same map saved | 369 KB | 148 KB |
+| | First | Per building | Whole map (now) |
+|---|---|---|---|
+| Draw calls | 24,942 | 1,107 | 133 (711 with the cutaway on) |
+| Render CPU per frame | 80 ms | 6.5 ms | 2.5 ms |
+| Frame (Electron, 2880 × 1648, 120 Hz) | 90 ms | 12–18 ms | 9 ms (vsync) |
+| Same map saved | 369 KB | 148 KB | 148 KB |
 
-**Rendering** (`world/building-visuals.ts`):
-- A building's kit pieces are one InstancedMesh per (geometry, material), not a mesh per piece.
-- Room floors are one merged mesh per room type.
-- Both are ordered by level, so the cutaway draws a prefix (`userData.levelCounts`).
-- Level and wall groups stay as empty handles. `cutWalls()` rewrites a wall's instances.
+**Rendering**:
+- `world/building-batch.ts` draws every building on the map together. Draw calls hardly grow
+  with the number of buildings. It uses:
+  - one InstancedMesh per kit piece (geometry, material);
+  - one merged mesh per room-floor material;
+  - one merged mesh for foundations and one for roofs.
+- Everything is ordered by level, so the cutaway draws a prefix of each (`levelCounts`; roofs
+  count as one level up, since they show below the cut level).
+- A building's own scene keeps only handles: level groups, wall groups and empty roof groups.
+  - `cutWalls()` scales the wall groups and the batch rebuilds.
+  - So does adding, removing or moving a building, including drag previews.
+  - Picking maps an instance, or a merged mesh's vertex range, back to its building.
+- On its own (thumbnails, the Premade ghost), `buildBuilding()` still draws per building:
+  instanced per piece, room floors merged per type. `partsOf()` gives the batch the same parts.
 - Floors cast no shadows.
-- Indoor furniture (on a building's cells) is grouped apart in `world-view.ts`. It casts shadows
-  only while the cutaway is on; under a roof they can't be seen.
+- Furniture indoors (on the cells of a roofed building) is grouped apart in `world-view.ts`. It
+  is drawn, and casts shadows, only while the cutaway is on: under a roof it can't be seen, and
+  it is most of a furnished town's triangles.
 
 **Files**:
 - A `create` op carries the new object's properties (`props`), instead of a create and then a
@@ -438,10 +449,9 @@ frames every building and reports frame times, draw calls and where the time goe
 - Furniture and yard props of a placed building get ids derived from the building's
   (`<id>.<n>`), not random uuids. Uuids were about half of the compressed size.
 
-**Next**: buildings still cost about 23 draw calls each.
-- Batching kit pieces across buildings (one InstancedMesh per piece for the whole map, ordered
-  by level) would make that nearly flat.
-- So would a room-floor atlas (one material for all room types).
+**Self-tests** run with renderer backgrounding and occluded-window throttling off
+(`desktop/main.cjs`). On macOS a covered window otherwise stops its frames and the perf numbers
+(or the test) stall.
 
 ## Phases
 

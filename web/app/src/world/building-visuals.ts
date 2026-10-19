@@ -17,6 +17,9 @@
 // a prefix (userData.levelCounts; instanceBuilding). The level groups and their wall groups stay,
 // empty, as handles: cutWalls() scales the wall groups and rewrites their instances. Floors cast
 // no shadows (userData.noShadow): nothing that lies flat throws a shadow worth drawing.
+// On the map, the world view draws all buildings together instead (building-batch.ts): it takes
+// each building's parts (partsOf: pieces, room floor plates, foundation, roofs) and strips the
+// building down to its handles.
 
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
@@ -76,8 +79,32 @@ function vertexColored(): THREE.MeshLambertMaterial {
   return (vertexMaterial ??= new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide }))
 }
 
+/** A kit piece instance: in the root's space, or in its wall group's (`wall`) when it has one. */
+export interface PiecePart {
+  key: string
+  geometry: THREE.BufferGeometry
+  material: THREE.Material | THREE.Material[]
+  floor: boolean
+  level: number
+  wall: THREE.Object3D | null
+  matrix: THREE.Matrix4
+}
+/** What a building draws, in its root's space (for drawing many buildings together). */
+export interface BuildingParts {
+  pieces: PiecePart[]
+  plates: { material: THREE.Material; level: number; geometry: THREE.BufferGeometry }[]
+  foundation: THREE.Mesh | null
+  roofs: THREE.Mesh[]
+  batch: THREE.Group
+}
+const parts = new WeakMap<THREE.Object3D, BuildingParts>()
+export function partsOf(root: THREE.Object3D): BuildingParts | undefined {
+  return parts.get(root)
+}
+
 export async function buildBuilding(obj: MapObject, library: Library): Promise<THREE.Group> {
   const root = new THREE.Group()
+  const record: BuildingParts = { pieces: [], plates: [], foundation: null, roofs: [], batch: new THREE.Group() }
   const layout = BuildingLayout.fromObject(obj)
   const kit: KitDef | undefined = library.kits.get(String(obj.props.get('kit') ?? ''))
   const cs = kit?.cellSize ?? 3
@@ -150,15 +177,17 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
       const m = new THREE.Mesh(mb.build(), vertexColored())
       m.castShadow = m.receiveShadow = true
       group.add(m)
+      record.foundation = m
     }
   }
-  const batch = instanceBuilding(root)
+  const batch = instanceBuilding(root, record.pieces)
+  record.batch = batch
   // One mesh per room type, its plates in level order (the cutaway draws a prefix).
   for (const [type, list] of plates) {
     const geometry = mergeGeometries(list.map((p) => p.geometry))
     const per = list[0].geometry.index!.count
     const mesh = new THREE.Mesh(geometry, roomMaterial(type, library))
-    list.forEach((p) => p.geometry.dispose())
+    for (const p of list) record.plates.push({ material: mesh.material, level: p.level, geometry: p.geometry })
     mesh.receiveShadow = true
     mesh.userData = { floor: true, noShadow: true, levelCounts: prefixCounts(list.map((p) => p.level), per) }
     batch.add(mesh)
@@ -174,8 +203,10 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
       m.castShadow = m.receiveShadow = true
       m.userData.roofLevel = level
       root.add(m)
+      record.roofs.push(m)
     }
   }
+  parts.set(root, record)
   return root
 }
 
@@ -386,7 +417,7 @@ const tmp = new THREE.Matrix4()
  *  vertex-colored mesh there) into one InstancedMesh per (geometry, material, floor tag), their
  *  instances in level order, under a `batch` group added to `root`, which it returns. Level
  *  groups keep their wall groups, empty, as handles (userData.wall; instances in wallParts). */
-function instanceBuilding(root: THREE.Group): THREE.Group {
+function instanceBuilding(root: THREE.Group, out: PiecePart[]): THREE.Group {
   root.updateMatrixWorld(true)
   type Entry = { matrix: THREE.Matrix4; wall: THREE.Object3D | null; level: number }
   const buckets = new Map<string, { mesh: THREE.Mesh; floor: boolean; entries: Entry[] }>()
@@ -420,7 +451,12 @@ function instanceBuilding(root: THREE.Group): THREE.Group {
   const batch = new THREE.Group()
   batch.userData.batch = true
   root.add(batch)
-  for (const { mesh: first, floor, entries: list } of buckets.values()) {
+  for (const [key, { mesh: first, floor, entries: list }] of buckets) {
+    for (const e of list) {
+      e.wall?.updateMatrix()
+      const matrix = e.wall ? e.wall.matrix.clone().invert().multiply(e.matrix) : e.matrix
+      out.push({ key, geometry: first.geometry, material: first.material, floor, level: e.level, wall: e.wall, matrix })
+    }
     const mesh = new THREE.InstancedMesh(first.geometry, first.material, list.length)
     mesh.userData = { floor, noShadow: floor, levelCounts: prefixCounts(list.map((e) => e.level)) }
     list.forEach((e, i) => {

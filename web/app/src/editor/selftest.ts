@@ -898,9 +898,9 @@ async function generatorTest(editor: Editor, check: (ok: unknown, what: string) 
   editor.world.update(0, rig.camera)
   const up = editor.world.objectRoot(made[0].id)?.children.find((c) => c.userData.level === 1)
   const inner = up?.children.filter((c) => c.userData.wall?.interior) ?? []
-  const box = new THREE.Box3()
-  for (const w of inner) box.expandByObject(w)
-  check(inner.length > 0 && box.min.y >= made[0].at.y + 2.3, `upper interior walls on their floor (${inner.length}, bottom ${box.min.y.toFixed(2)})`)
+  // Wall groups are handles at their floor's height (the batch draws their pieces there).
+  const bottom = Math.min(...inner.map((w) => w.getWorldPosition(new THREE.Vector3()).y))
+  check(inner.length > 0 && bottom >= made[0].at.y + 2.3, `upper interior walls on their floor (${inner.length}, bottom ${bottom.toFixed(2)})`)
   // One premade building of each category in a grid (selftest-generator-showcase.png).
   const lib = editor.library
   const firsts = new Map<string, NonNullable<ReturnType<typeof lib.buildings.get>>>()
@@ -1946,27 +1946,39 @@ async function perfTest(editor: Editor, check: (ok: unknown, what: string) => vo
   const measure = async () => {
     const r: number[] = []
     const f: number[] = []
+    const loop: number[] = []
+    // The whole frame callback (the app's loop: update, tools, render), not just the render.
+    const raf = window.requestAnimationFrame
+    window.requestAnimationFrame = (cb) => raf((t) => { const s = performance.now(); cb(t); loop.push(performance.now() - s) })
     pixel.render = ((...a: Parameters<typeof render>) => { const t = performance.now(); const out = render(...a); r.push(performance.now() - t); return out }) as typeof render
     await sleep(300)
     let t = performance.now()
     const stop = t + 2000
     while (performance.now() < stop) { await nextFrame(); const n = performance.now(); f.push(n - t); t = n }
     pixel.render = render
-    return { frame: stat(f).p50, renderCpu: stat(r).p50, calls: pixel.sceneInfo.calls }
+    window.requestAnimationFrame = raf
+    return { frame: stat(f).p50, frameP95: stat(f).p95, loopCpu: stat(loop).p50, renderCpu: stat(r).p50, calls: pixel.sceneInfo.calls }
   }
   const scenarios: Record<string, unknown> = { all: await measure() }
   const shadowed: THREE.Object3D[] = []
   editor.world.root.traverse((o) => { if (o.castShadow) { shadowed.push(o); o.castShadow = false } })
   scenarios.noShadows = await measure()
   shadowed.forEach((o) => (o.castShadow = true))
-  const furniture = editor.world.root.children.filter((o) => (o as THREE.InstancedMesh).isInstancedMesh)
+  const furniture = editor.world.root.children.filter((o) => (o as THREE.InstancedMesh).isInstancedMesh && o.userData.group)
+  const shownFurniture = furniture.filter((o) => o.visible)
   furniture.forEach((o) => (o.visible = false))
   scenarios.noProps = await measure()
-  furniture.forEach((o) => (o.visible = true))
-  const buildings = editor.world.root.children.filter((o) => o.userData.kind === 'building')
+  shownFurniture.forEach((o) => (o.visible = true))
+  const buildings = editor.world.root.children.filter((o) => o.userData.kind === 'building' || o.children.some((c) => (c as THREE.Mesh).isMesh && (c.userData.levelCounts || c.userData.ids)))
+  const shownBuildings = buildings.filter((o) => o.visible)
   buildings.forEach((o) => (o.visible = false))
   scenarios.noBuildings = await measure()
-  buildings.forEach((o) => (o.visible = true))
+  shownBuildings.forEach((o) => (o.visible = true))
+  // With the cutaway on (level 0): the furniture indoors is drawn too.
+  editor.world.setCutaway(0)
+  await settle()
+  scenarios.cutaway = await measure()
+  editor.world.setCutaway(-1)
   report.scenarios = scenarios
   check(objs.length > 100, 'map loaded')
 }
