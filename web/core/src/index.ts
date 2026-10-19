@@ -19,4 +19,5 @@ export { BuildingLayout, KINDS, ROOM_TYPES, STAIR_DIRS, STAIR_STEP, type RoomTyp
 export * as snapping from './snapping'
 export { saveProject, openProject, ProjectError, EXTENSION } from './project-file'
 export { generateBuilding, validate as validateBuilding, rng as seededRng, type Recipe, type Generated } from './building-gen'
+export type { Furnishing } from './building-furnish'
 export { RECIPES, HOUSE, APARTMENT } from './building-recipes'

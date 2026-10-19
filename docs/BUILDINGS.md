@@ -338,6 +338,37 @@ Fixed alongside:
   outline at each lower floor joined at the corners. It's drawn on the overlay, so it is never
   filtered.
 
+## Furnishing and yards (phase 6, done)
+
+`web/core/src/building-furnish.ts`, called by the generator for every level, places furniture by
+room type:
+- **Bedroom**: a bed with nightstands, a dresser, a bookcase, a plant.
+- **Living room**: a sofa with a coffee table, a TV on its cabinet, an armchair, shelves, a
+  plant, a lamp.
+- **Kitchen**: a counter run (fridge, cabinets, stove, sink), plus a table with chairs if it fits.
+- **Dining room**: a table with chairs.
+- **Bathroom**: a toilet, a sink, and a bathtub or shower.
+- **Hall**: a coat rack.
+- **Office**: a desk with a chair and screen, and a bookcase.
+
+Rules:
+- **Wall items** stand with their back to a wall or window, never a door or an opening. Long
+  items span two cells along one wall.
+- **Companions** (nightstands, the desk chair, the TV) go with their parent.
+- **Runs** line the longest wall; **center items** stand in the room's middle.
+- Nothing overlaps or leaves the room.
+- The space in front of every door and doorway stays clear.
+- Stairs and the floor over them are left free.
+- Every model faces +z at rotation 0 (checked with the `facing` self-test).
+
+**Houses** get a yard:
+- a low fence (Kenney Suburban fence at half scale) with a gate in front of the door;
+- a path to the door and a driveway through the fence;
+- trees in the corners and a planter.
+
+Furniture and yard are the building's children (`editor/generated.ts placeGenerated`), so they
+move and copy with it.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney

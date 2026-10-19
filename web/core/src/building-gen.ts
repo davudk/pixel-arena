@@ -16,6 +16,7 @@
 //   6. Validation: every floor cell reachable from the entrance (level 0) or the stairs landing
 //      (upper levels) through open edges, doors and doorways. A failed seed retries with the next.
 
+import { furnishLevel, yard, type Furnishing } from './building-furnish'
 import { BuildingLayout, STAIR_STEP, type RoomType, type StairDir } from './building-layout'
 import { Vec2i, type Value } from './values'
 
@@ -24,8 +25,14 @@ export interface Recipe {
   id: string
   kit: string
   roof: 'gable' | 'hip' | 'flat' | 'none'
-  /** Cells the kit's stairs run over. */
+  /** Cells the kit's stairs run over; the kit's cell size, storey height and floor top (m). */
   stairsCells: number
+  cellSize: number
+  wallHeight: number
+  floorY: number
+  /** Furnish rooms (building-furnish.ts); give houses a yard. */
+  furnish?: boolean
+  yard?: boolean
   /** Width and depth ranges in cells; storeys range. */
   width: [number, number]
   depth: [number, number]
@@ -39,6 +46,8 @@ export interface Recipe {
 
 export interface Generated {
   props: Record<string, Value>
+  /** Furniture and yard props, building-local. */
+  children: Furnishing[]
   seed: number
   /** Cells per level, rooms and door count (for tests and labels). */
   summary: { width: number; depth: number; storeys: number; rooms: number; doors: number; windows: number }
@@ -285,7 +294,24 @@ function attempt(recipe: Recipe, seed: number): Generated | null {
 
   // 6. Validate.
   if (!validate(props, run, entrance.cell, plans.map((p) => p.landing))) return null
-  return { props, seed, summary: { width: W, depth: D, storeys, rooms: roomType.length, doors, windows } }
+
+  // 7. Furniture per level (not on stairs or over them) and, for houses, a yard.
+  const children: Furnishing[] = []
+  const layout = BuildingLayout.fromObject({ props: new Map(Object.entries(props)) } as unknown as Parameters<typeof BuildingLayout.fromObject>[0])
+  if (recipe.furnish !== false)
+    for (let l = 0; l < storeys; l++) {
+      const blocked = layout.floorOpenings(l, run)
+      for (const s of layout.stairs(l).values()) {
+        const [dx, dy] = STAIR_STEP[s.dir]
+        for (let i = 0; i < run; i++) blocked.add(`${s.cell.x + dx * i},${s.cell.y + dy * i}`)
+      }
+      children.push(...furnishLevel({ layout, level: l, cs: recipe.cellSize, floorY: l * recipe.wallHeight + recipe.floorY, blocked }, r))
+    }
+  if (recipe.yard) {
+    const cs = recipe.cellSize
+    children.push(...yard(W * cs, D * cs, { x: (entrance.cell.x + 0.5) * cs, z: D * cs }, r))
+  }
+  return { props, children, seed, summary: { width: W, depth: D, storeys, rooms: roomType.length, doors, windows } }
 }
 
 /** The edge on side `d` of cell `c`. */

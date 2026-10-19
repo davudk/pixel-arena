@@ -50,3 +50,33 @@ describe('building generator', () => {
     expect(l.cells(1).has(new Vec2i(0, 0).key)).toBe(true)
   })
 })
+
+describe('furnishing', () => {
+  it('rooms get their furniture, inside the building, and houses a yard', () => {
+    let beds = 0, toilets = 0, sofas = 0, fridges = 0
+    for (let seed = 1; seed <= 20; seed++) {
+      for (const recipe of [HOUSE, APARTMENT]) {
+        const g = generateBuilding(recipe, seed * 37)
+        const W = g.summary.width * recipe.cellSize
+        const D = g.summary.depth * recipe.cellSize
+        const inside = g.children.filter((c) => c.prop.startsWith('kenney_furniture:'))
+        for (const f of inside) {
+          expect(f.x).toBeGreaterThan(0)
+          expect(f.z).toBeGreaterThan(0)
+          expect(f.x).toBeLessThan(W)
+          expect(f.z).toBeLessThan(D)
+        }
+        beds += inside.filter((f) => f.prop.includes(':bed_')).length
+        toilets += inside.filter((f) => f.prop.endsWith(':toilet')).length
+        sofas += inside.filter((f) => f.prop.endsWith(':lounge_sofa')).length
+        fridges += inside.filter((f) => f.prop.endsWith(':kitchen_fridge')).length
+        if (recipe === HOUSE) expect(g.children.some((c) => c.prop.endsWith(':fence'))).toBe(true)
+        else expect(g.children.some((c) => c.prop.endsWith(':fence'))).toBe(false)
+      }
+    }
+    expect(beds).toBeGreaterThan(40)
+    expect(toilets).toBeGreaterThan(30)
+    expect(sofas).toBeGreaterThan(20)
+    expect(fridges).toBeGreaterThan(20)
+  })
+})

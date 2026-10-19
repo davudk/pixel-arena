@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { APARTMENT, BuildingLayout, generateBuilding, HOUSE, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec2i, Vec3 } from '@pixel-arena/core'
 import { PALETTE } from '../render/terrain-shading'
 import { PaintPolygonTool } from './paint-polygon-tool'
+import { placeGenerated } from './generated'
 import { loadModel } from '../library/models'
 import { buildReview, resolutions } from '../ui/merge-review'
 import type { ViewSettings } from '../render/view-settings'
@@ -77,6 +78,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'library') await libraryTest(editor, check, report)
     else if (name === 'kits') await kitsTest(editor, check, settle, report)
     else if (name === 'generator') await generatorTest(editor, check, settle, report)
+    else if (name === 'facing') await facingTest(editor, check, settle)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -814,6 +816,38 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** Furniture at rotation 0 in a row, seen from the south (camera at +z): shows which way each
+ *  model faces (selftest-facing.png; a model facing +z shows its front). */
+async function facingTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
+  const ids = ['chair', 'bed_double', 'lounge_sofa', 'toilet', 'bathroom_sink', 'kitchen_stove', 'kitchen_fridge', 'desk', 'chair_desk',
+    'cabinet_television', 'television_modern', 'bookcase_closed', 'bathtub', 'shower', 'lounge_chair', 'kitchen_sink', 'washer', 'side_table_drawers', 'coat_rack_standing']
+  const s = editor.session
+  let x = -20
+  s.edit('Facing', () => {
+    for (const id of ids) {
+      const p = editor.library.props.get(`kenney_furniture:${id}`)
+      check(p, id)
+      if (!p) continue
+      x += p.footprint[0] / 2 + 0.4
+      s.createObject('prop', { prop: p.id, position: new Vec3(x, 0, 0), rotation: 0 })
+      x += p.footprint[0] / 2
+    }
+  })
+  await settle()
+  await sleep(2000)
+  const rig = editor.rig
+  rig.rotateBy(-rig.yaw)
+  rig.update(1)
+  for (const [i, fx] of [[1, -12], [2, 0]] as const) {
+    rig.focus.set(fx, 0, 0)
+    rig.zoom = 9
+    rig.update(0)
+    await sleep(500)
+    await frame()
+    await fetch(`/__save?name=selftest-facing${i}.png`, { method: 'POST', body: editor.pixel.canvas.toDataURL('image/png') }).catch(() => {})
+  }
+}
+
 /** Generated buildings on the map: three houses and three apartment blocks, from fixed seeds, in
  *  a row (selftest-generator*.png); each is a valid building of its kit. */
 async function generatorTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, report: Record<string, unknown>) {
@@ -826,13 +860,16 @@ async function generatorTest(editor: Editor, check: (ok: unknown, what: string) 
         const g = generateBuilding(recipe, seed)
         const cs = editor.library.kits.get(recipe.kit)?.cellSize ?? 2
         const at = new Vec3(x, 0, 0)
-        const id = s.createObject('building', { position: at, rotation: 0, ...g.props })
+        const id = placeGenerated(s, g, at)
         made.push({ id, at, size: Math.max(g.summary.width, g.summary.depth) * cs })
-        x += g.summary.width * cs + 4
+        x += g.summary.width * cs + (recipe.yard ? 14 : 4)
       }
     }
   })
   check(made.length === 6, 'six generated buildings')
+  const kids = [...s.doc.objects.values()].filter((o) => !o.deleted && made.some((m) => m.id === o.props.get('parent')))
+  check(kids.length > 60, `furniture and yards as the buildings' children (${kids.length})`)
+  check(kids.every((k) => editor.library.props.has(String(k.props.get('prop')))), 'every furnishing is a known prop')
   await settle()
   await sleep(2500)
   const rig = editor.rig
