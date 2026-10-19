@@ -54,7 +54,7 @@ const DEFAULTS = {
   /** The water tool last in hand (Draw or Erase). */
   waterTool: 'water' as 'water' | 'waterErase',
   /** The building piece last built with (Build's "Build" switch goes back to it after Erase). */
-  buildPiece: 'wall' as 'foundation' | 'wall' | 'door' | 'window',
+  buildPiece: 'wall' as 'foundation' | 'wall' | 'door' | 'window' | 'doorway' | 'stairs',
 }
 export type UiPrefs = typeof DEFAULTS
 

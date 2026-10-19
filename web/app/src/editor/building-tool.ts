@@ -2,14 +2,18 @@
 //   foundation  drag to add cells on the current level. On level 0, painting away from the
 //               target building (not touching its footprint) starts a new building.
 //   erase       drag to remove cells (a building with no cells left is deleted).
-//   wall        click an edge: toggles wall / open (exterior edges get walls automatically).
-//   door/window click an edge to make it a door / window; click again for a plain wall.
+//   wall        click an edge: toggles wall / open (exterior edges get walls automatically; an
+//               edge between two cells is an interior wall).
+//   door/window/doorway  click an edge to make it one; click again for a plain wall.
+//   stairs      click a cell: stairs from it up to the next level, rising toward the cell side
+//               nearest the cursor (over the kit's stairs run); click the same way again to
+//               remove them. Only edge kits with a stairs piece have stairs.
 // PageUp / PageDown (or . / ,) change the level; everything above it is cut away.
 // params.build holds the kit, piece and level. Roof style and kit apply to the target building.
 // Esc puts the tool down.
 
 import * as THREE from 'three'
-import { BuildingLayout, Vec2i, Vec3, type Value } from '@pixel-arena/core'
+import { BuildingLayout, STAIR_STEP, Vec2i, Vec3, type StairDir, type Value } from '@pixel-arena/core'
 import type { KitDef } from '../library/library'
 import type { Editor, Pointer, Tool } from './editor'
 import { buildLabel } from './labels'
@@ -85,7 +89,8 @@ export class BuildingTool implements Tool {
       this.painting = true
       this.editor.session.begin(buildLabel(params.build.piece))
       this.paint(p, true)
-    } else this.clickEdge(p)
+    } else if (params.build.piece === 'stairs') this.clickStairs(p)
+    else this.clickEdge(p)
   }
 
   pointerMove(p: Pointer) {
@@ -162,6 +167,33 @@ export class BuildingTool implements Tool {
     s.edit(buildLabel(params.build.piece), () => s.setProp(this.target, BuildingLayout.wallPath(level, edge), value))
   }
 
+  /** The cell under the cursor and the side of it nearest the cursor. */
+  private cellSide(p: Pointer): { cell: Vec2i; dir: StairDir } | null {
+    const local = this.localHit(p)
+    if (!local) return null
+    const cs = this.kit()!.cellSize
+    const fx = local.x / cs
+    const fz = local.z / cs
+    const cell = new Vec2i(Math.floor(fx), Math.floor(fz))
+    const u = fx - cell.x - 0.5
+    const v = fz - cell.y - 0.5
+    const dir: StairDir = Math.abs(u) > Math.abs(v) ? (u > 0 ? 'E' : 'W') : v > 0 ? 'S' : 'N'
+    return { cell, dir }
+  }
+
+  private clickStairs(p: Pointer) {
+    if (!this.hasTarget() || this.kit()?.style !== 'edge' || !this.kit()?.pieces.stairs?.length) return
+    const at = this.cellSide(p)
+    if (!at) return
+    const s = this.editor.session
+    const level = params.build.level
+    const layout = BuildingLayout.fromObject(s.doc.getObject(this.target)!)
+    if (!layout.cells(level).has(at.cell.key)) return
+    const current = layout.stairs(level).get(at.cell.key)
+    const value: Value = current?.dir === at.dir ? null : at.dir
+    s.edit(value ? buildLabel('stairs') : 'Remove stairs', () => s.setProp(this.target, BuildingLayout.stairsPath(level, at.cell), value))
+  }
+
   // --- Geometry --------------------------------------------------------------------------
 
   hasTarget(): boolean {
@@ -231,6 +263,15 @@ export class BuildingTool implements Tool {
       const cz = Math.floor(local.z / cs)
       size = new THREE.Vector3(cs, 0.25, cs)
       center = new THREE.Vector3((cx + 0.5) * cs, y + 0.12, (cz + 0.5) * cs)
+    } else if (params.build.piece === 'stairs') {
+      // The whole run, rising toward the side nearest the cursor.
+      const at = this.hasTarget() ? this.cellSide(p) : null
+      if (!at || k.style !== 'edge') return
+      const run = k.stairsCells
+      const [dx, dz] = STAIR_STEP[at.dir]
+      const along = (run - 1) / 2
+      size = dx ? new THREE.Vector3(cs * run, h * 0.5, cs * 0.5) : new THREE.Vector3(cs * 0.5, h * 0.5, cs * run)
+      center = new THREE.Vector3((at.cell.x + 0.5 + dx * along) * cs, y + h * 0.25, (at.cell.y + 0.5 + dz * along) * cs)
     } else if (this.hasTarget()) {
       const [i, j, side] = this.edgeAt(p).split(',')
       const x = Number(i)

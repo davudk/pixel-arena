@@ -11,6 +11,24 @@ function building() {
 }
 
 describe('BuildingLayout', () => {
+  it('doorways are a wall kind, and stairs open the floor above', () => {
+    const { doc, cell, wall, layout } = building()
+    for (const [i, j] of [[0, 0], [1, 0]]) {
+      cell(0, i, j)
+      cell(1, i, j)
+    }
+    wall(0, '1,0,W', 'doorway')
+    expect(layout().effectiveKind(0, '1,0,W')).toBe('doorway')
+    doc.applyOp(ops.setProp('b', BuildingLayout.stairsPath(0, new Vec2i(0, 0)), 'E'))
+    doc.applyOp(ops.setProp('b', BuildingLayout.stairsPath(0, new Vec2i(5, 5)), 'N')) // no cell there: ignored
+    doc.applyOp(ops.setProp('b', BuildingLayout.stairsPath(1, new Vec2i(1, 0)), 'up')) // not a direction: ignored
+    const l = layout()
+    expect([...l.stairs(0).values()].map((s) => `${s.cell.key}${s.dir}`)).toEqual(['0,0E'])
+    expect(l.stairs(1).size).toBe(0)
+    expect([...l.floorOpenings(1)]).toEqual(['0,0'])
+    expect([...l.floorOpenings(1, 2)].sort()).toEqual(['0,0', '1,0'])
+  })
+
   it('single cell has four exterior walls', () => {
     const { cell, layout } = building()
     cell(0, 0, 0)

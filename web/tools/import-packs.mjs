@@ -7,7 +7,8 @@
 //   - copies it (GLB, or .gltf with its .bin and textures) under a URL-safe file name;
 //   - writes a props/<group>.json entry: id, name, category, themes, footprint and height in
 //     meters (after the pack scale), placement.
-// Plus pack.json (attribution) and LICENSE.txt. No dependencies.
+// Plus pack.json (attribution), LICENSE.txt and any building kits the config defines. No
+// dependencies.
 //
 //   node web/tools/import-packs.mjs <downloads dir> [pack id ...]
 //
@@ -89,6 +90,11 @@ function importPack(pack) {
   for (const dir of pack.textureDirs ?? []) {
     const from = path.join(src, dir)
     if (fs.existsSync(from)) fs.cpSync(from, path.join(out, 'models', path.basename(dir)), { recursive: true })
+  }
+  // Building kits (KitDef in web/app/src/library/library.ts), written as given.
+  if (pack.kits?.length) {
+    fs.mkdirSync(path.join(out, 'kits'), { recursive: true })
+    for (const kit of pack.kits) fs.writeFileSync(path.join(out, 'kits', `${kit.id}.json`), JSON.stringify(kit, null, '\t') + '\n')
   }
   for (const [group, entries] of groups) {
     entries.sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name))

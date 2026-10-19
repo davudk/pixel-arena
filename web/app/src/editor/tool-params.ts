@@ -9,7 +9,7 @@ export type SculptOp = 'raise' | 'lower' | 'smooth' | 'flatten'
 /** How a drawing tool applies: a polygon outline or a round brush. */
 export type Shape = 'polygon' | 'brush'
 export type WaterShape = Shape
-export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window'
+export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window' | 'doorway' | 'stairs'
 export const MAX_LEVEL = 9
 
 export interface ToolParams {

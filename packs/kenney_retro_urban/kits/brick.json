@@ -1,0 +1,23 @@
+{
+	"id": "brick",
+	"name": "Red brick",
+	"themes": [
+		"city",
+		"retro"
+	],
+	"style": "block",
+	"front": "N",
+	"cell_size": 3,
+	"wall_height": 3,
+	"pieces": {
+		"block": "wall_a",
+		"wall": "wall_a",
+		"window": "wall_a_window",
+		"door": "wall_a_door"
+	},
+	"colors": {
+		"roof": "#4b4f57",
+		"gable": "#8c4a3a",
+		"foundation": "#77736d"
+	}
+}

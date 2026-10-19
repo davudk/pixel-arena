@@ -1,0 +1,24 @@
+{
+	"id": "apartment",
+	"name": "Apartment block",
+	"themes": [
+		"city",
+		"modern"
+	],
+	"style": "block",
+	"front": "S",
+	"cell_size": 4,
+	"wall_height": 2.5,
+	"pieces": {
+		"block": "building_block",
+		"wall": "building_windows_sills",
+		"window": "building_window_balcony",
+		"door": "building_door_window",
+		"corner": "building_corner_window_sill"
+	},
+	"colors": {
+		"roof": "#3b3f4a",
+		"gable": "#f3dcb4",
+		"foundation": "#c98f63"
+	}
+}

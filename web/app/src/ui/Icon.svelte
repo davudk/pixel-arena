@@ -36,6 +36,8 @@
     wall: 'M4 6h16v12H4z M4 10h16 M4 14h16 M9 6v4 M15 6v4 M12 10v4 M7 14v4 M17 14v4',
     door: 'M6 21V4h12v17 M3 21h18 M14 13h.01',
     window: 'M5 5h14v14H5z M12 5v14 M5 12h14',
+    doorway: 'M6 21V4h12v17 M3 21h18 M9 21V8h6v13',
+    stairs: 'M4 20h4v-4h4v-4h4V8h4V4 M4 20h16',
     eraser: 'M8 20l-4-4l10-10l6 6l-8 8z M14 20h6 M9 11l6 6',
     roof: 'M3 12l9-7l9 7 M6 10v9h12v-9',
     layers: 'M12 4l9 5l-9 5l-9-5z M3 13l9 5l9-5',

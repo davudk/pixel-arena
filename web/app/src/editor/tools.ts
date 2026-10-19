@@ -170,7 +170,7 @@ export const TOOLS: Record<ToolId, ToolDef> = {
       { key: 'kit', label: 'Kit', kind: 'kit' },
       {
         key: 'piece', label: 'Piece', kind: 'choice',
-        options: (['foundation', 'wall', 'door', 'window', 'erase'] as const).map((v) => ({ value: v, label: pieceName(v), icon: v === 'erase' ? 'eraser' : v })),
+        options: (['foundation', 'wall', 'stairs', 'door', 'window', 'doorway', 'erase'] as const).map((v) => ({ value: v, label: pieceName(v), icon: v === 'erase' ? 'eraser' : v })),
       },
       { key: 'level', label: 'Level', kind: 'stepper', min: 0, max: MAX_LEVEL, step: 1, saved: false },
     ],

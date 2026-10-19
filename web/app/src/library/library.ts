@@ -28,14 +28,33 @@ export interface PropDef {
   searchText: string
 }
 
-/** Modular building kit (packs/<pack>/kits/*.json); see KitDef in the Godot build. */
+/** Piece roles a kit can fill. Edge kits put wall pieces on cell edges (wall, window, door,
+ *  doorway; a door may be a doorway wall plus a door leaf, listed together) and fill cells with
+ *  floor and stairs. Block kits put one solid piece per cell and storey, turned so its front
+ *  faces out: block (no outside face), wall / window / door (one outside face of that kind),
+ *  corner (two adjacent outside faces). */
+export type KitRole = 'wall' | 'window' | 'door' | 'doorway' | 'floor' | 'stairs' | 'block' | 'corner'
+
+/** Modular building kit (packs/<pack>/kits/*.json). */
 export interface KitDef {
   id: string // "pack:local"
   name: string
   themes: string[]
   cellSize: number
   wallHeight: number
-  pieces: Partial<Record<'wall' | 'window' | 'door' | 'floor', string>>
+  /** edge: wall panels on cell edges (rooms and interiors). block: a solid piece per cell
+   *  (exteriors only). */
+  style: 'edge' | 'block'
+  /** Edge kits: where a wall piece's origin is. cell: at the cell center with the panel on its
+   *  +X edge (the Fantasy Town pieces). center: at the panel's own center (re-centered imports);
+   *  the panel is moved onto the edge and turned to lie along it. */
+  pivot: 'cell' | 'center'
+  /** Block kits: the side of a piece that is its front (door, windows), and for corner pieces the
+   *  second outside face, clockwise from the front seen from above. */
+  front: 'N' | 'E' | 'S' | 'W'
+  /** Stairs run this many cells (the floor above them is open over the whole run). */
+  stairsCells: number
+  pieces: Partial<Record<KitRole, string[]>>
   colors: { roof: string; gable: string; foundation: string }
 }
 
@@ -102,9 +121,15 @@ export class Library {
           lib.errors.push(`${pack.id}/kits/${file}: invalid kit`)
           continue
         }
+        // Pieces may be one prop id or a list (placed together); ids without a pack are this pack's.
+        const pieces: KitDef['pieces'] = {}
+        for (const [role, v] of Object.entries(k.pieces as Record<string, string | string[]>))
+          pieces[role as KitRole] = (Array.isArray(v) ? v : [v]).map((id) => (id.includes(':') ? id : `${pack.id}:${id}`))
         const kit: KitDef = {
           id: `${pack.id}:${k.id}`, name: k.name ?? k.id, themes: k.themes ?? [],
-          cellSize: k.cell_size ?? 3, wallHeight: k.wall_height ?? 3, pieces: k.pieces,
+          cellSize: k.cell_size ?? 3, wallHeight: k.wall_height ?? 3,
+          style: k.style === 'block' ? 'block' : 'edge', pivot: k.pivot === 'center' ? 'center' : 'cell',
+          front: (['N', 'E', 'S', 'W'] as const).includes(k.front) ? k.front : 'S', stairsCells: Math.max(1, Number(k.stairs_cells) || 1), pieces,
           colors: { roof: k.colors?.roof ?? '#3f9e8f', gable: k.colors?.gable ?? '#9a5b3e', foundation: k.colors?.foundation ?? '#8f8a84' },
         }
         lib.kits.set(kit.id, kit)

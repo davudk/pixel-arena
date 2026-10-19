@@ -1,0 +1,23 @@
+{
+	"id": "corrugated",
+	"name": "Green panel",
+	"themes": [
+		"city",
+		"industrial"
+	],
+	"style": "block",
+	"front": "N",
+	"cell_size": 3,
+	"wall_height": 3,
+	"pieces": {
+		"block": "wall_b",
+		"wall": "wall_b",
+		"window": "wall_b_window",
+		"door": "wall_b_door"
+	},
+	"colors": {
+		"roof": "#4b4f57",
+		"gable": "#6e8a5e",
+		"foundation": "#77736d"
+	}
+}

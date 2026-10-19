@@ -132,6 +132,19 @@ export const PACKS = [
     category: (n) => (/^(wall|window|door|balcony|roof)/.test(n) ? 'buildings/brick' : /^(road|grass|cliff)/.test(n) ? 'terrain/urban' : /^truck/.test(n) ? 'vehicles/trucks' : /^tree/.test(n) ? 'nature/trees' : 'city/street'),
     themes: () => ['city', 'retro', 'industrial'],
     placement: (c) => (c === 'buildings/brick' || c === 'terrain/urban' ? place('grid', 3, 90)() : c.startsWith('vehicles') ? VEHICLE() : STREET()),
+    // Solid 3 m cubes: block kits for brick row houses and warehouses (exteriors only).
+    kits: [
+      {
+        id: 'brick', name: 'Red brick', themes: ['city', 'retro'], style: 'block', front: 'N', cell_size: 3, wall_height: 3,
+        pieces: { block: 'wall_a', wall: 'wall_a', window: 'wall_a_window', door: 'wall_a_door' },
+        colors: { roof: '#4b4f57', gable: '#8c4a3a', foundation: '#77736d' },
+      },
+      {
+        id: 'corrugated', name: 'Green panel', themes: ['city', 'industrial'], style: 'block', front: 'N', cell_size: 3, wall_height: 3,
+        pieces: { block: 'wall_b', wall: 'wall_b', window: 'wall_b_window', door: 'wall_b_door' },
+        colors: { roof: '#4b4f57', gable: '#6e8a5e', foundation: '#77736d' },
+      },
+    ],
   },
   {
     ...KENNEY, id: 'kenney_modular_buildings', title: 'Modular Buildings', version: '1.0', url: 'https://kenney.nl/assets/modular-buildings',
@@ -139,6 +152,19 @@ export const PACKS = [
     category: (n) => (/^building-sample/.test(n) ? 'buildings/samples' : /^roof/.test(n) ? 'buildings/modular-roofs' : /^(door|window)/.test(n) ? 'buildings/modular-details' : /^detail/.test(n) ? 'buildings/modular-details' : 'buildings/modular'),
     themes: () => ['city', 'modern', 'town'],
     placement: (c) => (c === 'buildings/modular-details' ? place('subgrid', 0.25, 90)() : place('grid', 4, 90)()),
+    // Solid 4 m storey blocks with one facade: block kits for town houses and apartments.
+    kits: [
+      {
+        id: 'townhouse', name: 'Town house', themes: ['city', 'town', 'modern'], style: 'block', front: 'S', cell_size: 4, wall_height: 2.5,
+        pieces: { block: 'building_block', wall: 'building_window', window: 'building_windows', door: 'building_door', corner: 'building_corner_window' },
+        colors: { roof: '#3b3f4a', gable: '#f3dcb4', foundation: '#c98f63' },
+      },
+      {
+        id: 'apartment', name: 'Apartment block', themes: ['city', 'modern'], style: 'block', front: 'S', cell_size: 4, wall_height: 2.5,
+        pieces: { block: 'building_block', wall: 'building_windows_sills', window: 'building_window_balcony', door: 'building_door_window', corner: 'building_corner_window_sill' },
+        colors: { roof: '#3b3f4a', gable: '#f3dcb4', foundation: '#c98f63' },
+      },
+    ],
   },
   {
     ...KENNEY, id: 'kenney_building_kit', title: 'Building Kit', version: '1.0', url: 'https://kenney.nl/assets/building-kit',
@@ -146,5 +172,16 @@ export const PACKS = [
     category: (n) => (/^(door|barricade)/.test(n) ? 'buildings/interior-doors' : /^(stairs)/.test(n) ? 'buildings/interior-stairs' : /^(floor|roof|border)/.test(n) ? 'buildings/interior-floors' : 'buildings/interior-walls'),
     themes: () => ['interior', 'modern'],
     placement: (c) => (c === 'buildings/interior-doors' ? place('subgrid', 0.25, 90)() : place('grid', 2, 90)()),
+    // Thin 2 m panels: an edge kit for rooms and interiors (doors open, stairs run two cells).
+    kits: [
+      {
+        id: 'interior', name: 'Plaster walls', themes: ['interior', 'modern'], style: 'edge', pivot: 'center', cell_size: 2, wall_height: 2.4, stairs_cells: 2,
+        pieces: {
+          wall: 'wall', window: 'wall_window_square', door: ['wall_doorway_square', 'door_rotate_square_a'], doorway: 'wall_doorway_square',
+          floor: 'floor', stairs: 'stairs_closed',
+        },
+        colors: { roof: '#5d6577', gable: '#c8cbe0', foundation: '#7d7f8c' },
+      },
+    ],
   },
 ]

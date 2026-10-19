@@ -1,0 +1,25 @@
+{
+	"id": "townhouse",
+	"name": "Town house",
+	"themes": [
+		"city",
+		"town",
+		"modern"
+	],
+	"style": "block",
+	"front": "S",
+	"cell_size": 4,
+	"wall_height": 2.5,
+	"pieces": {
+		"block": "building_block",
+		"wall": "building_window",
+		"window": "building_windows",
+		"door": "building_door",
+		"corner": "building_corner_window"
+	},
+	"colors": {
+		"roof": "#3b3f4a",
+		"gable": "#f3dcb4",
+		"foundation": "#c98f63"
+	}
+}

@@ -1,5 +1,6 @@
 <script lang="ts">
-  // Build mode's catalogue: the piece and the kit for new buildings (picking either picks up
+  // Build mode's catalogue: the piece (structure: floor, wall, stairs; openings: door, window,
+  // doorway) and the kit for new buildings (picking either picks up
   // Build with it). Build / Erase and the level are in the tools container; the kit and roof of
   // an existing building are in Selection.
   import { onDestroy } from 'svelte'
@@ -14,7 +15,10 @@
   let { editor }: Props = $props()
 
   const kits = [...editor.library.kits.values()].sort((a, b) => a.name.localeCompare(b.name))
-  const pieces = TOOLS.build.params.find((p) => p.key === 'piece')!.options!.filter((p) => p.value !== 'erase')
+  const options = TOOLS.build.params.find((p) => p.key === 'piece')!.options!
+  /** Pieces in two rows: what a building is made of, and what goes in its walls. */
+  const SECTIONS: [string, string[]][] = [['Structure', ['foundation', 'wall', 'stairs']], ['Openings', ['door', 'window', 'doorway']]]
+  const sections = SECTIONS.map(([title, ids]) => [title, ids.map((id) => options.find((o) => o.value === id)!)] as const)
 
   let rev = $state(0)
   const offs = [paramsChanged.connect(() => rev++), editor.toolChanged.connect(() => rev++)]
@@ -22,20 +26,25 @@
 
   const view = $derived.by(() => {
     rev
-    return { piece: params.build.piece, kit: params.build.kit, erasing: inHand(editor) === 'build' && params.build.piece === 'erase' }
+    const kit = editor.library.kits.get(params.build.kit)
+    return { piece: params.build.piece, kit: params.build.kit, erasing: inHand(editor) === 'build' && params.build.piece === 'erase', interiors: kit?.style !== 'block' && !!kit?.pieces.stairs?.length }
   })
 </script>
 
 <div class="panel-body">
-  <section class="section">
-    <h3 class="heading">Piece</h3>
-    <div class="tiles">
-      {#each pieces as p (p.value)}
-        {@const on = view.piece === p.value}
-        <button class="tile" class:on aria-pressed={on} onclick={() => pickUp(editor, 'build', { piece: p.value as never })}><Icon name={p.icon ?? ''} size={20} /><span>{p.label}</span></button>
-      {/each}
-    </div>
-  </section>
+  {#each sections as [title, items] (title)}
+    <section class="section">
+      <h3 class="heading">{title}</h3>
+      <div class="tiles">
+        <!-- Stairs only for kits that have them (hidden, as the kit is chosen right here). -->
+        {#each items.filter((p) => p.value !== 'stairs' || view.interiors) as p (p.value)}
+          {@const on = view.piece === p.value}
+          <button class="tile" class:on aria-pressed={on}
+            onclick={() => pickUp(editor, 'build', { piece: p.value as never })}><Icon name={p.icon ?? ''} size={20} /><span>{p.label}</span></button>
+        {/each}
+      </div>
+    </section>
+  {/each}
 
   <section class="section">
     <h3 class="heading">Kit</h3>

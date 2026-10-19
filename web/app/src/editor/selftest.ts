@@ -3,7 +3,7 @@
 // (dev server) and the page title becomes "SELFTEST PASS" / "SELFTEST FAIL".
 
 import * as THREE from 'three'
-import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec3 } from '@pixel-arena/core'
+import { BuildingLayout, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec2i, Vec3 } from '@pixel-arena/core'
 import { PALETTE } from '../render/terrain-shading'
 import { PaintPolygonTool } from './paint-polygon-tool'
 import { loadModel } from '../library/models'
@@ -75,6 +75,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'materials') await materialsTest(editor, check, settle, extras)
     else if (name === 'liquids') await liquidsTest(editor, check, settle, extras)
     else if (name === 'library') await libraryTest(editor, check, report)
+    else if (name === 'kits') await kitsTest(editor, check, settle, report)
     else if (name === 'tools') await toolsTest(editor, check, settle)
     else if (name === 'outliner') await outlinerTest(editor, check, settle, extras)
     else if (name === 'water') await waterTest(editor, check, settle, extras)
@@ -412,9 +413,45 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   s.undo()
   check(doc.hasObject(id), 'undo brings it back')
 
+  // The interior kit (2 m cells): a 3 x 2 room, an interior wall with a doorway, and stairs.
+  setParams('build', { kit: 'kenney_building_kit:interior', piece: 'foundation' })
+  editor.selection.clear()
+  tool.target = ''
+  tool.setLevel(0)
+  const o2 = new THREE.Vector3(16, 0, -16)
+  tool.pointerDown(at(o2.clone().add(new THREE.Vector3(1, 0, 1))))
+  for (const [x, z] of [[3, 1], [5, 1], [5, 3], [3, 3], [1, 3]]) tool.pointerMove(at(o2.clone().add(new THREE.Vector3(x, 0, z))))
+  tool.pointerUp()
+  const room = tool.target
+  check(room && doc.getProp(room, 'kit') === 'kenney_building_kit:interior', 'interior kit building')
+  check(BuildingLayout.fromObject(doc.getObject(room)!).cells(0).size === 6, `6 cells (${BuildingLayout.fromObject(doc.getObject(room)!).cells(0).size})`)
+  const rpos = doc.getProp(room, 'position') as Vec3
+  const r = (x: number, z: number) => at(new THREE.Vector3(rpos.x + x, rpos.y, rpos.z + z))
+  // Interior walls on x = 4 (between columns 1 and 2), then a doorway in the second.
+  setParams('build', { piece: 'wall' })
+  tool.pointerDown(r(4, 1))
+  tool.pointerDown(r(4, 3))
+  setParams('build', { piece: 'doorway' })
+  tool.pointerDown(r(4, 3))
+  let rl = BuildingLayout.fromObject(doc.getObject(room)!)
+  check(rl.effectiveKind(0, '2,0,W') === 'wall' && rl.effectiveKind(0, '2,1,W') === 'doorway', `interior wall and doorway (${rl.effectiveKind(0, '2,0,W')}, ${rl.effectiveKind(0, '2,1,W')})`)
+  // Stairs in cell (0, 1) rising north (cursor near its north side); again from the east turns
+  // them; again from the east removes them.
+  setParams('build', { piece: 'stairs' })
+  tool.pointerDown(r(1, 2.3))
+  rl = BuildingLayout.fromObject(doc.getObject(room)!)
+  check(rl.stairs(0).get('0,1')?.dir === 'N', `stairs rising north (${rl.stairs(0).get('0,1')?.dir})`)
+  tool.pointerDown(r(1.7, 3))
+  check(BuildingLayout.fromObject(doc.getObject(room)!).stairs(0).get('0,1')?.dir === 'E', 'clicking near another side turns them')
+  tool.pointerDown(r(1.7, 3))
+  check(BuildingLayout.fromObject(doc.getObject(room)!).stairs(0).size === 0, 'clicking the same way again removes them')
+  s.undo()
+  check(BuildingLayout.fromObject(doc.getObject(room)!).stairs(0).get('0,1')?.dir === 'E', 'undo puts them back')
+
   // Leaving the tool restores the view's cutaway setting.
   editor.setTool(editor.defaultTool())
   check(world.cutawayLevel === editor.viewCutaway, 'cutaway restored on leaving the tool')
+  setParams('build', { kit: 'kenney_town:timber' })
 }
 
 async function branchesTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
@@ -648,6 +685,74 @@ async function desktopTest(editor: Editor, check: (ok: unknown, what: string) =>
 
 /** Trackpad / mouse wheel handling through real (synthetic) wheel events on the canvas, plus the
  *  desktop rotate gesture through the main process. */
+/** One sample building per kit, side by side: an L-shaped two-storey plan with a door and
+ *  windows on the street side (south), an interior wall with a doorway, and stairs. Shots of
+ *  the row and of each kit's building (selftest-kits-*.png); checks every kit's pieces load. */
+async function kitsTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, report: Record<string, unknown>) {
+  const s = editor.session
+  const lib = editor.library
+  const kits = [...lib.kits.values()]
+  for (const k of kits) for (const [role, ids] of Object.entries(k.pieces)) for (const id of ids ?? []) check(lib.props.has(id), `${k.id} ${role}: ${id} exists`)
+  let x = -40
+  const placed: { kit: string; id: string; at: Vec3; width: number }[] = []
+  s.edit('Kit samples', () => {
+    for (const k of kits) {
+      const cs = k.cellSize
+      const at = new Vec3(Math.round(x / cs) * cs, 0, 0)
+      const id = s.createObject('building', { kit: k.id, position: at, rotation: 0, 'roof/style': 'gable' })
+      // Ground floor 4 x 3 cells with a 2 x 2 wing; upper floor over the 4 x 3 part.
+      const cells: [number, number, number][] = []
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 3; j++) cells.push([0, i, j], [1, i, j])
+      for (let i = 0; i < 2; i++) for (let j = 3; j < 5; j++) cells.push([0, i, j])
+      for (const [l, i, j] of cells) s.setProp(id, BuildingLayout.cellPath(l, new Vec2i(i, j)), true)
+      s.setProp(id, BuildingLayout.wallPath(0, '1,5,N'), 'door')
+      s.setProp(id, BuildingLayout.wallPath(0, '4,1,W'), 'window')
+      s.setProp(id, BuildingLayout.wallPath(0, '3,3,N'), 'window')
+      s.setProp(id, BuildingLayout.wallPath(1, '1,3,N'), 'window')
+      s.setProp(id, BuildingLayout.wallPath(0, '2,0,W'), 'wall')
+      s.setProp(id, BuildingLayout.wallPath(0, '2,1,W'), 'doorway')
+      s.setProp(id, BuildingLayout.wallPath(0, '2,2,W'), 'wall')
+      s.setProp(id, BuildingLayout.stairsPath(0, new Vec2i(3, 2)), 'N')
+      placed.push({ kit: k.id, id, at, width: 4 * cs })
+      x += 4 * cs + 6
+    }
+  })
+  await settle()
+  await sleep(3000)
+  const rig = editor.rig
+  const shot = async (name: string) => {
+    rig.update(0)
+    await sleep(600)
+    await frame()
+    await fetch(`/__save?name=selftest-kits-${name}.png`, { method: 'POST', body: editor.pixel.canvas.toDataURL('image/png') }).catch(() => {})
+  }
+  rig.focus.set(x / 2 - 20, 0, 4)
+  rig.zoom = 70
+  await shot('row')
+  // Interior from the other side (doorway and stairs face away from the default view).
+  const inner = placed.find((p) => p.kit.endsWith(':interior'))
+  if (inner) {
+    rig.focus.set(inner.at.x + inner.width / 2, 1, inner.at.z + inner.width / 2)
+    rig.zoom = inner.width * 1.6
+    rig.rotateBy(Math.PI)
+    rig.update(1)
+    editor.world.setCutaway(0)
+    await shot('interior-back')
+    rig.rotateBy(-Math.PI)
+    rig.update(1)
+  }
+  for (const p of placed) {
+    rig.focus.set(p.at.x + p.width / 2, 2, p.at.z + p.width / 2)
+    rig.zoom = p.width * 2.4
+    editor.world.setCutaway(-1)
+    await shot(p.kit.replace(':', '-'))
+    editor.world.setCutaway(0)
+    await shot(`${p.kit.replace(':', '-')}-ground`)
+  }
+  editor.world.setCutaway(-1)
+  report.kits = kits.map((k) => k.id)
+}
+
 /** Every prop loads, sits on the ground and is centered on its footprint (import-packs.mjs
  *  re-centers third-party models), with the size its manifest says. Reports per-pack counts. */
 async function libraryTest(editor: Editor, check: (ok: unknown, what: string) => void, report: Record<string, unknown>) {
@@ -901,10 +1006,19 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
   check(!$('.catalog .tiles') && columns($('.catalog .choices')) === 2, 'paint shows materials only')
   await shot('paint')
 
-  // Build: four pieces on one row, Erase in the switch; Level as a row.
+  // Build: pieces in two rows of three (Structure, Openings), Erase in the switch; Level as a row.
   press('b')
   await settle()
-  check(oneRow($$('.catalog .tiles .tile')) && $$('.catalog .tiles .tile').length === 4, 'four pieces on one row')
+  setParams('build', { kit: 'kenney_building_kit:interior' })
+  await settle()
+  const rows = $$('.catalog .tiles').slice(0, 2).map((t) => [...t.querySelectorAll<HTMLElement>('.tile')])
+  check(rows.length === 2 && rows.every((r) => r.length === 3 && oneRow(r)), `pieces in two rows of three (${rows.map((r) => r.length).join(', ')})`)
+  setParams('build', { kit: 'kenney_retro_urban:brick' })
+  await settle()
+  check(!$$('.catalog .tiles .tile').some((t) => t.textContent?.includes('Stairs')), 'no stairs for a kit without interiors')
+  setParams('build', { kit: 'kenney_town:timber' })
+  await settle()
+  check(!$$('.catalog .tiles .tile').some((t) => t.textContent?.includes('Stairs')), 'no stairs for a kit without a stairs piece')
   check(button('.tools-box .verbs', 'Erase'), 'build: Erase in the switch')
   button('.tools-box .verbs', 'Erase')?.click()
   await settle()

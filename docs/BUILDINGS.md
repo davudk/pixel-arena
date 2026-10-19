@@ -226,6 +226,25 @@ premade buildings.
   buildings must keep 60 fps.
 - **Thumbnails**: premade buildings get a rendered isometric thumbnail, like props.
 
+## Building kits (phase 2, done)
+
+`packs/<pack>/kits/*.json` (written by the importer from `web/tools/packs.config.mjs`):
+
+| Field | Meaning |
+|---|---|
+| `style` | `edge`: wall panels on cell edges, rooms and interiors (Building Kit, Fantasy Town). `block`: one solid piece per cell and storey, exteriors only (Modular Buildings, Retro Urban). |
+| `pivot` | Edge kits: `cell` (piece origin at the cell center, panel on its +X edge; Fantasy Town) or `center` (re-centered panel, moved onto the edge). |
+| `front` | Block kits: the side the piece's door and windows face. |
+| `cell_size`, `wall_height`, `stairs_cells` | Grid (2, 3 or 4 m), storey height, cells a staircase runs over. |
+| `pieces` | Role -> prop id or list: `wall`, `window`, `door` (e.g. a doorway wall plus a door leaf), `doorway`, `floor`, `stairs`; block kits: `block`, `wall`, `window`, `door`, `corner`. |
+
+Kits now: Plaster walls (2 m interior kit with stairs), Town house and Apartment block (4 m
+blocks), Red brick and Green panel (3 m blocks), Stone house and Timber house (3 m, Fantasy Town).
+Building data gained `doorway` edges, interior walls (any edge between two cells) and
+`floors/L/stairs/i,j = N|E|S|W` (the floor above the run is left open). Build mode's pieces:
+Structure (Floor, Wall, Stairs) and Openings (Door, Window, Doorway); Stairs shows only for kits
+that have them.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney
