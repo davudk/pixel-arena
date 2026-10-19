@@ -70,11 +70,12 @@ export class MapSession {
     return applied
   }
 
-  createObject(type: string, props: Record<string, Value> = {}): string {
-    const id = uuid()
-    if (!this.apply(create(id, type))) return ''
-    for (const [path, value] of Object.entries(props)) this.apply(setProp(id, path, value))
-    return id
+  /** Creates an object with its properties in one op. `id` defaults to a new uuid; generated
+   *  children pass one derived from their parent's (shorter files). */
+  createObject(type: string, props: Record<string, Value> = {}, id = uuid()): string {
+    const set: Record<string, Value> = {}
+    for (const [path, value] of Object.entries(props)) if (value !== null && value !== undefined) set[path] = value
+    return this.apply(create(id, type, set)) ? id : ''
   }
 
   setProp(id: string, path: string, value: Value): void {

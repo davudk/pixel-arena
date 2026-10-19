@@ -85,6 +85,7 @@ export async function runSelfTest(name: string, editor: Editor, busy: () => bool
     else if (name === 'water') await waterTest(editor, check, settle, extras)
     else if (name === 'waterrules') await waterRulesTest(editor, check, settle)
     else if (name === 'desktop') await desktopTest(editor, check, settle, extras, report)
+    else if (name === 'perf') await perfTest(editor, check, settle, extras, report)
     else failures.push(`unknown self-test '${name}'`)
   } catch (e) {
     failures.push(`exception: ${(e as Error).stack ?? e}`)
@@ -1867,4 +1868,105 @@ async function waterRulesTest(editor: Editor, check: (ok: unknown, what: string)
 
 function containsPointOf(o: { props: Map<string, unknown> } & Parameters<typeof worldShape>[0], x: number, z: number): boolean {
   return containsPoint(worldShape(o), x, z)
+}
+
+/** Performance of a map full of furnished buildings (fixtures/perf-buildings.pxmap): load time,
+ *  frame times with every building in view, draw calls and what the scene is made of. */
+async function perfTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>, x: SelfTestExtras, report: Record<string, unknown>) {
+  const t0 = performance.now()
+  const bytes = new Uint8Array(await (await fetch('/fixtures/perf-buildings.pxmap')).arrayBuffer())
+  x.open(bytes, 'perf')
+  const opened = performance.now()
+  await settle()
+  for (let i = 0; i < 400 && editor.world.busy; i++) await sleep(50)
+  report.loadMs = { open: Math.round(opened - t0), ready: Math.round(performance.now() - t0) }
+  const { rig, scene, pixel } = editor
+  const doc = editor.session.doc
+  const objs = [...doc.objects.values()].filter((o) => !o.deleted)
+  const box = new THREE.Box3()
+  for (const o of objs) if (o.type === 'building') { const p = o.props.get('position') as Vec3; box.expandByPoint(new THREE.Vector3(p.x, 0, p.z)) }
+  const c = box.getCenter(new THREE.Vector3())
+  rig.focus.set(c.x, 0, c.z)
+  rig.zoom = Math.max(box.max.x - box.min.x, box.max.z - box.min.z) * 0.6 + 20
+  rig.update(1)
+  await sleep(1500)
+  // Frame times (rAF deltas) and the CPU time of the render and world update calls.
+  const frameMs: number[] = []
+  const renderMs: number[] = []
+  const updateMs: number[] = []
+  const render = pixel.render.bind(pixel)
+  const update = editor.world.update.bind(editor.world)
+  pixel.render = ((...a: Parameters<typeof render>) => { const t = performance.now(); const r = render(...a); renderMs.push(performance.now() - t); return r }) as typeof render
+  editor.world.update = ((...a: Parameters<typeof update>) => { const t = performance.now(); const r = update(...a); updateMs.push(performance.now() - t); return r }) as typeof update
+  // A frame, or 250 ms when the window is covered (macOS pauses rAF then).
+  const nextFrame = () => new Promise((r) => { requestAnimationFrame(r); setTimeout(r, 250) })
+  let last = performance.now()
+  const end = last + 4000
+  while (performance.now() < end) {
+    await nextFrame()
+    const now = performance.now()
+    frameMs.push(now - last)
+    last = now
+  }
+  pixel.render = render
+  editor.world.update = update
+  const stat = (a: number[]) => { const s = [...a].sort((p, q) => p - q); return { p50: +s[Math.floor(s.length / 2)]?.toFixed(2), p95: +s[Math.floor(s.length * 0.95)]?.toFixed(2), n: s.length } }
+  const kinds: Record<string, { meshes: number; instances: number; tris: number }> = {}
+  const mats = new Set<string>()
+  const geos = new Set<string>()
+  let casters = 0
+  scene.traverseVisible((o) => {
+    const m = o as THREE.Mesh
+    if (!m.isMesh) return
+    let p: THREE.Object3D | null = o
+    let k = 'other'
+    while (p) { if (p.userData?.kind) { k = String(p.userData.kind); break } p = p.parent }
+    if ((m as THREE.InstancedMesh).isInstancedMesh) k = 'instanced'
+    const e = (kinds[k] ??= { meshes: 0, instances: 0, tris: 0 })
+    const n = (m as THREE.InstancedMesh).isInstancedMesh ? (m as THREE.InstancedMesh).count : 1
+    e.meshes++
+    e.instances += n
+    e.tris += ((m.geometry.index?.count ?? m.geometry.attributes.position.count) / 3) * n
+    if (m.castShadow) casters++
+    ;(Array.isArray(m.material) ? m.material : [m.material]).forEach((q) => mats.add(q.uuid))
+    geos.add(m.geometry.uuid)
+  })
+  const info = pixel.renderer.info
+  report.objects = { buildings: objs.filter((o) => o.type === 'building').length, props: objs.filter((o) => o.type === 'prop').length }
+  report.frame = stat(frameMs)
+  report.renderCpu = stat(renderMs)
+  report.updateCpu = stat(updateMs)
+  report.fps = Math.round(1000 / (frameMs.reduce((p, q) => p + q, 0) / frameMs.length))
+  report.draws = pixel.sceneInfo
+  report.scene = { kinds, materials: mats.size, geometries: geos.size, shadowCasters: casters }
+  report.gpu = { programs: info.programs?.length, textures: info.memory.textures, geometries: info.memory.geometries }
+  report.canvas = [x.canvas.width, x.canvas.height]
+  await fetch(`/__save?name=selftest-perf.png`, { method: 'POST', body: x.canvas.toDataURL('image/png') }).catch(() => {})
+  // Where the time goes: the same view without shadows, without furniture, without buildings.
+  const measure = async () => {
+    const r: number[] = []
+    const f: number[] = []
+    pixel.render = ((...a: Parameters<typeof render>) => { const t = performance.now(); const out = render(...a); r.push(performance.now() - t); return out }) as typeof render
+    await sleep(300)
+    let t = performance.now()
+    const stop = t + 2000
+    while (performance.now() < stop) { await nextFrame(); const n = performance.now(); f.push(n - t); t = n }
+    pixel.render = render
+    return { frame: stat(f).p50, renderCpu: stat(r).p50, calls: pixel.sceneInfo.calls }
+  }
+  const scenarios: Record<string, unknown> = { all: await measure() }
+  const shadowed: THREE.Object3D[] = []
+  editor.world.root.traverse((o) => { if (o.castShadow) { shadowed.push(o); o.castShadow = false } })
+  scenarios.noShadows = await measure()
+  shadowed.forEach((o) => (o.castShadow = true))
+  const furniture = editor.world.root.children.filter((o) => (o as THREE.InstancedMesh).isInstancedMesh)
+  furniture.forEach((o) => (o.visible = false))
+  scenarios.noProps = await measure()
+  furniture.forEach((o) => (o.visible = true))
+  const buildings = editor.world.root.children.filter((o) => o.userData.kind === 'building')
+  buildings.forEach((o) => (o.visible = false))
+  scenarios.noBuildings = await measure()
+  buildings.forEach((o) => (o.visible = true))
+  report.scenarios = scenarios
+  check(objs.length > 100, 'map loaded')
 }

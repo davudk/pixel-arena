@@ -5,13 +5,15 @@
 //   - Skinned props (characters): individual animated clones. Animations advance at
 //     ANIMATION_HZ (a stop-motion look that suits pixel art) and only while on screen.
 //   - Props with a light, water bodies, buildings: individual objects.
+//   - Furniture indoors (on a building's cells) is grouped apart and casts shadows only while the
+//     cutaway opens the buildings up; under a roof its shadows can't be seen.
 // Changes arrive per op (`changed`) or wholesale (`reset`); affected objects are refreshed on
 // the next update(). Model loads are async, so each object carries a version and stale loads
 // are dropped.
 // Selection is shown by marks on the ground (editor/selection-marks.ts), not by tinting objects.
 
 import * as THREE from 'three'
-import { Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
+import { BuildingLayout, Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
 import type { Library, PropDef } from '../library/library'
 import { cloneAnimated, loadModel, placeholderParts, type Part } from '../library/models'
 import { buildBuilding, cutWalls, setCutaway } from './building-visuals'
@@ -24,6 +26,7 @@ const ANIMATION_HZ = 15
 
 interface Group {
   key: string
+  indoor: boolean
   parts: Part[]
   meshes: THREE.InstancedMesh[]
   ids: string[] // instance index -> object id
@@ -98,6 +101,7 @@ export class WorldView {
     for (const id of [...this.slots.keys(), ...this.singles.keys()]) this.remove(id)
     for (const g of this.groups.values()) g.meshes.forEach((m) => this.root.remove(m))
     this.groups.clear()
+    this.buildingCells.clear()
     for (const id of this.doc!.objects.keys()) this.dirty.add(id)
   }
 
@@ -116,6 +120,7 @@ export class WorldView {
     if (level !== this.cutaway && this.doc)
       for (const o of this.doc.objects.values()) if (!o.deleted && o.type === 'prop' && this.buildingOf(o)) this.dirty.add(o.id)
     this.cutaway = level
+    for (const g of this.groups.values()) if (g.indoor) g.meshes.forEach((m) => (m.castShadow = level >= 0))
     for (const s of this.singles.values()) if (s.root.userData.kind === 'building') setCutaway(s.root, level)
     this.cutKey = ''
   }
@@ -181,7 +186,10 @@ export class WorldView {
       const world = new THREE.Matrix4()
       const mesh = hit.object as THREE.InstancedMesh
       if (mesh.isInstancedMesh && hit.instanceId !== undefined) {
-        id = (mesh.userData.group as Group).ids[hit.instanceId]
+        // Props: the group knows each instance's object; building pieces: the building's.
+        const group = mesh.userData.group as Group | undefined
+        if (group) id = group.ids[hit.instanceId]
+        else for (let o: THREE.Object3D | null = hit.object; o && !id; o = o.parent) id = o.userData.objectId
         mesh.getMatrixAt(hit.instanceId, world)
         world.premultiply(mesh.matrixWorld)
       } else {
@@ -213,6 +221,7 @@ export class WorldView {
   private async refresh(id: string) {
     const version = (this.versions.get(id) ?? 0) + 1
     this.versions.set(id, version)
+    this.buildingCells.delete(id)
     const obj = this.doc!.getObject(id)
     const pos = obj?.props.get('position')
     if (!obj || obj.deleted || !(pos instanceof Vec3) || !['prop', 'water', 'building'].includes(obj.type)) {
@@ -247,7 +256,7 @@ export class WorldView {
     if (obj.type === 'building') {
       const root = await buildBuilding(obj, this.library)
       root.userData.kind = 'building'
-      root.traverse((o) => ((o as THREE.Mesh).isMesh ? ((o.castShadow = true), (o.receiveShadow = true)) : null))
+      root.traverse((o) => ((o as THREE.Mesh).isMesh ? ((o.castShadow = !o.userData.noShadow), (o.receiveShadow = true)) : null))
       setCutaway(root, this.cutaway)
       this.cutKey = '' // cut the new walls on the next update
       return { root }
@@ -312,12 +321,39 @@ export class WorldView {
     return new THREE.Matrix4().compose(new THREE.Vector3(p.x, p.y, p.z), q, new THREE.Vector3(s, s, s))
   }
 
+  /** Whether a prop stands on one of its building's cells. */
+  private indoor(obj: MapObject): boolean {
+    const b = this.buildingOf(obj)
+    if (!b) return false
+    let cells = this.buildingCells.get(b.id)
+    if (!cells) {
+      const layout = BuildingLayout.fromObject(b)
+      cells = new Set(layout.levelIndices().flatMap((l) => [...layout.cells(l).keys()].map((k) => `${l}:${k}`)))
+      this.buildingCells.set(b.id, cells)
+    }
+    const kit = this.library.kits.get(String(b.props.get('kit') ?? ''))
+    const cs = kit?.cellSize ?? 3
+    const h = kit?.wallHeight ?? 3
+    const bp = (b.props.get('position') as Vec3 | undefined) ?? new Vec3(0, 0, 0)
+    const p = obj.props.get('position') as Vec3
+    const yaw = Number(b.props.get('rotation') ?? 0)
+    const dx = p.x - bp.x
+    const dz = p.z - bp.z
+    const x = dx * Math.cos(yaw) - dz * Math.sin(yaw)
+    const z = dx * Math.sin(yaw) + dz * Math.cos(yaw)
+    const level = Math.floor((p.y - bp.y) / h + 0.01)
+    return cells.has(`${level}:${Math.floor(x / cs)},${Math.floor(z / cs)}`)
+  }
+  /** Building id -> "level:i,j" of its cells (indoor()); dropped when the building changes. */
+  private buildingCells = new Map<string, Set<string>>()
+
   private addInstance(id: string, obj: MapObject, parts: Part[], propId: string) {
     const p = obj.props.get('position') as Vec3
-    const key = `${Math.floor(p.x / CELL)},${Math.floor(p.z / CELL)}|${propId}`
+    const indoor = this.indoor(obj)
+    const key = `${Math.floor(p.x / CELL)},${Math.floor(p.z / CELL)}|${propId}${indoor ? '|in' : ''}`
     let g = this.groups.get(key)
     if (!g) {
-      g = { key, parts, meshes: [], ids: [], dirtyBounds: true }
+      g = { key, indoor, parts, meshes: [], ids: [], dirtyBounds: true }
       this.groups.set(key, g)
       this.grow(g, 8)
     }
@@ -373,7 +409,7 @@ export class WorldView {
     g.parts.forEach((part, i) => {
       const next = new THREE.InstancedMesh(part.geometry, part.material, capacity)
       next.userData.group = g
-      next.castShadow = true
+      next.castShadow = !g.indoor || this.cutaway >= 0
       next.receiveShadow = true
       next.count = g.ids.length
       const old = g.meshes[i]

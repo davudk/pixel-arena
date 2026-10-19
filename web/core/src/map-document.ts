@@ -99,9 +99,14 @@ export class MapDocument {
     const applied: Op = { ...op }
     switch (op.op) {
       case 'create':
+      {
         if (this.objects.has(op.id)) return this.invalid(op, 'object already exists')
-        this.objects.set(op.id, new MapObject(op.id, op.type))
+        const obj = new MapObject(op.id, op.type)
+        this.objects.set(op.id, obj)
+        for (const [path, value] of Object.entries(op.props ?? {})) if (value !== null && value !== undefined) obj.props.set(path, copy(value))
+        if (obj.props.has('position')) this.reindex(obj)
         break
+      }
       case 'delete': {
         const obj = this.objects.get(op.id)
         if (!obj || obj.deleted || op.id === SETTINGS_ID) return this.invalid(op, 'no live object to delete')

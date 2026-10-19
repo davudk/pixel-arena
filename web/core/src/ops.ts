@@ -1,6 +1,7 @@
 // Primitive operations: the only way a MapDocument changes. Ops are plain objects so they
 // serialize (and later travel over the network) as-is.
-//   create  {id, type}
+//   create  {id, type, props?}         props: the new object's properties (one op instead of a
+//                                      create and a set per property; older files have no props)
 //   delete  {id}                       tombstone; the object keeps its props
 //   restore {id}                       clears the tombstone
 //   set     {id, path, value}          a null value removes the property
@@ -11,7 +12,7 @@ import type { MapDocument } from './map-document'
 import type { Layer, LayerValues } from './terrain-chunk'
 import { same, type Rect2i, type Value, type Vec2i } from './values'
 
-export interface CreateOp { op: 'create'; id: string; type: string }
+export interface CreateOp { op: 'create'; id: string; type: string; props?: Record<string, Value> }
 export interface DeleteOp { op: 'delete'; id: string }
 export interface RestoreOp { op: 'restore'; id: string }
 export interface SetOp { op: 'set'; id: string; path: string; value: Value; prev?: Value }
@@ -20,7 +21,8 @@ export interface TerrainOp {
 }
 export type Op = CreateOp | DeleteOp | RestoreOp | SetOp | TerrainOp
 
-export const create = (id: string, type: string): CreateOp => ({ op: 'create', id, type })
+export const create = (id: string, type: string, props?: Record<string, Value>): CreateOp =>
+  props && Object.keys(props).length ? { op: 'create', id, type, props } : { op: 'create', id, type }
 export const del = (id: string): DeleteOp => ({ op: 'delete', id })
 export const restore = (id: string): RestoreOp => ({ op: 'restore', id })
 export const setProp = (id: string, path: string, value: Value): SetOp => ({ op: 'set', id, path, value })

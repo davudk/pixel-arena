@@ -173,3 +173,32 @@ describe('undo / redo', () => {
     expect(txns[0].author).toBe('alice')
   })
 })
+
+describe('create ops', () => {
+  it('carry the new object\'s properties in one op', () => {
+    const s = new MapSession('', 'alice')
+    let id = ''
+    const txn = s.edit('Place', () => (id = s.createObject('prop', { prop: 'core:tree', position: new Vec3(2, 0, 3), scale: null }, 'b1.1')))!
+    expect(id).toBe('b1.1')
+    expect(txn.ops).toHaveLength(1)
+    expect(s.doc.getProp(id, 'position')).toEqual(new Vec3(2, 0, 3))
+    expect(s.doc.getObject(id)!.props.has('scale')).toBe(false)
+    expect(s.doc.objectsInChunk(new Vec2i(0, 0))).toContain(id)
+    s.undo()
+    expect(s.doc.hasObject(id)).toBe(false)
+    s.redo()
+    expect(s.doc.getProp(id, 'prop')).toBe('core:tree')
+  })
+
+  it('older histories (a create, then a set per property) still replay', () => {
+    const s = new MapSession('', 'alice')
+    s.edit('Place', () => {
+      s.apply({ op: 'create', id: 'old', type: 'prop' })
+      s.apply({ op: 'set', id: 'old', path: 'position', value: new Vec3(1, 0, 1) })
+    })
+    const fresh = new MapSession(s.doc.mapId)
+    fresh.loadHistory(s.historyToDict() as never)
+    fresh.rebuildDocument()
+    expect(fresh.doc.getProp('old', 'position')).toEqual(new Vec3(1, 0, 1))
+  })
+})

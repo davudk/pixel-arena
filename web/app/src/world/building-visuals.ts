@@ -12,8 +12,14 @@
 //   Block kits: one solid piece per cell, turned so its front faces the cell's outside side: the
 //   door side first, then a corner piece for two adjacent outside sides, then a window or plain
 //   wall side, else the plain block.
+// Draw calls: a building's pieces are drawn as one InstancedMesh per (geometry, material), and
+// its room floors as one merged mesh per room type, both ordered by level, so the cutaway draws
+// a prefix (userData.levelCounts; instanceBuilding). The level groups and their wall groups stay,
+// empty, as handles: cutWalls() scales the wall groups and rewrites their instances. Floors cast
+// no shadows (userData.noShadow): nothing that lies flat throws a shadow worth drawing.
 
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { BuildingLayout, STAIR_STEP, Vec2i, type MapObject, type RoomType, type StairDir } from '@pixel-arena/core'
 import type { KitDef, KitRole, Library } from '../library/library'
 import { loadModel, type Model } from '../library/models'
@@ -91,6 +97,8 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
   const get = (role: KitRole) => (roles.get(role)?.length ? roles.get(role)! : null)
 
   const levels = layout.levelIndices()
+  // Room floor plates of every level, per room type, merged after the levels are built.
+  const plates = new Map<RoomType, { level: number; geometry: THREE.BufferGeometry }[]>()
   for (const level of levels) {
     const group = new THREE.Group()
     group.userData.level = level
@@ -113,11 +121,10 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
           const uv = plate.attributes.uv as THREE.BufferAttribute
           const pos = plate.attributes.position as THREE.BufferAttribute
           for (let i = 0; i < uv.count; i++) uv.setXY(i, (c.x + 0.5) * cs + pos.getX(i), -((c.y + 0.5) * cs + pos.getZ(i)))
-          const mesh = new THREE.Mesh(plate, roomMaterial(type, library))
-          mesh.position.copy(center(c)).setY(y + floorTop + 0.01)
-          mesh.receiveShadow = true
-          mesh.userData.floor = true
-          group.add(mesh)
+          const at = center(c)
+          plate.translate(at.x, y + floorTop + 0.01, at.z)
+          if (!plates.has(type)) plates.set(type, [])
+          plates.get(type)!.push({ level, geometry: plate })
         }
       }
       for (const w of layout.walls(level).values()) {
@@ -144,6 +151,17 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
       m.castShadow = m.receiveShadow = true
       group.add(m)
     }
+  }
+  const batch = instanceBuilding(root)
+  // One mesh per room type, its plates in level order (the cutaway draws a prefix).
+  for (const [type, list] of plates) {
+    const geometry = mergeGeometries(list.map((p) => p.geometry))
+    const per = list[0].geometry.index!.count
+    const mesh = new THREE.Mesh(geometry, roomMaterial(type, library))
+    list.forEach((p) => p.geometry.dispose())
+    mesh.receiveShadow = true
+    mesh.userData = { floor: true, noShadow: true, levelCounts: prefixCounts(list.map((p) => p.level), per) }
+    batch.add(mesh)
   }
 
   if (layout.roofStyle !== 'none') {
@@ -313,7 +331,14 @@ export function cutWalls(root: THREE.Object3D, level: number, viewDir: THREE.Vec
       const info = wall.userData.wall as { side: string; interior: boolean; edge: string } | undefined
       if (!info) continue
       const facing = SIDE_NORMAL[info.side].clone().applyQuaternion(turn).dot(toCamera) > 0.1
-      wall.scale.y = cut && (info.interior || facing) && info.edge !== keepEdge ? CUT_HEIGHT : 1
+      const scale = cut && (info.interior || facing) && info.edge !== keepEdge ? CUT_HEIGHT : 1
+      if (wall.scale.y === scale) continue
+      wall.scale.y = scale
+      wall.updateMatrix()
+      for (const p of wallParts.get(wall) ?? []) {
+        p.mesh.setMatrixAt(p.index, tmp.multiplyMatrices(wall.matrix, p.local))
+        p.mesh.instanceMatrix.needsUpdate = true
+      }
     }
   }
 }
@@ -323,7 +348,95 @@ export function setCutaway(root: THREE.Object3D, level: number) {
   for (const child of root.children) {
     if (child.userData.level !== undefined) child.visible = level < 0 || child.userData.level <= level
     else if (child.userData.roofLevel !== undefined) child.visible = level < 0 || child.userData.roofLevel < level
+    else if (child.userData.batch)
+      for (const m of child.children as THREE.Mesh[]) {
+        const counts = m.userData.levelCounts as [number, number][]
+        let n = 0
+        for (const [l, c] of counts) if (level < 0 || l <= level) n = c
+        if ((m as THREE.InstancedMesh).isInstancedMesh) (m as THREE.InstancedMesh).count = n
+        else m.geometry.setDrawRange(0, n)
+        m.visible = n > 0
+      }
   }
+}
+
+/** [level, items up to and including that level] for items listed in level order, `per` units
+ *  (instances, indices) each. */
+function prefixCounts(levels: number[], per = 1): [number, number][] {
+  const out: [number, number][] = []
+  levels.forEach((l, i) => {
+    if (out.length && out[out.length - 1][0] === l) out[out.length - 1][1] = (i + 1) * per
+    else out.push([l, (i + 1) * per])
+  })
+  return out
+}
+
+// --- Instancing ---------------------------------------------------------------------------------
+
+/** A wall's instances: which instance of which mesh, and its matrix in the wall group's space. */
+interface WallPart {
+  mesh: THREE.InstancedMesh
+  index: number
+  local: THREE.Matrix4
+}
+const wallParts = new WeakMap<THREE.Object3D, WallPart[]>()
+const tmp = new THREE.Matrix4()
+
+/** Moves the meshes of a building's levels (kit pieces; not the foundation, which is the only
+ *  vertex-colored mesh there) into one InstancedMesh per (geometry, material, floor tag), their
+ *  instances in level order, under a `batch` group added to `root`, which it returns. Level
+ *  groups keep their wall groups, empty, as handles (userData.wall; instances in wallParts). */
+function instanceBuilding(root: THREE.Group): THREE.Group {
+  root.updateMatrixWorld(true)
+  type Entry = { matrix: THREE.Matrix4; wall: THREE.Object3D | null; level: number }
+  const buckets = new Map<string, { mesh: THREE.Mesh; floor: boolean; entries: Entry[] }>()
+  const levels = root.children.filter((c) => c.userData.level !== undefined).sort((a, b) => a.userData.level - b.userData.level)
+  for (const level of levels) {
+    const moved: THREE.Object3D[] = []
+    for (const child of level.children) {
+      const wall = child.userData.wall ? child : null
+      child.traverse((o) => {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh || (mesh.material as THREE.MeshLambertMaterial).vertexColors) return
+        let floor = false
+        for (let p: THREE.Object3D | null = o; p && p !== level && !floor; p = p.parent) floor = p.userData.floor === true
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+        const key = `${mesh.geometry.uuid}|${mats.map((m) => m.uuid).join(',')}|${floor}`
+        if (!buckets.has(key)) buckets.set(key, { mesh, floor, entries: [] })
+        buckets.get(key)!.entries.push({ matrix: mesh.matrixWorld.clone(), wall, level: level.userData.level })
+        moved.push(mesh)
+      })
+    }
+    // Take the moved meshes out, then the holders they leave empty (wall groups stay).
+    for (const m of moved) {
+      let o: THREE.Object3D | null = m
+      while (o && o !== level && !o.userData.wall && o.children.length === 0) {
+        const parent: THREE.Object3D | null = o.parent
+        o.removeFromParent()
+        o = parent
+      }
+    }
+  }
+  const batch = new THREE.Group()
+  batch.userData.batch = true
+  root.add(batch)
+  for (const { mesh: first, floor, entries: list } of buckets.values()) {
+    const mesh = new THREE.InstancedMesh(first.geometry, first.material, list.length)
+    mesh.userData = { floor, noShadow: floor, levelCounts: prefixCounts(list.map((e) => e.level)) }
+    list.forEach((e, i) => {
+      mesh.setMatrixAt(i, e.matrix)
+      if (e.wall) {
+        e.wall.updateMatrix()
+        const parts = wallParts.get(e.wall) ?? []
+        parts.push({ mesh, index: i, local: e.wall.matrix.clone().invert().multiply(e.matrix) })
+        wallParts.set(e.wall, parts)
+      }
+    })
+    mesh.computeBoundingSphere()
+    mesh.computeBoundingBox()
+    batch.add(mesh)
+  }
+  return batch
 }
 
 function place(template: THREE.Object3D, position: THREE.Vector3, yaw: number): THREE.Object3D {
