@@ -5,6 +5,7 @@
 //   wall        click an edge: toggles wall / open (exterior edges get walls automatically; an
 //               edge between two cells is an interior wall).
 //   door/window/doorway  click an edge to make it one; click again for a plain wall.
+//   room        drag over cells to give them a room type (params.build.room; none clears it).
 //   stairs      click a cell: stairs from it up to the next level, rising toward the cell side
 //               nearest the cursor (over the kit's stairs run); click the same way again to
 //               remove them. Only edge kits with a stairs piece have stairs.
@@ -85,7 +86,7 @@ export class BuildingTool implements Tool {
   pointerDown(p: Pointer) {
     const hit = this.editor.pick(p)
     if (hit?.id && this.editor.session.doc.getObject(hit.id)?.type === 'building') this.target = hit.id
-    if (params.build.piece === 'foundation' || params.build.piece === 'erase') {
+    if (params.build.piece === 'foundation' || params.build.piece === 'erase' || params.build.piece === 'room') {
       this.painting = true
       this.editor.session.begin(buildLabel(params.build.piece))
       this.paint(p, true)
@@ -123,8 +124,15 @@ export class BuildingTool implements Tool {
     if (!this.hasTarget()) return
     const local = this.localHit(p)
     if (!local) return
-    const path = BuildingLayout.cellPath(params.build.level, new Vec2i(Math.floor(local.x / k.cellSize), Math.floor(local.z / k.cellSize)))
+    const cell = new Vec2i(Math.floor(local.x / k.cellSize), Math.floor(local.z / k.cellSize))
+    const path = BuildingLayout.cellPath(params.build.level, cell)
     const present = s.doc.getProp(this.target, path) !== null
+    if (params.build.piece === 'room') {
+      const room = params.build.room === 'none' ? null : params.build.room
+      const roomPath = BuildingLayout.roomPath(params.build.level, cell)
+      if (present && s.doc.getProp(this.target, roomPath) !== room) s.setProp(this.target, roomPath, room)
+      return
+    }
     if (params.build.piece === 'foundation' && !present) s.setProp(this.target, path, true)
     else if (params.build.piece === 'erase' && present) s.setProp(this.target, path, null)
   }
@@ -258,7 +266,7 @@ export class BuildingTool implements Tool {
     const y = params.build.level * h
     let size: THREE.Vector3
     let center: THREE.Vector3
-    if (params.build.piece === 'foundation' || params.build.piece === 'erase') {
+    if (params.build.piece === 'foundation' || params.build.piece === 'erase' || params.build.piece === 'room') {
       const cx = Math.floor(local.x / cs)
       const cz = Math.floor(local.z / cs)
       size = new THREE.Vector3(cs, 0.25, cs)

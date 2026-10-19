@@ -11,6 +11,16 @@ function building() {
 }
 
 describe('BuildingLayout', () => {
+  it('room types per cell (unknown types and cells without a floor are ignored)', () => {
+    const { doc, cell, layout } = building()
+    cell(0, 0, 0)
+    cell(0, 1, 0)
+    doc.applyOp(ops.setProp('b', BuildingLayout.roomPath(0, new Vec2i(0, 0)), 'kitchen'))
+    doc.applyOp(ops.setProp('b', BuildingLayout.roomPath(0, new Vec2i(1, 0)), 'dungeon'))
+    doc.applyOp(ops.setProp('b', BuildingLayout.roomPath(0, new Vec2i(4, 4)), 'bedroom'))
+    expect([...layout().rooms(0)]).toEqual([['0,0', 'kitchen']])
+  })
+
   it('doorways are a wall kind, and stairs open the floor above', () => {
     const { doc, cell, wall, layout } = building()
     for (const [i, j] of [[0, 0], [1, 0]]) {

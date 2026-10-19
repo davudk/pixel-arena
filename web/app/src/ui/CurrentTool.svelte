@@ -9,7 +9,8 @@
   import type { Editor } from '../editor/editor'
   import type { Thumbnails } from '../library/thumbs'
   import { params, paramsChanged, type ParamTool } from '../editor/tool-params'
-  import { inHand, TOOLS, type ParamDef } from '../editor/tools'
+  import { applies, inHand, TOOLS, type ParamDef } from '../editor/tools'
+  import { ROOM_NAMES } from '../editor/labels'
   import { PALETTE } from '../render/terrain-shading'
   import { liquid } from '../world/liquids'
   import Icon from './Icon.svelte'
@@ -45,6 +46,7 @@
     if (def.kind === 'kit') return editor.library.kits.get(String(value))?.name ?? String(value)
     if (def.kind === 'material') return PALETTE[Number(value)]?.name ?? String(value)
     if (def.key === 'liquid') return liquid(value).name
+    if (def.key === 'room') return ROOM_NAMES[String(value)] ?? String(value)
     return String(def.options?.find((o) => o.value === value)?.label ?? value)
   }
 
@@ -54,7 +56,8 @@
     if (!tool) return null
     const def = TOOLS[tool]
     const values = params[tool] as unknown as Record<string, unknown>
-    const picked = def.params.filter((p) => PICKED.has(p.kind))
+    // Catalogue choices that apply now (Build's room only with the Room piece).
+    const picked = def.params.filter((p) => PICKED.has(p.kind) && applies(p, tool, editor.library))
     const main = picked.filter((p) => !p.detail)
     // The most specific choice is the title; the tool, other choices and details go underneath.
     const title = main.length ? display(main.at(-1)!, values[main.at(-1)!.key]) : def.label

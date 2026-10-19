@@ -4,6 +4,8 @@
 //   floors/<L>/walls/<edge>  = kind        per-edge override: wall | window | door | doorway | open
 //   floors/<L>/stairs/<i>,<j> = dir        stairs in cell (i, j) going up toward dir (N | E | S | W),
 //                                           to level L+1; the floor above them is left open
+//   floors/<L>/rooms/<i>,<j> = type         the room cell (i, j) belongs to (ROOM_TYPES); a room
+//                                           is the connected cells of one type
 //   roof/style               = gable | hip | flat | none
 // Edge "i,j,W" is the boundary at x = i between cells (i-1, j) and (i, j); "i,j,N" is the
 // boundary at z = j between (i, j-1) and (i, j). An edge without an override gets a wall when
@@ -14,6 +16,9 @@ import { Rect2i, Vec2i } from './values'
 
 /** doorway: an opening with a frame and no door. */
 export const KINDS = ['wall', 'window', 'door', 'doorway', 'open'] as const
+/** Room types, in the order the editor lists them. */
+export const ROOM_TYPES = ['living', 'bedroom', 'kitchen', 'dining', 'bathroom', 'hall', 'office', 'classroom', 'shop', 'storage'] as const
+export type RoomType = (typeof ROOM_TYPES)[number]
 export const STAIR_DIRS = ['N', 'E', 'S', 'W'] as const
 export type StairDir = (typeof STAIR_DIRS)[number]
 /** Cell step for each stairs direction (N is -z, like the map). */
@@ -38,6 +43,7 @@ interface Level {
   cells: Map<string, Vec2i>
   overrides: Map<string, string>
   stairs: Map<string, Stairs>
+  rooms: Map<string, RoomType>
 }
 
 export class BuildingLayout {
@@ -53,7 +59,7 @@ export class BuildingLayout {
       const parts = path.split('/')
       if (parts.length !== 4) continue
       const level = Number(parts[1])
-      if (!layout.levels.has(level)) layout.levels.set(level, { cells: new Map(), overrides: new Map(), stairs: new Map() })
+      if (!layout.levels.has(level)) layout.levels.set(level, { cells: new Map(), overrides: new Map(), stairs: new Map(), rooms: new Map() })
       const entry = layout.levels.get(level)!
       if (parts[2] === 'cells') {
         const ij = parts[3].split(',')
@@ -63,6 +69,8 @@ export class BuildingLayout {
         }
       } else if (parts[2] === 'walls' && typeof value === 'string') {
         entry.overrides.set(parts[3], value)
+      } else if (parts[2] === 'rooms' && typeof value === 'string' && (ROOM_TYPES as readonly string[]).includes(value)) {
+        entry.rooms.set(parts[3], value as RoomType)
       } else if (parts[2] === 'stairs' && typeof value === 'string' && (STAIR_DIRS as readonly string[]).includes(value)) {
         const ij = parts[3].split(',')
         if (ij.length === 2) {
@@ -80,6 +88,10 @@ export class BuildingLayout {
 
   static wallPath(level: number, edge: string): string {
     return `floors/${level}/walls/${edge}`
+  }
+
+  static roomPath(level: number, cell: Vec2i): string {
+    return `floors/${level}/rooms/${cell.x},${cell.y}`
   }
 
   static stairsPath(level: number, cell: Vec2i): string {
@@ -110,6 +122,13 @@ export class BuildingLayout {
   stairs(level: number): Map<string, Stairs> {
     const out = new Map<string, Stairs>()
     for (const [k, s] of this.levels.get(level)?.stairs ?? []) if (this.cells(level).has(k)) out.set(k, s)
+    return out
+  }
+
+  /** Room type per existing cell of a level (cells without one are left out). */
+  rooms(level: number): Map<string, RoomType> {
+    const out = new Map<string, RoomType>()
+    for (const [k, t] of this.levels.get(level)?.rooms ?? []) if (this.cells(level).has(k)) out.set(k, t)
     return out
   }
 

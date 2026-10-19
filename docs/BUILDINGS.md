@@ -245,6 +245,30 @@ Building data gained `doorway` edges, interior walls (any edge between two cells
 Structure (Floor, Wall, Stairs) and Openings (Door, Window, Doorway); Stairs shows only for kits
 that have them.
 
+## Rooms and interiors (phase 3, done)
+
+**Rooms**
+- **Data:** `floors/L/rooms/i,j = type`. The types are `living`, `bedroom`, `kitchen`, `dining`,
+  `bathroom`, `hall`, `office`, `classroom`, `shop` and `storage`. A room is the connected cells
+  of one type.
+- **Floors:** each type has its own floor texture from the terrain pack (`ROOM_FLOORS` in
+  `world/building-visuals.ts`).
+- **Painting:** Build mode's Room piece is in the Structure row, for kits with interiors. You
+  drag it over cells, and the room types show as floor swatches; "No room" clears them.
+
+**Furnishing**
+- Any prop placed on a building's floor stands on it and becomes the building's child. Floor
+  pieces carry `userData.floor`, and `Hit.floor` reports a floor under the cursor.
+- So furniture moves, rotates, copies and deletes with the building.
+- Furniture on levels above the viewed one is hidden.
+- To see inside a building, use View -> Levels; Build mode's level does the same.
+
+**Dollhouse view**
+- While cut to a level, that level's interior walls and the exterior walls facing the camera
+  drop to 22% of their height (`cutWalls`).
+- They follow the view in 45° steps, and the selection glow follows them.
+- Picking ignores hidden levels.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney

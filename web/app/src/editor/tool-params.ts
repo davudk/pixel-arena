@@ -9,7 +9,9 @@ export type SculptOp = 'raise' | 'lower' | 'smooth' | 'flatten'
 /** How a drawing tool applies: a polygon outline or a round brush. */
 export type Shape = 'polygon' | 'brush'
 export type WaterShape = Shape
-export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window' | 'doorway' | 'stairs'
+export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window' | 'doorway' | 'stairs' | 'room'
+/** A room type (BuildingLayout ROOM_TYPES), or none to clear it. */
+export type RoomChoice = 'none' | 'living' | 'bedroom' | 'kitchen' | 'dining' | 'bathroom' | 'hall' | 'office' | 'classroom' | 'shop' | 'storage'
 export const MAX_LEVEL = 9
 
 export interface ToolParams {
@@ -24,7 +26,8 @@ export interface ToolParams {
   water: { liquid: string; shape: WaterShape; radius: number; snap: boolean; dig: boolean; depth: number; shore: number }
   /** Erasing water, by polygon outline or round brush. */
   waterErase: { shape: WaterShape; radius: number; snap: boolean }
-  build: { kit: string; piece: BuildPiece; level: number }
+  /** room: the room type the Room piece paints. */
+  build: { kit: string; piece: BuildPiece; level: number; room: RoomChoice }
 }
 /** Tools that have parameters (everything but select). */
 export type ParamTool = keyof ToolParams
@@ -35,7 +38,7 @@ export const DEFAULT_PARAMS: ToolParams = {
   paint: { material: 1, shape: 'brush', radius: 4, snap: true },
   water: { liquid: 'water', shape: 'polygon', radius: 2, snap: true, dig: true, depth: 1.5, shore: 3 },
   waterErase: { shape: 'brush', radius: 2, snap: true },
-  build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0 },
+  build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0, room: 'living' },
 }
 
 export const params: ToolParams = structuredClone(DEFAULT_PARAMS)

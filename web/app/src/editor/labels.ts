@@ -44,9 +44,14 @@ export const drawLabel = (liquidId: string) => `Draw ${liquid(liquidId).name.toL
 
 const PIECES: Record<BuildPiece, string> = {
   foundation: 'Build foundation', erase: 'Remove floor', wall: 'Build wall', door: 'Place door', window: 'Place window',
-  doorway: 'Place doorway', stairs: 'Place stairs',
+  doorway: 'Place doorway', stairs: 'Place stairs', room: 'Paint room',
+}
+/** Room types as the editor names them. */
+export const ROOM_NAMES: Record<string, string> = {
+  none: 'No room', living: 'Living room', bedroom: 'Bedroom', kitchen: 'Kitchen', dining: 'Dining room', bathroom: 'Bathroom',
+  hall: 'Hall', office: 'Office', classroom: 'Classroom', shop: 'Shop', storage: 'Storage',
 }
 export const buildLabel = (piece: BuildPiece) => PIECES[piece]
 export const pieceName = (piece: BuildPiece) =>
-  ({ foundation: 'Floor', erase: 'Erase', wall: 'Wall', door: 'Door', window: 'Window', doorway: 'Doorway', stairs: 'Stairs' })[piece]
+  ({ foundation: 'Floor', erase: 'Erase', wall: 'Wall', door: 'Door', window: 'Window', doorway: 'Doorway', stairs: 'Stairs', room: 'Room' })[piece]
 export const opName = (op: SculptOp) => OPS[op]

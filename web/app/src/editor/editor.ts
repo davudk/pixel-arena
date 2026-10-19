@@ -27,6 +27,8 @@ export interface Hit {
   normal: THREE.Vector3
   /** Object under the pointer, or null for terrain. */
   id: string | null
+  /** The hit is a building's floor (furniture can stand on it). */
+  floor?: boolean
 }
 
 export interface Tool {
@@ -175,7 +177,7 @@ export class Editor {
     const obj = this.world.pick(this.raycaster, exclude)
     const ground = this.groundAt(p)
     const groundDist = ground ? ground.distanceTo(r.origin) : Infinity
-    if (obj && obj.distance <= groundDist) return { point: obj.point, normal: obj.normal, id: obj.id }
+    if (obj && obj.distance <= groundDist) return { point: obj.point, normal: obj.normal, id: obj.id, floor: obj.floor }
     return ground ? { point: ground, normal: new THREE.Vector3(0, 1, 0), id: null } : null
   }
 }

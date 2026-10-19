@@ -448,6 +448,88 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   s.undo()
   check(BuildingLayout.fromObject(doc.getObject(room)!).stairs(0).get('0,1')?.dir === 'E', 'undo puts them back')
 
+  // Rooms: drag the Room piece over the left column -> kitchen; the rest stays without a room.
+  setParams('build', { piece: 'room', room: 'kitchen' })
+  tool.pointerDown(r(1, 1))
+  tool.pointerMove(r(1, 3))
+  tool.pointerUp()
+  rl = BuildingLayout.fromObject(doc.getObject(room)!)
+  check(rl.rooms(0).get('0,0') === 'kitchen' && rl.rooms(0).get('0,1') === 'kitchen' && !rl.rooms(0).has('2,0'), `kitchen painted (${[...rl.rooms(0)].join(' ')})`)
+
+  // Furnishing: with the view cut to level 0, a chair placed in the room stands on its floor
+  // and belongs to the building; it moves with it.
+  editor.setTool(editor.defaultTool())
+  // View -> Levels: up to level 0 (as a user would).
+  const setLevels = async (v: number) => {
+    document.querySelector<HTMLButtonElement>('button[aria-label="View settings"]')?.click()
+    await settle()
+    const sel = [...document.querySelectorAll<HTMLSelectElement>('.popover select')].find((x) => [...x.options].some((o) => o.text === 'All levels'))
+    if (sel) {
+      sel.value = String(v)
+      sel.dispatchEvent(new Event('change', { bubbles: true }))
+    }
+    document.querySelector<HTMLButtonElement>('button[aria-label="View settings"]')?.click()
+    await settle()
+  }
+  await setLevels(0)
+  check(world.cutawayLevel === 0, `View -> Levels cuts the view (${world.cutawayLevel})`)
+  const chairProp = editor.library.props.get('kenney_furniture:chair')!
+  editor.setTool(new PlaceTool(editor, chairProp))
+  const spot = r(5, 3)
+  editor.tool.pointerMove?.(spot)
+  editor.tool.pointerDown?.(spot)
+  const chair = [...doc.objects.values()].find((o) => !o.deleted && o.props.get('prop') === chairProp.id)
+  check(chair?.props.get('parent') === room, `chair belongs to the building (${chair?.props.get('parent')})`)
+  check(Math.abs(((chair?.props.get('position') as Vec3)?.y ?? -9) - rpos.y) < 0.3, `chair on the floor (y ${(chair?.props.get('position') as Vec3)?.y?.toFixed(2)})`)
+  editor.setTool(editor.defaultTool())
+  editor.selection.set([room])
+  const chairX = (doc.getProp(chair!.id, 'position') as Vec3).x
+  ;(editor.tool as SelectTool).translateSelection(new Vec3(2, 0, 0))
+  check(Math.abs((doc.getProp(chair!.id, 'position') as Vec3).x - chairX - 2) < 1e-6, 'chair moved with the building')
+  s.undo()
+  await setLevels(-1)
+
+  // A second storey with a bed; cut to level 0, the bed is hidden and the front walls are low.
+  setParams('build', { piece: 'foundation' })
+  editor.setTool(tool)
+  tool.target = room
+  tool.setLevel(1)
+  tool.pointerDown(r(1, 1))
+  tool.pointerMove(r(3, 1))
+  tool.pointerUp()
+  const bed = s.createObject.bind(s)
+  let bedId = ''
+  s.edit('Bed', () => (bedId = bed('prop', { prop: 'kenney_furniture:bed_double', position: new Vec3(rpos.x + 2, rpos.y + 2.4, rpos.z + 1), rotation: 0, parent: room })))
+  tool.setLevel(0)
+  await settle()
+  check(!world.objectRoot(bedId) && ![...(world as unknown as { slots: Map<string, unknown> }).slots.keys()].includes(bedId), 'upper-floor furniture hidden when cut to level 0')
+  tool.setLevel(1)
+  await settle()
+  check([...(world as unknown as { slots: Map<string, unknown> }).slots.keys()].includes(bedId), 'shown again on its level')
+  tool.setLevel(0)
+  world.update(0, rig.camera)
+  const ground = world.objectRoot(room)?.children.find((c) => c.userData.level === 0)
+  const walls = ground?.children.filter((c) => c.userData.wall) ?? []
+  const low = walls.filter((w) => w.scale.y < 0.5)
+  check(walls.length > 0 && low.length > 0 && low.length < walls.length, `front and interior walls cut low (${low.length} of ${walls.length})`)
+  check(low.every((w) => w.userData.wall.interior || w.userData.wall.side === 'S' || w.userData.wall.side === 'E' || w.userData.wall.side === 'N' || w.userData.wall.side === 'W'), 'cut walls are tagged')
+  // A few more furnishings for the shot: a bed and table in the main room.
+  s.edit('Furnish', () => {
+    s.createObject('prop', { prop: 'kenney_furniture:table', position: new Vec3(rpos.x + 3.6, rpos.y + 0.1, rpos.z + 1.2), rotation: 0, parent: room })
+    s.createObject('prop', { prop: 'kenney_furniture:kitchen_fridge', position: new Vec3(rpos.x + 0.6, rpos.y + 0.1, rpos.z + 0.5), rotation: 0, parent: room })
+    s.createObject('prop', { prop: 'kenney_furniture:lounge_sofa', position: new Vec3(rpos.x + 5, rpos.y + 0.1, rpos.z + 1), rotation: -Math.PI / 2, parent: room })
+  })
+  editor.selection.clear()
+  setParams('build', { piece: 'wall' })
+  tool.pointerMove({ x: -100, y: -100, shift: false, alt: false, cmd: false })
+  rig.focus.set(rpos.x + 3, 0, rpos.z + 2)
+  rig.zoom = 14
+  rig.update(0)
+  await settle()
+  await sleep(500)
+  await frame()
+  await fetch('/__save?name=selftest-building-interior.png', { method: 'POST', body: pixel.canvas.toDataURL('image/png') }).catch(() => {})
+
   // Leaving the tool restores the view's cutaway setting.
   editor.setTool(editor.defaultTool())
   check(world.cutawayLevel === editor.viewCutaway, 'cutaway restored on leaving the tool')
@@ -1006,13 +1088,13 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
   check(!$('.catalog .tiles') && columns($('.catalog .choices')) === 2, 'paint shows materials only')
   await shot('paint')
 
-  // Build: pieces in two rows of three (Structure, Openings), Erase in the switch; Level as a row.
+  // Build: pieces in two rows (Structure: Floor, Wall, Stairs, Room; Openings), Erase in the switch; Level as a row.
   press('b')
   await settle()
   setParams('build', { kit: 'kenney_building_kit:interior' })
   await settle()
   const rows = $$('.catalog .tiles').slice(0, 2).map((t) => [...t.querySelectorAll<HTMLElement>('.tile')])
-  check(rows.length === 2 && rows.every((r) => r.length === 3 && oneRow(r)), `pieces in two rows of three (${rows.map((r) => r.length).join(', ')})`)
+  check(rows.length === 2 && rows[0].length === 4 && rows[1].length === 3 && rows.every(oneRow), `Structure (4) and Openings (3) rows (${rows.map((r) => r.length).join(', ')})`)
   setParams('build', { kit: 'kenney_retro_urban:brick' })
   await settle()
   check(!$$('.catalog .tiles .tile').some((t) => t.textContent?.includes('Stairs')), 'no stairs for a kit without interiors')

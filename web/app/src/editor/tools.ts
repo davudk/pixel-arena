@@ -10,7 +10,7 @@ import type { Library } from '../library/library'
 import { PALETTE } from '../render/terrain-shading'
 import { BuildingTool } from './building-tool'
 import type { Editor, Tool } from './editor'
-import { drawLabel, opName, pieceName } from './labels'
+import { drawLabel, opName, pieceName, ROOM_NAMES } from './labels'
 import { LIQUIDS } from '../world/liquids'
 import { PlaceTool } from './place-tool'
 import { SelectTool } from './select-tool'
@@ -170,12 +170,13 @@ export const TOOLS: Record<ToolId, ToolDef> = {
       { key: 'kit', label: 'Kit', kind: 'kit' },
       {
         key: 'piece', label: 'Piece', kind: 'choice',
-        options: (['foundation', 'wall', 'stairs', 'door', 'window', 'doorway', 'erase'] as const).map((v) => ({ value: v, label: pieceName(v), icon: v === 'erase' ? 'eraser' : v })),
+        options: (['foundation', 'wall', 'stairs', 'room', 'door', 'window', 'doorway', 'erase'] as const).map((v) => ({ value: v, label: pieceName(v), icon: v === 'erase' ? 'eraser' : v })),
       },
       { key: 'level', label: 'Level', kind: 'stepper', min: 0, max: MAX_LEVEL, step: 1, saved: false },
+      { key: 'room', label: 'Room', kind: 'kit', applies: (p) => p.piece === 'room', hide: true },
     ],
     create: (editor) => new BuildingTool(editor),
-    describe: (p, library) => `${library?.kits.get(String(p.kit))?.name ?? 'Building'} · ${pieceName(p.piece as ToolParams['build']['piece'])}`,
+    describe: (p, library) => `${library?.kits.get(String(p.kit))?.name ?? 'Building'} · ${p.piece === 'room' ? ROOM_NAMES[String(p.room)] : pieceName(p.piece as ToolParams['build']['piece'])}`,
   },
 }
 

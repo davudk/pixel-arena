@@ -15,7 +15,7 @@ import * as THREE from 'three'
 import { Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
 import type { Library, PropDef } from '../library/library'
 import { cloneAnimated, loadModel, placeholderParts, type Part } from '../library/models'
-import { buildBuilding, setCutaway } from './building-visuals'
+import { buildBuilding, cutWalls, setCutaway } from './building-visuals'
 import { buildWater, waterTime } from './water'
 
 const HIGHLIGHT = new THREE.ShaderMaterial({
@@ -154,12 +154,34 @@ export class WorldView {
 
   /** Building level being edited (-1 = everything visible). */
   setCutaway(level: number) {
+    // Furniture inside buildings shows only up to the cut level.
+    if (level !== this.cutaway && this.doc)
+      for (const o of this.doc.objects.values()) if (!o.deleted && o.type === 'prop' && this.buildingOf(o)) this.dirty.add(o.id)
     this.cutaway = level
     for (const s of this.singles.values()) if (s.root.userData.kind === 'building') setCutaway(s.root, level)
+    this.cutKey = ''
+  }
+
+  /** The view direction the walls were last cut for (cutWalls), and the level. */
+  private cutKey = ''
+  private viewDir = new THREE.Vector3(-1, -1, -1)
+
+  /** Re-cuts walls when the level or the view's heading changes (in 45° steps). */
+  private updateWallCuts(camera?: THREE.Camera) {
+    if (camera) camera.getWorldDirection(this.viewDir)
+    const key = `${this.cutaway}:${Math.round(Math.atan2(this.viewDir.x, this.viewDir.z) / (Math.PI / 4))}`
+    if (key === this.cutKey) return
+    this.cutKey = key
+    for (const [id, s] of this.singles) {
+      if (s.root.userData.kind !== 'building') continue
+      cutWalls(s.root, this.cutaway, this.viewDir)
+      if (this.highlighted.has(id)) this.updateProxy(id) // the glow follows the cut walls
+    }
   }
 
   update(dt: number, camera?: THREE.Camera) {
     waterTime.value += dt
+    this.updateWallCuts(camera)
     if (this.dirty.size) {
       const ids = [...this.dirty]
       this.dirty.clear()
@@ -184,7 +206,7 @@ export class WorldView {
   }
 
   /** Nearest map object hit by a ray (instanced or single), skipping `exclude` ids. */
-  pick(raycaster: THREE.Raycaster, exclude: Set<string> = new Set()): { id: string; point: THREE.Vector3; normal: THREE.Vector3; distance: number } | null {
+  pick(raycaster: THREE.Raycaster, exclude: Set<string> = new Set()): { id: string; point: THREE.Vector3; normal: THREE.Vector3; distance: number; floor: boolean } | null {
     const targets: THREE.Object3D[] = []
     for (const g of this.groups.values()) targets.push(...g.meshes)
     for (const s of this.singles.values()) targets.push(s.root)
@@ -201,9 +223,11 @@ export class WorldView {
         for (let o: THREE.Object3D | null = hit.object; o && !id; o = o.parent) id = o.userData.objectId
         world.copy(hit.object.matrixWorld)
       }
-      if (!id || exclude.has(id) || !hit.object.visible) continue
+      if (!id || exclude.has(id) || !shown(hit.object)) continue
       const normal = (hit.face?.normal ?? new THREE.Vector3(0, 1, 0)).clone().applyMatrix3(normalMatrix.getNormalMatrix(world)).normalize()
-      return { id, point: hit.point.clone(), normal, distance: hit.distance }
+      let floor = false
+      for (let o: THREE.Object3D | null = hit.object; o && !floor; o = o.parent) floor = o.userData.floor === true
+      return { id, point: hit.point.clone(), normal, distance: hit.distance, floor }
     }
     return null
   }
@@ -262,8 +286,10 @@ export class WorldView {
       root.userData.kind = 'building'
       root.traverse((o) => ((o as THREE.Mesh).isMesh ? ((o.castShadow = true), (o.receiveShadow = true)) : null))
       setCutaway(root, this.cutaway)
+      this.cutKey = '' // cut the new walls on the next update
       return { root }
     }
+    if (this.cutAway(obj)) return null
     const propId = String(obj.props.get('prop') ?? '')
     const prop: PropDef | undefined = this.library.props.get(propId)
     const model = prop ? await loadModel(prop).catch(() => null) : null
@@ -283,6 +309,30 @@ export class WorldView {
       return { root: holder, mixer }
     }
     return { parts: model.parts, propId: prop.id }
+  }
+
+  /** The building an object sits in (its nearest building ancestor), if any. */
+  private buildingOf(obj: MapObject): MapObject | null {
+    let cur = obj
+    for (let guard = 0; guard < 64; guard++) {
+      const parent = cur.props.get('parent')
+      const p = typeof parent === 'string' ? this.doc!.getObject(parent) : undefined
+      if (!p || p.deleted) return null
+      if (p.type === 'building') return p
+      cur = p
+    }
+    return null
+  }
+
+  /** Hidden by the cutaway: inside a building, on a level above the one being viewed. */
+  private cutAway(obj: MapObject): boolean {
+    if (this.cutaway < 0) return false
+    const b = this.buildingOf(obj)
+    if (!b) return false
+    const h = this.library.kits.get(String(b.props.get('kit') ?? ''))?.wallHeight ?? 3
+    const by = (b.props.get('position') as Vec3 | undefined)?.y ?? 0
+    const y = (obj.props.get('position') as Vec3 | undefined)?.y ?? 0
+    return y >= by + (this.cutaway + 1) * h - 0.1
   }
 
   private updateProxy(id: string) {
@@ -413,4 +463,10 @@ export class WorldView {
     })
     g.dirtyBounds = true
   }
+}
+
+/** Visible itself and in every parent (hidden building levels hide their pieces). */
+function shown(o: THREE.Object3D): boolean {
+  for (let p: THREE.Object3D | null = o; p; p = p.parent) if (!p.visible) return false
+  return true
 }

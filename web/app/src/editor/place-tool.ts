@@ -95,8 +95,14 @@ export class PlaceTool implements Tool {
   }
 
   private compute(p: Pointer): { position: THREE.Vector3; parent: string | null } | null {
+    const hit = this.editor.pick(p)
+    // Any prop goes on a building's floor (furnishing): it becomes part of the building, so it
+    // moves with it and hides with its level in the cutaway.
+    if (hit?.id && hit.floor && hit.normal.y > 0.7) {
+      const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || !params.place.snap || this.prop.mode === 'grid')
+      return { position: new THREE.Vector3(x, hit.point.y, z), parent: hit.id }
+    }
     if (this.prop.align === 'surface') {
-      const hit = this.editor.pick(p)
       if (hit?.id && hit.normal.y > 0.7) {
         // Grid props don't grid-snap on top of other objects.
         const [x, z] = snapProp(this.prop, hit.point.x, hit.point.z, this.yaw, p.cmd || !params.place.snap || this.prop.mode === 'grid')
