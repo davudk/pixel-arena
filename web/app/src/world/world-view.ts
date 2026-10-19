@@ -8,8 +8,7 @@
 // Changes arrive per op (`changed`) or wholesale (`reset`); affected objects are refreshed on
 // the next update(). Model loads are async, so each object carries a version and stale loads
 // are dropped.
-// Selected objects get a highlight proxy: copies of their meshes with an additive rim shader,
-// drawn over the object (instances can't take a per-instance material overlay).
+// Selection is shown by marks on the ground (editor/selection-marks.ts), not by tinting objects.
 
 import * as THREE from 'three'
 import { Vec3, type MapDocument, type MapObject } from '@pixel-arena/core'
@@ -18,29 +17,6 @@ import { cloneAnimated, loadModel, placeholderParts, type Part } from '../librar
 import { buildBuilding, cutWalls, setCutaway } from './building-visuals'
 import { buildWater, waterTime } from './water'
 
-const HIGHLIGHT = new THREE.ShaderMaterial({
-  uniforms: { color: { value: new THREE.Color('#ffbf33') } },
-  vertexShader: /* glsl */ `
-    varying vec3 vNormal;
-    void main() {
-      vNormal = normalize(normalMatrix * normal);
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }`,
-  fragmentShader: /* glsl */ `
-    uniform vec3 color;
-    varying vec3 vNormal;
-    void main() {
-      // Edge light only (the ring or outline under it marks the selection; selection-marks.ts).
-      float rim = pow(1.0 - clamp(abs(vNormal.z), 0.0, 1.0), 2.0);
-      gl_FragColor = vec4(color * (0.06 + rim * 0.7), 1.0);
-    }`,
-  blending: THREE.AdditiveBlending,
-  transparent: true, // draw after the opaque objects it sits on
-  depthWrite: false,
-  polygonOffset: true,
-  polygonOffsetFactor: -2,
-  polygonOffsetUnits: -2,
-})
 
 /** Instancing cell size in meters (4 x 4 document chunks). */
 const CELL = 128
@@ -73,22 +49,7 @@ export class WorldView {
   private animationClock = 0
   private frustum = new THREE.Frustum()
   private sphere = new THREE.Sphere()
-  private highlighted = new Set<string>()
-  private proxies = new Map<string, THREE.Object3D>()
-  readonly highlightRoot = new THREE.Group()
-
-  constructor(private library: Library) {
-    this.highlightRoot.userData.overlay = true // not in exports
-    this.root.add(this.highlightRoot)
-  }
-
-  /** Highlights exactly these objects. */
-  setHighlights(ids: Iterable<string>) {
-    const wanted = new Set(ids)
-    for (const id of this.highlighted) if (!wanted.has(id)) this.dropProxy(id)
-    this.highlighted = wanted
-    for (const id of wanted) this.updateProxy(id)
-  }
+  constructor(private library: Library) {}
 
   /** Shows an object at a temporary transform without touching the document (drag preview). */
   preview(id: string, position: THREE.Vector3, yaw: number) {
@@ -109,7 +70,6 @@ export class WorldView {
       single.root.position.copy(position)
       single.root.rotation.y = yaw
     }
-    this.updateProxy(id)
   }
 
   /** Puts an object back where the document says it is (e.g. after a cancelled drag). */
@@ -136,8 +96,6 @@ export class WorldView {
 
   rebuild() {
     for (const id of [...this.slots.keys(), ...this.singles.keys()]) this.remove(id)
-    for (const id of [...this.proxies.keys()]) this.dropProxy(id)
-    this.highlighted.clear()
     for (const g of this.groups.values()) g.meshes.forEach((m) => this.root.remove(m))
     this.groups.clear()
     for (const id of this.doc!.objects.keys()) this.dirty.add(id)
@@ -175,7 +133,6 @@ export class WorldView {
     for (const [id, s] of this.singles) {
       if (s.root.userData.kind !== 'building') continue
       cutWalls(s.root, this.cutaway, this.viewDir)
-      if (this.highlighted.has(id)) this.updateProxy(id) // the glow follows the cut walls
     }
   }
 
@@ -252,7 +209,6 @@ export class WorldView {
     const pos = obj?.props.get('position')
     if (!obj || obj.deleted || !(pos instanceof Vec3) || !['prop', 'water', 'building'].includes(obj.type)) {
       this.remove(id)
-      this.dropProxy(id)
       return
     }
     this.loading++
@@ -268,7 +224,6 @@ export class WorldView {
         this.root.add(next.root)
         this.singles.set(id, next)
       }
-      this.updateProxy(id)
     } finally {
       this.loading--
     }
@@ -333,45 +288,6 @@ export class WorldView {
     const by = (b.props.get('position') as Vec3 | undefined)?.y ?? 0
     const y = (obj.props.get('position') as Vec3 | undefined)?.y ?? 0
     return y >= by + (this.cutaway + 1) * h - 0.1
-  }
-
-  private updateProxy(id: string) {
-    this.dropProxy(id)
-    if (!this.highlighted.has(id)) return
-    const proxy = new THREE.Group()
-    const slot = this.slots.get(id)
-    if (slot) {
-      slot.group.parts.forEach((part, i) => {
-        const mesh = new THREE.Mesh(part.geometry, HIGHLIGHT)
-        mesh.matrixAutoUpdate = false
-        slot.group.meshes[i].getMatrixAt(slot.index, mesh.matrix)
-        proxy.add(mesh)
-      })
-    }
-    const single = this.singles.get(id)
-    if (single) {
-      single.root.updateMatrixWorld(true)
-      single.root.traverse((o) => {
-        const m = o as THREE.Mesh
-        if (!m.isMesh || !o.visible) return
-        const mesh = new THREE.Mesh(m.geometry, HIGHLIGHT)
-        mesh.matrixAutoUpdate = false
-        mesh.matrix.copy(m.matrixWorld)
-        proxy.add(mesh)
-      })
-    }
-    if (proxy.children.length === 0) return
-    proxy.traverse((o) => (o.raycast = () => {})) // never pickable
-    this.proxies.set(id, proxy)
-    this.highlightRoot.add(proxy)
-  }
-
-  private dropProxy(id: string) {
-    const p = this.proxies.get(id)
-    if (p) {
-      this.highlightRoot.remove(p)
-      this.proxies.delete(id)
-    }
   }
 
   private place(o: THREE.Object3D, obj: MapObject) {

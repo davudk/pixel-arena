@@ -43,6 +43,7 @@
     build: [
       { id: 'build', label: 'Build', icon: 'building', tool: 'build', matches: () => params.build.piece !== 'erase', patch: { piece: ui.buildPiece } },
       { id: 'buildErase', label: 'Erase', icon: 'eraser', tool: 'build', matches: () => params.build.piece === 'erase', patch: { piece: 'erase' } },
+      { id: 'premade', label: 'Premade', icon: 'house', tool: 'premade' },
     ],
   }
   const verbs = $derived(VERBS[mode] ?? [])
@@ -52,7 +53,7 @@
     rev
     const hand = inHand(editor)
     const tool: ParamTool = hand && MODE_TOOLS[mode].includes(hand) ? hand
-      : mode === 'terrain' ? ui.terrainTool : mode === 'water' ? ui.waterTool : (MODE_TOOLS[mode][0] as ParamTool)
+      : mode === 'terrain' ? ui.terrainTool : mode === 'water' ? ui.waterTool : mode === 'build' ? ui.buildTool : (MODE_TOOLS[mode][0] as ParamTool)
     const verb = verbs.find((v) => v.tool === tool && (v.matches?.() ?? true))?.id ?? null
     return { tool, verb, inHand: hand === tool }
   })

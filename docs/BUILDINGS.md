@@ -269,6 +269,28 @@ that have them.
 - They follow the view in 45° steps, and the selection glow follows them.
 - Picking ignores hidden levels.
 
+## Premade buildings (phase 4, done)
+
+**The switch**
+- Build mode's tool switch is Build / Erase / Premade.
+- Premade uses the `premade` tool, which places a whole building like a prop (PlaceTool) and
+  remembers the building last used.
+
+**The catalogue**
+- Whole-building props by category (`PREMADE_CATEGORIES`): Houses, Town houses, City blocks,
+  Shops and offices, Skyscrapers, Industrial.
+- Each building shows a thumbnail; the footprint is in its tooltip.
+- These come from the Kenney Suburban, Commercial, Industrial and Modular Buildings samples, and
+  KayKit City Builder.
+- These are props, so they have no interiors. Generated premade buildings with interiors arrive
+  in phases 5–7.
+
+**Related fixes**
+- Selection is shown only by marks on the ground; the yellow tint on selected objects is gone.
+- A building's Kit list in Selection only offers kits on the same grid, so switching kits keeps
+  its size.
+- Choosing another prop while one is in hand now places the new one.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney

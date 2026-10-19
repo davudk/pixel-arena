@@ -1,5 +1,6 @@
 <script lang="ts">
-  // Build mode's catalogue: the piece (structure: floor, wall, stairs, room; openings: door,
+  // Build mode's catalogue. Premade (Build / Erase / Premade switch in the tools container):
+  // whole buildings by category, placed like props. Otherwise: the piece (structure: floor, wall, stairs, room; openings: door,
   // window, doorway), the room type while painting rooms (each with its floor), and the kit for
   // new buildings (picking either picks up
   // Build with it). Build / Erase and the level are in the tools container; the kit and roof of
@@ -7,8 +8,10 @@
   import { onDestroy } from 'svelte'
   import type { Editor } from '../editor/editor'
   import { params, paramsChanged } from '../editor/tool-params'
-  import { inHand, pickUp, TOOLS } from '../editor/tools'
+  import { inHand, pickUp, PREMADE_CATEGORIES, TOOLS } from '../editor/tools'
   import Icon from './Icon.svelte'
+  import type { PropDef } from '../library/library'
+  import { thumbUrls, ui } from './ui-state.svelte'
   import { ROOM_NAMES } from '../editor/labels'
   import type { RoomChoice } from '../editor/tool-params'
   import { ROOM_FLOORS } from '../world/building-visuals'
@@ -39,14 +42,41 @@
   const view = $derived.by(() => {
     rev
     const kit = editor.library.kits.get(params.build.kit)
+    const hand = inHand(editor)
     return {
-      piece: params.build.piece, kit: params.build.kit, room: params.build.room, erasing: inHand(editor) === 'build' && params.build.piece === 'erase',
+      piece: params.build.piece, kit: params.build.kit, room: params.build.room, erasing: hand === 'build' && params.build.piece === 'erase',
       stairs: kit?.style !== 'block' && !!kit?.pieces.stairs?.length, rooms: kit?.style !== 'block',
+      premade: hand === 'premade' || (hand !== 'build' && ui.buildTool === 'premade'), building: params.premade.prop,
     }
   })
+
+  /** Premade buildings: whole-building props by category, with thumbnails. */
+  const premade = PREMADE_CATEGORIES.map(([category, title]) => [title, editor.library.search('', '', category).filter((p) => p.category === category)] as const)
+    .filter(([, list]) => list.length)
+  $effect(() => {
+    if (view.premade) editor.thumbnails.prioritize(premade.flatMap(([, list]) => list))
+  })
+  const thumb = (p: PropDef) => thumbUrls[p.id] ?? editor.thumbnails.get(p)
 </script>
 
 <div class="panel-body">
+  {#if view.premade}
+    {#each premade as [title, list] (title)}
+      <section class="section">
+        <div class="heading-row"><h3 class="heading">{title}</h3><span class="count">{list.length}</span></div>
+        <div class="choices">
+          {#each list as p (p.id)}
+            {@const on = view.building === p.id}
+            {@const url = thumb(p)}
+            <button class="choice building" class:on aria-pressed={on} title="{p.name} · {p.footprint[0]} × {p.footprint[1]} m"
+              onclick={() => pickUp(editor, 'premade', { prop: p.id })}>
+              {#if url}<img src={url} alt="" draggable="false" />{:else}<span class="ph"></span>{/if}<span>{p.name}</span>
+            </button>
+          {/each}
+        </div>
+      </section>
+    {/each}
+  {:else}
   {#each sections as [title, items] (title)}
     <section class="section">
       <h3 class="heading">{title}</h3>
@@ -93,10 +123,13 @@
       {/each}
     </div>
   </section>
+  {/if}
 </div>
 
 <style>
   /* A patch of the room's floor texture. */
+  .building { min-height: 52px; }
+  .building img, .building .ph { flex: none; width: 40px; height: 40px; object-fit: contain; image-rendering: pixelated; }
   .tex { background-size: 48px; background-position: center; image-rendering: pixelated; }
   .tex.none { box-shadow: inset 0 0 0 1px var(--line); background: repeating-linear-gradient(45deg, transparent 0 4px, var(--line) 4px 5px); }
 </style>

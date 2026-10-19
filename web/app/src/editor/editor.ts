@@ -81,7 +81,6 @@ export class Editor {
     readonly pixel: PixelRenderer,
     readonly scene: THREE.Scene,
   ) {
-    this.selection.changed.connect(() => world.setHighlights(this.selection.list()))
     this.selection.bind(session.doc)
     this.marks = new SelectionMarks(this)
     this.axes = new AxesGizmo(this)

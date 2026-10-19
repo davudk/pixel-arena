@@ -40,6 +40,12 @@
 
   const ROOFS: [string, string][] = [['gable', 'Gable'], ['hip', 'Hip'], ['flat', 'Flat'], ['none', 'None']]
   const kits = [...editor.library.kits.values()].sort((a, b) => a.name.localeCompare(b.name))
+  /** Kits a building can switch to: the same grid, so its footprint keeps its size (cells are
+   *  counted in the kit's cell size). */
+  const sameGrid = (kitId: string) => {
+    const cs = editor.library.kits.get(kitId)?.cellSize ?? 3
+    return kits.filter((k) => k.cellSize === cs)
+  }
 
   const info = $derived.by(() => {
     rev
@@ -152,7 +158,7 @@
     {#if s.type === 'building'}
       <label class="field"><span class="label">Kit</span>
         <select value={s.kit} onchange={commit((v) => setProp('Change kit', 'kit', v))}>
-          {#each kits as k (k.id)}<option value={k.id}>{k.name}</option>{/each}
+          {#each sameGrid(s.kit) as k (k.id)}<option value={k.id}>{k.name}</option>{/each}
         </select>
       </label>
       <div class="field"><span class="label">Roof</span>

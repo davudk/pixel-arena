@@ -1,7 +1,7 @@
 [
 	{
 		"id": "building_type_a",
-		"name": "Suburban House A",
+		"name": "House A",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -24,7 +24,7 @@
 	},
 	{
 		"id": "building_type_b",
-		"name": "Suburban House B",
+		"name": "House B",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -47,7 +47,7 @@
 	},
 	{
 		"id": "building_type_c",
-		"name": "Suburban House C",
+		"name": "House C",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -70,7 +70,7 @@
 	},
 	{
 		"id": "building_type_d",
-		"name": "Suburban House D",
+		"name": "House D",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -93,7 +93,7 @@
 	},
 	{
 		"id": "building_type_e",
-		"name": "Suburban House E",
+		"name": "House E",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -116,7 +116,7 @@
 	},
 	{
 		"id": "building_type_f",
-		"name": "Suburban House F",
+		"name": "House F",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -139,7 +139,7 @@
 	},
 	{
 		"id": "building_type_g",
-		"name": "Suburban House G",
+		"name": "House G",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -162,7 +162,7 @@
 	},
 	{
 		"id": "building_type_h",
-		"name": "Suburban House H",
+		"name": "House H",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -185,7 +185,7 @@
 	},
 	{
 		"id": "building_type_i",
-		"name": "Suburban House I",
+		"name": "House I",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -208,7 +208,7 @@
 	},
 	{
 		"id": "building_type_j",
-		"name": "Suburban House J",
+		"name": "House J",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -231,7 +231,7 @@
 	},
 	{
 		"id": "building_type_k",
-		"name": "Suburban House K",
+		"name": "House K",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -254,7 +254,7 @@
 	},
 	{
 		"id": "building_type_l",
-		"name": "Suburban House L",
+		"name": "House L",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -277,7 +277,7 @@
 	},
 	{
 		"id": "building_type_m",
-		"name": "Suburban House M",
+		"name": "House M",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -300,7 +300,7 @@
 	},
 	{
 		"id": "building_type_n",
-		"name": "Suburban House N",
+		"name": "House N",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -323,7 +323,7 @@
 	},
 	{
 		"id": "building_type_o",
-		"name": "Suburban House O",
+		"name": "House O",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -346,7 +346,7 @@
 	},
 	{
 		"id": "building_type_p",
-		"name": "Suburban House P",
+		"name": "House P",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -369,7 +369,7 @@
 	},
 	{
 		"id": "building_type_q",
-		"name": "Suburban House Q",
+		"name": "House Q",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -392,7 +392,7 @@
 	},
 	{
 		"id": "building_type_r",
-		"name": "Suburban House R",
+		"name": "House R",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -415,7 +415,7 @@
 	},
 	{
 		"id": "building_type_s",
-		"name": "Suburban House S",
+		"name": "House S",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -438,7 +438,7 @@
 	},
 	{
 		"id": "building_type_t",
-		"name": "Suburban House T",
+		"name": "House T",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",
@@ -461,7 +461,7 @@
 	},
 	{
 		"id": "building_type_u",
-		"name": "Suburban House U",
+		"name": "House U",
 		"category": "buildings/houses",
 		"themes": [
 			"suburban",

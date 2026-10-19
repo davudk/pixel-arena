@@ -28,6 +28,8 @@ export interface ToolParams {
   waterErase: { shape: WaterShape; radius: number; snap: boolean }
   /** room: the room type the Room piece paints. */
   build: { kit: string; piece: BuildPiece; level: number; room: RoomChoice }
+  /** A whole premade building (a prop from the building categories, PREMADE_CATEGORIES). */
+  premade: { prop: string }
 }
 /** Tools that have parameters (everything but select). */
 export type ParamTool = keyof ToolParams
@@ -39,6 +41,7 @@ export const DEFAULT_PARAMS: ToolParams = {
   water: { liquid: 'water', shape: 'polygon', radius: 2, snap: true, dig: true, depth: 1.5, shore: 3 },
   waterErase: { shape: 'brush', radius: 2, snap: true },
   build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0, room: 'living' },
+  premade: { prop: 'kenney_suburban:building_type_a' },
 }
 
 export const params: ToolParams = structuredClone(DEFAULT_PARAMS)

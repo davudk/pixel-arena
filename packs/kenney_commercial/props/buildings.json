@@ -1,7 +1,7 @@
 [
 	{
 		"id": "building_a",
-		"name": "Commercial Building A",
+		"name": "Block A",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -23,7 +23,7 @@
 	},
 	{
 		"id": "building_b",
-		"name": "Commercial Building B",
+		"name": "Block B",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -45,7 +45,7 @@
 	},
 	{
 		"id": "building_c",
-		"name": "Commercial Building C",
+		"name": "Block C",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -67,7 +67,7 @@
 	},
 	{
 		"id": "building_d",
-		"name": "Commercial Building D",
+		"name": "Block D",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -89,7 +89,7 @@
 	},
 	{
 		"id": "building_e",
-		"name": "Commercial Building E",
+		"name": "Block E",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -111,7 +111,7 @@
 	},
 	{
 		"id": "building_f",
-		"name": "Commercial Building F",
+		"name": "Block F",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -133,7 +133,7 @@
 	},
 	{
 		"id": "building_g",
-		"name": "Commercial Building G",
+		"name": "Block G",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -155,7 +155,7 @@
 	},
 	{
 		"id": "building_h",
-		"name": "Commercial Building H",
+		"name": "Block H",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -177,7 +177,7 @@
 	},
 	{
 		"id": "building_i",
-		"name": "Commercial Building I",
+		"name": "Block I",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -199,7 +199,7 @@
 	},
 	{
 		"id": "building_j",
-		"name": "Commercial Building J",
+		"name": "Block J",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -221,7 +221,7 @@
 	},
 	{
 		"id": "building_k",
-		"name": "Commercial Building K",
+		"name": "Block K",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -243,7 +243,7 @@
 	},
 	{
 		"id": "building_l",
-		"name": "Commercial Building L",
+		"name": "Block L",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -265,7 +265,7 @@
 	},
 	{
 		"id": "building_m",
-		"name": "Commercial Building M",
+		"name": "Block M",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",
@@ -287,7 +287,7 @@
 	},
 	{
 		"id": "building_n",
-		"name": "Commercial Building N",
+		"name": "Block N",
 		"category": "buildings/commercial",
 		"themes": [
 			"city",

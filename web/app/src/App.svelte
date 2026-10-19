@@ -445,6 +445,7 @@
     if (hand && owned.includes(hand)) return
     if (m === 'terrain') pickUp(editor, ui.terrainTool)
     else if (m === 'water') pickUp(editor, ui.waterTool)
+    else if (m === 'build' && ui.buildTool === 'premade') pickUp(editor, 'premade')
     else if (m === 'build') pickUp(editor, 'build', toolParams.build.piece === 'erase' ? {} : { piece: ui.buildPiece })
     else putDown(editor)
   }
@@ -464,6 +465,7 @@
     if (id === 'select') return
     ui.mode = TOOLS[id].mode
     if (id === 'sculpt' || id === 'paint') ui.terrainTool = id
+    if (id === 'build' || id === 'premade') ui.buildTool = id
     if (id === 'water' || id === 'waterErase') ui.waterTool = id
   }
 

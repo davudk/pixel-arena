@@ -2323,77 +2323,8 @@
 		}
 	},
 	{
-		"id": "building_sample_house_a",
-		"name": "Building Sample House A",
-		"category": "buildings/samples",
-		"themes": [
-			"city",
-			"modern",
-			"town"
-		],
-		"tags": [],
-		"model": "models/building-sample-house-a.glb",
-		"footprint": [
-			4.38,
-			8
-		],
-		"height": 4.57,
-		"placement": {
-			"mode": "grid",
-			"step": 4,
-			"align": "ground",
-			"rotate_snap_deg": 90
-		}
-	},
-	{
-		"id": "building_sample_house_b",
-		"name": "Building Sample House B",
-		"category": "buildings/samples",
-		"themes": [
-			"city",
-			"modern",
-			"town"
-		],
-		"tags": [],
-		"model": "models/building-sample-house-b.glb",
-		"footprint": [
-			4.37,
-			8.8
-		],
-		"height": 7.93,
-		"placement": {
-			"mode": "grid",
-			"step": 4,
-			"align": "ground",
-			"rotate_snap_deg": 90
-		}
-	},
-	{
-		"id": "building_sample_house_c",
-		"name": "Building Sample House C",
-		"category": "buildings/samples",
-		"themes": [
-			"city",
-			"modern",
-			"town"
-		],
-		"tags": [],
-		"model": "models/building-sample-house-c.glb",
-		"footprint": [
-			8,
-			8.8
-		],
-		"height": 7.93,
-		"placement": {
-			"mode": "grid",
-			"step": 4,
-			"align": "ground",
-			"rotate_snap_deg": 90
-		}
-	},
-	{
 		"id": "building_sample_tower_a",
-		"name": "Building Sample Tower A",
+		"name": "Tower A",
 		"category": "buildings/samples",
 		"themes": [
 			"city",
@@ -2416,7 +2347,7 @@
 	},
 	{
 		"id": "building_sample_tower_b",
-		"name": "Building Sample Tower B",
+		"name": "Tower B",
 		"category": "buildings/samples",
 		"themes": [
 			"city",
@@ -2439,7 +2370,7 @@
 	},
 	{
 		"id": "building_sample_tower_c",
-		"name": "Building Sample Tower C",
+		"name": "Tower C",
 		"category": "buildings/samples",
 		"themes": [
 			"city",
@@ -2462,7 +2393,7 @@
 	},
 	{
 		"id": "building_sample_tower_d",
-		"name": "Building Sample Tower D",
+		"name": "Tower D",
 		"category": "buildings/samples",
 		"themes": [
 			"city",
@@ -2476,6 +2407,75 @@
 			4.4
 		],
 		"height": 15.05,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_a",
+		"name": "Town House A",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-a.glb",
+		"footprint": [
+			4.38,
+			8
+		],
+		"height": 4.57,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_b",
+		"name": "Town House B",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-b.glb",
+		"footprint": [
+			4.37,
+			8.8
+		],
+		"height": 7.93,
+		"placement": {
+			"mode": "grid",
+			"step": 4,
+			"align": "ground",
+			"rotate_snap_deg": 90
+		}
+	},
+	{
+		"id": "building_sample_house_c",
+		"name": "Town House C",
+		"category": "buildings/samples",
+		"themes": [
+			"city",
+			"modern",
+			"town"
+		],
+		"tags": [],
+		"model": "models/building-sample-house-c.glb",
+		"footprint": [
+			8,
+			8.8
+		],
+		"height": 7.93,
 		"placement": {
 			"mode": "grid",
 			"step": 4,

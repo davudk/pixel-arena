@@ -119,6 +119,18 @@ async function placeTest(editor: Editor, check: (ok: unknown, what: string) => v
   check(Math.abs(pos.x / 0.5 - Math.round(pos.x / 0.5)) < 1e-9 && Math.abs(pos.z / 0.5 - Math.round(pos.z / 0.5)) < 1e-9, `snapped to 0.5 m: ${pos.x},${pos.z}`)
   await settle()
 
+  // Choosing another prop while one is in hand places the new one (the tool is remade).
+  pickUp(editor, 'place', { prop: 'kenney_nature:rock_large_a' })
+  pickUp(editor, 'place', { prop: 'kenney_nature:pot_large' })
+  check(editor.tool instanceof PlaceTool && (editor.tool as PlaceTool).prop.id === 'kenney_nature:pot_large', `the second prop is in hand (${(editor.tool as PlaceTool).prop?.id})`)
+  const before = props().length
+  const far = at(new THREE.Vector3(6, 0, 6))
+  editor.tool.pointerMove?.(far)
+  editor.tool.pointerDown?.(far)
+  check(props().length === before + 1 && props().at(-1)?.props.get('prop') === 'kenney_nature:pot_large', `the chosen prop is placed (${props().at(-1)?.props.get('prop')})`)
+  s.undo()
+  editor.setTool(place)
+
   // Picking finds it (through the instanced mesh).
   const top = at(new THREE.Vector3(pos.x, pos.y + 0.3, pos.z))
   check(editor.pick(top)?.id === stump.id, 'pick finds the stump')
@@ -199,7 +211,7 @@ async function selectTest(editor: Editor, check: (ok: unknown, what: string) => 
   s.undo()
   check(Number(s.doc.getProp(stump.id, 'rotation')) === 0, 'undo rotation')
   await settle()
-  check(editor.world.highlightRoot.children.length === 1, 'selected object is highlighted')
+  check(editor.marks.root.children.length === 1, 'selected object is marked')
 
   // Drag-move (grab the stump, drag 150 px right).
   const before = pos()
@@ -338,7 +350,7 @@ async function terrainTest(editor: Editor, check: (ok: unknown, what: string) =>
   editor.tool.key?.(new KeyboardEvent('keydown', { key: 'PageUp' }))
   check(Math.abs((doc.getProp(ids[0], 'position') as Vec3).y - y0 - 0.25) < 1e-9, 'PageUp raises the water by 0.25 m')
   await settle()
-  check(world.highlightRoot.children.length === 1, 'water rendered and highlighted')
+  check(world.objectRoot(ids[0]) && editor.marks.root.children.length === 1, 'water rendered and marked')
 }
 
 async function buildingTest(editor: Editor, check: (ok: unknown, what: string) => void, settle: () => Promise<void>) {
@@ -1108,6 +1120,25 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
   button('.tools-box .verbs', 'Build')?.click()
   await settle()
   check(toolParams.build.piece !== 'erase', 'Build goes back to the last piece')
+  // Premade: the switch shows whole buildings by category; picking one and clicking places it.
+  button('.tools-box .verbs', 'Premade')?.click()
+  await settle()
+  const houses = $$('.catalog .choice.building')
+  check(houses.length > 20 && $$('.catalog .heading').some((h) => h.textContent === 'Houses'), `premade catalogue (${houses.length} buildings)`)
+  houses[3]?.click()
+  await settle()
+  check(inHand(editor) === 'premade' && editor.tool instanceof PlaceTool, 'a premade building in hand')
+  const chosen = (editor.tool as PlaceTool).prop
+  const pr = editor.pixel.toScreen(new THREE.Vector3(30, 0, 30), editor.rig)!
+  const pt = { x: pr.x, y: pr.y, shift: false, alt: false, cmd: false }
+  editor.tool.pointerMove?.(pt)
+  editor.tool.pointerDown?.(pt)
+  const placed = [...editor.session.doc.objects.values()].filter((o) => !o.deleted && o.props.get('prop') === chosen.id)
+  check(placed.length === 1, `premade building placed (${chosen.id})`)
+  await shot('premade')
+  editor.session.undo()
+  button('.tools-box .verbs', 'Build')?.click()
+  await settle()
   await shot('build')
 
   // Props: placement settings in the tools container.
@@ -1135,6 +1166,10 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
     editor.selection.set([building.id])
     await settle()
     check($('.selection-box .seg[aria-label="Roof"]'), 'selection: roof of the building')
+    // Its kit list only offers kits on the same grid (switching keeps the building's size).
+    const grid = editor.library.kits.get(String(building.props.get('kit')))?.cellSize
+    const offered = [...($('.selection-box select') as HTMLSelectElement | null)?.options ?? []].map((o) => editor.library.kits.get(o.value)?.cellSize)
+    check(offered.length > 1 && offered.every((c) => c === grid), `kits on the same grid only (${offered.join(', ')})`)
     ui.showStats = true
     await settle()
     const stats = $('.stats')?.getBoundingClientRect()
@@ -1447,7 +1482,7 @@ async function waterTest(editor: Editor, check: (ok: unknown, what: string) => v
   check(Math.abs(h(4, 4) - -1.5) < 0.01, `an existing hollow is filled, not dug deeper (${h(4, 4)})`)
   editor.selection.set(lava ? [lava.id] : [])
   await settle()
-  check(editor.world.highlightRoot.children.length === 1, 'lava rendered and highlighted')
+  check(lava && editor.world.objectRoot(lava.id) && editor.marks.root.children.length === 1, 'lava rendered and marked')
   await saveShot('selftest-water.png', x.canvas)
 
   // One basin of every liquid in a row, unselected, for a look at each.

@@ -92,7 +92,8 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     describe: () => 'Select',
   },
   place: {
-    id: 'place', mode: 'props', label: 'Place prop', icon: 'cube', saveable: true,
+    // The tool is made for one prop: choosing another makes a new one (recreateOn).
+    id: 'place', mode: 'props', label: 'Place prop', icon: 'cube', saveable: true, recreateOn: ['prop'],
     params: [
       { key: 'prop', label: 'Prop', kind: 'prop' },
       { key: 'randomRotation', label: 'Random angle', kind: 'toggle', icon: 'shuffle' },
@@ -178,11 +179,27 @@ export const TOOLS: Record<ToolId, ToolDef> = {
     create: (editor) => new BuildingTool(editor),
     describe: (p, library) => `${library?.kits.get(String(p.kit))?.name ?? 'Building'} · ${p.piece === 'room' ? ROOM_NAMES[String(p.room)] : pieceName(p.piece as ToolParams['build']['piece'])}`,
   },
+  // A whole premade building, placed like a prop (PlaceTool) from Build mode's Premade catalogue.
+  premade: {
+    id: 'premade', mode: 'build', label: 'Premade building', icon: 'building', saveable: true, recreateOn: ['prop'],
+    params: [{ key: 'prop', label: 'Building', kind: 'prop' }],
+    create: (editor) => {
+      const prop = editor.library.props.get(params.premade.prop)
+      return prop ? new PlaceTool(editor, prop, 'premade') : null
+    },
+    describe: (p, library) => library?.props.get(String(p.prop))?.name ?? String(p.prop),
+  },
 }
 
 export const MODE_TOOLS: Record<Mode, ToolId[]> = {
-  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water', 'waterErase'], build: ['build'],
+  select: ['select'], props: ['place'], terrain: ['sculpt', 'paint'], water: ['water', 'waterErase'], build: ['build', 'premade'],
 }
+
+/** Prop categories that hold whole buildings (Build mode's Premade catalogue), in display order. */
+export const PREMADE_CATEGORIES: [string, string][] = [
+  ['buildings/houses', 'Houses'], ['buildings/samples', 'Town houses'], ['city/buildings', 'City blocks'],
+  ['buildings/commercial', 'Shops and offices'], ['buildings/skyscrapers', 'Skyscrapers'], ['buildings/industrial', 'Industrial'],
+]
 
 /** The registry id of a tool instance (the select tool for anything unknown). */
 export function idOf(tool: Tool): ToolId {

@@ -1,7 +1,7 @@
 [
 	{
 		"id": "building_a",
-		"name": "Industrial Building A",
+		"name": "Factory A",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -23,7 +23,7 @@
 	},
 	{
 		"id": "building_b",
-		"name": "Industrial Building B",
+		"name": "Factory B",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -45,7 +45,7 @@
 	},
 	{
 		"id": "building_c",
-		"name": "Industrial Building C",
+		"name": "Factory C",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -67,7 +67,7 @@
 	},
 	{
 		"id": "building_d",
-		"name": "Industrial Building D",
+		"name": "Factory D",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -89,7 +89,7 @@
 	},
 	{
 		"id": "building_e",
-		"name": "Industrial Building E",
+		"name": "Factory E",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -111,7 +111,7 @@
 	},
 	{
 		"id": "building_f",
-		"name": "Industrial Building F",
+		"name": "Factory F",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -133,7 +133,7 @@
 	},
 	{
 		"id": "building_g",
-		"name": "Industrial Building G",
+		"name": "Factory G",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -155,7 +155,7 @@
 	},
 	{
 		"id": "building_h",
-		"name": "Industrial Building H",
+		"name": "Factory H",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -177,7 +177,7 @@
 	},
 	{
 		"id": "building_i",
-		"name": "Industrial Building I",
+		"name": "Factory I",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -199,7 +199,7 @@
 	},
 	{
 		"id": "building_j",
-		"name": "Industrial Building J",
+		"name": "Factory J",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -221,7 +221,7 @@
 	},
 	{
 		"id": "building_k",
-		"name": "Industrial Building K",
+		"name": "Factory K",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -243,7 +243,7 @@
 	},
 	{
 		"id": "building_l",
-		"name": "Industrial Building L",
+		"name": "Factory L",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -265,7 +265,7 @@
 	},
 	{
 		"id": "building_m",
-		"name": "Industrial Building M",
+		"name": "Factory M",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -287,7 +287,7 @@
 	},
 	{
 		"id": "building_n",
-		"name": "Industrial Building N",
+		"name": "Factory N",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -309,7 +309,7 @@
 	},
 	{
 		"id": "building_o",
-		"name": "Industrial Building O",
+		"name": "Factory O",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -331,7 +331,7 @@
 	},
 	{
 		"id": "building_p",
-		"name": "Industrial Building P",
+		"name": "Factory P",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -353,7 +353,7 @@
 	},
 	{
 		"id": "building_q",
-		"name": "Industrial Building Q",
+		"name": "Factory Q",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -375,7 +375,7 @@
 	},
 	{
 		"id": "building_r",
-		"name": "Industrial Building R",
+		"name": "Factory R",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -397,7 +397,7 @@
 	},
 	{
 		"id": "building_s",
-		"name": "Industrial Building S",
+		"name": "Factory S",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",
@@ -419,7 +419,7 @@
 	},
 	{
 		"id": "building_t",
-		"name": "Industrial Building T",
+		"name": "Factory T",
 		"category": "buildings/industrial",
 		"themes": [
 			"city",

@@ -14,13 +14,13 @@ import { placeLabel } from './labels'
 import { params } from './tool-params'
 
 export class PlaceTool implements Tool {
-  readonly name = 'place'
   yaw = 0
   private ghost: THREE.Object3D | null = null
   private target: { position: THREE.Vector3; parent: string | null } | null = null
   private alive = true
 
-  constructor(private editor: Editor, readonly prop: PropDef) {}
+  /** The registry tool it serves: place (props) or premade (whole buildings in Build mode). */
+  constructor(private editor: Editor, readonly prop: PropDef, readonly name: 'place' | 'premade' = 'place') {}
 
   activate() {
     void loadModel(this.prop).then((model) => {

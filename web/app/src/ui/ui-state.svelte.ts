@@ -51,6 +51,8 @@ const DEFAULTS = {
   toolParams: null as unknown,
   /** The terrain tool last in hand, picked up again when Terrain mode opens. */
   terrainTool: 'sculpt' as 'sculpt' | 'paint',
+  /** Build mode's tool last in hand: custom building or premade. */
+  buildTool: 'build' as 'build' | 'premade',
   /** The water tool last in hand (Draw or Erase). */
   waterTool: 'water' as 'water' | 'waterErase',
   /** The building piece last built with (Build's "Build" switch goes back to it after Erase). */
