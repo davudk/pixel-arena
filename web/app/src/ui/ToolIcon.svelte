@@ -18,8 +18,9 @@
   let { tool, size = 16, library = null, thumbnails = null }: Props = $props()
 
   const p = $derived(tool.params)
-  const prop = $derived(tool.tool === 'place' ? library?.props.get(String(p.prop)) : undefined)
-  const thumb = $derived(prop ? (thumbUrls[prop.id] ?? thumbnails?.get(prop) ?? null) : null)
+  const prop = $derived(tool.tool === 'place' || tool.tool === 'premade' ? library?.props.get(String(p.prop)) : undefined)
+  const building = $derived(tool.tool === 'premade' ? library?.buildings.get(String(p.prop)) : undefined)
+  const thumb = $derived(prop ? (thumbUrls[prop.id] ?? thumbnails?.get(prop) ?? null) : building ? (thumbUrls[building.id] ?? thumbnails?.getBuilding(building) ?? null) : null)
   /** The icon of the chosen option (sculpt shape, building piece), else the tool's. */
   const icon = $derived.by(() => {
     for (const def of TOOLS[tool.tool].params) {

@@ -40,6 +40,8 @@ const SIZE: Record<string, [number, number]> = {
   toilet: [0.63, 0.95], bathroom_sink: [0.68, 0.58], bathtub: [2.38, 1.12], shower: [1.12, 1.16], bathroom_cabinet_drawer: [0.86, 0.64], washer: [0.78, 0.78],
   coat_rack_standing: [0.55, 0.55], desk: [1.47, 0.78], chair_desk: [0.67, 0.63], computer_screen: [0.79, 0.21], laptop: [0.53, 0.48],
   cardboard_box_closed: [0.42, 0.42], cardboard_box_open: [0.74, 0.42], trashcan: [0.42, 0.47],
+  kitchen_bar: [0.86, 0.42], side_table: [1.07, 0.44], lounge_design_sofa: [2.24, 0.82], bench_cushion: [0.8, 0.4],
+  'kenney_cars:police': [1.8, 3.72], 'kenney_cars:firetruck': [1.8, 4.08], 'kenney_cars:ambulance': [1.8, 3.9], 'kenney_cars:van': [1.8, 3.3],
 }
 const FURN = 'kenney_furniture:'
 
@@ -47,7 +49,13 @@ interface Companion { id: string; along: number; out: number; y?: number; turn?:
 interface WallItem { kind: 'wall'; ids: string[]; with?: Companion[]; optional?: number }
 interface RunItem { kind: 'run'; ids: string[] }
 interface CenterItem { kind: 'center'; ids: string[]; with?: Companion[]; optional?: number }
-type Item = WallItem | RunItem | CenterItem
+/** Rows of the same item (school desks, office desks) over the room, each with its companions;
+ *  `aisle` is the gap kept free between rows (meters). */
+interface GridItem { kind: 'grid'; ids: string[]; with?: Companion[]; aisle: number; optional?: number }
+type Item = WallItem | RunItem | CenterItem | GridItem
+
+/** A prop id in the templates: bare names are Kenney Furniture Kit props. */
+const full = (id: string) => (id.includes(':') ? id : FURN + id)
 
 /** Room templates: items in priority order; `optional` is the chance an item is tried at all. */
 const TEMPLATES: Partial<Record<RoomType, Item[]>> = {
@@ -86,9 +94,39 @@ const TEMPLATES: Partial<Record<RoomType, Item[]>> = {
     { kind: 'wall', ids: ['potted_plant'], optional: 0.5 },
   ],
   office: [
-    { kind: 'wall', ids: ['desk'], with: [{ id: 'chair_desk', along: 0, out: 0.75, turn: Math.PI }, { id: 'computer_screen', along: 0, out: -0.15, y: 0.77 }] },
     { kind: 'wall', ids: ['bookcase_closed'] },
+    { kind: 'grid', ids: ['desk'], aisle: 1, with: [{ id: 'chair_desk', along: 0, out: 0.75, turn: Math.PI }, { id: 'computer_screen', along: 0, out: -0.15, y: 0.77 }] },
     { kind: 'wall', ids: ['potted_plant'], optional: 0.6 },
+  ],
+  classroom: [
+    { kind: 'wall', ids: ['desk'], with: [{ id: 'chair_desk', along: 0, out: 0.75, turn: Math.PI }] },
+    { kind: 'grid', ids: ['side_table'], aisle: 0.9, with: [{ id: 'chair', along: 0, out: -0.55 }] },
+    { kind: 'wall', ids: ['bookcase_open'], optional: 0.8 },
+  ],
+  shop: [
+    { kind: 'run', ids: ['kitchen_bar', 'kitchen_bar', 'kitchen_bar'] },
+    { kind: 'wall', ids: ['bookcase_open'] },
+    { kind: 'wall', ids: ['bookcase_open'] },
+    { kind: 'wall', ids: ['bookcase_closed'], optional: 0.7 },
+    { kind: 'wall', ids: ['potted_plant'], optional: 0.6 },
+  ],
+  ward: [
+    { kind: 'wall', ids: ['bed_single'], with: [{ id: 'cabinet_bed_drawer', along: 0.85, out: -0.8 }] },
+    { kind: 'wall', ids: ['bed_single'], with: [{ id: 'cabinet_bed_drawer', along: 0.85, out: -0.8 }] },
+    { kind: 'wall', ids: ['bed_single'], optional: 0.8 },
+    { kind: 'wall', ids: ['bed_single'], optional: 0.6 },
+    { kind: 'wall', ids: ['potted_plant'], optional: 0.5 },
+  ],
+  reception: [
+    { kind: 'wall', ids: ['desk'], with: [{ id: 'chair_desk', along: 0, out: 0.75, turn: Math.PI }, { id: 'computer_screen', along: 0, out: -0.15, y: 0.77 }] },
+    { kind: 'wall', ids: ['lounge_design_sofa', 'lounge_sofa'] },
+    { kind: 'wall', ids: ['lounge_chair'], optional: 0.8 },
+    { kind: 'wall', ids: ['potted_plant'] },
+  ],
+  garage: [
+    { kind: 'center', ids: ['kenney_cars:firetruck', 'kenney_cars:police', 'kenney_cars:van'] },
+    { kind: 'wall', ids: ['bookcase_closed'], optional: 0.6 },
+    { kind: 'wall', ids: ['cardboard_box_closed'], optional: 0.7 },
   ],
   storage: [
     { kind: 'wall', ids: ['cardboard_box_closed'] },
@@ -182,7 +220,7 @@ function furnishRoom(ctx: FurnishContext, type: RoomType, cells: Vec2i[], r: Rng
       if (kind === 'wall' || kind === 'window') slots.push({ c, d })
     }
   const out: Furnishing[] = []
-  const put = (id: string, x: number, z: number, rot: number, y = 0) => out.push({ prop: FURN + id, x, y: floorY + y, z, rotation: rot })
+  const put = (id: string, x: number, z: number, rot: number, y = 0) => out.push({ prop: full(id), x, y: floorY + y, z, rotation: rot })
 
   /** Footprint of `id` turned by `rot` (quarter turns), centered at (x, z). */
   const footprint = (id: string, x: number, z: number, rot: number) => {
@@ -239,13 +277,35 @@ function furnishRoom(ctx: FurnishContext, type: RoomType, cells: Vec2i[], r: Rng
           const b = footprint(id, x, z, BACK_TO[d])
           if (!fits(b) || placed.some((p) => p.x0 < b.x1 && b.x0 < p.x1 && p.z0 < b.z1 && b.z0 < p.z1)) break
           placed.push(b)
-          items.push({ prop: FURN + id, x, y: floorY, z, rotation: BACK_TO[d] })
+          items.push({ prop: full(id), x, y: floorY, z, rotation: BACK_TO[d] })
           t += w
         }
         if (items.length >= 3) {
           taken.push(...placed)
           out.push(...items)
           break
+        }
+      }
+      continue
+    }
+    if (item.kind === 'grid') {
+      // Rows over the room's bounding box, the item's front toward -z (rotation π: facing a
+      // teacher's desk or the front wall), skipping spots that don't fit.
+      const id = item.ids[0]
+      const [w, dep] = SIZE[id]
+      const xs = cells.map((c) => c.x)
+      const zs = cells.map((c) => c.y)
+      const bx0 = Math.min(...xs) * cs + 0.6
+      const bx1 = (Math.max(...xs) + 1) * cs - 0.6
+      const bz0 = Math.min(...zs) * cs + 1.6
+      const bz1 = (Math.max(...zs) + 1) * cs - 0.4
+      for (let z = bz0 + dep / 2; z + dep / 2 + item.aisle <= bz1; z += dep + item.aisle) {
+        for (let x = bx0 + w / 2; x + w / 2 <= bx1; x += w + 0.5) {
+          const b = footprint(id, x, z, Math.PI)
+          if (!fits(b)) continue
+          taken.push(b)
+          put(id, x, z, Math.PI)
+          tryCompanions({ x, z, rot: Math.PI, d: null }, item.with)
         }
       }
       continue

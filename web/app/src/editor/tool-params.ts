@@ -11,7 +11,7 @@ export type Shape = 'polygon' | 'brush'
 export type WaterShape = Shape
 export type BuildPiece = 'foundation' | 'erase' | 'wall' | 'door' | 'window' | 'doorway' | 'stairs' | 'room'
 /** A room type (BuildingLayout ROOM_TYPES), or none to clear it. */
-export type RoomChoice = 'none' | 'living' | 'bedroom' | 'kitchen' | 'dining' | 'bathroom' | 'hall' | 'office' | 'classroom' | 'shop' | 'storage'
+export type RoomChoice = 'none' | 'living' | 'bedroom' | 'kitchen' | 'dining' | 'bathroom' | 'hall' | 'office' | 'classroom' | 'shop' | 'storage' | 'ward' | 'reception' | 'garage'
 export const MAX_LEVEL = 9
 
 export interface ToolParams {
@@ -41,7 +41,7 @@ export const DEFAULT_PARAMS: ToolParams = {
   water: { liquid: 'water', shape: 'polygon', radius: 2, snap: true, dig: true, depth: 1.5, shore: 3 },
   waterErase: { shape: 'brush', radius: 2, snap: true },
   build: { kit: 'kenney_town:timber', piece: 'foundation', level: 0, room: 'living' },
-  premade: { prop: 'kenney_suburban:building_type_a' },
+  premade: { prop: 'premade:house_a' },
 }
 
 export const params: ToolParams = structuredClone(DEFAULT_PARAMS)

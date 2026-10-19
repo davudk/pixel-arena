@@ -2,10 +2,10 @@
 // furniture and yard as its children, so they move, turn, copy and delete with it. Call inside
 // an edit.
 
-import { Vec3, type Generated, type MapSession } from '@pixel-arena/core'
+import { Vec3, type Furnishing, type MapSession, type Value } from '@pixel-arena/core'
 
 /** Creates the building at `at` turned by `yaw`; returns its id. */
-export function placeGenerated(s: MapSession, g: Generated, at: Vec3, yaw = 0): string {
+export function placeGenerated(s: MapSession, g: { props: Record<string, Value>; children: Furnishing[] }, at: Vec3, yaw = 0): string {
   const id = s.createObject('building', { position: at, rotation: yaw, ...g.props })
   const cos = Math.cos(yaw)
   const sin = Math.sin(yaw)

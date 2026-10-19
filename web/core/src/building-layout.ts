@@ -17,7 +17,7 @@ import { Rect2i, Vec2i } from './values'
 /** doorway: an opening with a frame and no door. */
 export const KINDS = ['wall', 'window', 'door', 'doorway', 'open'] as const
 /** Room types, in the order the editor lists them. */
-export const ROOM_TYPES = ['living', 'bedroom', 'kitchen', 'dining', 'bathroom', 'hall', 'office', 'classroom', 'shop', 'storage'] as const
+export const ROOM_TYPES = ['living', 'bedroom', 'kitchen', 'dining', 'bathroom', 'hall', 'office', 'classroom', 'shop', 'storage', 'ward', 'reception', 'garage'] as const
 export type RoomType = (typeof ROOM_TYPES)[number]
 export const STAIR_DIRS = ['N', 'E', 'S', 'W'] as const
 export type StairDir = (typeof STAIR_DIRS)[number]

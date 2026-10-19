@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { APARTMENT, BuildingLayout, generateBuilding, HOUSE, MapObject, Vec2i, type Value } from '../src'
+import { APARTMENT, BuildingLayout, generateBuilding, HOUSE, MapObject, RECIPES, Vec2i, type Value } from '../src'
 
 const layoutOf = (props: Record<string, Value>) => {
   const obj = new MapObject('b', 'building')
@@ -13,7 +13,7 @@ describe('building generator', () => {
     expect(generateBuilding(HOUSE, 7).props).not.toEqual(generateBuilding(HOUSE, 8).props)
   })
 
-  for (const recipe of [HOUSE, APARTMENT])
+  for (const recipe of Object.values(RECIPES))
     it(`${recipe.id}: 30 seeds all validate, with rooms, doors, windows and stairs`, () => {
       for (let seed = 1; seed <= 30; seed++) {
         const g = generateBuilding(recipe, seed * 101)
@@ -32,9 +32,11 @@ describe('building generator', () => {
         expect(g.summary.windows).toBeGreaterThan(2)
         // Stairs connect every pair of consecutive levels.
         for (const lv of levels.slice(0, -1)) expect(l.stairs(lv).size).toBe(1)
+        expect(g.children.length).toBeGreaterThan(5)
         // Rooms of the recipe's kinds exist.
         const kinds = new Set(levels.flatMap((lv) => [...l.rooms(lv).values()]))
-        for (const k of ['living', 'kitchen', 'bathroom', 'hall']) expect(kinds.has(k as never)).toBe(true)
+        expect(kinds.has('hall')).toBe(true)
+        expect(kinds.size).toBeGreaterThanOrEqual(3)
       }
     })
 

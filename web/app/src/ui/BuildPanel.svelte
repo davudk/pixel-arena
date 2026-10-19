@@ -10,7 +10,7 @@
   import { params, paramsChanged } from '../editor/tool-params'
   import { inHand, pickUp, PREMADE_CATEGORIES, TOOLS } from '../editor/tools'
   import Icon from './Icon.svelte'
-  import type { PropDef } from '../library/library'
+  import type { PremadeDef, PropDef } from '../library/library'
   import { thumbUrls, ui } from './ui-state.svelte'
   import { ROOM_NAMES } from '../editor/labels'
   import type { RoomChoice } from '../editor/tool-params'
@@ -25,7 +25,7 @@
   const options = TOOLS.build.params.find((p) => p.key === 'piece')!.options!
   /** Pieces in two rows: what a building is made of, and what goes in its walls. */
   const SECTIONS: [string, string[]][] = [['Structure', ['foundation', 'wall', 'stairs', 'room']], ['Openings', ['door', 'window', 'doorway']]]
-  const ROOMS: RoomChoice[] = ['living', 'bedroom', 'kitchen', 'dining', 'bathroom', 'hall', 'office', 'classroom', 'shop', 'storage', 'none']
+  const ROOMS: RoomChoice[] = ['living', 'bedroom', 'kitchen', 'dining', 'bathroom', 'hall', 'office', 'classroom', 'shop', 'storage', 'ward', 'reception', 'garage', 'none']
   /** A patch of each room type's floor texture. */
   const roomSwatch = (r: RoomChoice) => {
     if (r === 'none') return { color: 'transparent', image: null }
@@ -50,13 +50,25 @@
     }
   })
 
-  /** Premade buildings: whole-building props by category, with thumbnails. */
-  const premade = PREMADE_CATEGORIES.map(([category, title]) => [title, editor.library.search('', '', category).filter((p) => p.category === category)] as const)
+  /** Premade buildings by category: the furnished ones (library.buildings), then whole-building
+   *  models without interiors (props in PREMADE_CATEGORIES). Each with a thumbnail. */
+  type Entry = { id: string; name: string; title: string; kind: 'building' | 'prop'; def: PremadeDef | PropDef }
+  const furnished = new Map<string, Entry[]>()
+  for (const b of editor.library.buildings.values()) {
+    if (!furnished.has(b.category)) furnished.set(b.category, [])
+    furnished.get(b.category)!.push({ id: b.id, name: b.name, title: `${b.name} · ${b.size[0]} × ${b.size[1]} m · ${b.storeys} ${b.storeys === 1 ? 'storey' : 'storeys'}`, kind: 'building', def: b })
+  }
+  const simple = PREMADE_CATEGORIES.map(([category, title]) => [`${title} (no interior)`, editor.library.search('', '', category).filter((p) => p.category === category)
+    .map((p): Entry => ({ id: p.id, name: p.name, title: `${p.name} · ${p.footprint[0]} × ${p.footprint[1]} m`, kind: 'prop', def: p }))] as const)
     .filter(([, list]) => list.length)
+  /** Homes first, then commercial, then civic. */
+  const ORDER = ['Houses', 'Row houses', 'Town houses', 'Apartments', 'Shops', 'Offices', 'Schools', 'Hospitals', 'Police stations', 'Fire stations', 'City halls']
+  const rank = (c: string) => (ORDER.indexOf(c) + 999) % 999
+  const premade = [...[...furnished.entries()].sort((a, b) => rank(a[0]) - rank(b[0])), ...simple]
   $effect(() => {
     if (view.premade) editor.thumbnails.prioritize(premade.flatMap(([, list]) => list))
   })
-  const thumb = (p: PropDef) => thumbUrls[p.id] ?? editor.thumbnails.get(p)
+  const thumb = (e: Entry) => thumbUrls[e.id] ?? (e.kind === 'building' ? editor.thumbnails.getBuilding(e.def as PremadeDef) : editor.thumbnails.get(e.def as PropDef))
 </script>
 
 <div class="panel-body">
@@ -68,7 +80,7 @@
           {#each list as p (p.id)}
             {@const on = view.building === p.id}
             {@const url = thumb(p)}
-            <button class="choice building" class:on aria-pressed={on} title="{p.name} · {p.footprint[0]} × {p.footprint[1]} m"
+            <button class="choice building" class:on aria-pressed={on} title={p.title}
               onclick={() => pickUp(editor, 'premade', { prop: p.id })}>
               {#if url}<img src={url} alt="" draggable="false" />{:else}<span class="ph"></span>{/if}<span>{p.name}</span>
             </button>

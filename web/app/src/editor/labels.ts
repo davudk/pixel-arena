@@ -49,7 +49,7 @@ const PIECES: Record<BuildPiece, string> = {
 /** Room types as the editor names them. */
 export const ROOM_NAMES: Record<string, string> = {
   none: 'No room', living: 'Living room', bedroom: 'Bedroom', kitchen: 'Kitchen', dining: 'Dining room', bathroom: 'Bathroom',
-  hall: 'Hall', office: 'Office', classroom: 'Classroom', shop: 'Shop', storage: 'Storage',
+  hall: 'Hall', office: 'Office', classroom: 'Classroom', shop: 'Shop', storage: 'Storage', ward: 'Ward', reception: 'Reception', garage: 'Garage',
 }
 export const buildLabel = (piece: BuildPiece) => PIECES[piece]
 export const pieceName = (piece: BuildPiece) =>

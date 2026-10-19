@@ -1,4 +1,4 @@
-import { snapping, Vec2, Vec3 } from '@pixel-arena/core'
+import { snapping, Vec2, Vec3, type Furnishing, type Value } from '@pixel-arena/core'
 
 // Prop library: the same pack manifests the Godot version reads (packs/<pack>/pack.json +
 // props/*.json), validated the same way, with category / theme / text search.
@@ -70,6 +70,21 @@ export interface TerrainMaterialDef {
   packId: string
 }
 
+/** A whole premade building (packs/<pack>/buildings/*.json, baked by web/tools/bake-premade.mjs):
+ *  the building's properties and its furniture and yard, building-local. */
+export interface PremadeDef {
+  id: string // "pack:local"
+  name: string
+  category: string
+  storeys: number
+  /** The building's width and depth (m); bounds of everything around it [x0, z0, x1, z1]. */
+  size: [number, number]
+  bounds: [number, number, number, number]
+  props: Record<string, Value>
+  children: Furnishing[]
+  packId: string
+}
+
 export interface Pack {
   id: string
   name: string
@@ -86,13 +101,15 @@ export class Library {
   packs = new Map<string, Pack>()
   props = new Map<string, PropDef>()
   kits = new Map<string, KitDef>()
+  /** Premade buildings, in pack and file order. */
+  buildings = new Map<string, PremadeDef>()
   /** Terrain materials by slot (the first pack to claim a slot keeps it). */
   terrain = new Map<number, TerrainMaterialDef>()
   errors: string[] = []
 
   static async load(base = '/packs'): Promise<Library> {
     const lib = new Library()
-    const index: { dir: string; props: string[]; kits: string[]; terrain?: string[] }[] = await (await fetch(`${base}/index.json`)).json()
+    const index: { dir: string; props: string[]; kits: string[]; terrain?: string[]; buildings?: string[] }[] = await (await fetch(`${base}/index.json`)).json()
     for (const entry of index.sort((a, b) => a.dir.localeCompare(b.dir))) {
       const root = `${base}/${entry.dir}`
       const meta = await (await fetch(`${root}/pack.json`)).json()
@@ -149,7 +166,31 @@ export class Library {
           })
         }
       }
+      for (const file of entry.buildings ?? []) {
+        const data = await (await fetch(`${root}/buildings/${file}`)).json()
+        for (const b of Array.isArray(data) ? data : [data]) {
+          const where = `${pack.id}/buildings/${file}:${b?.id ?? '?'}`
+          if (!ID.test(b?.id ?? '') || typeof b.props !== 'object' || !Array.isArray(b.children)) {
+            lib.errors.push(`${where}: invalid building`)
+            continue
+          }
+          const props: Record<string, Value> = {}
+          for (const [k, v] of Object.entries(b.props)) if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') props[k] = v
+          lib.buildings.set(`${pack.id}:${b.id}`, {
+            id: `${pack.id}:${b.id}`, name: b.name ?? b.id, category: b.category ?? 'Buildings', storeys: Number(b.storeys) || 1,
+            size: b.size ?? [10, 10], bounds: b.bounds ?? [0, 0, 10, 10], props, children: b.children, packId: pack.id,
+          })
+        }
+      }
       lib.packs.set(pack.id, pack)
+    }
+    // A premade building's furniture must exist (packs load in name order, so check at the end).
+    for (const [id, b] of lib.buildings) {
+      const missing = b.children.find((c) => !lib.props.has(c.prop))
+      if (missing) {
+        lib.errors.push(`${id}: unknown prop ${missing.prop}`)
+        lib.buildings.delete(id)
+      }
     }
     return lib
   }

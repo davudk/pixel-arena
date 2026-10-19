@@ -15,6 +15,9 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
 - Import third-party model packs (re-centered, measured, categorized; config in `web/tools/packs.config.mjs`):
   `node web/tools/import-packs.mjs <dir of unzipped downloads> [pack id ...]`. The `library` self-test
   checks every prop loads, is centered and matches its manifest size.
+- Bake the premade building library (`packs/premade`) from the generator's recipes:
+  `node --experimental-transform-types --import ./web/tools/ts-resolve.mjs web/tools/bake-premade.mjs`
+  (the resolve hook lets Node run `web/core`'s TypeScript directly).
 - npm here skips install scripts, so after a fresh install run `node web/node_modules/electron/install.js`
   if `web/node_modules/electron/dist` is missing (the launcher does this).
 

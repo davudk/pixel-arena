@@ -65,7 +65,7 @@ protocol.registerSchemesAsPrivileged([
 function packIndex() {
   const list = (dir) => (fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.json')) : [])
   return fs.readdirSync(DIRS.packs, { withFileTypes: true }).filter((d) => d.isDirectory())
-    .map((d) => ({ dir: d.name, props: list(path.join(DIRS.packs, d.name, 'props')), kits: list(path.join(DIRS.packs, d.name, 'kits')), terrain: list(path.join(DIRS.packs, d.name, 'terrain')) }))
+    .map((d) => ({ dir: d.name, props: list(path.join(DIRS.packs, d.name, 'props')), kits: list(path.join(DIRS.packs, d.name, 'kits')), terrain: list(path.join(DIRS.packs, d.name, 'terrain')), buildings: list(path.join(DIRS.packs, d.name, 'buildings')) }))
 }
 
 /** `rel` inside `dir`, or null if it escapes it or doesn't exist. */

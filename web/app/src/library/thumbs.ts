@@ -4,7 +4,10 @@
 import * as THREE from 'three'
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js'
 import { loadModel } from './models'
-import type { PropDef } from './library'
+import type { PremadeDef, PropDef } from './library'
+
+/** Something to draw: its id, and how to make the object (with its bounds). */
+interface Job { id: string; make: () => Promise<{ obj: THREE.Object3D; box: THREE.Box3 }> }
 
 const SIZE = 96
 
@@ -12,7 +15,9 @@ export class Thumbnails {
   private target = new THREE.WebGLRenderTarget(SIZE, SIZE, { colorSpace: THREE.SRGBColorSpace })
   private scene = new THREE.Scene()
   private camera = new THREE.OrthographicCamera()
-  private queue: PropDef[] = []
+  private queue: Job[] = []
+  /** Builds a premade building's scene object (world/premade-visual.ts; set by the app). */
+  buildingObject: ((def: PremadeDef) => Promise<THREE.Object3D>) | null = null
   private queued = new Set<string>()
   private urls = new Map<string, string>()
   private busy = false
@@ -32,13 +37,37 @@ export class Thumbnails {
     if (url) return url
     if (!this.queued.has(prop.id)) {
       this.queued.add(prop.id)
-      this.queue.push(prop)
+      this.queue.push({
+        id: prop.id,
+        make: async () => {
+          const model = await loadModel(prop)
+          return { obj: SkeletonUtils.clone(model.scene), box: model.box } // keeps skinned meshes bound
+        },
+      })
+    }
+    return null
+  }
+
+  /** A premade building's thumbnail (null until drawn). */
+  getBuilding(def: PremadeDef): string | null {
+    const url = this.urls.get(def.id)
+    if (url) return url
+    if (!this.queued.has(def.id) && this.buildingObject) {
+      this.queued.add(def.id)
+      const build = this.buildingObject
+      this.queue.push({
+        id: def.id,
+        make: async () => {
+          const obj = await build(def)
+          return { obj, box: new THREE.Box3().setFromObject(obj) }
+        },
+      })
     }
     return null
   }
 
   /** Puts these props at the front of the queue (the ones currently listed). */
-  prioritize(props: PropDef[]) {
+  prioritize(props: { id: string }[]) {
     const ids = new Set(props.map((p) => p.id))
     this.queue.sort((a, b) => Number(ids.has(b.id)) - Number(ids.has(a.id)))
   }
@@ -46,12 +75,10 @@ export class Thumbnails {
   async tick() {
     if (this.busy || this.queue.length === 0) return
     this.busy = true
-    const prop = this.queue.shift()!
+    const job = this.queue.shift()!
     try {
-      const model = await loadModel(prop)
-      const obj = SkeletonUtils.clone(model.scene) // keeps skinned meshes bound to their bones
+      const { obj, box } = await job.make()
       this.scene.add(obj)
-      const box = model.box
       const center = box.getCenter(new THREE.Vector3())
       const radius = Math.max(box.getSize(new THREE.Vector3()).length() / 2, 0.01)
       const dir = new THREE.Vector3(0, 0, 1).applyEuler(new THREE.Euler(-0.52, 0.61, 0, 'YXZ'))
@@ -76,10 +103,10 @@ export class Thumbnails {
       for (let y = 0; y < SIZE; y++) img.data.set(pixels.subarray((SIZE - 1 - y) * SIZE * 4, (SIZE - y) * SIZE * 4), y * SIZE * 4)
       ctx.putImageData(img, 0, 0)
       const url = this.canvas.toDataURL()
-      this.urls.set(prop.id, url)
-      this.onReady(prop.id, url)
+      this.urls.set(job.id, url)
+      this.onReady(job.id, url)
     } finally {
-      this.queued.delete(prop.id)
+      this.queued.delete(job.id)
       this.busy = false
     }
   }

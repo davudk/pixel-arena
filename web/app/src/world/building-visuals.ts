@@ -42,6 +42,9 @@ export const ROOM_FLOORS: Record<RoomType, { material: string; color: string }> 
   classroom: { material: 'Marble', color: '#d9d6cf' },
   shop: { material: 'Terracotta', color: '#c0714e' },
   storage: { material: 'Gravel', color: '#8a857c' },
+  ward: { material: 'Hex paving', color: '#c9c4bb' },
+  reception: { material: 'Sandstone', color: '#c4a77d' },
+  garage: { material: 'Cobblestone', color: '#7f7b74' },
 }
 const roomMaterials = new Map<string, THREE.Material>()
 /** The floor material of a room type (texture from the library's terrain materials). */

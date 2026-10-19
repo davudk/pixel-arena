@@ -13,6 +13,7 @@ import type { Editor, Tool } from './editor'
 import { drawLabel, opName, pieceName, ROOM_NAMES } from './labels'
 import { LIQUIDS } from '../world/liquids'
 import { PlaceTool } from './place-tool'
+import { PremadeTool } from './premade-tool'
 import { SelectTool } from './select-tool'
 import { PaintPolygonTool } from './paint-polygon-tool'
 import { TerrainTool } from './terrain-tool'
@@ -183,11 +184,14 @@ export const TOOLS: Record<ToolId, ToolDef> = {
   premade: {
     id: 'premade', mode: 'build', label: 'Premade building', icon: 'building', saveable: true, recreateOn: ['prop'],
     params: [{ key: 'prop', label: 'Building', kind: 'prop' }],
+    // A premade building with interiors (library.buildings), or a whole-building model (a prop).
     create: (editor) => {
+      const building = editor.library.buildings.get(params.premade.prop)
+      if (building) return new PremadeTool(editor, building)
       const prop = editor.library.props.get(params.premade.prop)
       return prop ? new PlaceTool(editor, prop, 'premade') : null
     },
-    describe: (p, library) => library?.props.get(String(p.prop))?.name ?? String(p.prop),
+    describe: (p, library) => library?.buildings.get(String(p.prop))?.name ?? library?.props.get(String(p.prop))?.name ?? String(p.prop),
   },
 }
 

@@ -24,7 +24,8 @@ export interface Recipe {
   /** Recipe id, e.g. "house". */
   id: string
   kit: string
-  roof: 'gable' | 'hip' | 'flat' | 'none'
+  /** Roof style, or several to choose from. */
+  roof: Roof | Roof[]
   /** Cells the kit's stairs run over; the kit's cell size, storey height and floor top (m). */
   stairsCells: number
   cellSize: number
@@ -33,6 +34,8 @@ export interface Recipe {
   /** Furnish rooms (building-furnish.ts); give houses a yard. */
   furnish?: boolean
   yard?: boolean
+  /** Props in front of the building (street side, south): vehicles, benches, lamps. */
+  front?: string[]
   /** Width and depth ranges in cells; storeys range. */
   width: [number, number]
   depth: [number, number]
@@ -43,6 +46,8 @@ export interface Recipe {
   /** Rooms per zone (largest first); `levels` gives a list per level for houses. */
   rooms: RoomType[] | ((level: number, storeys: number, rng: Rng) => RoomType[])
 }
+
+type Roof = 'gable' | 'hip' | 'flat' | 'none'
 
 export interface Generated {
   props: Record<string, Value>
@@ -96,7 +101,8 @@ function attempt(recipe: Recipe, seed: number): Generated | null {
   const D = int(r, recipe.depth)
   const storeys = int(r, recipe.storeys)
   const run = recipe.stairsCells
-  const props: Record<string, Value> = { kit: recipe.kit, 'roof/style': recipe.roof }
+  const roof = Array.isArray(recipe.roof) ? recipe.roof[Math.floor(r() * recipe.roof.length)] : recipe.roof
+  const props: Record<string, Value> = { kit: recipe.kit, 'roof/style': roof }
 
   // 1. Footprint (an L cuts the north-east corner on every level).
   let footprint = cellsOf({ x: 0, y: 0, w: W, h: D })
@@ -311,7 +317,22 @@ function attempt(recipe: Recipe, seed: number): Generated | null {
     const cs = recipe.cellSize
     children.push(...yard(W * cs, D * cs, { x: (entrance.cell.x + 0.5) * cs, z: D * cs }, r))
   }
+  if (recipe.front?.length) children.push(...frontProps(recipe.front, W * recipe.cellSize, D * recipe.cellSize, recipe.layout === 'house' ? (entrance.cell.x + 0.5) * recipe.cellSize : -99))
   return { props, children, seed, summary: { width: W, depth: D, storeys, rooms: roomType.length, doors, windows } }
+}
+
+/** Props in a row along the street side (south), 2.5 m out, spaced evenly and clear of the door;
+ *  vehicles side by side parked toward the building. */
+function frontProps(ids: string[], width: number, depth: number, doorX: number): Furnishing[] {
+  const out: Furnishing[] = []
+  const step = width / (ids.length + 1)
+  ids.forEach((id, i) => {
+    let x = step * (i + 1)
+    if (Math.abs(x - doorX) < 2) x += x < doorX ? -2 : 2
+    const vehicle = id.startsWith('kenney_cars:') || id.endsWith('schoolbus')
+    out.push({ prop: id, x, y: 0, z: depth + (vehicle ? 3.2 : 1.6), rotation: vehicle ? Math.PI : 0 })
+  })
+  return out
 }
 
 /** The edge on side `d` of cell `c`. */

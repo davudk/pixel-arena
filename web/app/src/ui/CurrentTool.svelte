@@ -42,7 +42,7 @@
 
   /** How a catalogue choice reads ("Raise", "Dirt", "Lava", "Wall", "Timber house"). */
   function display(def: ParamDef, value: unknown): string {
-    if (def.kind === 'prop') return editor.library.props.get(String(value))?.name ?? String(value)
+    if (def.kind === 'prop') return editor.library.props.get(String(value))?.name ?? editor.library.buildings.get(String(value))?.name ?? String(value)
     if (def.kind === 'kit') return editor.library.kits.get(String(value))?.name ?? String(value)
     if (def.kind === 'material') return PALETTE[Number(value)]?.name ?? String(value)
     if (def.key === 'liquid') return liquid(value).name

@@ -18,6 +18,7 @@
   import { Thumbnails } from './library/thumbs'
   import { CameraRig, ISO_PITCH, PixelRenderer, TOP_PITCH } from './render/pixel'
   import { WalkCamera } from './render/walk'
+  import { premadeObject } from './world/premade-visual'
   import { gridUniforms } from './render/grid'
   import { DayCycle } from './render/day-cycle'
   import { Ground } from './render/ground'
@@ -820,6 +821,7 @@
       world.setCutaway(cutaway)
       const thumbs = new Thumbnails(pixel.renderer)
       thumbs.onReady = (id, url) => (thumbUrls[id] = url)
+      thumbs.buildingObject = (def) => premadeObject(def, lib)
       editor = new Editor(new MapSession(), lib, thumbs, world, rig, pixel, scene)
       const ed = editor
       ed.defaultTool = () => new SelectTool(ed)

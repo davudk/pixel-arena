@@ -32,7 +32,7 @@ function devFiles(): Plugin {
           const list = (dir: string, sub: string) =>
             fs.existsSync(path.join(dir, sub)) ? fs.readdirSync(path.join(dir, sub)).filter((f: string) => f.endsWith('.json')) : []
           const index = fs.readdirSync(PACKS, { withFileTypes: true }).filter((d: any) => d.isDirectory())
-            .map((d: any) => ({ dir: d.name, props: list(path.join(PACKS, d.name), 'props'), kits: list(path.join(PACKS, d.name), 'kits'), terrain: list(path.join(PACKS, d.name), 'terrain') }))
+            .map((d: any) => ({ dir: d.name, props: list(path.join(PACKS, d.name), 'props'), kits: list(path.join(PACKS, d.name), 'kits'), terrain: list(path.join(PACKS, d.name), 'terrain'), buildings: list(path.join(PACKS, d.name), 'buildings') }))
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify(index))
           return

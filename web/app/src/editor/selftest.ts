@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { APARTMENT, BuildingLayout, generateBuilding, HOUSE, MAIN, MapSession, merge, openProject, Rect2i, saveProject, terrainBrush, terrainEdit, Vec2i, Vec3 } from '@pixel-arena/core'
 import { PALETTE } from '../render/terrain-shading'
 import { PaintPolygonTool } from './paint-polygon-tool'
+import { PremadeTool } from './premade-tool'
 import { placeGenerated } from './generated'
 import { loadModel } from '../library/models'
 import { buildReview, resolutions } from '../ui/merge-review'
@@ -899,6 +900,33 @@ async function generatorTest(editor: Editor, check: (ok: unknown, what: string) 
   const box = new THREE.Box3()
   for (const w of inner) box.expandByObject(w)
   check(inner.length > 0 && box.min.y >= made[0].at.y + 2.3, `upper interior walls on their floor (${inner.length}, bottom ${box.min.y.toFixed(2)})`)
+  // One premade building of each category in a grid (selftest-generator-showcase.png).
+  const lib = editor.library
+  const firsts = new Map<string, NonNullable<ReturnType<typeof lib.buildings.get>>>()
+  for (const b of lib.buildings.values()) if (!firsts.has(b.category)) firsts.set(b.category, b)
+  let gx = -60
+  let gz = 60
+  s.edit('Showcase', () => {
+    let row = 0
+    for (const b of firsts.values()) {
+      const w = b.bounds[2] - b.bounds[0]
+      placeGenerated(s, { props: b.props, children: b.children }, new Vec3(gx - b.bounds[0], 0, gz - b.bounds[1]), 0)
+      gx += w + 3
+      if (++row % 4 === 0) {
+        gx = -60
+        gz += 34
+      }
+    }
+  })
+  check(firsts.size === 11, `one building per category (${firsts.size})`)
+  await settle()
+  await sleep(3000)
+  editor.world.setCutaway(-1)
+  rig.focus.set(-10, 0, 100)
+  rig.zoom = 120
+  await shot('showcase')
+  editor.world.setCutaway(0)
+  await shot('showcase-inside')
   editor.world.setCutaway(-1)
   report.generated = made.length
 }
@@ -1248,17 +1276,23 @@ async function panelsTest(editor: Editor, check: (ok: unknown, what: string) => 
   button('.tools-box .verbs', 'Premade')?.click()
   await settle()
   const houses = $$('.catalog .choice.building')
-  check(houses.length > 20 && $$('.catalog .heading').some((h) => h.textContent === 'Houses'), `premade catalogue (${houses.length} buildings)`)
-  houses[3]?.click()
+  const heads = $$('.catalog .heading').map((h) => h.textContent)
+  check(houses.length > 80 && ['Houses', 'Hospitals', 'Fire stations', 'City halls'].every((h) => heads.includes(h)), `premade catalogue (${houses.length} buildings; ${heads.slice(0, 12).join(', ')})`)
+  houses[0]?.click()
   await settle()
-  check(inHand(editor) === 'premade' && editor.tool instanceof PlaceTool, 'a premade building in hand')
-  const chosen = (editor.tool as PlaceTool).prop
+  check(inHand(editor) === 'premade' && editor.tool instanceof PremadeTool, 'a furnished premade building in hand')
+  const def = (editor.tool as PremadeTool).def
   const pr = editor.pixel.toScreen(new THREE.Vector3(30, 0, 30), editor.rig)!
   const pt = { x: pr.x, y: pr.y, shift: false, alt: false, cmd: false }
+  await sleep(1500) // the ghost builds
   editor.tool.pointerMove?.(pt)
   editor.tool.pointerDown?.(pt)
-  const placed = [...editor.session.doc.objects.values()].filter((o) => !o.deleted && o.props.get('prop') === chosen.id)
-  check(placed.length === 1, `premade building placed (${chosen.id})`)
+  const doc = editor.session.doc
+  const placedB = [...doc.objects.values()].filter((o) => !o.deleted && o.type === 'building' && o.props.get('floors/0/rooms/0,0') !== undefined && o.props.get('kit') === def.props.kit)
+  const newest = placedB.at(-1)
+  const kids = newest ? [...doc.objects.values()].filter((o) => !o.deleted && o.props.get('parent') === newest.id) : []
+  check(newest && kids.length === def.children.length, `premade building placed with its furniture and yard (${kids.length} of ${def.children.length})`)
+  await sleep(2500) // thumbnails draw
   await shot('premade')
   editor.session.undo()
   button('.tools-box .verbs', 'Build')?.click()

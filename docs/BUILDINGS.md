@@ -369,6 +369,36 @@ Rules:
 Furniture and yard are the building's children (`editor/generated.ts placeGenerated`), so they
 move and copy with it.
 
+## Premade library (phase 7, done)
+
+**Recipes** (`web/core/src/building-recipes.ts`): house, row house, town house, apartment
+block, shop, office, school, hospital, police station, fire station and city hall.
+- Each picks its rooms per level. For example, a hospital has reception and offices below and
+  wards above; a fire station has an engine bay (garage) with a fire truck.
+- Each gets street-side props: benches, lamps, bushes, police cars, ambulances, a fire truck, a
+  school bus.
+- New room types: ward (beds), reception (desk, waiting sofa), garage (a vehicle).
+- New furnishing: desk grids for classrooms and offices, and shop counters.
+
+**Library**: `packs/premade` holds 59 buildings, baked by `web/tools/bake-premade.mjs`.
+- For each recipe the bake tries many seeds, keeps one per distinct shape (size, storeys, roof,
+  L), and takes an even spread from small to large.
+- Buildings are stored whole: properties, furniture and yard. So the library stays the same
+  when the generator changes.
+- The library loads `buildings/*.json` and drops any building whose props are missing.
+
+**Premade mode**:
+- Furnished buildings come first, by category: homes, then commercial, then civic. Each shows a
+  rendered thumbnail of the whole building with its yard.
+- After them come the whole-building models without interiors.
+- The PremadeTool shows a see-through ghost of the whole building, centered on the cursor and
+  snapped to 2 m. R turns it, and a click places the building with its children as one undo
+  step.
+
+**Known gap**: every furnished building uses the Plaster walls kit, so exteriors look alike;
+only the size, storeys, roof and street props differ. Kits with interiors in more styles (brick,
+wood, glass) would fix it, made by recoloring the Building Kit pieces or from new packs.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney
