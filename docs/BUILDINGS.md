@@ -327,6 +327,17 @@ Fixed alongside:
 - Block kits' corner pieces face out: the cut corner is between front and east.
 - Cut-down walls stay on their own floor on upper levels.
 
+## Editing details
+
+- **Rectangle drag**: Floor, Erase and Room act on the rectangle of cells from where the drag
+  started to the cell under the cursor, both included.
+  - The change shows while dragging, and the hover box covers the rectangle.
+  - Shrinking the drag puts cells back the way they were.
+  - The whole drag is one undo step.
+- **Upper levels**: the cells under the cursor get a wireframe down to the ground, with an
+  outline at each lower floor joined at the corners. It's drawn on the overlay, so it is never
+  filtered.
+
 ## Phases
 
 1. **Import the packs**: a scale per pack, bounds per model, thumbnails, attribution. Kenney

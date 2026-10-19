@@ -432,9 +432,13 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   tool.target = ''
   tool.setLevel(0)
   const o2 = new THREE.Vector3(16, 0, -16)
+  // A rectangle drag: out to 4 x 3 cells, back to 3 x 2 (the extra cells go back), released.
+  const steps0 = s.history(s.currentBranch).length
   tool.pointerDown(at(o2.clone().add(new THREE.Vector3(1, 0, 1))))
-  for (const [x, z] of [[3, 1], [5, 1], [5, 3], [3, 3], [1, 3]]) tool.pointerMove(at(o2.clone().add(new THREE.Vector3(x, 0, z))))
+  tool.pointerMove(at(o2.clone().add(new THREE.Vector3(7, 0, 5))))
+  tool.pointerMove(at(o2.clone().add(new THREE.Vector3(5, 0, 3))))
   tool.pointerUp()
+  check(s.history(s.currentBranch).length === steps0 + 1, 'the rectangle drag is one undo step')
   const room = tool.target
   check(room && doc.getProp(room, 'kit') === 'kenney_building_kit:interior', 'interior kit building')
   check(BuildingLayout.fromObject(doc.getObject(room)!).cells(0).size === 6, `6 cells (${BuildingLayout.fromObject(doc.getObject(room)!).cells(0).size})`)
@@ -518,6 +522,16 @@ async function buildingTest(editor: Editor, check: (ok: unknown, what: string) =
   editor.setTool(tool)
   tool.target = room
   tool.setLevel(1)
+  tool.pointerMove(r(1, 1))
+  const guide = (tool as unknown as { guide: THREE.Group }).guide
+  check(guide.children.length === 2, `a wireframe down to the ground on level 1 (${guide.children.length} lines)`)
+  rig.focus.set(rpos.x + 3, 1, rpos.z + 2)
+  rig.zoom = 16
+  rig.update(0)
+  tool.pointerMove(r(1, 1))
+  await settle()
+  await frame()
+  await fetch('/__save?name=selftest-building-guide.png', { method: 'POST', body: pixel.canvas.toDataURL('image/png') }).catch(() => {})
   tool.pointerDown(r(1, 1))
   tool.pointerMove(r(3, 1))
   tool.pointerUp()
