@@ -1,0 +1,34 @@
+{
+	"id": "sky",
+	"name": "Sky walls",
+	"themes": [
+		"interior",
+		"modern"
+	],
+	"style": "edge",
+	"pivot": "center",
+	"cell_size": 2,
+	"wall_height": 2.4,
+	"stairs_cells": 2,
+	"pieces": {
+		"wall": "wall",
+		"window": "wall_window_square",
+		"door": [
+			"wall_doorway_square",
+			"door_rotate_square_a"
+		],
+		"doorway": "wall_doorway_square",
+		"floor": "floor",
+		"stairs": "stairs_closed"
+	},
+	"colors": {
+		"roof": "#3f4f6e",
+		"gable": "#a9c8ef",
+		"foundation": "#7d838f"
+	},
+	"palette": {
+		"5,3": "14,2",
+		"7,3": "15,2",
+		"9,3": "12,2"
+	}
+}

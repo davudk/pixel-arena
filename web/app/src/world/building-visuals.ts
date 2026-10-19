@@ -85,7 +85,8 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
       const prop = library.props.get(id)
       return prop ? loadModel(prop).catch(() => null) : null
     }))
-    roles.set(role as KitRole, models.filter((m): m is Model => !!m))
+    const found = models.filter((m): m is Model => !!m)
+    roles.set(role as KitRole, kit && Object.keys(kit.palette).length ? found.map((m) => restyled(m, kit)) : found)
   }))
   const get = (role: KitRole) => (roles.get(role)?.length ? roles.get(role)! : null)
 
@@ -158,6 +159,63 @@ export async function buildBuilding(obj: MapObject, library: Library): Promise<T
     }
   }
   return root
+}
+
+// --- Restyled pieces (kit palettes) ------------------------------------------------------------
+
+const styledModels = new Map<string, Model>()
+const styledMaps = new Map<string, THREE.Texture>()
+
+/** The model with its colormap cells swapped as the kit's palette says (cached per kit). */
+function restyled(m: Model, kit: KitDef): Model {
+  const key = `${kit.id}|${m.prop.id}`
+  const hit = styledModels.get(key)
+  if (hit) return hit
+  const scene = m.scene.clone(true)
+  scene.traverse((o) => {
+    const mesh = o as THREE.Mesh
+    if (!mesh.isMesh) return
+    const swap = (mat: THREE.Material) => {
+      const std = mat as THREE.MeshStandardMaterial
+      if (!std.map?.image) return mat
+      const c = std.clone()
+      c.map = recolor(std.map, kit)
+      return c
+    }
+    mesh.material = Array.isArray(mesh.material) ? mesh.material.map(swap) : swap(mesh.material)
+  })
+  const out: Model = { ...m, scene }
+  styledModels.set(key, out)
+  return out
+}
+
+function recolor(map: THREE.Texture, kit: KitDef): THREE.Texture {
+  const key = `${kit.id}|${map.uuid}`
+  const hit = styledMaps.get(key)
+  if (hit) return hit
+  const img = map.image as CanvasImageSource & { width: number; height: number }
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height
+  const ctx = canvas.getContext('2d')!
+  ctx.drawImage(img, 0, 0)
+  const cw = img.width / 16
+  const ch = img.height / 4
+  const source = ctx.getImageData(0, 0, img.width, img.height)
+  for (const [to, from] of Object.entries(kit.palette)) {
+    const [tc, tr] = to.split(',').map(Number)
+    const [fc, fr] = from.split(',').map(Number)
+    ctx.putImageData(source, (tc - fc) * cw, (tr - fr) * ch, fc * cw, fr * ch, cw, ch)
+  }
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.colorSpace = map.colorSpace
+  tex.flipY = map.flipY
+  tex.magFilter = map.magFilter
+  tex.minFilter = map.minFilter
+  tex.wrapS = map.wrapS
+  tex.wrapT = map.wrapT
+  styledMaps.set(key, tex)
+  return tex
 }
 
 /** Block kits: one piece per cell, chosen and turned by the cell's outside sides. */

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Bakes the premade building library (packs/premade): for each recipe, generates candidates over
-// many seeds, keeps one per distinct shape (size, storeys, roof, L), and picks a spread of them
+// many seeds, keeps one per distinct shape (size, storeys, roof, L, wall style), and picks a spread of them
 // from small to large. Each building is stored whole (the building's properties and its
 // furniture and yard), so the library doesn't change when the generator does.
 //
@@ -40,7 +40,7 @@ for (const [recipeId, count, category, name] of PLAN) {
     const layout = layoutOf(g.props)
     const cells = layout.cells(0).size
     const shape = cells < g.summary.width * g.summary.depth ? 'L' : 'rect'
-    const key = `${g.summary.width}x${g.summary.depth}x${g.summary.storeys}:${g.props['roof/style']}:${shape}`
+    const key = `${g.summary.width}x${g.summary.depth}x${g.summary.storeys}:${g.props['roof/style']}:${shape}:${g.props.kit}`
     if (!seen.has(key)) seen.set(key, g)
   }
   // A spread from small to large: sort by floor area x storeys, take evenly spaced picks.

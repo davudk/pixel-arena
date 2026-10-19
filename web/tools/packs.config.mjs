@@ -173,16 +173,25 @@ export const PACKS = [
     category: (n) => (/^(door|barricade)/.test(n) ? 'buildings/interior-doors' : /^(stairs)/.test(n) ? 'buildings/interior-stairs' : /^(floor|roof|border)/.test(n) ? 'buildings/interior-floors' : 'buildings/interior-walls'),
     themes: () => ['interior', 'modern'],
     placement: (c) => (c === 'buildings/interior-doors' ? place('subgrid', 0.25, 90)() : place('grid', 2, 90)()),
-    // Thin 2 m panels: an edge kit for rooms and interiors (doors open, stairs run two cells).
+    // Thin 2 m panels: edge kits for rooms and interiors (doors open, stairs run two cells). The
+    // styles recolor the pieces' wall cells (palette cells 5,3 and 7,3 for the faces, 9,3 for
+    // trims and doors) with other cells of the same palette: brick red, wood, cream and so on.
     kits: [
-      {
-        id: 'interior', name: 'Plaster walls', themes: ['interior', 'modern'], style: 'edge', pivot: 'center', cell_size: 2, wall_height: 2.4, stairs_cells: 2,
-        pieces: {
-          wall: 'wall', window: 'wall_window_square', door: ['wall_doorway_square', 'door_rotate_square_a'], doorway: 'wall_doorway_square',
-          floor: 'floor', stairs: 'stairs_closed',
-        },
-        colors: { roof: '#5d6577', gable: '#c8cbe0', foundation: '#7d7f8c' },
+      ['interior', 'Plaster walls', null, '#5d6577', '#c8cbe0', '#7d7f8c'],
+      ['brick', 'Brick walls', ['14,3', '15,3', '12,3'], '#4a4f5c', '#a4513f', '#6f6a64'],
+      ['timber', 'Timber walls', ['1,3', '1,3', '0,3'], '#5b4a3a', '#c98a5b', '#6f6a64'],
+      ['cream', 'Cream walls', ['2,2', '3,2', '0,2'], '#b4553f', '#f2d9b0', '#8a7d6e'],
+      ['sage', 'Sage walls', ['4,2', '5,2', '5,2'], '#3f5a52', '#7fc79a', '#6f7a72'],
+      ['sky', 'Sky walls', ['14,2', '15,2', '12,2'], '#3f4f6e', '#a9c8ef', '#7d838f'],
+      ['white', 'White walls', ['10,3', '11,3', '11,3'], '#6c7380', '#eef0f6', '#8a8f99'],
+    ].map(([id, name, from, roof, gable, foundation]) => ({
+      id, name, themes: ['interior', 'modern'], style: 'edge', pivot: 'center', cell_size: 2, wall_height: 2.4, stairs_cells: 2,
+      pieces: {
+        wall: 'wall', window: 'wall_window_square', door: ['wall_doorway_square', 'door_rotate_square_a'], doorway: 'wall_doorway_square',
+        floor: 'floor', stairs: 'stairs_closed',
       },
-    ],
+      colors: { roof, gable, foundation },
+      ...(from ? { palette: { '5,3': from[0], '7,3': from[1], '9,3': from[2] } } : {}),
+    })),
   },
 ]

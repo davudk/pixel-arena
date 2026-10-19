@@ -236,9 +236,11 @@ premade buildings.
 | `pivot` | Edge kits: `cell` (piece origin at the cell center, panel on its +X edge; Fantasy Town) or `center` (re-centered panel, moved onto the edge). |
 | `front` | Block kits: the side the piece's door and windows face. |
 | `cell_size`, `wall_height`, `stairs_cells` | Grid (2, 3 or 4 m), storey height, cells a staircase runs over. |
+| `palette` | Optional: colormap cell -> cell swaps (`"5,3": "14,3"`) that recolor the pieces. |
 | `pieces` | Role -> prop id or list: `wall`, `window`, `door` (e.g. a doorway wall plus a door leaf), `doorway`, `floor`, `stairs`; block kits: `block`, `wall`, `window`, `door`, `corner`. |
 
-Kits now: Plaster walls (2 m interior kit with stairs), Town house and Apartment block (4 m
+Kits now: Plaster, Brick, Timber, Cream, Sage, Sky and White walls (2 m interior kits with
+stairs; recolored by `palette`, see Premade library), Town house and Apartment block (4 m
 blocks), Red brick and Green panel (3 m blocks), Stone house and Timber house (3 m, Fantasy Town).
 Building data gained `doorway` edges, interior walls (any edge between two cells) and
 `floors/L/stairs/i,j = N|E|S|W` (the floor above the run is left open). Build mode's pieces:
@@ -382,7 +384,7 @@ block, shop, office, school, hospital, police station, fire station and city hal
 
 **Library**: `packs/premade` holds 59 buildings, baked by `web/tools/bake-premade.mjs`.
 - For each recipe the bake tries many seeds, keeps one per distinct shape (size, storeys, roof,
-  L), and takes an even spread from small to large.
+  L, wall style), and takes an even spread from small to large.
 - Buildings are stored whole: properties, furniture and yard. So the library stays the same
   when the generator changes.
 - The library loads `buildings/*.json` and drops any building whose props are missing.
@@ -395,9 +397,18 @@ block, shop, office, school, hospital, police station, fire station and city hal
   snapped to 2 m. R turns it, and a click places the building with its children as one undo
   step.
 
-**Known gap**: every furnished building uses the Plaster walls kit, so exteriors look alike;
-only the size, storeys, roof and street props differ. Kits with interiors in more styles (brick,
-wood, glass) would fix it, made by recoloring the Building Kit pieces or from new packs.
+**Wall styles**: the Building Kit has seven styles with interiors: Plaster, Brick, Timber, Cream,
+Sage, Sky and White. They share the same pieces and grid, so switching between them never
+resizes a building.
+- A kit's `palette` maps colormap cells (`"col,row"`, in Kenney's 16 × 4 palette) to other
+  cells. The pieces' walls use cells 5,3 and 7,3 for the faces and 9,3 for trims and doors.
+- `building-visuals.ts` clones each piece once per kit with a recolored copy of the texture.
+- A recipe's `kit` can be a list; the generator picks one per seed. The bake keeps one building
+  per shape and style.
+- Picks: houses use any style; row houses use brick or cream; town houses cream, sage or brick;
+  apartments plaster, brick or cream; shops brick, timber or sky; offices plaster or sky;
+  schools brick or cream. Hospitals are white, police stations sky, fire stations brick and
+  city halls cream.
 
 ## Phases
 

@@ -859,7 +859,7 @@ async function generatorTest(editor: Editor, check: (ok: unknown, what: string) 
     for (const [recipe, seeds] of [[HOUSE, [1, 2, 3]], [APARTMENT, [4, 5, 6]]] as const) {
       for (const seed of seeds) {
         const g = generateBuilding(recipe, seed)
-        const cs = editor.library.kits.get(recipe.kit)?.cellSize ?? 2
+        const cs = editor.library.kits.get(String(g.props.kit))?.cellSize ?? 2
         const at = new Vec3(x, 0, 0)
         const id = placeGenerated(s, g, at)
         made.push({ id, at, size: Math.max(g.summary.width, g.summary.depth) * cs })

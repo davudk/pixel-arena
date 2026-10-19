@@ -23,7 +23,8 @@ import { Vec2i, type Value } from './values'
 export interface Recipe {
   /** Recipe id, e.g. "house". */
   id: string
-  kit: string
+  /** Kit id, or several to choose from (styles on the same grid). */
+  kit: string | string[]
   /** Roof style, or several to choose from. */
   roof: Roof | Roof[]
   /** Cells the kit's stairs run over; the kit's cell size, storey height and floor top (m). */
@@ -102,7 +103,8 @@ function attempt(recipe: Recipe, seed: number): Generated | null {
   const storeys = int(r, recipe.storeys)
   const run = recipe.stairsCells
   const roof = Array.isArray(recipe.roof) ? recipe.roof[Math.floor(r() * recipe.roof.length)] : recipe.roof
-  const props: Record<string, Value> = { kit: recipe.kit, 'roof/style': roof }
+  const kit = Array.isArray(recipe.kit) ? recipe.kit[Math.floor(r() * recipe.kit.length)] : recipe.kit
+  const props: Record<string, Value> = { kit, 'roof/style': roof }
 
   // 1. Footprint (an L cuts the north-east corner on every level).
   let footprint = cellsOf({ x: 0, y: 0, w: W, h: D })

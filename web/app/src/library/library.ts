@@ -56,6 +56,9 @@ export interface KitDef {
   stairsCells: number
   pieces: Partial<Record<KitRole, string[]>>
   colors: { roof: string; gable: string; foundation: string }
+  /** Restyles the pieces' colormap: cell "col,row" takes the pixels of another cell (cells are
+   *  1/16 of the width by 1/4 of the height, Kenney's palette layout). */
+  palette: Record<string, string>
 }
 
 /** A terrain material (packs/<pack>/terrain/*.json): a seamless texture repeated every `scale`
@@ -148,6 +151,7 @@ export class Library {
           style: k.style === 'block' ? 'block' : 'edge', pivot: k.pivot === 'center' ? 'center' : 'cell',
           front: (['N', 'E', 'S', 'W'] as const).includes(k.front) ? k.front : 'S', stairsCells: Math.max(1, Number(k.stairs_cells) || 1), pieces,
           colors: { roof: k.colors?.roof ?? '#3f9e8f', gable: k.colors?.gable ?? '#9a5b3e', foundation: k.colors?.foundation ?? '#8f8a84' },
+          palette: Object.fromEntries(Object.entries(k.palette ?? {}).filter(([a, b]) => /^\d+,\d+$/.test(a) && /^\d+,\d+$/.test(String(b)))) as Record<string, string>,
         }
         lib.kits.set(kit.id, kit)
       }
