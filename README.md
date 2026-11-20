@@ -7,6 +7,8 @@ put up modular or premade buildings with furnished interiors.
 Built with TypeScript + three.js and a Svelte UI; ships as an Electron app (macOS, Windows) with
 Steam integration. Maps (`.pxmap`) can also be opened in a browser.
 
+**Try it in the browser:** https://davudk.github.io/pixel-arena/?map=fixtures/demo.pxmap
+
 ![The editor with the Premade building panel open](docs/images/editor.jpg)
 
 ![A small demo map: terrain, a path, a pond, trees, characters and two buildings](docs/images/scene.jpg)
@@ -33,6 +35,9 @@ Steam integration. Maps (`.pxmap`) can also be opened in a browser.
   (try `?map=/fixtures/demo.pxmap`).
 - Tests: `npm test --prefix web`. Type-check: `npm run check --prefix web`.
 - Packaging: `npm run package --prefix web` writes unsigned builds to `web/desktop/out/`.
+- Web build for GitHub Pages: `.github/workflows/pages.yml` runs on every push to `web-port`
+  (`PAGES_BASE=/pixel-arena/ npm run build -w app` copies the packs and sample maps into
+  `web/app/dist`).
 
 More commands and project rules are in [CLAUDE.md](CLAUDE.md); the plan and architecture are in
 [docs/PLAN.md](docs/PLAN.md), UI conventions in [docs/UI.md](docs/UI.md) and the building

@@ -110,7 +110,8 @@ export class Library {
   terrain = new Map<number, TerrainMaterialDef>()
   errors: string[] = []
 
-  static async load(base = '/packs'): Promise<Library> {
+  /** `base` follows Vite's base path, so a build served from a subpath (GitHub Pages) finds the packs. */
+  static async load(base = `${import.meta.env.BASE_URL}packs`): Promise<Library> {
     const lib = new Library()
     const index: { dir: string; props: string[]; kits: string[]; terrain?: string[]; buildings?: string[] }[] = await (await fetch(`${base}/index.json`)).json()
     for (const entry of index.sort((a, b) => a.dir.localeCompare(b.dir))) {

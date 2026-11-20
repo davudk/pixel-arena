@@ -11,6 +11,15 @@
         "dev"
       ],
       "port": 5200
+    },
+    {
+      "name": "pages-preview",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd web/app && PAGES_BASE=/pixel-arena/ ../node_modules/.bin/vite preview --port 5300 --strictPort"
+      ],
+      "port": 5300
     }
   ]
 }
