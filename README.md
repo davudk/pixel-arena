@@ -20,7 +20,7 @@ Steam integration. Maps (`.pxmap`) can also be opened in a browser.
 ## Features
 
 - Unbounded, chunked map with heightmap terrain: sculpt, paint materials, water and other liquids.
-- Prop library from CC0 / CC-BY packs (`packs/`), with categories, themes and search.
+- Prop library from CC0 packs (`packs/`), with categories, themes and search.
 - Building Kit (floors, walls, rooms, doors, windows, wall styles) and a library of premade,
   furnished buildings; a cutaway view shows interiors floor by floor.
 - Transaction-based editing: undo/redo and history branches.
@@ -50,3 +50,21 @@ system in [docs/BUILDINGS.md](docs/BUILDINGS.md).
 - `web/desktop` — Electron shell and Steam integration.
 - `web/tools` — pack importer and premade-building baker.
 - `packs/` — prop packs (manifests + assets; attribution kept in each manifest).
+
+## Credits
+
+All 3D models and textures in `packs/` are CC0 (public domain), with each pack's licence kept
+next to it:
+
+- [Kenney](https://kenney.nl): Building Kit, Car Kit, City Kits (Commercial, Industrial, Roads,
+  Suburban), Fantasy Town Kit, Furniture Kit, Mini Characters, Modular Buildings, Nature Kit,
+  Retro Urban Kit
+- [KayKit](https://kaylousberg.com) by Kay Lousberg: City Builder Bits, Furniture Bits,
+  Restaurant Bits
+- [Quaternius](https://quaternius.com): Ultimate House Interior Pack
+- styloo: School Classrooms Asset Pack
+- [Screaming Brain Studios](https://screamingbrainstudios.com): Tiny Texture Packs 1 and 2
+
+## Licence
+
+The code is [MIT](LICENSE).
