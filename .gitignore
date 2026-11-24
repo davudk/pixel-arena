@@ -1,3 +1,5 @@
 *.tmp
 /export/
 .DS_Store
+.claude/
+CLAUDE.md

@@ -39,7 +39,7 @@ Steam integration. Maps (`.pxmap`) can also be opened in a browser.
   (`PAGES_BASE=/pixel-arena/ npm run build -w app` copies the packs and sample maps into
   `web/app/dist`).
 
-More commands and project rules are in [CLAUDE.md](CLAUDE.md); the plan and architecture are in
+More commands and project rules are in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md); the plan and architecture are in
 [docs/PLAN.md](docs/PLAN.md), UI conventions in [docs/UI.md](docs/UI.md) and the building
 system in [docs/BUILDINGS.md](docs/BUILDINGS.md).
 

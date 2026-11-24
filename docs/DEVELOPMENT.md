@@ -1,7 +1,6 @@
-# Pixel Arena
+# Development notes
 
-Pixel-art 3D map editor: TypeScript + three.js, Svelte UI, Electron + Steam for desktop.
-Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `web/`.
+Everything lives in the npm workspace `web/`. Plan and architecture: [PLAN.md](PLAN.md).
 
 ## Commands
 - Run the desktop app: double-click `Run Pixel Arena.command` (installs deps on first run, builds,
@@ -21,8 +20,8 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
 - npm here skips install scripts, so after a fresh install run `node web/node_modules/electron/install.js`
   if `web/node_modules/electron/dist` is missing (the launcher does this).
 
-## Rules
-- Ask before adding npm dependencies.
+## Project rules
+- Keep npm dependencies to a minimum.
 - `web/core` (`@pixel-arena/core`) is pure data: no DOM or rendering APIs. It will be reused by a
   co-op server and a web viewer.
 - The document changes only through ops applied inside a `MapSession` transaction.
@@ -30,7 +29,7 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
   the old Godot build) and the codec in Godot's `JSON.from_native` format.
 - Prop packs (`packs/`) are data + assets only; manifests are validated and only CC0 / CC-BY
   licenses load. Keep attribution in the manifest.
-- UI consistency: follow `docs/UI.md` (one control per kind of decision, fixed panel order, one
+- UI consistency: follow [UI.md](UI.md) (one control per kind of decision, fixed panel order, one
   label column, hide vs disable, wording). Use the tokens and shared styles in `web/app/src/app.css`
   (`.field` rows, `.slider`, `.switch`, `.seg`, `.tiles`, `.choices`, `.list-row`, `.heading-row`,
   `.action-bar`, `.empty`, `.pop`, `.menu-list`, `button.on` / `.primary` / `.danger` / `.bare` /
@@ -38,8 +37,6 @@ Plan and architecture: `docs/PLAN.md`. Everything lives in the npm workspace `we
   (`editor/tools.ts`); `ui/SearchField.svelte` for search; `ui/keys.ts` (`key`, `withKey`,
   `saveSlotKey`) for every shortcut shown in the UI. The `panels` self-test checks the main rules.
 - Editor indicators (rings, outlines, axes, brush guides) never go through the pixel filters: use
-  `render/overlay.ts` (`overlayLine`, `toOverlay`); see `docs/UI.md`.
-- Editor indicators (rings, outlines, axes, brush guides) never go through the pixel filters: use
-  `render/overlay.ts` (`overlayLine`, `toOverlay`); see `docs/UI.md`.
+  `render/overlay.ts` (`overlayLine`, `toOverlay`); see [UI.md](UI.md).
 - three.js gotcha: materials that share an `onBeforeCompile` closure share one compiled program
   unless they set `customProgramCacheKey` — always set it when injecting different shader code.
